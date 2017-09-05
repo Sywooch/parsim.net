@@ -1,0 +1,22 @@
+.h-250{
+  max-height: 250px;
+}
+.ctg-img{
+  border: 1px solid #CCC;
+}
+
+
+.post-cover-img {
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 350px;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .post-cover-img {
+    height: 320px;
+  }
+}
