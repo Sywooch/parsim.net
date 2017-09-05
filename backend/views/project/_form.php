@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
+use common\models\Lookup;
 
 
 /* @var $this yii\web\View */
