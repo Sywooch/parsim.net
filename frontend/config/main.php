@@ -15,7 +15,10 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
-            'class' => 'common\components\LangRequest'
+            'class' => 'common\components\LangRequest',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -48,39 +51,19 @@ return [
                 '<_a:(about|contact)>' => 'site/<_a>',
                 '<_a:(login|logout|signup|email-confirm|password-reset-request|password-reset)>' => 'user/<_a>',
 
-
-                
-                'destination/<alias>'=>'destination/view',
-                'destinations/<alias>'=>'destination/index',
-                'destinations'=>'destination/index',
-
-
-                //'travel-category/<destination>/<categoty>'=>'explore/index',
-                'travel-category/<alias>'=>'explore/view',
-                'travel-category/'=>'explore/index',
-
-
-                'articles/<destination:\w+>'=>'blog/index',
-                'articles/'=>'blog/index',
-                'articles/author/<author>'=>'blog/author',
-                'articles/tag/<tag:\w+>'=>'blog/tag',
-                'articles/<alias>'=>'blog/view',
-
-
-                'places/<destination>'=>'place/index',
-                'place/<alias>'=>'place/view',
-
-
-                'listings/<destination>/<categoty>'=>'direction/index',
-                'listings/<destination>'=>'direction/index',
-
-                'information/<destination>/<categoty>'=>'information/index',
-                'information/<destination>'=>'information/index',
+                //API rules
+                'api/'=>'api/default/index',
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'loader'],
 
                 '<controller:\w+>/view/<alias:\w+>/'=>'<controller>/view',
                 '<controller:\w+>/'=>'<controller>/index',
                 '<controller:\w+>/<action:\w+>/'=>'<controller>/<action>',
             ]
+        ],
+    ],
+    'modules' => [
+        'api' => [
+            'class' => 'app\modules\api\Module',
         ],
     ],
     'params' => $params,

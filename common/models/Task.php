@@ -127,6 +127,9 @@ class Task extends \yii\db\ActiveRecord
     public function getStatusName(){
         return Lookup::item('TASK_STATUS',$this->status);
     }
+    public function getChangeAge(){
+        return (time()-$this->updated_at)/60;
+    }
 
     //=========================================================
     //
@@ -141,8 +144,11 @@ class Task extends \yii\db\ActiveRecord
     public function afterSave ( $insert, $changedAttributes ){
         parent::afterSave($insert, $changedAttributes);
         
+        //Нужно вынестив контроллер, так не работают консольные команды
+        /*
         if(isset(Yii::$app->request->post()['TaskData'])){
             $dataItems=Yii::$app->request->post()['TaskData'];
+
 
             TaskData::deleteAll(['task_id'=>$this->id]);
             foreach ($dataItems as $key => $data) {
@@ -152,8 +158,10 @@ class Task extends \yii\db\ActiveRecord
                 $taskData->selector=$data['selector'];
                 $taskData->save();
             }
+        
             
         }
+        */
     }
     
 

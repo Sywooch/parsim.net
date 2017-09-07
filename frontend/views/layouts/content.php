@@ -2,31 +2,14 @@
   use yii\helpers\ArrayHelper;
   use yii\widgets\Menu;
 
-  use common\models\Category;
-  use common\models\Destination;
-  use common\models\TravelCategory;
-  use frontend\widgets\LngSelector;
+  
 
   use frontend\assets\AppAsset;
   AppAsset::register($this);
 
-  $destination=new Destination();
-  $explore=new TravelCategory();
 
-  /*
-  $navItems=[
-    ['label'=>Yii::t('app','News & Articles'),'url'=>['/blog/index']],
-    ['label'=>Yii::t('app','Specials'),'url'=>['/site/about']],
-  ];
-  */
-  //$menuItems=ArrayHelper::merge($destination->getDestinationMenuItems(),$explore->getExploreMenuItems(),$navItems);
-
-  $menuItems[]=$destination->getDestinationMenuItems();
-  $menuItems[]=$explore->getExploreMenuItems();
-  $menuItems[]=['label'=>Yii::t('app','News & Articles'),'url'=>['blog/index']];
-  $menuItems[]=['label'=>Yii::t('app','Specials'),'url'=>['site/about']];
-  //echo json_encode($menuItems);
-  //die;
+  $menuItems=[]
+  
 ?>
 <?php $this->beginContent('@app/views/layouts/main.php'); ?>
 <div id="top"></div>
@@ -83,8 +66,11 @@
         </div><!-- /.container-fluid -->
       </header>
     </div><!-- /.navbar-wrapper -->
-    
-    <?= $content ?>
+    <section class="main" style="margin-top: 60px;">
+      <div class="container">
+        <?= $content ?>
+      </div>
+    </section>
     
 </div>
 
@@ -136,7 +122,7 @@
         <h3 class="hidden"><?= Yii::t('app','About'); ?></h3>
 
         <div class="col-xs-12">
-          <?php echo LngSelector::widget();?>
+          <?php //echo LngSelector::widget();?>
 
           <span style="color:#999; font-size: 13px;">&copy; <?= date('Y') ?> Created by <a href="http://ptimofeev.com">Pavel Timofeev</a>. <a href="/terms">Terms of Use</a> and <a href="/policy">Privacy Policy</a>.</span>
         </div>

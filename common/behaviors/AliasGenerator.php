@@ -27,7 +27,9 @@ class AliasGenerator extends Behavior
   public function setAlias($event)
   {
     if(empty($this->owner->{$this->src}) || $this->src==null){
-      $this->owner->{$this->dst} = uniqid();
+      if (empty($this->owner->{$this->dst} )){
+        $this->owner->{$this->dst} = uniqid();
+      }
     }else{
       if ( empty($this->owner->{$this->dst} ) ) {
         $this->owner->{$this->dst} = $this->generateAlias( $this->owner->{$this->src} );

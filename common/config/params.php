@@ -7,5 +7,6 @@ return [
         'login'=>'',
         'password'=>'',
     ],
-    'commentNeedApproval'=>true
+    'contentLoadingTime'=>1, //лимит времени загрузки контента в минутах
+
 ];
