@@ -13,11 +13,6 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 
-use common\models\Category;
-use common\models\Destination;
-use common\models\Place;
-use common\models\TravelCategory;
-use common\models\Post;
 
 /**
  * Site controller
@@ -78,18 +73,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-
-        $destination=Destination::findRoot();
-        $destinations=Destination::findByType(Category::TYPE_DESTINATION,['rate'=>SORT_DESC],5);
-        $places=Place::findByType(Category::TYPE_PLACE,['rate'=>SORT_DESC],4);
-        $explorers=TravelCategory::findByType(Category::TYPE_EXPLORE,['rate'=>SORT_DESC],3);
-        $posts=Post::findPublished(4);
         return $this->render('index',[
-            'destination'=>$destination,
-            'places'=>$places,
-            'explorers'=>$explorers,
-            'destinations'=>$destinations,
-            'posts'=>$posts,
         ]);
     }
 
