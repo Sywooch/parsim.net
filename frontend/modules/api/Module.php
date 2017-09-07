@@ -2,11 +2,14 @@
 
 namespace app\modules\api;
 
+use yii\filters\auth\HttpBasicAuth;
+
 /**
  * api module definition class
  */
 class Module extends \yii\base\Module
 {
+    
     /**
      * @inheritdoc
      */
@@ -18,7 +21,6 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-
-        // custom initialization code goes here
+        \Yii::$app->user->enableSession = false;
     }
 }
