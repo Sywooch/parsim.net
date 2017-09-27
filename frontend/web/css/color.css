@@ -1,0 +1,107 @@
+@charset "utf-8";
+/* CSS Document */
+
+a,
+.theme_color,
+.main-menu .navigation > li:hover > a,
+.main-menu .navigation > li.current > a,
+.services-block-two .inner-box h3 a:hover,
+.services-block-two .inner-box .learn-more:hover,
+.btn-style-one:hover,
+.news-style-one .inner-box .lower-content h3 a:hover,
+.news-style-one .inner-box .lower-content .more-detail:hover,
+.services-block-three .inner-box h3 a:hover,
+.services-block-three .inner-box .learn-more:hover,
+.services-block-four .inner-box .content h3 a:hover,
+.services-block-five .inner-box h3 a:hover,
+.case-block .inner-box .lower-box h3 a:hover,
+.page-title .bread-crumb li a:hover,
+.error-search-box .form-group input:focus + button,
+.error-search-box .form-group button:hover,
+.blog-cat li a:hover,
+.sidebar .popular-posts .post a,
+.sidebar .popular-posts .post a:hover,
+.social-icon-three a:hover,
+.shop-item .inner-box .lower-content h3 a:hover,
+.shop-item .inner-box .lower-content .price li,
+.sidebar .related-posts .post a,
+.sidebar .related-posts .post a:hover,
+.product-details .basic-details .details-header .item-price,
+.shop-page .prod-tabs .reviews-container .rev-header .rating,
+.shop-page .prod-tabs .add-review .rating .rate-box:hover,
+.shop-page .prod-tabs .add-review .rating .rate-box:focus,
+.shop-page .prod-tabs .add-review .rating .rate-box:active,
+.list-style-three li:before{
+	color:#39CCCC;
+}
+
+/*Background Color*/
+
+.main-menu .navigation > li > ul > li:hover > a,
+.main-menu .navigation > li > ul > li > ul > li:hover > a,
+.btn-style-one,
+.scroll-to-top:hover,
+.testimonial-section .owl-dots .owl-dot.active span,
+.testimonial-section .owl-dots .owl-dot:hover span,
+.news-style-one .inner-box .image .post-time,
+.header-style-three .header-top .top-right .login-btn,
+.testimonial-section-two.style-two,
+.accordion-box .block .icon-outer .icon-minus,
+.sidebar .popular-tags a:hover,
+.sidebar .search-box .form-group input:focus + button,
+.sidebar .search-box .form-group button:hover,
+.rangeslider-widget .noUi-connect,
+.shop-page .prod-tabs .tab-btns .tab-btn:before{
+	background-color:#39CCCC;
+}
+
+
+/*Border Color*/
+
+.main-menu .navigation > li > ul,
+.main-menu .navigation > li > ul > li > ul,
+.main-header .search-box-outer .dropdown-menu,
+.main-header .search-panel input:focus,
+.main-header .search-panel select:focus,
+.btn-style-one,
+.btn-style-one:hover,
+.audit-form input:focus,
+.audit-form select:focus,
+.audit-form textarea:focus,
+.testimonial-section .owl-dots .owl-dot.active span,
+.testimonial-section .owl-dots .owl-dot:hover span,
+.accordion-box .block .icon-outer .icon-minus,
+.faq-section .faq-search-box .form-group input:focus,
+.faq-form .form-group input[type="text"]:focus,
+.faq-form .form-group input[type="password"]:focus,
+.faq-form .form-group input[type="tel"]:focus,
+.faq-form .form-group input[type="email"]:focus,
+.faq-form .form-group select:focus,
+.faq-form .form-group textarea:focus,
+.error-search-box .form-group input:focus,
+.sidebar .popular-tags a:hover,
+.sidebar .search-box .form-group input[type="text"]:focus,
+.sidebar .search-box .form-group input[type="search"]:focus,
+.comment-form .form-group input[type="text"]:focus,
+.comment-form .form-group input[type="email"]:focus,
+.comment-form .form-group textarea:focus,
+.contact-form .form-group input[type="text"]:focus,
+.contact-form .form-group input[type="email"]:focus,
+.contact-form .form-group textarea:focus{
+	border-color:#39CCCC;
+}
+
+@media only screen and (max-width: 767px){
+	
+	.main-menu .navbar-header .navbar-toggle{
+		border-color:#39CCCC;
+	}
+	
+	.main-menu .navbar-header .navbar-toggle,
+	.main-menu .navbar-collapse > .navigation > li > a:hover,
+	.main-menu .navbar-collapse > .navigation > li > a:active,
+	.main-menu .navbar-collapse > .navigation > li > a:focus{
+		background-color:#39CCCC;
+	}
+	
+}

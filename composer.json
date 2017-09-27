@@ -22,7 +22,8 @@
         "electrolinux/phpquery": "^0.9.6",
         "guzzlehttp/guzzle": "^6.3",
         "kroshilin/yii2-yandex-kassa": "*",
-        "comodojo/zip": "^2.1"
+        "comodojo/zip": "^2.1",
+        "nterms/yii2-mailqueue": "^0.0.14"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

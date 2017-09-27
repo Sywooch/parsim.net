@@ -117,8 +117,8 @@ AppAsset::register($this);
                                             'visible'=>Yii::$app->user->identity->isAdmin,
                                         ],
                                         [
-                                            'label' => '<i class="icon-folder4 position-left"></i> <span>'.Yii::t('app','Projects').'</span>',
-                                            'url' => ['project/index'],
+                                            'label' => '<i class="icon-folder4 position-left"></i> <span>'.Yii::t('app','Request').'</span>',
+                                            'url' => ['request/index'],
                                             'encode'=>false,
                                             'visible'=>Yii::$app->user->identity->isAdmin,
                                         ],

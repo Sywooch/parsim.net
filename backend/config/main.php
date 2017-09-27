@@ -47,6 +47,7 @@ return [
             'showScriptName' => false,
             'rules'=>[
                 '/' => 'site/index',
+                '<controller:\w+>/<action:\w+>/<alias:\w+>/'=>'<controller>/<action>',
                 '<controller:\w+>/<action:\w+>/'=>'<controller>/<action>',
             ]
         ],

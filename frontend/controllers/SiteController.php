@@ -7,11 +7,16 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+
 use common\models\LoginForm;
-use frontend\models\PasswordResetRequestForm;
-use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
-use frontend\models\ContactForm;
+use common\models\PasswordResetRequestForm;
+use common\models\ResetPasswordForm;
+use common\models\SignupForm;
+
+//use frontend\models\ContactForm;
+
+use common\models\User;
+use common\models\Request;
 
 
 /**
@@ -63,6 +68,9 @@ class SiteController extends Controller
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
+            'page' => [
+                'class' => 'yii\web\ViewAction',
+            ],
         ];
     }
 
@@ -73,7 +81,38 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        
+        $request=new Request();
+        $request->scenario=Request::SCENARIO_DEMO;
+
+        if ($request->load(Yii::$app->request->post()) && $request->validate()) {
+
+            //Проверяю есть ли пользователь с таким E-mail в базе
+            $user=User::findOne(['email'=>$request->response_email]);
+            //Если пользователь не найден, создаю нового пользователя
+            if(!isset($user)){
+                $userForm = new SignupForm('user');
+                $userForm->email=$request->response_email;
+                $userForm->password=uniqid();
+                if($userForm->validate() && $user=$userForm->signup()){
+
+                    //Добавляю id пользователя к запросу как автора запроса
+                    $request->created_by=$user->id;
+                    $request->updated_by=$user->id;
+                }else{
+                    echo json_encode($user->errors);
+                    die;
+                }
+                
+            }
+            $request->ip=Yii::$app->request->userIP;
+            $request->save();
+
+            return $this->redirect(['/site/index', 'request' => $request]);
+        }
+
         return $this->render('index',[
+            'request'=>$request,
         ]);
     }
 

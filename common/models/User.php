@@ -115,10 +115,6 @@ class User extends ActiveRecord implements IdentityInterface
             'first_name',
             'last_name', 
             'phone',
-            'description', 
-            'first_name',
-            'last_name', 
-            'phone',
             'avatar_id'
         ];
         return $scenarios;
@@ -194,9 +190,9 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public static function findIdentityByAccessToken($key, $type = null)
     {
-        return static::findOne(['auth_key' => $token]);
+        return static::findOne(['auth_key' => $key]);
     }
 
     /**

@@ -33,21 +33,47 @@ class m170605_122428_create_lookup_table extends Migration
             ['Активный', 1, 'USER_STATUS',1],
             ['На проверке', 2, 'USER_STATUS', 2],
 
-            //Task type
-            ['Project', 0, 'TASK_TYPE',0],
-            ['Task', 1, 'TASK_TYPE',1],
+            //Category type
+            ['Parser category', 0, 'CATEGORY_TYPE',0],
 
-            //Project status
-            ['New', 0, 'PROJECT_STATUS',0],
-            ['Enabled', 1, 'PROJECT_STATUS',1],
-            ['Desabled', 2, 'PROJECT_STATUS',2],
+            //Loader type
+            ['HtmlClient', 0, 'LOADER_TYPE',0],
+            ['iMacros', 1, 'LOADER_TYPE',1],
 
-            //Task status
-            ['New', 0, 'TASK_STATUS',0],
-            ['Ready to load', 1, 'TASK_STATUS',1],
-            ['Loading', 2, 'TASK_STATUS',2],
-            ['Ready to parse', 3, 'TASK_STATUS',3],
-            ['Parsing', 4, 'TASK_STATUS',4],
+            //Parser status
+            ['Ready', 0, 'PARSER_STATUS',0],
+            ['Has error', 1, 'PARSER_STATUS',1],
+            ['Fixing', 2, 'PARSER_STATUS',2],
+
+            //Error code
+            ['Unknow error', 100, 'ERROR_CODE',0],
+            ['Parser not found', 200, 'ERROR_CODE',1],
+            ['Parser action not found', 201, 'ERROR_CODE',2],
+            ['Parsing error', 202, 'ERROR_CODE',3],
+            ['Loader not found', 300, 'ERROR_CODE',4],
+            ['Loading error', 301, 'ERROR_CODE',5],
+
+            //Error status
+            ['New', 0, 'ERROR_STATUS',0],
+            ['In progress', 1, 'ERROR_STATUS',1],
+            ['Testing', 2, 'ERROR_STATUS',2],
+            ['Fixed', 3, 'ERROR_STATUS',3],
+            
+
+            //Request status
+            ['Ready', 0, 'REQUEST_STATUS',0],
+            ['Processing', 1, 'REQUEST_STATUS',1],
+            ['Success', 2, 'REQUEST_STATUS',2],
+            ['Error', 3, 'REQUEST_STATUS',3],
+
+            //Response status
+            ['Ready', 0, 'RESPONSE_STATUS',0],
+            ['Loading', 1, 'RESPONSE_STATUS',1],
+            ['Load success', 2, 'RESPONSE_STATUS',2],
+            ['Load error', 3, 'RESPONSE_STATUS',3],
+            ['Parsing', 4, 'RESPONSE_STATUS',4],
+            ['Parse success', 5, 'RESPONSE_STATUS',5],
+            ['Parse error', 6, 'RESPONSE_STATUS',6],
         ]);
     }
 

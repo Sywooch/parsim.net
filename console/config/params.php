@@ -1,4 +1,6 @@
 <?php
 return [
-    'adminEmail' => 'admin@example.com',
+    'adminEmail' => 'ptimofeev@yandex.ru',
+    'supportEmail' => 'ptimofeev@yandex.ru',
+    'contentFolder'=>'/data/htmlContent',
 ];

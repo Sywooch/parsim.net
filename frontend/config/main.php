@@ -53,13 +53,15 @@ return [
 
                 //API rules
                 'api/'=>'api/default/index',
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'loader'],
-
+                'api/<controller:\w+>/<alias:\w+>/'=>'api/<controller>/view',
+                'api/<controller:\w+>/'=>'api/<controller>/index',
+                
                 '<controller:\w+>/view/<alias:\w+>/'=>'<controller>/view',
                 '<controller:\w+>/'=>'<controller>/index',
                 '<controller:\w+>/<action:\w+>/'=>'<controller>/<action>',
             ]
         ],
+        
     ],
     'modules' => [
         'api' => [
