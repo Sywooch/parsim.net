@@ -15,7 +15,7 @@ class UserController extends Controller
     
     public function actionLogin()
     {   
-        $this->layout = 'login';
+        //$this->layout = 'login';
         $model=new LoginForm();
         return $this->render('login',['model'=>$model]);
         

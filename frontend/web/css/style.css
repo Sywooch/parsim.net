@@ -1052,13 +1052,32 @@ img{
 	background-color:#2bbf4e;
 }
 
-.search-box-outer{
+.search-box-outer,
+.login-box-outer{
 	position: relative;
 	float:left;
 	color:#ffffff;
 	padding-left:20px;
 	margin-right:18px;
+	
+}
+.login-box-outer{
 	border-left:1px solid #ffffff;
+}
+.login-box-outer a{
+  color: #ffffff;
+  text-align: center;
+  text-transform: capitalize;
+  letter-spacing: 0px;
+  opacity: 1;
+  font-weight: 400;
+  font-size: 16px;
+  transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -webkit-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  font-family: 'Poppins', sans-serif;
 }
 
 .main-header .search-box-btn{
@@ -1954,7 +1973,8 @@ img{
 
 ***/
 
-.business-section{
+.business-section,
+.login-section{
 	position:relative;
 	padding:115px 0px 20px;
 }
@@ -2003,6 +2023,104 @@ img{
 	font-size:18px;
 	line-height:1.6em;
 	margin-bottom:25px;
+}
+
+
+
+/*** 
+
+====================================================================
+	Login Section
+====================================================================
+
+***/
+
+.login-section{
+	position:relative;
+	padding:115px 0px 20px;
+}
+
+.login-section.alternate{
+	padding-bottom:80px;
+}
+
+.login-section .image-column{
+	position:relative;
+	margin-bottom:40px;
+}
+
+.login-section .image-column .image{
+	position:relative;
+}
+
+.login-section .image-column .image img{
+	position:relative;
+	width:100%;
+	display:block;
+}
+
+.login-section .content-column{
+	position:relative;
+}
+
+.login-section .content-column .inner-content{
+	position:relative;
+	padding-left:50px;
+}
+
+.login-section .content-column h2{
+	position:relative;
+	color:#13192d;
+	font-size:40px;
+	font-weight:600;
+	line-height:1.2em;
+	margin-bottom:25px;
+	margin-top:25px;
+}
+
+.login-section .content-column .dark-text{
+	position:relative;
+	color:#13192d;
+	font-size:18px;
+	line-height:1.6em;
+	margin-bottom:25px;
+}
+.login-section form{
+	position:relative;
+	margin-top: 30px;
+}
+
+.login-section .form-group{
+  position: relative;
+ 	display: block;
+ 	/*margin-bottom: 0px;*/
+	z-index:1;
+}
+
+.login-section .form-group input[type="text"],
+.login-section .form-group input[type="tel"],
+.login-section .form-group input[type="email"],
+.login-section .form-group textarea {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 60px;
+		font-size: 16px;
+		border: 1px solid #000;
+    font-style:italic;
+		line-height: 28px;
+		background: #ffffff;
+		padding: 12px 16px 12px 30px;
+    -webkit-transition: all 300ms ease;
+    -ms-transition: all 300ms ease;
+    -o-transition: all 300ms ease;
+    -moz-transition: all 300ms ease;
+    transition: all 300ms ease;
+}
+
+.login-section input[type="submit"],
+.login-section button {
+	margin-top: 15px;
 }
 
 /*** 
@@ -2412,9 +2530,9 @@ img{
 }
 
 .subscribe-style-one .form-group{
-    position: relative;
-    display: block;
-    margin-bottom: 0px;
+   position: relative;
+   display: block;
+   margin-bottom: 0px;
 	z-index:1;
 }
 

@@ -1,6 +1,7 @@
 <?php
-use frontend\widgets\HeroSection;
-use common\models\Post;
+
+use common\models\SignupForm;
+
 
 $this->title = 'Parsim NET';
 $this->params['headerClass']="main-header";
@@ -627,7 +628,12 @@ $this->params['headerClass']="main-header";
 </section>
 <!--End Price Section-->
 
-
+<?php
+    if(Yii::$app->user->isGuest){
+        $user=new SignupForm('user');
+        echo $this->render('_userRegSection',['model'=>$user]);
+    }
+?>
 
 <!--Subscribe Style One-->
 <section class="subscribe-style-one">

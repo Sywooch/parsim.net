@@ -1,5 +1,7 @@
 <?php
 return [
+    'srcUrl'=>'http://parsim.net',
+    
     'adminEmail' => 'ptimofeev@yandex.ru',
     'supportEmail' => 'ptimofeev@yandex.ru',
     'errorEmail' => 'ptimofeev@yandex.ru', //адрес на который отправляь удемления об ошибках парсинга

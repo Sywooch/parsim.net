@@ -59,7 +59,11 @@
                         <!--Info Block-->
                           <div class="info-block clearfix">
                               <!--Search Box-->
+                              <div class="login-box-outer">
+                                <a href="">Login</a>
+                              </div>
                               <div class="search-box-outer">
+
                                   <div class="dropdown">
                                       <button class="search-box-btn dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-search"></span></button>
                                       <ul class="dropdown-menu pull-right search-panel" aria-labelledby="dropdownMenu3">
@@ -76,6 +80,7 @@
                                       </ul>
                                   </div>
                               </div>
+                              
                               
                           </div>
                       </div>

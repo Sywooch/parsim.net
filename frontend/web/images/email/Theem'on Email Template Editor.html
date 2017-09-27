@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Theem'on Email Template Editor</title>
+		<link rel="shortcut icon" href="http://theemon.com/EmailBuilder-V2/images/favicon.ico">
+		<link rel="stylesheet" href="http://theemon.com/EmailBuilder-V2/css/progress.css">
+		<link rel="stylesheet" href="http://theemon.com/EmailBuilder-V2/css/prelude.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="http://theemon.com/EmailBuilder-V2/bootstrap/css/bootstrap.css" rel="stylesheet">
+		<link href="http://theemon.com/EmailBuilder-V2/css/flat-ui.css" rel="stylesheet">
+		<link href="http://theemon.com/EmailBuilder-V2/css/style.css" rel="stylesheet">
+		<link href="http://theemon.com/EmailBuilder-V2/css/spectrum.css" rel="stylesheet">
+		<link href="http://theemon.com/EmailBuilder-V2/css/chosen.css" rel="stylesheet">
+		<link href="http://theemon.com/EmailBuilder-V2/css/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+		<link href="http://theemon.com/EmailBuilder-V2/css/font-awesome.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="http://theemon.com/EmailBuilder-V2/css/farbtastic.css">
+	
+		
+		
+		<!--<link href="http://theemon.com/EmailBuilder-V2/css/editor-theme.css" rel="stylesheet">-->
+	</head>
+	<body>
+		
+		<div class="menu" id="menu">
+<span class="logo-off"></span>
+			<div class="main" id="main">
+				<!-- <h2><img src="http://theemon.com/EmailBuilder-V2/images/logo.jpg" alt="theem'on theme builder"></h2> -->
+				<h3 class="mainlogo"><span class="logo-on"></span><strong>theem’on</strong></h3>
+				<div class="global-settings">
+					<a href="javascript:void(0)" class="open-settings" id="global">Global Settings</a>
+					<div class="global-elements">
+						<h3 class="global-heading">Global Settings<i class="close"></i></h3>
+						
+						<form class="form-horizontal" role="form" style="position: relative">
+							<div class="form-group">
+								<label for="color" class="col-sm-6 control-label" style="background-color: none">Body Color</label>
+								<!-- <div class="col-sm-6"> -->
+									<!-- <input type="text" id="color" class="no-bg" name="color" value="#" />
+										<div id="pick"></div> -->
+										<input id='test_input' type='text' class="no-bg"/>
+										<div class='pick'>
+											
+										</div>
+										
+										
+										
+										
+										
+								<!-- </div> -->
+							
+							</div>
+							<!-- <form action="" style="width: 400px;">
+								<div class="form-item">
+									<label for="color">Color:</label>
+									<input type="text" id="colorx" name="color" value="#123456" />
+								</div>
+								<div id="pick"></div>
+							</form> -->
+							<div class="form-group">
+								<label for="border-radius" class="col-sm-6 control-label">Button Border Radius</label>
+								<div class="sizeinput-wrapper">
+									<i class="minus"></i>
+									<input type="text" class="form-control" id="border-radius" placeholder="0" >
+									<span>PX</span>
+									<i class="plus"></i>
+								</div>
+							</div>
+							<div class="form-group" style="position: relative">
+								<label for="btn-bg" class="col-sm-6 control-label">Button bg Color</label>
+								<!-- <div class="col-sm-6">
+									<input type="text" class="form-control" id="btn-bg" placeholder="#000000" >
+								</div> -->
+							<!-- 	<input type="text" id="color_a" class="no-bg" name="color" value="#" />
+										<div id="pick1"></div> -->
+										
+										
+										<input id='color_button' type='text' class="no-bg"/>
+										<div class='pick1'>
+											
+										</div>
+										
+										
+										
+										
+							</div>
+							<div class="form-group">
+								<label for="font-size" class="col-sm-6 control-label">Font Size</label>
+								<div class="sizeinput-wrapper">
+									<i class="minus"></i>
+									<input type="text" class="form-control" id="font-size" placeholder="0">
+									<span>PX</span>
+									<i class="plus"></i>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lineHeight" class="col-sm-6 control-label">Line-height</label>
+								<div class="sizeinput-wrapper">
+									<i class="minus"></i>
+									<input type="text" class="form-control" id="lineHeight" placeholder="0">
+									<span>PX</span>
+									<i class="plus"></i>
+								</div>
+							</div>
+							<div class="form-group" id="font-familyy" >
+								<label for="font-family" class="col-sm-6 control-label">Font Family</label>
+								
+									<!--<select id="font-family" class="form-control">
+										<option>Arial, Arial, Helvetica, sans-serif</option>
+										<option>Comic Sans MS, Comic Sans MS5, cursive</option>
+										<option>Courier New, Courier New, monospace</option>
+										<option>Times New Roman, Times New Roman, Times, serif</option>
+									</select>-->
+									<!-- <select id="font-family" class="form-control" style="display: none">
+										<option>Arial, Arial, Helvetica, sans-serif</option>
+										<option>Comic Sans MS, Comic Sans MS5, cursive</option>
+										<option>Courier New, Courier New, monospace</option>
+										<option>Times New Roman, Times New Roman, Times, serif</option>
+									</select> -->
+								
+								<!-- <div class="btn-group select">
+									<button data-toggle="dropdown" class="btn dropdown-toggle clearfix btn-sm btn-default" style="margin-left: 16px; background-color:#24303c;width: 118px;">
+										<span class="filter-option pull-left">Arial</span>&nbsp;<span class="caret"></span>
+									</button><span class="dropdown-arrow dropdown-arrow-inverse"></span>
+									<ul class="dropdown-menu dropdown-inverse drop-box" role="menu" style="overflow-y: auto; min-height: 0px;">
+										<li rel="0" class="selected">
+											<a tabindex="-1" href="#" class=""><span class="pull-left">Arial</span></a>
+										</li>
+										<li rel="1">
+											<a tabindex="-1" href="#" class=""><span class="pull-left">Helvetica</span></a>
+										</li>
+										<li rel="2">
+											<a tabindex="-1" href="#" class=""><span class="pull-left">Lato</span></a>
+										</li>
+										<li rel="3">
+											<a tabindex="-1" href="#" class=""><span class="pull-left">Times New Roman</span></a>
+										</li>
+										
+									</ul>
+								</div> -->
+							</div>
+
+							<div class="form-group">
+								<label for="hFont-size" class="col-sm-6 control-label">Heading Font Size</label>
+								<div class="sizeinput-wrapper">
+									<i class="minus"></i>
+									<input type="text" class="form-control" id="hFont-size" placeholder="0">
+									<span>PX</span>
+									<i class="plus"></i>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="headingLineHeight" class="col-sm-6 control-label">Heading line-height</label>
+								<div class="sizeinput-wrapper">
+									<i class="minus"></i>
+									<input type="text" class="form-control" id="headingLineHeight" placeholder="0">
+									<span>PX</span>
+									<i class="plus"></i>
+								</div>
+							</div>
+							<div class="form-group" id="hFont-family">
+								<label for="hFont-family" class="col-sm-6 control-label">Heading Font Family</label>
+								
+									<!--<select id="hFont-family" class="form-control">
+										<option>Arial, Arial, Helvetica, sans-serif</option>
+										<option>Comic Sans MS, Comic Sans MS5, cursive</option>
+										<option>Courier New, Courier New, monospace</option>
+										<option>Times New Roman, Times New Roman, Times, serif</option>
+									</select>-->
+									
+								
+							
+								
+							</div>
+							<div class="form-group" style="display: none">
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-primary" id="apply-settings">
+										Apply Styles
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+
+					<a href="javascript:void(0)" class="open-settings" id="design">Design Blocks</a>
+					<div class="global-elements" id="design-elements">
+						<h3 class="global-heading">Design Blocks<i class="close"></i></h3>
+						<ul id="elements">
+							<li>
+								<a href="javascript:void(0)" id="all">All Elements</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="second" id="second">
+				<ul id="elements"></ul>
+			</div>
+
+		</div>
+
+		<div class="container">
+         <header class="clearfix" data-spy="affix" data-offset-top="15" data-offset-bottom="200"> 
+          
+                <div class="viewport-options-wrapper">
+                    <span class="iphone-view"></span>
+                    <span class="ipad-view"></span>
+                    <span class="desktop-view active"></span>
+                </div>
+
+                <a href="#exportModal" id="exportPage" data-toggle="modal" class="pull-right btn disabled actionButtons">Export Site</a>
+                <a href="#" id="clearScreen" class="pull-right btn disabled actionButtons white">Clear Template</a>    	
+               
+
+            </header>
+			<div class="screen" id="screen">
+				
+				<div id="frameWrapper" class="frameWrapper empty">
+
+					<div id="pageList">
+						<ul style="display: block;" id="page1"></ul>
+					</div>
+
+					<div class="start" id="start">
+						<strong><i class="fa fa-plus"></i> Drag your blocks here</strong>
+					</div>
+
+					<div class="drop" id="drop">
+						<img src="http://theemon.com/EmailBuilder-V2/images/download-icon.png" alt="">
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+		
+		
+			<!-- ================================ -->
+		
+		
+		
+		<div id="styleEditor" class="styleEditor">
+
+			<a class="close" href="javascript:void(0)"></a>
+
+	<h3 class="text-editor"><span>Text</span> Editor</h3>
+	<h3 class="image-editor" style="display: none;"><i class="fa fa-image"></i> Image Editor</h3>
+		
+			
+			<div class="tab-content">
+
+					<span style="color:#556677;font-size: 12px;">CHOOSE COLORS</span>
+					<div id="tab1" class="tab-pane active">
+					<form class="" role="form" id="stylingForm">
+
+						<div id="styleElements">
+
+							<div class="form-group clearfix" style="display: none;" id="styleElTemplate">
+								<label for="input-sm" class="control-label"></label>
+								<input type="text" class="form-control input-sm" id="input-sm1" placeholder="0">
+							</div>
+
+						</div>
+
+					</form>
+
+				</div>
+
+				<div class="tab-pane imageFileTab" id="image_Tab" style="display: none">
+
+					<label>Enter image path:</label>
+
+					<input type="text" class="form-control" id="imageURL" placeholder="Enter an image URL" value="">
+
+					<p class="or">
+						<span>OR</span>
+					</p>
+
+					<form id="imageUploadForm" action="http://theemon.com/EmailBuilder-V2/iupload.php?template=Newsletter-Demo/last-minute/layout-1/html/images/black-glob.png">
+
+						<label>Upload image:</label>
+
+						<div class="form-group">
+							<div class="fileinput fileinput-new" data-provides="fileinput">
+								<div class="fileinput-preview thumbnail" style="width: 100%; height: 150px;"></div>
+								<div class="buttons">
+									<span class="btn btn-danger btn-sm  btn-file"> <span class="fileinput-new" data-trigger="fileinput" ><span class="fui-image"></span>&nbsp;&nbsp;Select image</span> <span class="fileinput-exists"><span class="fui-gear"></span>&nbsp;&nbsp;Change</span>
+										<input type="file" name="imageFileField" id="imageFileField">
+									</span>
+									<a href="javascript:void(0)" class="btn btn-primary btn-sm fileinput-exists" data-dismiss="fileinput"><span class="fui-trash"></span>&nbsp;&nbsp;Remove</a>
+								</div>
+							</div>
+						</div>
+
+					</form>
+
+				</div>
+
+			</div>
+
+		
+		</div>
+		
+		
+		<!-- ================================ -->
+		<!--<div id="hidden">
+			<iframe src="templates/Newsletter-Demo/last-minute/layout-1/html/images/black-glob.png/skeleton.html" id="skeleton"></iframe>
+		</div>-->
+		<div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-hidden="true">
+
+			<form action="http://theemon.com/EmailBuilder-V2/save.php" id="markupForm" method="post" class="form-horizontal">
+
+				<input type="hidden" name="markup" value="" id="markupField">
+
+				<div class="modal-dialog" style="position: absolute;top:23%;left: 36%">
+					<div class="modal-content" style="background: none!important;">
+
+						<div id="msg-Upper">
+						<div class="message failed-mgs" style="display: none;">
+							Please enter a valid purchase code!
+						</div>
+						<div id="help">
+								<div id="help-block" style="display: none"><img src="../images/callout.gif" />
+									To know how to find purchase code, Go to this link: <a href="https://help.market.envato.com/hc/en-us/articles/202822600-Where-Can-I-Find-my-Purchase-Code-" target="_blank">https://help.market.envato.com/hc/en-us/articles/202822600-Where-Can-I-Find-my-Purchase-Code-</a>
+								</div>
+							</div>
+						
+						</div>
+						<div class="purchase-code" style="display: block;">
+							 <div class="input-area"><input type="text" class="form-control" name="purchasecode" id="title" placeholder="Please enter a valid purchase code.." ><!--<i class="sprite-ico ico-2"></i>--></div>
+							 <button onclick="purchaseverification(event);">Download</button>									
+						</div>
+							
+						
+						<div class="succes-mgs" style="display: none;">
+							<i class="sprite-ico ico-3"></i>Well Done ! It works great , you rock :)
+						</div>
+					
+						
+					</div>
+				</div>
+
+			</form>
+
+		</div>
+
+		<div class="modal fade" id="bgChange" tabindex="-1" role="dialog" aria-hidden="true">
+
+			<div class="form-horizontal">
+
+				<input type="hidden" name="markup" value="" id="markupField">
+
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel"><span class="fui-export"></span> Change Background</h4>
+						</div>
+						<div class="modal-body">
+
+							<div class="form-group">
+								<label for="inputEmail3" class="col-sm-4 control-label">Background Color</label>
+								<div class="col-sm-8">
+									<input type="text" class="bg-color" id="" placeholder="">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputEmail3" class="col-sm-4 control-label">Background Images</label>
+								<div class="col-sm-8">
+									<ul class="bg-list">
+										<li>
+											<a href="javascript:void(0)" data-url="http://theemon.com/EmailBuilder-V2/images/wh_bg-01.jpg"> <img src="http://theemon.com/EmailBuilder-V2/images/wh_bg-01.jpg" alt=""> </a>
+										</li>
+										<li>
+											<a href="javascript:void(0)" data-url="http://theemon.com/EmailBuilder-V2/images/wh_bg-02.jpg"> <img src="http://theemon.com/EmailBuilder-V2/images/wh_bg-02.jpg" alt=""> </a>
+										</li>
+										<li>
+											<a href="javascript:void(0)" data-url="http://theemon.com/EmailBuilder-V2/images/wh_bg-03.jpg"> <img src="http://theemon.com/EmailBuilder-V2/images/wh_bg-03.jpg" alt=""> </a>
+										</li>
+										<li>
+											<a href="javascript:void(0)" data-url="http://theemon.com/EmailBuilder-V2/images/section-background.jpg"> <img src="http://theemon.com/EmailBuilder-V2/images/section-background.jpg" alt=""> </a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="form-group">
+								<form id="imageUploadForm2" action="iupload.php">
+									<label class="col-sm-4 control-label">Upload image:</label>
+									<div class="form-group col-sm-8">
+										<div class="fileinput fileinput-new" data-provides="fileinput">
+											<div class="fileinput-preview thumbnail" style="width: 100%; height: 150px;"></div>
+											<div class="buttons">
+												<span class="btn btn-danger btn-sm  btn-file"> <span class="fileinput-new" data-trigger="fileinput" ><span class="fui-image"></span>&nbsp;&nbsp;Select image</span> <span class="fileinput-exists"><span class="fui-gear"></span>&nbsp;&nbsp;Change</span>
+													<input type="file" name="imageFileField" id="imageFileField2">
+												</span>
+												<a href="javascript:void(0)" class="btn btn-primary btn-sm fileinput-exists" data-dismiss="fileinput"><span class="fui-trash"></span>&nbsp;&nbsp;Remove</a>
+											</div>
+										</div>
+									</div>
+
+								</form>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal" id="exportCancel">
+								Close
+							</button>
+							<a href="javascript:void(0)" class="btn btn-primary btn-embossed" data-dismiss="modal" id="apply"> Apply Background </a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="modal fade small-modal" id="deleteBlock" tabindex="-1" role="dialog" aria-hidden="true">
+
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+
+						Are you sure you want to delete this block?
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">
+							Close
+						</button>
+						<button type="button" type="button" class="btn btn-primary btn-embossed" id="deleteBlockConfirm">
+							Delete
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade small-modal" id="resetBlock" tabindex="-1" role="dialog" aria-hidden="true">
+
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+
+						<p>
+							Are you sure you want to reset this block?
+						</p>
+						<p>
+							All changes made to the content will be destroyed.
+						</p>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">
+							Close
+						</button>
+						<button type="button" type="button" class="btn btn-primary btn-embossed" id="resetBlockConfirm">
+							Reset
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="modal fade small-modal" id="deleteAll" tabindex="-1" role="dialog" aria-hidden="true">
+
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+
+						Are you sure you want to delete all blocks on the current page?
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">
+							Close
+						</button>
+						<button type="button" type="button" class="btn btn-primary btn-embossed" id="deleteAllConfirm">
+							Delete
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- color-picker -->
+		
+		<div class="modal fade small-modal" id="color_modal" tabindex="-1" role="dialog" aria-hidden="true">
+
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<input type="text" id="color_pop" class="no-bg" name="color" value="#" />
+						<div id="pick_pop"></div>
+						
+
+					</div>
+						<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-embossed pop_btn" data-dismiss="modal" id="deletePageCancel">
+							Close
+						</button>
+						
+					</div>
+				</div>
+			</div>
+
+		</div>
+		
+		
+		
+		
+		<!-- color-picker -->
+		<div class="modal fade small-modal" id="deletePage" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+
+						Are you sure you want to delete this entire page?
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal" id="deletePageCancel">
+							Close
+						</button>
+						<button type="button" type="button" class="btn btn-primary btn-embossed" id="deletePageConfirm">
+							Delete
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="modal fade small-modal" id="deleteElement" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+
+						Are you sure you want to delete this element? Once deleted, it can not be restored.
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal" id="deletePageCancel">
+							Close
+						</button>
+						<button type="button" type="button" class="btn btn-primary btn-embossed" id="deleteElementConfirm">
+							Delete
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- <div id="loader">
+			<div class="fond">
+				<div class="contener_general">
+					<div class="contener_mixte">
+						<div class="ballcolor ball_1">
+							&nbsp;
+						</div>
+					</div>
+					<div class="contener_mixte">
+						<div class="ballcolor ball_2">
+							&nbsp;
+						</div>
+					</div>
+					<div class="contener_mixte">
+						<div class="ballcolor ball_3">
+							&nbsp;
+						</div>
+					</div>
+					<div class="contener_mixte">
+						<div class="ballcolor ball_4">
+							&nbsp;
+						</div>
+					</div>
+				</div>
+
+			</div>
+			Loading elements...
+		</div> -->
+		
+		
+		<!-- <div id="loader" style="display: block;">
+			<!-- 		<img src="http://theemon.com/EmailBuilder-V2/images/loading.gif" alt="Loading...">
+			Loading elements... -->
+
+			<!-- <div class="pie_progress" role="progressbar" data-barcolor="#01b391" data-goal="100" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+				<!-- <span class="pie_progress__number">0%</span> -->
+				<!-- <div class="pie_progress__content">
+					<div>
+						<span class="logo-on"></span>
+						<h2 style="text-transform: none!important">The Email Builder</h2>
+						<span>ONLINE EMAIL EDITOR</span>
+					</div>
+				</div>
+				<svg id="loader-rotate" width="275" height="275">
+					<ellipse rx="132.5" ry="132.5" cx="137.5" cy="137.5" stroke="#394959" fill="none" stroke-width="10"></ellipse><path fill="none" stroke-width="10" stroke="#01b391" d="M137.5,5 A132.5,132.5 0 1 1 137.49916747794677,5.000000002615451" style="stroke-dasharray: 278.638306px; stroke-dashoffset: 0px;"s></path>
+				</svg>
+			</div>
+
+		</div> -->
+		 
+		
+		<div id="loader">
+<!-- 		<img src="http://theemon.com/EmailBuilder-V2/images/loading.gif" alt="Loading...">
+		Loading elements... -->
+		
+		<div class="pie_progress" role="progressbar" data-barcolor="#01b391" data-goal="100" aria-valuemin="0" aria-valuemax="100">
+			<!-- <span class="pie_progress__number">0%</span> -->
+			<div class="pie_progress__content">
+			<div>
+			<span class="logo-on"></span>
+			<h2 style="text-transform: none!important">The Email Builder</h2>
+			<span>ONLINE EMAIL EDITOR</span>
+			</div>
+			</div>
+		</div>
+		
+	</div>
+		
+		
+		<script src="http://theemon.com/EmailBuilder-V2/templates/Newsletter-Demo/last-minute/layout-1/html/images/black-glob.png/elements.json"></script>
+		
+		<script src="http://theemon.com/EmailBuilder-V2/js/jquery-1.11.1.min.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/jquery-ui.min.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/bootstrap.min.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/bootstrap-select.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/bootstrap-switch.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/flatui-fileinput.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/jquery.placeholder.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/jquery.zoomer.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/app.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/background.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/spectrum.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/chosen.jquery.min.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/jquery.mCustomScrollbar.concat.min.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/parttenS.json"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/emailBuilder.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/hoverFunctions.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/farbtastic.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/purchasecodevalidator.js"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/ace.js"></script>
+		<script type="text/javascript" src="http://theemon.com/EmailBuilder-V2/js/jquery-asPieProgress.js"></script>
+		<!--<script src="http://theemon.com/EmailBuilder-V2/js/medium-editor.js"></script>-->
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js" type="text/javascript"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/qunit/1.14.0/qunit.min.js" type="text/javascript"></script>
+		<script src="http://theemon.com/EmailBuilder-V2/js/colorwheel.js"></script>
+		
+		<script>	
+			var host=window.location.hostname, pathname=window.location.pathname,templateName=pathname.split('/')[2];	
+			var globelFormUrl =  "http://theemon.com/EmailBuilder-V2/iupload.php?template="+templateName;
+			var newImagesUrl = "http://theemon.com/EmailBuilder-V2";
+			var mainUrlGblNew = "http://theemon.com/EmailBuilder-V2/templates/Newsletter-Demo/last-minute/layout-1/html/images/black-glob.png";
+			//alert(templateName);
+			var generateFolderUrl = "http://theemon.com/EmailBuilder-V2/generate.php?template=Newsletter-Demo/last-minute/layout-1/html/images/black-glob.png";
+		</script>
+		
+		<script>		
+			$(function() {
+				$('#title').on('keypress', function(e) {
+					if (e.keyCode == 13) {
+						return false;
+					}
+				});
+			})
+			$('.pie_progress').asPieProgress({
+				'namespace' : 'pie_progress'
+			});
+			$('.pie_progress').asPieProgress('start');
+			function input_example() {
+				var cw = Raphael.colorwheel($(".pick")[0], 150);
+				cw.input($("#test_input")[0]);
+				cw.onchange(function(color) {
+					var colors = [parseInt(color.r), parseInt(color.g), parseInt(color.b)]
+				})
+			}
+
+			function input_examplee() {
+				var cw = Raphael.colorwheel($(".pick1")[0], 150);
+				cw.input($("#color_button")[0]);
+			}
+
+			function input_example_1() {
+				var cw = Raphael.colorwheel($("#pick_pop")[0], 150);
+				cw.input($("#color_pop")[0]);
+			}
+
+			var cw = input_example();
+			var wc = input_examplee();
+			var cc = input_example_1();
+		</script>
+	</body>
+</html>
