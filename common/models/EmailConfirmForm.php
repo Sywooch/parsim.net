@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use Yii;
 use common\models\User;
 use yii\base\InvalidParamException;
 use yii\base\Model;
@@ -42,10 +43,30 @@ class EmailConfirmForm extends Model
      */
     public function confirmEmail()
     {
+
         $user = $this->_user;
+
+        if($user->scenario==SignupForm::SCENARIO_AUTO_MODE)
+        {
+            $password=$user->password_hash;
+            $user->setPassword($password);    
+        }
+
         $user->status = User::STATUS_ACTIVE;
         $user->removeEmailConfirmToken();
 
-        return $user->save();
+        if($user->save())
+        {   
+            if($user->scenario==SignupForm::SCENARIO_AUTO_MODE){
+                Yii::$app->mailqueue->compose(['html' => 'user/emailConfirmSuccess'], ['model' => $user,'password'=>$password])
+                    ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
+                    ->setTo($user->email)
+                    ->setSubject('Ваша учетная запись в Parsim NET успешно активирована')
+                    ->queue();
+            }
+            
+            return $user;
+        }
+        return false;
     }
 }

@@ -92,7 +92,7 @@ class Error extends \yii\db\ActiveRecord
         parent::afterSave($insert, $changedAttributes);
 
         if(isset(Yii::$app->params['errorEmail'])){
-           Yii::$app->mailqueue->compose(['text' => 'error/view'], ['model' => $this])
+           Yii::$app->mailqueue->compose(['html' => 'error/view'], ['model' => $this])
                 ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
                 ->setTo(Yii::$app->params['errorEmail'])
                 ->setSubject('Parsing error registred')

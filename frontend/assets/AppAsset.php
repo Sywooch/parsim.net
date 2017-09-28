@@ -39,6 +39,8 @@ class AppAsset extends AssetBundle
         'js/main-slider-script.js',
         //End Revolution Slider
 
+        '/plugins/notifications/noty.min.js',
+
         'js/jquery.fancybox.pack.js',
         'js/jquery.fancybox-media.js',
         'js/owl.js',

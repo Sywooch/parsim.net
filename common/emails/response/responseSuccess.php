@@ -5,7 +5,6 @@ use app\modules\main\Module;
 /* @var $this yii\web\View */
 /* @var $user app\modules\user\models\User */
 
-$resetLink = Yii::$app->urlManager->createAbsoluteUrl(['user/password-reset', 'token' => $model->password_reset_token]);
 ?>
 
 <!-- 2 -->
@@ -58,15 +57,23 @@ $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['user/password-reset', 't
                 <span style="font-weight: 700;color:#000">Parsim <span style="color:#ff5926;">NET</span></span>
               </td>
             </tr>
-
             
             <tr>
-              <td height="10"><img src="<?= Yii::$app->params['srcUrl']; ?>/images/email/blank.gif" alt="" width="1" height="1" /></td>
+              <td height="20"><img src="<?= Yii::$app->params['srcUrl']; ?>/images/email/blank.gif" alt="" width="1" height="1" /></td>
             </tr>
             <tr>
               <td style="text-align:center;color:#444; font-family: 'Lato', sans-serif;font-size:16px; font-weight: 500; word-spacing: 1px;">
                 <p style="padding: 0px 20px;">
-                  Мы получили от Вас запрос на смену пароля.</p>
+                  Мы обработали Ваш запрос.</p>
+              </td>
+            </tr>
+            <tr>
+              <td height="10"><img src="<?= Yii::$app->params['srcUrl']; ?>/images/email/blank.gif" alt="" width="1" height="1" /></td>
+            </tr>
+            <tr>
+              <td style="text-align:center;color:#000; font-family: 'Lato', sans-serif;font-size:16px; font-weight: 500; word-spacing: 1px;">
+                <p style="padding: 0px 20px;">
+                  <?= $model->request->request_url; ?>
               </td>
             </tr>
             <tr>
@@ -75,7 +82,7 @@ $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['user/password-reset', 't
             <tr>
               <td style="text-align: center;color:#000; font-family: 'Lato', sans-serif;font-size:18px; font-weight: 500; word-spacing: 1px;">
                 <p style="padding: 0px 20px;">
-                  Для смены пароля нажмите кнопку ниже "Сменить пароль".
+                  И вот что у нас получилось.
                 </p>
                 
               </td>
@@ -87,7 +94,7 @@ $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['user/password-reset', 't
             <tr>
               <td style="text-align: center;color:#444; font-family: 'Lato', sans-serif;font-size:16px; font-weight: 500; word-spacing: 1px;">
                 <p style="padding: 0px 20px;">
-                  Если Вы не отправляли этот запрос, просто проигнорируте это сообщение.
+                  <?= $model->json; ?>
                 </p>
               </td>
             </tr>
@@ -99,8 +106,8 @@ $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['user/password-reset', 't
             </tr>
             <tr>
               <td style="text-align: center;color:#767781; font-family: 'Lato', sans-serif;font-size:20px; font-weight: 400; word-spacing: 1px;">
-                <a href="<?= $resetLink; ?>" style="text-decoration: none; padding:15px 40px; width: 40%; height: 60px; background: none; color: #1f2936; border: 2px solid #2b3d5e;">
-                   Сменить пароь
+                <a href="<?= Yii::$app->params['srcUrl']; ?>#request" style="text-decoration: none; padding:15px 40px; width: 40%; height: 60px; background: none; color: #1f2936; border: 2px solid #2b3d5e;">
+                   Создать еще запрос
                 </a>
               </td>
               

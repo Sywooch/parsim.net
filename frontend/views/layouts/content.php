@@ -2,7 +2,7 @@
   use yii\helpers\ArrayHelper;
   use yii\widgets\Menu;
 
-  
+  use common\models\User;
 
   use frontend\assets\AppAsset;
   AppAsset::register($this);
@@ -16,6 +16,28 @@
   
   <!-- Preloader -->
   <div class="preloader"></div>
+
+  <ul id="noty_topRight_layout_container" class="i-am-new" style="top: 20px; right: 20px; position: fixed; width: 310px; height: auto; margin: 0px; padding: 0px; list-style-type: none; z-index: 10000000;">
+    <?php if(Yii::$app->getSession()->hasFlash('error')): ?>
+    <li style="overflow: hidden; border-radius: 3px; margin-bottom: 1px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px; background-color: rgb(239, 83, 80); color: rgb(255, 255, 255); width: 310px; cursor: pointer;">
+      <div class="noty_bar noty_type_error" id="noty_57405028414799810">
+        <div class="noty_message" style="font-size: 13px; line-height: 1.53846; text-align: left; padding: 15px 20px; width: auto; position: relative;">
+          <span class="noty_text"><?= Yii::$app->getSession()->getFlash('error'); ?></span>
+        </div>
+      </div>
+    </li>
+    <?php endif; ?>
+    <?php if(Yii::$app->getSession()->hasFlash('success')): ?>
+    <li style="overflow: hidden; border-radius: 3px; margin-bottom: 1px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px; background-color: rgb(76, 175, 80); color: rgb(255, 255, 255); width: 310px; cursor: pointer;">
+      <div class="noty_bar noty_type_success" id="noty_1479585960865614800">
+        <div class="noty_message" style="font-size: 13px; line-height: 1.53846; text-align: left; padding: 15px 20px; width: auto; position: relative;">
+          <span class="noty_text"><?= Yii::$app->getSession()->getFlash('success'); ?></span>
+        </div>
+      </div>
+    </li>
+    <?php endif; ?>
+  </ul>
+
 
   <!-- Main Header-->
   <header class="<?= (isset($this->params['headerClass'])?$this->params['headerClass']:'main-header header-style-three'); ?>">
@@ -60,7 +82,12 @@
                           <div class="info-block clearfix">
                               <!--Search Box-->
                               <div class="login-box-outer">
-                                <a href="">Login</a>
+                                <?php if(Yii::$app->user->isGuest): ?>
+                                  <a href="<?= User::getLoginUrl(); ?>">Login</a>
+                                <?php else: ?>
+                                  <a href="<?= Yii::$app->user->identity->getProfileUrl(); ?>"><?= Yii::$app->user->identity->fullName; ?> </a>
+                                  <a href="<?= User::getLogoutUrl(); ?>">Выход</a>
+                                <?php endif; ?>
                               </div>
                               <div class="search-box-outer">
 

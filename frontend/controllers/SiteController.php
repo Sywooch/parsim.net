@@ -85,6 +85,15 @@ class SiteController extends Controller
         $request=new Request();
         $request->scenario=Request::SCENARIO_DEMO;
 
+        $user = new SignupForm('user');
+        $user->scenario=SignupForm::SCENARIO_STANDART_MODE;    
+        if ($user->load(Yii::$app->request->post()) && $user->validate()) {
+            if ($user = $user->signup()) {
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Вы успешно зарегистрировались! <br/>Мы отправили на Ваш E-mail письмо с сылкой для активации Вашей учетной записи.'));
+                return $this->goHome();
+            }    
+        }
+        
         if ($request->load(Yii::$app->request->post()) && $request->validate()) {
 
             //Проверяю есть ли пользователь с таким E-mail в базе
@@ -92,6 +101,11 @@ class SiteController extends Controller
             //Если пользователь не найден, создаю нового пользователя
             if(!isset($user)){
                 $userForm = new SignupForm('user');
+                $userForm->scenario=SignupForm::SCENARIO_AUTO_MODE;
+                
+                $userForm->subject='Запрос сканирования страницы';
+                $userForm->request_url=$request->request_url;
+
                 $userForm->email=$request->response_email;
                 $userForm->password=uniqid();
                 if($userForm->validate() && $user=$userForm->signup()){
@@ -99,6 +113,8 @@ class SiteController extends Controller
                     //Добавляю id пользователя к запросу как автора запроса
                     $request->created_by=$user->id;
                     $request->updated_by=$user->id;
+
+                    Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Ваш запрос взят в работу! <br/>Подробности отправлены на Ваш E-mail.'));
                 }else{
                     echo json_encode($user->errors);
                     die;
@@ -110,9 +126,11 @@ class SiteController extends Controller
 
             return $this->redirect(['/site/index', 'request' => $request]);
         }
+        
 
         return $this->render('index',[
             'request'=>$request,
+            'newUser'=>$user,
         ]);
     }
 

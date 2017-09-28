@@ -37,8 +37,8 @@ class ProductParser extends BaseParser
   {
     return [
       'id',
-      'price',
       'name',
+      'price',
       'currency'
     ];
   }

@@ -424,7 +424,7 @@ $this->params['headerClass']="main-header";
 <!--End Main Slider-->
 
 <!--Services Section-->
-<section class="services-section">
+<section class="services-section" >
   <div class="auto-container">
       <!--Services Title-->
       <div class="services-title">
@@ -439,10 +439,10 @@ $this->params['headerClass']="main-header";
         </div>
         <!--Services Title-->
         
-        <div class="row clearfix">
+        <div class="row clearfix" >
         
-          <!--Services Block-->
-          <div class="services-block col-md-4 col-sm-6 col-xs-12">
+            <!--Services Block-->
+            <div class="services-block col-md-4 col-sm-6 col-xs-12">
               <div class="inner-box wow fadeIn" data-wow-duration="1500ms" data-wow-delay="0ms">
                   <div class="icon-box">
                       <span class="icon"><img src="images/resource/icon-1.png" alt="" /></span>
@@ -453,7 +453,7 @@ $this->params['headerClass']="main-header";
             </div>
             
             <!--Services Block-->
-          <div class="services-block col-md-4 col-sm-6 col-xs-12">
+            <div class="services-block col-md-4 col-sm-6 col-xs-12">
               <div class="inner-box wow fadeIn" data-wow-duration="1500ms" data-wow-delay="300ms">
                   <div class="icon-box">
                       <span class="icon"><img src="images/resource/icon-2.png" alt="" /></span>
@@ -463,11 +463,13 @@ $this->params['headerClass']="main-header";
                 </div>
             </div>
             
+            
+            
             <!--Services Block-->
-          <div class="services-block col-md-4 col-sm-6 col-xs-12">
-              <div class="inner-box wow fadeIn" data-wow-duration="1500ms" data-wow-delay="600ms">
-                  <div class="icon-box">
-                      <span class="icon"><img src="images/resource/icon-3.png" alt="" /></span>
+            <div class="services-block col-md-4 col-sm-6 col-xs-12" id="services-block">
+                <div class="inner-box wow fadeIn" data-wow-duration="1500ms" data-wow-delay="600ms">
+                    <div class="icon-box">
+                        <span class="icon"><img src="images/resource/icon-3.png" alt="" /></span>
                     </div>
                     <h3><a href="services-2.html">Quality <br> Service in Low Cost</a></h3>
                     <a href="services-2.html" class="learn-more">Learn More <span class="arrow fa fa-long-arrow-right"></span></a>
@@ -476,9 +478,13 @@ $this->params['headerClass']="main-header";
             
         </div>
         
+        <div id="request">
         <!--Request Form-->
         <?= $this->render('_request',['model'=>$request]); ?>
-        <!--End Request Form-->
+        <!--End Request Form-->    
+        </div>
+        
+        
         
     </div>
 </section>
@@ -628,12 +634,31 @@ $this->params['headerClass']="main-header";
 </section>
 <!--End Price Section-->
 
-<?php
-    if(Yii::$app->user->isGuest){
-        $user=new SignupForm('user');
-        echo $this->render('_userRegSection',['model'=>$user]);
-    }
-?>
+<?php if(Yii::$app->user->isGuest): ?>
+<!--Create  account-->
+<section class="login-section alternate light-bg">
+    <div class="auto-container">
+        <div class="row clearfix">
+            
+            <!--Form Column-->
+            <div class="col-md-5 col-sm-12 col-xs-12">
+               <?= $this->render('/user/_signupForm',['model'=>$newUser]); ?>
+            </div>
+            
+            <!--Content Column-->
+            <div class="content-column col-md-7 col-sm-12 col-xs-12">
+                <div class="inner-content">
+                    <h2>Create your free account now and get immediate access to our service.</h2>
+                    <div class="dark-text">Qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram.</div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+<!--End Create  account-->
+<?php endif; ?>
 
 <!--Subscribe Style One-->
 <section class="subscribe-style-one">

@@ -38,6 +38,8 @@ class m140916_150445_create_user_table extends Migration
 
             'role' => $this->string(64)->notNull() . ' DEFAULT \'user\'',
             'description' => $this->string(255),
+
+            'scenario'=>$this->string(64),
         ], $tableOptions);
 
         

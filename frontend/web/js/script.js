@@ -2,6 +2,11 @@
 	
 	"use strict";
 	
+	
+	$('#noty_topRight_layout_container li').click(function(){
+		$(this).remove();
+	})
+
 	//Hide Loading Box (Preloader)
 	function handlePreloader() {
 		if($('.preloader').length){

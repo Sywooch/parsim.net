@@ -2,7 +2,7 @@
     use yii\widgets\ActiveForm;
 ?>
 
-<div class="audit-form ">
+<div class="audit-form">
   <h2>Try our parser Free Now!!</h2>
     <!--Audit Form-->
     <div class="audit-form">

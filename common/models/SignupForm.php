@@ -11,10 +11,36 @@ use Yii;
  */
 class SignupForm extends Model
 {
+    const SCENARIO_STANDART_MODE = 'standartMode';
+    const SCENARIO_AUTO_MODE = 'autoMode';
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_STANDART_MODE] = [
+            'email', 
+            'password', 
+            'role', 
+            'request_url', 
+            'subject',
+        ];
+        $scenarios[self::SCENARIO_AUTO_MODE] = [
+            'email', 
+            'password', 
+            'role', 
+            'request_url', 
+            'subject',
+        ];
+        return $scenarios;
+    }
+
     //public $username;
     public $email;
     public $password;
     public $verifyCode;
+
+    public $request_url;
+    public $subject='Активация аккаунта';
 
     private $_defaultRole;
 
@@ -76,7 +102,14 @@ class SignupForm extends Model
             $user = new User();
             //$user->username = $this->username;
             $user->email = $this->email;
-            $user->setPassword($this->password);
+            if($this->scenario==self::SCENARIO_AUTO_MODE){
+                $user->password_hash=$this->password;
+            }else{
+                $user->setPassword($this->password);    
+            }
+            
+            $user->scenario=$this->scenario;
+
             $user->status = User::STATUS_WAIT;
             $user->role = $this->_defaultRole;
             $user->generateAuthKey();
@@ -90,15 +123,31 @@ class SignupForm extends Model
                     ->setSubject('Email confirmation for ' . Yii::$app->name)
                     ->send();
                 */
-                Yii::$app->mailqueue->compose(['html' => 'user/emailConfirm'], ['user' => $user])
+                Yii::$app->mailqueue->compose(['html' => $this->emailTemplate], ['model' => $user,'request_url'=>$this->request_url])
                     ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
                     ->setTo($this->email)
-                    ->setSubject('Email confirmation for ' . Yii::$app->name)
+                    ->setSubject($this->subject)
                     ->queue();
                 return $user;
             }
         }
 
         return null;
+    }
+
+    public function getEmailTemplate()
+    {
+        $defaultTemplate='user/emailConfirmStandart';
+
+        $templates=[
+            self::SCENARIO_STANDART_MODE=>$defaultTemplate,
+            self::SCENARIO_AUTO_MODE=>'user/emailConfirmAuto',
+        ];
+
+        if(isset($templates[$this->scenario])){
+            $defaultTemplate=$templates[$this->scenario];
+        }
+
+        return $defaultTemplate;
     }
 }
