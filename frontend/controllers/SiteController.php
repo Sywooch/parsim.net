@@ -16,6 +16,7 @@ use common\models\SignupForm;
 //use frontend\models\ContactForm;
 
 use common\models\User;
+use common\models\Error;
 use common\models\Request;
 
 
@@ -113,16 +114,25 @@ class SiteController extends Controller
                     //Добавляю id пользователя к запросу как автора запроса
                     $request->created_by=$user->id;
                     $request->updated_by=$user->id;
-
-                    Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Ваш запрос взят в работу! <br/>Подробности отправлены на Ваш E-mail.'));
                 }else{
-                    echo json_encode($user->errors);
-                    die;
+                    $error=new Error();
+                    $error->code=Error::CODE_UNKNOW_ERROR;
+                    $error->msg='Ошибка регистрации пользователя через форму запрса на главной странице сайта';
+                    $error->status=Error::STATUS_NEW;
+                    $error->save();
                 }
                 
             }
             $request->ip=Yii::$app->request->userIP;
-            $request->save();
+            if($request->save()){
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Ваш запрос взят в работу! <br/>Подробности отправлены на Ваш E-mail.'));
+            }else{
+                $error=new Error();
+                $error->code=Error::CODE_UNKNOW_ERROR;
+                $error->msg='Ошибка создания запроса на главной странице сайта';
+                $error->status=Error::STATUS_NEW;
+                $error->save();
+            }
 
             return $this->redirect(['/site/index', 'request' => $request]);
         }
