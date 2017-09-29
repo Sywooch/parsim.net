@@ -48,7 +48,17 @@
             <div class="outer-container clearfix">
                   <!--Logo Box-->
                   <div class="logo-box">
-                      <div class="logo"><a href="index.html"><img src="/images/logo.png" alt=""></a></div>
+
+                      <div class="logo">
+                        <a href="/">
+                          <?php if(isset($this->params['headerClass'])): ?>
+                            <img src="/images/logo-1.png" alt="">
+                          <?php else: ?>
+                            <img src="/images/logo-1-black.png" alt="">
+                            
+                          <?php endif; ?>
+                        </a>
+                      </div>
                   </div>
                   
                   <!--Nav Outer-->
@@ -63,6 +73,24 @@
                                   <span class="icon-bar"></span>
                               </button>
                           </div>
+                          <div class="navbar-collapse collapse clearfix">
+                          <?=
+                            Menu::widget([
+                              'items' => [
+                                ['label'=>'Главная','url'=>['/site/index']],
+                                ['label'=>'Цены','url'=>Yii::$app->urlManager->createUrl(['/site/index','#'=>'pricing'])],
+                                ['label'=>'API','url'=>['/api/index']],
+                                ['label'=>'Поддержка','url'=>'/support/index'],
+                                ['label'=>'Вход','url'=>User::getLoginUrl(),'visible'=>Yii::$app->user->isGuest],
+                                ['label'=>'Выход','url'=>User::getLogoutUrl(),'visible'=>!Yii::$app->user->isGuest],
+                              ],
+                              'options'=>['class'=>'navigation clearfix'],
+                              'activeCssClass'=>'current'
+
+                            ]);
+                          ?>
+                          </div>
+                          <!--
                           
                           <div class="navbar-collapse collapse clearfix">
                               <ul class="navigation clearfix">
@@ -73,6 +101,7 @@
                                   <li><a href="contact.html">Contact Us</a></li>
                                </ul>
                           </div>
+                          -->
                       </nav>
                       <!-- Main Menu End-->
                       
@@ -81,14 +110,6 @@
                         <!--Info Block-->
                           <div class="info-block clearfix">
                               <!--Search Box-->
-                              <div class="login-box-outer">
-                                <?php if(Yii::$app->user->isGuest): ?>
-                                  <a href="<?= User::getLoginUrl(); ?>">Login</a>
-                                <?php else: ?>
-                                  <a href="<?= Yii::$app->user->identity->getProfileUrl(); ?>"><?= Yii::$app->user->identity->fullName; ?> </a>
-                                  <a href="<?= User::getLogoutUrl(); ?>">Выход</a>
-                                <?php endif; ?>
-                              </div>
                               <div class="search-box-outer">
 
                                   <div class="dropdown">
@@ -136,8 +157,8 @@
                           <!--Footer Column-->
                           <div class="footer-column col-md-7 col-sm-6 col-xs-12">
                               <div class="footer-widget about-widget">
-                                  <h3><span class="theme_color">12K+</span> Sites <br> Already Connected</h3>
-                                  <div class="text"> A talented in-house teams of experts outreach & social media complement the analyticals technical SEO professionals ensuring your business grows organically with hard working & get you better result.</div>
+                                  <h3><span class="theme_color">12K+</span> Сайтов готовы<br> для сканнирования</h3>
+                                  <div class="text"> Наш принцип работы - Делать все как можно проще и удобнее. Скорость, точность и надежность. Низкая стоимость. Качественная тех. поддержка и квалифицированная помощь в автоматизации.</div>
                                   <ul class="social-icon-one">
                                       <li><a href="#"><span class="fa fa-facebook"></span></a></li>
                                       <li><a href="#"><span class="fa fa-twitter"></span></a></li>
@@ -151,14 +172,14 @@
                           <div class="footer-column col-md-5 col-sm-6 col-xs-12">
                               <div class="footer-widget links-widget">
                                   
-                                   <h2>Site Categories</h2>
+                                   <h2>Категориии <br/> сайтов</h2>
                                   <div class="widget-content">
                                       <ul class="list">
-                                          <li><a href="#">Shops & services</a></li>
-                                          <li><a href="#">Search engins</a></li>
-                                          <li><a href="#">Blogs & News</a></li>
-                                          <li><a href="#">Social networks</a></li>
-                                          <li><a href="#">Other services</a></li>
+                                          <li><a href="#">Товары & Услуги</a></li>
+                                          <li><a href="#">Поисковая выдача</a></li>
+                                          <li><a href="#">Статьи & Новости</a></li>
+                                          <li><a href="#">Соц. сети</a></li>
+                                          <li><a href="#">Прочие ресурсы</a></li>
                                       </ul>
                                   </div>
                               </div>
@@ -174,14 +195,14 @@
                           <!--Footer Column-->
                           <div class="footer-column col-md-5 col-sm-6 col-xs-12">
                               <div class="footer-widget links-widget">
-                                 <h2>Quick Links</h2>
+                                 <h2>Быстрые <br/> ссылки</h2>
                                   <div class="widget-content">
                                       <ul class="list">
                                           <li><a href="#">Privacy Policy</a></li>
                                           <li><a href="#">Terms & Condition</a></li>
-                                          <li><a href="#">Support</a></li>
+                                          <li><a href="#">Поддержка</a></li>
                                           <li><a href="#">Refund Policy</a></li>
-                                          <li><a href="#">Contact Us</a></li>
+                                          <li><a href="#">Обратная связь</a></li>
                                       </ul>
                                   </div>
                               </div>
@@ -190,7 +211,7 @@
                           <!--Footer Column-->
                           <div class="footer-column col-md-6 col-sm-6 col-xs-12">
                               <div class="footer-widget address-widget">
-                                  <h2>Our Address</h2>
+                                  <h2>Наш адрес</h2>
                                   <div class="widget-content">
                                       <ul class="list-style-two">
                                           <li><span class="icon fa fa-map-marker"></span>Nilkhet Market,Dhanmondhi 09 Modhho Dhaka - 1210</li>
@@ -211,7 +232,7 @@
       <!--footer bottom-->
       <div class="footer-bottom">
         <div class="auto-container">
-            <div class="copyright">&copy; 2017 <a href="index.html">SEO Boost inc.</a> All Rights Reserved. </div>
+            <div class="copyright">&copy; <?= Date('Y'); ?> <a href="/">Parsim NET</a> All Rights Reserved.</div>
           </div>
       </div>
       <!--End Footer Bottom-->

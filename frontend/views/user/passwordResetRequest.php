@@ -38,9 +38,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="auto-container">
         <div class="row clearfix">
             
-             <!--Content Column-->
+            <!--Content Column-->
             <div class="content-column col-md-6 col-sm-12 col-xs-12">
-                
+                <div class="image">
+                    <img src="/images/resource/business-img.png" alt="">
+                </div>
             </div>
             
             <!--Content Column-->

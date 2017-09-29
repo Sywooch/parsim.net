@@ -16,7 +16,7 @@ $this->params['headerClass']="main-header";
             <ul>
               
                 <li data-description="Slide Description" data-easein="default" data-easeout="default" data-fsmasterspeed="1500" data-fsslotamount="7" data-fstransition="fade" data-hideafterloop="0" data-hideslideonmobile="off" data-index="rs-1687" data-masterspeed="default" data-param1="" data-param10="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-rotate="0" data-saveperformance="off" data-slotamount="default" data-thumb="images/main-slider/image-1.jpg" data-title="Slide Title" data-transition="parallaxvertical">
-                <img alt="" class="rev-slidebg" data-bgfit="cover" data-bgparallax="10" data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina="" src="images/main-slider/image-1.jpg"> 
+                <img alt="" class="rev-slidebg" data-bgfit="cover" data-bgparallax="10" data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina="" src="/images/main-slider/image-1.jpg"> 
                 
                 <div class="tp-caption tp-resizeme" 
                 data-paddingbottom="[0,0,0,0]"
@@ -36,7 +36,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <h2>Parsim <span class="theme_color">NET</span> <br> for your Business</h2>
+                  <h2>Parsim <span class="theme_color">NET</span> <br> <?= Yii::t('app','for your Business'); ?></h2>
                 </div>
                 
                 <div class="tp-caption" 
@@ -56,7 +56,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <div class="text">Start working with an SEO company that can provide everything you need to generate <br> awareness, drive traffic, connect with customers, and increase sales.</div>
+                  <div class="text"><?= Yii::t('app','Start working with an SEO company that can provide everything you need to generate awareness, drive traffic, connect with customers, and increase sales'); ?>.</div>
                 </div>
                 
                 <div class="tp-caption tp-resizeme" 
@@ -76,7 +76,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"x:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <a href="#" class="theme-btn btn-style-one">Learn More <span class="icon fa fa-long-arrow-right"></span></a>
+                  <a href="#" class="theme-btn btn-style-one"><?= Yii::t('app','Learn More'); ?> <span class="icon fa fa-long-arrow-right"></span></a>
                 </div>
                 
                 <div class="tp-caption tp-resizeme ipad-hidden" 
@@ -96,7 +96,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":2000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":3000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <figure class="content-image"><img src="images/main-slider/content-image-1.png" alt=""></figure>
+                  <figure class="content-image"><img src="/images/main-slider/content-image-1.png" alt=""></figure>
                 </div>
                 
                 <div class="tp-caption tp-shape tp-shapewrapper tp-resizeme big-ipad-hidden" 
@@ -116,7 +116,7 @@ $this->params['headerClass']="main-header";
                 data-y="['bottom','bottom','bottom','bottom']"
                 data-frames='[{"from":"x:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1000,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <figure class="content-image"><img src="images/main-slider/content-image-2.png" alt=""></figure>
+                  <figure class="content-image"><img src="/images/main-slider/content-image-2.png" alt=""></figure>
                 </div>
                 
                 
@@ -137,7 +137,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"y:[0%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":0,"to":"o:1;","delay":0,"ease":"Power3.easeInOut"},{"delay":"wait","speed":3000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <figure class="content-image"><img src="images/main-slider/content-arrow-2.png" alt=""></figure>
+                  <figure class="content-image"><img src="/images/main-slider/content-arrow-2.png" alt=""></figure>
                 </div>
                 
                 <div class="tp-caption tp-resizeme big-ipad-hidden" 
@@ -157,13 +157,13 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"y:[0%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":0,"to":"o:1;","delay":3000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":0,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <figure class="content-image"><img src="images/main-slider/content-arrow-1.png" alt=""></figure>
+                  <figure class="content-image"><img src="/images/main-slider/content-arrow-1.png" alt=""></figure>
                 </div>
                 
                 </li>
                 
                 <li data-description="Slide Description" data-easein="default" data-easeout="default" data-fsmasterspeed="1500" data-fsslotamount="7" data-fstransition="fade" data-hideafterloop="0" data-hideslideonmobile="off" data-index="rs-1688" data-masterspeed="default" data-param1="" data-param10="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-rotate="0" data-saveperformance="off" data-slotamount="default" data-thumb="images/main-slider/image-2.jpg" data-title="Slide Title" data-transition="parallaxvertical">
-                <img alt="" class="rev-slidebg" data-bgfit="cover" data-bgparallax="10" data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina="" src="images/main-slider/image-2.jpg">
+                <img alt="" class="rev-slidebg" data-bgfit="cover" data-bgparallax="10" data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina="" src="/images/main-slider/image-2.jpg">
                 
                 <div class="tp-caption tp-resizeme" 
                 data-paddingbottom="[0,0,0,0]"
@@ -183,7 +183,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <h2>Make Your <br> Business easier</h2>
+                  <h2><?= Yii::t('app','Make Your <br> Business easier'); ?></h2>
                 </div>
                 
                 <div class="tp-caption" 
@@ -203,7 +203,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <div class="text">Start working with an SEO company that can provide everything you need to generate <br> awareness, drive traffic, connect with customers, and increase sales.</div>
+                  <div class="text"><?= Yii::t('app','Stop wasting your time on routine. All the work on collecting important information on the Internet can be done for you by our parser'); ?></div>
                 </div>
                 
                 <div class="tp-caption tp-resizeme" 
@@ -223,7 +223,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"x:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <a href="#" class="theme-btn btn-style-two">Learn More <span class="icon fa fa-long-arrow-right"></span></a>
+                  <a href="#" class="theme-btn btn-style-two"><?= Yii::t('app','Learn More'); ?> <span class="icon fa fa-long-arrow-right"></span></a>
                 </div>
                 
                 <div class="tp-caption tp-resizeme ipad-hidden" 
@@ -243,7 +243,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"x:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":3000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":3000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <figure class="content-image"><img src="images/main-slider/content-image-3.png" alt=""></figure>
+                  <figure class="content-image"><img src="/images/main-slider/content-image-3.png" alt=""></figure>
                 </div>
                 
                 
@@ -264,7 +264,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"y:[0%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":0,"to":"o:1;","delay":0,"ease":"Power3.easeInOut"},{"delay":"wait","speed":3000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <figure class="content-image"><img src="images/main-slider/content-arrow-2.png" alt=""></figure>
+                  <figure class="content-image"><img src="/images/main-slider/content-arrow-2.png" alt=""></figure>
                 </div>
                 
                 <div class="tp-caption tp-resizeme big-ipad-hidden" 
@@ -284,13 +284,13 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"y:[0%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":0,"to":"o:1;","delay":3000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":0,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <figure class="content-image"><img src="images/main-slider/content-arrow-1.png" alt=""></figure>
+                  <figure class="content-image"><img src="/images/main-slider/content-arrow-1.png" alt=""></figure>
                 </div>
                 
                 </li>
                 
                 <li data-description="Slide Description" data-easein="default" data-easeout="default" data-fsmasterspeed="1500" data-fsslotamount="7" data-fstransition="fade" data-hideafterloop="0" data-hideslideonmobile="off" data-index="rs-1689" data-masterspeed="default" data-param1="" data-param10="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-rotate="0" data-saveperformance="off" data-slotamount="default" data-thumb="images/main-slider/image-3.jpg" data-title="Slide Title" data-transition="parallaxvertical">
-                <img alt="" class="rev-slidebg" data-bgfit="cover" data-bgparallax="10" data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina="" src="images/main-slider/image-3.jpg">
+                <img alt="" class="rev-slidebg" data-bgfit="cover" data-bgparallax="10" data-bgposition="center center" data-bgrepeat="no-repeat" data-no-retina="" src="/images/main-slider/image-3.jpg">
                 
                 <div class="tp-caption tp-resizeme" 
                 data-paddingbottom="[0,0,0,0]"
@@ -310,7 +310,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <h2>Grow your <br> Business with us</h2>
+                  <h2><?= Yii::t('app','Grow your <br> Business with us'); ?></h2>
                 </div>
                 
                 <div class="tp-caption" 
@@ -330,7 +330,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <div class="text">Start working with an SEO company that can provide everything you need to generate <br> awareness, drive traffic, connect with customers, and increase sales.</div>
+                  <div class="text"><?= Yii::t('app','Our parser is constantly evolving. Every day he learns to analyze more than 20 new resources. Now he is already able to analyze more than 12K Internet resources'); ?></div>
                 </div>
                 
                 <div class="tp-caption tp-resizeme" 
@@ -350,7 +350,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"x:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <a href="#" class="theme-btn btn-style-three">Learn More <span class="icon fa fa-long-arrow-right"></span></a>
+                  <a href="#" class="theme-btn btn-style-three"><?= Yii::t('app','Learn More'); ?> <span class="icon fa fa-long-arrow-right"></span></a>
                 </div>
                 
                 <div class="tp-caption tp-resizeme ipad-hidden" 
@@ -370,7 +370,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"x:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":3000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":3000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <figure class="content-image"><img src="images/main-slider/content-image-4.png" alt=""></figure>
+                  <figure class="content-image"><img src="/images/main-slider/content-image-4.png" alt=""></figure>
                 </div>
                 
                 
@@ -391,7 +391,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"y:[0%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":0,"to":"o:1;","delay":0,"ease":"Power3.easeInOut"},{"delay":"wait","speed":3000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <figure class="content-image"><img src="images/main-slider/content-arrow-2.png" alt=""></figure>
+                  <figure class="content-image"><img src="/images/main-slider/content-arrow-2.png" alt=""></figure>
                 </div>
                 
                 <div class="tp-caption tp-resizeme big-ipad-hidden" 
@@ -411,7 +411,7 @@ $this->params['headerClass']="main-header";
                 data-textalign="['top','top','top','top']"
                 data-frames='[{"from":"y:[0%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":0,"to":"o:1;","delay":3000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":0,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <figure class="content-image"><img src="images/main-slider/content-arrow-1.png" alt=""></figure>
+                  <figure class="content-image"><img src="/images/main-slider/content-arrow-1.png" alt=""></figure>
                 </div>
                 
                 </li>
@@ -430,10 +430,12 @@ $this->params['headerClass']="main-header";
       <div class="services-title">
           <div class="row clearfix">
               <div class="column col-md-6 col-sm-12 col-xs-12">
-                  <h2>Parsim <span class="theme_color">NET</span> <br> fast & cheap online parser</h2>
+                  <h2>Parsim <span class="theme_color">NET</span> <br> <?=Yii::t('app','fast & cheap online parser'); ?></h2>
                 </div>
                 <div class="column col-md-6 col-sm-12 col-xs-12">
-                  <div class="text">At Coalition Technologies, we tightly weave our website design and search engineoptimization work to exceed our clients goals. We innovate constantly, operate transparently, and build lasting results.</div>
+                    <div class="text">
+                        <?= Yii::t('app','The basic principle of the parser: as easy and convenient for the user as possible, speed and accuracy, low cost'); ?>.
+                    </div>
                 </div>
             </div>
         </div>
@@ -445,10 +447,10 @@ $this->params['headerClass']="main-header";
             <div class="services-block col-md-4 col-sm-6 col-xs-12">
               <div class="inner-box wow fadeIn" data-wow-duration="1500ms" data-wow-delay="0ms">
                   <div class="icon-box">
-                      <span class="icon"><img src="images/resource/icon-1.png" alt="" /></span>
+                      <span class="icon"><img src="/images/resource/icon-1.png" alt="" /></span>
                     </div>
-                    <h3><a href="services-2.html">Simple <br> Team & Quick Support</a></h3>
-                    <a href="services-2.html" class="learn-more">Learn More <span class="arrow fa fa-long-arrow-right"></span></a>
+                    <h3><a href="services-2.html"><?= Yii::t('app','Simple <br> Team & Quick Support'); ?></a></h3>
+                    <a href="services-2.html" class="learn-more"><?= Yii::t('app','Learn More'); ?> <span class="arrow fa fa-long-arrow-right"></span></a>
                 </div>
             </div>
             
@@ -456,29 +458,29 @@ $this->params['headerClass']="main-header";
             <div class="services-block col-md-4 col-sm-6 col-xs-12">
               <div class="inner-box wow fadeIn" data-wow-duration="1500ms" data-wow-delay="300ms">
                   <div class="icon-box">
-                      <span class="icon"><img src="images/resource/icon-2.png" alt="" /></span>
+                      <span class="icon"><img src="/images/resource/icon-2.png" alt="" /></span>
                     </div>
-                    <h3><a href="services-2.html">Fast & <br> Quick Result</a></h3>
-                    <a href="services-2.html" class="learn-more">Learn More <span class="arrow fa fa-long-arrow-right"></span></a>
+                    <h3><a href="services-2.html"><?= Yii::t('app','Fast & <br> Quick Result'); ?></a></h3>
+                    <a href="services-2.html" class="learn-more"><?= Yii::t('app','Learn More'); ?> <span class="arrow fa fa-long-arrow-right"></span></a>
                 </div>
             </div>
             
             
-            
+
             <!--Services Block-->
             <div class="services-block col-md-4 col-sm-6 col-xs-12" id="services-block">
                 <div class="inner-box wow fadeIn" data-wow-duration="1500ms" data-wow-delay="600ms">
                     <div class="icon-box">
-                        <span class="icon"><img src="images/resource/icon-3.png" alt="" /></span>
+                        <span class="icon"><img src="/images/resource/icon-3.png" alt="" /></span>
                     </div>
-                    <h3><a href="services-2.html">Quality <br> Service in Low Cost</a></h3>
-                    <a href="services-2.html" class="learn-more">Learn More <span class="arrow fa fa-long-arrow-right"></span></a>
+                    <h3><a href="services-2.html"><?= Yii::t('app','Quality <br> Service in Low Cost'); ?></a></h3>
+                    <a href="services-2.html" class="learn-more"><?= Yii::t('app','Learn More'); ?> <span class="arrow fa fa-long-arrow-right"></span></a>
                 </div>
             </div>
             
         </div>
         
-        <div id="request">
+        <div id="</div>">
         <!--Request Form-->
         <?= $this->render('_request',['model'=>$request]); ?>
         <!--End Request Form-->    
@@ -497,19 +499,21 @@ $this->params['headerClass']="main-header";
             <!--Image Column-->
             <div class="image-column col-md-5 col-sm-12 col-xs-12">
                 <div class="image">
-                    <img src="images/resource/business-img.png" alt="" />
+                    <img src="/images/resource/business-img.png" alt="" />
                 </div>
             </div>
             
             <!--Content Column-->
             <div class="content-column col-md-7 col-sm-12 col-xs-12">
                 <div class="inner-content">
-                    <h2>Why We’re The Best Match <br> For Your Business!!</h2>
-                    <div class="dark-text">When we first get to know you, we’ll immediately begin analyzing your website. We want to know everything we can about it.</div>
+                    <h2><?= Yii::t('app','Why We’re The Best Match <br> For Your Business'); ?>!!</h2>
+                    <div class="dark-text">
+                        <?= Yii::t('app','We appreciate the time and are convinced that the whole routine should be done by robots. We know how to do this and will spare you the deal. So you can focus on your business'); ?>.
+                    </div>
                     <ul class="list-style-one">
-                        <li>We’re never satisfied with the status quo.</li>
-                        <li>We’re always refining our craft which means you’ll always be getting better and better results!</li>
-                        <li>We’re a team of trend setters, mavericks and leaders: innovation is an inherent part of our business model.</li>
+                        <li><?= Yii::t('app','We will never leave you without support'); ?></li>
+                        <li><?= Yii::t('app','We’re always refining our craft which means you’ll always be getting better and better results'); ?>!</li>
+                        <li><?= Yii::t('app','We’re a team of IT experts innovation is an inherent part of our business model'); ?>.</li>
                     </ul>
                 </div>
             </div>
@@ -526,12 +530,12 @@ $this->params['headerClass']="main-header";
         <div class="row clearfix">
             <!--Content Column-->
             <div class="content-column col-md-6 col-sm-12 col-xs-12">
-                <h2>How Parsim<span class="theme_color"> NET</span> Work?</h2>
-                    <div class="dark-text">When we first get to know you, we’ll immediately begin analyzing your website. We want to know everything we can about it.</div>
+                <h2><?= Yii::t('app','How Parsim<span class="theme_color"> NET</span> Work?'); ?></h2>
+                    <div class="dark-text"><?= Yii::t('app','We tried to simplify the work with the parser as much as possible. The main work is carried out through the API or personal cabinet. For this you need to register'); ?>.</div>
                     <ul class="list-style-one">
-                        <li>We’re never satisfied with the status quo.</li>
-                        <li>We’re always refining our craft which means you’ll always be getting better and better results!</li>
-                        <li>We’re a team of trend setters, mavericks and leaders: innovation is an inherent part of our business model.</li>
+                        <li><?= Yii::t('app','Register on the site and get the API access key'); ?>.</li>
+                        <li><?= Yii::t('app','In your account or through the IPA, add URLs, which you want to follow and the URL or E-mail, where to send the results'); ?></li>
+                        <li><?= Yii::t('app','Choose a favorable rate and top up your account'); ?>.</li>
                     </ul>
             </div>
 
@@ -562,21 +566,21 @@ $this->params['headerClass']="main-header";
                 <div class="inner-box">
                     <div class="price-header">
                         <div class="content">
-                            <div class="plan-title">free</div>
-                            <span class="price"><span class="dollar-sign">₽</span><span class="total-amount"> 0 </span> <sup>.00</sup> <sub>/ month</sub></span>
+                            <div class="plan-title"><span class="theme_color">100% Free Forever</span></div>
+                            <h4>Акция в честь запуска<br/></h4>
+                            <span class="last-offers theme_color">Всего предложений - 99 шт.</span>
                         </div>
                     </div>
                     <div class="lower-content">
                         <ul class="spec-list">
-                            <li>refrash - every week</li>
-                            <li>Sites count - 10</li>
-                            <li>Product count - 50</li>
-                            <li>Support - 24/7</li>
-                            <li>Add new sites - free</li>
-                            <li>Admin dashboard</li>
-                            <li>Access by API</li>
+                            <li>Частота обновлений - раз в день</li>
+                            <li>Неограниченное кол-во ссылок</li>
+                            <li>Тех. поддержка с 9:00 до 17:00, Пн.-Пт.</li>
+                            <li>Добавление новых сайтов - бесплатно</li>
+                            <li>Доступ в личный кабинет</li>
+                            <li>Доступ по API</li>
                         </ul>
-                        <a href="#" class="theme-btn purchase-btn">Purchase Now</a>
+                        <a href="#" class="theme-btn purchase-btn">Хочу этот тариф</a>
                     </div>
                 </div>
             </div>
@@ -586,20 +590,19 @@ $this->params['headerClass']="main-header";
                     <div class="price-header">
                         <div class="content">
                             <div class="plan-title">dynamic</div>
-                            <span class="price"><span class="dollar-sign">₽</span><span class="total-amount"> 0 </span> <sup>.10</sup> <sub>/ scan</sub></span>
+                            <span class="price"><span class="dollar-sign">₽</span><span class="total-amount"> 0 </span> <sup>.10</sup> <sub>/ обновление</sub></span>
                         </div>
                     </div>
                     <div class="lower-content">
                         <ul class="spec-list">
-                            <li>refrash - every hour</li>
-                            <li>Sites count - unlimit</li>
-                            <li>Product count - unlimit</li>
-                            <li>Support - 24/7</li>
-                            <li>Add new sites - free</li>
-                            <li>Admin dashboard</li>
-                            <li>Access by API</li>
+                            <li>Мах. частота обновлений - раз в час</li>
+                            <li>Неограниченное кол-во ссылок</li>
+                            <li>Тех. поддержка с 9:00 до 17:00, Пн.-Пт.</li>
+                            <li>Добавление новых сайтов - бесплатно</li>
+                            <li>Доступ в личный кабинет</li>
+                            <li>Доступ по API</li>
                         </ul>
-                        <a href="#" class="theme-btn purchase-btn">Purchase Now</a>
+                        <a href="#" class="theme-btn purchase-btn">Хочу этот тариф</a>
                     </div>
                 </div>
             </div>
@@ -610,20 +613,19 @@ $this->params['headerClass']="main-header";
                     <div class="price-header">
                         <div class="content">
                             <div class="plan-title">static</div>
-                            <span class="price"><span class="dollar-sign">₽</span><span class="total-amount"> 300 </span> <sup>.00</sup> <sub>/ month</sub></span>
+                            <span class="price"><span class="dollar-sign">₽</span><span class="total-amount"> 300 </span> <sup>.00</sup> <sub>/ месяц</sub></span>
                         </div>
                     </div>
                     <div class="lower-content">
                         <ul class="spec-list">
-                            <li>refrash - every day</li>
-                            <li>Sites count - unlimit</li>
-                            <li>Product count - unlimit</li>
-                            <li>Support - 24/7</li>
-                            <li>Add new sites - free</li>
-                            <li>Admin dashboard</li>
-                            <li>Access by API</li>
+                            <li>Мах. частота обновлений - раз в день</li>
+                            <li>Неограниченное кол-во ссылок</li>
+                            <li>Тех. поддержка с 9:00 до 17:00, Пн.-Пт.</li>
+                            <li>Добавление новых сайтов - бесплатно</li>
+                            <li>Доступ в личный кабинет</li>
+                            <li>Доступ по API</li>
                         </ul>
-                        <a href="#" class="theme-btn purchase-btn">Purchase Now</a>
+                        <a href="#" class="theme-btn purchase-btn">Хочу этот тариф</a>
                     </div>
                 </div>
             </div>
@@ -642,14 +644,14 @@ $this->params['headerClass']="main-header";
             
             <!--Form Column-->
             <div class="col-md-5 col-sm-12 col-xs-12">
-               <?= $this->render('/user/_signupForm',['model'=>$newUser]); ?>
+               <?= $this->render('/user/_signupForm',['model'=>$newUser,'autofocus'=>false]); ?>
             </div>
             
             <!--Content Column-->
             <div class="content-column col-md-7 col-sm-12 col-xs-12">
                 <div class="inner-content">
-                    <h2>Create your free account now and get immediate access to our service.</h2>
-                    <div class="dark-text">Qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram.</div>
+                    <h2><?= Yii::t('app','Create your free account now and get immediate access to our service'); ?></h2>
+                    <div class="dark-text">На время запуска сервиса, мы выпустили ограниченное количество предложений <span class="theme_color">"100% функционала - бесплатно - навсегда"</span></div>
                     
                 </div>
             </div>
@@ -665,12 +667,12 @@ $this->params['headerClass']="main-header";
   <div class="auto-container">
       <div class="row clearfix">
             <div class="col-md-8 col-sm-12 col-xs-12">
-                <h2>Sign up for our newsletter to get update</h2>
+                <h2><?= Yii::t('app','Sign up for our newsletter to get update'); ?></h2>
             </div>
             <div class="col-md-4 col-sm-12 col-xs-12">
                 <form method="post" action="contact.html">
                     <div class="form-group">
-                        <input type="email" name="email" value="" placeholder="Enter Your Email Here..." required>
+                        <input type="email" name="email" value="" placeholder="<?= Yii::t('app','Enter your E-mail'); ?> ..." required>
                         <button type="submit" class="theme-btn"><span class="icon flaticon-send-message-button"></span></button>
                     </div>
                 </form>

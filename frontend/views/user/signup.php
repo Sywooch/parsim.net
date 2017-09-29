@@ -36,9 +36,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="auto-container">
         <div class="row clearfix">
             
-             <!--Content Column-->
+            <!--Content Column-->
             <div class="content-column col-md-6 col-sm-12 col-xs-12">
-                
+                <div class="image">
+                    <img src="/images/resource/business-img.png" alt="">
+                </div>
             </div>
             
             <!--Content Column-->
@@ -46,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="register-content">
                     <h2>Регистрация</h2>
                     <div class="dark-text">When we first get to know you, we’ll immediately begin analyzing your website. We want to know everything we can about it.</div>
-                    <?= $this->render('_signupForm',['model'=>$model]); ?>
+                    <?= $this->render('_signupForm',['model'=>$model,'autofocus'=>true]); ?>
                 </div>
             </div>
             
