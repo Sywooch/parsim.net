@@ -21,7 +21,7 @@
         "2amigos/yii2-transliterator-helper": "*",
         "electrolinux/phpquery": "^0.9.6",
         "guzzlehttp/guzzle": "^6.3",
-        "kroshilin/yii2-yandex-kassa": "*",
+        "kroshilin/yii2-yandex-kassa": "^0.1.4",
         "comodojo/zip": "^2.1",
         "nterms/yii2-mailqueue": "^0.0.14"
     },

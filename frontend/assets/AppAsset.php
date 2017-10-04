@@ -16,6 +16,7 @@ class AppAsset extends AssetBundle
         'plugins/revolution/css/settings.css',
         'plugins/revolution/css/layers.css',
         'plugins/revolution/css/navigation.css',
+        'css/helpers.css',
         'css/style.css',
         'css/responsive.css',
     ];

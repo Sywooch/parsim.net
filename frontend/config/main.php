@@ -24,6 +24,7 @@ return [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'loginUrl'=>'/user/login'
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
@@ -56,6 +57,7 @@ return [
                 'api/<controller:\w+>/<alias:\w+>/'=>'api/<controller>/view',
                 'api/<controller:\w+>/'=>'api/<controller>/index',
                 
+
                 '<controller:\w+>/view/<alias:\w+>/'=>'<controller>/view',
                 '<controller:\w+>/'=>'<controller>/index',
                 '<controller:\w+>/<action:\w+>/'=>'<controller>/<action>',

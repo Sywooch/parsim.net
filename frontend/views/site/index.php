@@ -1,6 +1,7 @@
 <?php
 
 use common\models\SignupForm;
+use common\models\Tarif;
 
 
 $this->title = 'Parsim NET';
@@ -561,76 +562,9 @@ $this->params['headerClass']="main-header";
 <section class="price-section-two" id="pricing">
     <div class="auto-container">
         <div class="clearfix">
-            <!--Pricing Column-->
-            <div class="pricing-column-two col-md-4 col-sm-6 col-xs-12">
-                <div class="inner-box">
-                    <div class="price-header">
-                        <div class="content">
-                            <div class="plan-title"><span class="theme_color">100% Free Forever</span></div>
-                            <h4>Акция в честь запуска<br/></h4>
-                            <span class="last-offers theme_color">Всего предложений - 99 шт.</span>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <ul class="spec-list">
-                            <li>Частота обновлений - раз в день</li>
-                            <li>Неограниченное кол-во ссылок</li>
-                            <li>Тех. поддержка с 9:00 до 17:00, Пн.-Пт.</li>
-                            <li>Добавление новых сайтов - бесплатно</li>
-                            <li>Доступ в личный кабинет</li>
-                            <li>Доступ по API</li>
-                        </ul>
-                        <a href="#" class="theme-btn purchase-btn">Хочу этот тариф</a>
-                    </div>
-                </div>
-            </div>
-            <!--Pricing Column-->
-            <div class="pricing-column-two col-md-4 col-sm-6 col-xs-12">
-                <div class="inner-box">
-                    <div class="price-header">
-                        <div class="content">
-                            <div class="plan-title">dynamic</div>
-                            <span class="price"><span class="dollar-sign">₽</span><span class="total-amount"> 0 </span> <sup>.10</sup> <sub>/ обновление</sub></span>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <ul class="spec-list">
-                            <li>Мах. частота обновлений - раз в час</li>
-                            <li>Неограниченное кол-во ссылок</li>
-                            <li>Тех. поддержка с 9:00 до 17:00, Пн.-Пт.</li>
-                            <li>Добавление новых сайтов - бесплатно</li>
-                            <li>Доступ в личный кабинет</li>
-                            <li>Доступ по API</li>
-                        </ul>
-                        <a href="#" class="theme-btn purchase-btn">Хочу этот тариф</a>
-                    </div>
-                </div>
-            </div>
-            
-             <!--Pricing Column Two-->
-            <div class="pricing-column-two col-md-4 col-sm-6 col-xs-12">
-                <div class="inner-box">
-                    <div class="price-header">
-                        <div class="content">
-                            <div class="plan-title">static</div>
-                            <span class="price"><span class="dollar-sign">₽</span><span class="total-amount"> 300 </span> <sup>.00</sup> <sub>/ месяц</sub></span>
-                        </div>
-                    </div>
-                    <div class="lower-content">
-                        <ul class="spec-list">
-                            <li>Мах. частота обновлений - раз в день</li>
-                            <li>Неограниченное кол-во ссылок</li>
-                            <li>Тех. поддержка с 9:00 до 17:00, Пн.-Пт.</li>
-                            <li>Добавление новых сайтов - бесплатно</li>
-                            <li>Доступ в личный кабинет</li>
-                            <li>Доступ по API</li>
-                        </ul>
-                        <a href="#" class="theme-btn purchase-btn">Хочу этот тариф</a>
-                    </div>
-                </div>
-            </div>
-            
-            
+            <?php foreach (Tarif::findVisible() as $key => $tarif){
+                echo $this->render('_tarif',['model'=>$tarif]);
+            }?>
         </div>
     </div>
 </section>

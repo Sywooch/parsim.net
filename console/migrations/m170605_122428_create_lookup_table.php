@@ -33,6 +33,15 @@ class m170605_122428_create_lookup_table extends Migration
             ['Активный', 1, 'USER_STATUS',1],
             ['На проверке', 2, 'USER_STATUS', 2],
 
+            //Tarif type
+            ['Free', 0, 'TARIF_TYPE',0],
+            ['Cost per Action', 1, 'TARIF_TYPE',1],
+            ['Cost per Period', 2, 'TARIF_TYPE',3],
+
+            //Tarif status
+            ['Заблокирован', 0, 'TARIF_STATUS',0],
+            ['Активный', 1, 'TARIF_STATUS',1],
+
             //Category type
             ['Parser category', 0, 'CATEGORY_TYPE',0],
 

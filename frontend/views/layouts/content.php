@@ -176,7 +176,6 @@
                                   <div class="widget-content">
                                       <ul class="list">
                                           <li><a href="#">Товары & Услуги</a></li>
-                                          <li><a href="#">Поисковая выдача</a></li>
                                           <li><a href="#">Статьи & Новости</a></li>
                                           <li><a href="#">Соц. сети</a></li>
                                           <li><a href="#">Прочие ресурсы</a></li>
@@ -216,7 +215,7 @@
                                       <ul class="list-style-two">
                                           <li><span class="icon fa fa-map-marker"></span>Nilkhet Market,Dhanmondhi 09 Modhho Dhaka - 1210</li>
                                           <li><span class="icon fa fa-phone"></span>(880) 1723801729</li>
-                                          <li><span class="icon">@</span>seoboostinc@comapny.com</li>
+                                          <li><span class="icon">@</span><?= Yii::$app->params['contactEmail']; ?></li>
                                       </ul>
                                   </div>
                               </div>
