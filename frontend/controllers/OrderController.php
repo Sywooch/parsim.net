@@ -31,8 +31,8 @@ class OrderController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                    //'order-check' => ['post'],
-                    //'payment-notification' => ['post'],
+                    'order-check' => ['post'],
+                    'payment-notification' => ['post'],
                 ],
             ],
             'access' => [
@@ -52,7 +52,7 @@ class OrderController extends Controller
     public function actions()
     {
         return [
-            'order-check' => [
+            'check' => [
                 'class' => 'app\components\yakassa\actions\CheckOrderAction',
                 'beforeResponse' => function ($request) {
                     /**
