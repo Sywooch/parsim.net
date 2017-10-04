@@ -31,8 +31,8 @@ class OrderController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                    'order-check' => ['post'],
-                    'payment-notification' => ['post'],
+                    //'order-check' => ['post'],
+                    //'payment-notification' => ['post'],
                 ],
             ],
             'access' => [
