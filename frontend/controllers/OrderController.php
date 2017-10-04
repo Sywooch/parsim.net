@@ -31,8 +31,8 @@ class OrderController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                    'order-check' => ['post'],
-                    'payment-notification' => ['post'],
+                    'check' => ['POST'],
+                    'payment-notification' => ['POST'],
                 ],
             ],
             'access' => [
@@ -53,7 +53,7 @@ class OrderController extends Controller
     {
         return [
             'check' => [
-                'class' => 'app\components\yakassa\actions\CheckOrderAction',
+                'class' => 'kroshilin\yakassa\actions\CheckOrderAction',
                 'beforeResponse' => function ($request) {
                     /**
                      * @var \yii\web\Request $request
@@ -63,8 +63,8 @@ class OrderController extends Controller
                     return false;
                 }
             ],
-            'payment-notification' => [
-                'class' => 'app\components\yakassa\actions\PaymentAvisoAction',
+            'payment-aviso' => [
+                'class' => 'kroshilin\yakassa\actions\PaymentAvisoAction',
                 'beforeResponse' => function ($request) {
                     /**
                      * @var \yii\web\Request $request
@@ -91,25 +91,7 @@ class OrderController extends Controller
     }
 
 
-    /**
-     * Displays a single order model.
-     * @param integer $id
-     * @return mixed
-     */
-    /*
-    public function actionPay($id)
-    {
-        return $this->render('pay', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-    */
-
-    /**
-     * Creates a new order model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
+    
     public function actionPay($tarif)
     {
         $model = new order();
@@ -131,6 +113,18 @@ class OrderController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionSuccess()
+    {
+        return $this->render('success');
+    }
+
+    public function actionFail()
+    {
+        return $this->render('fail');
+    }
+
+    
 
     public function actionCreate()
     {
