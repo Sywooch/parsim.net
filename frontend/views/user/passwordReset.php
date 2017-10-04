@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]); ?>
                         <div class="row clearfix">
                           <div class="column col-md-9 col-sm-12 col-xs-12">
-                                <?php echo $form->field($model, 'password')->passwordInput(['autofocus' => true,'class'=>'','placeholder'=>Yii::t('app','Enter new password...')])->label(false); ?>
+                                <?php echo $form->field($model, 'password')->passwordInput(['autofocus' => true,'placeholder'=>Yii::t('app','Enter new password...')])->label(false); ?>
                             </div>
                         </div>
                         <div class="row clearfix">
