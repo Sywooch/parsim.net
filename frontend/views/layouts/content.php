@@ -82,7 +82,12 @@
                                 ['label'=>'API','url'=>['/api/index']],
                                 ['label'=>'Поддержка','url'=>'/support/index'],
                                 ['label'=>'Вход','url'=>User::getLoginUrl(),'visible'=>Yii::$app->user->isGuest],
-                                ['label'=>'Выход','url'=>User::getLogoutUrl(),'visible'=>!Yii::$app->user->isGuest],
+                                ['label'=>(Yii::$app->user->isGuest?'':Yii::$app->user->identity->fullName),'url'=>User::getLogoutUrl(),'visible'=>!Yii::$app->user->isGuest,'options'=>['class'=>'dropdown'],'items'=>[
+                                  ['label'=>'Настройки','url'=>User::getProfileUrl()],
+                                  ['label'=>'Мои URL','url'=>'#'],
+                                  ['label'=>'Оплата','url'=>'#'],
+                                  ['label'=>'Выход','url'=>User::getLogoutUrl()],
+                                ]],
                               ],
                               'options'=>['class'=>'navigation clearfix'],
                               'activeCssClass'=>'current'

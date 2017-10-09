@@ -4,6 +4,7 @@ namespace common\models\parsers;
 
 use Yii;
 use \phpQuery;
+use common\models\Parser;
 
 
 class SantehnikaOnlineRu extends ProductParser
@@ -15,23 +16,16 @@ class SantehnikaOnlineRu extends ProductParser
         return $this->$action;
     }
 
-    public function getAction()
-    {
-        
-        
-        return $this->defaultAction;
-    }
-
     //Parser actions
     public function getProductCard()
     {
         $html=file_get_contents($this->contentPath);
         $document=phpQuery::newDocumentHTML($html);
-        
-        $this->id=$document->find('span.property_value noindex')->text();
-        $this->name=$document->find('h1[itemprop="name"]')->text();
-        $this->price=trim(preg_replace('/\s+/', '', $document->find('div.newprice')->attr('data-price')));
-        $this->currency=$document->find('div.newprice span')->text();
+
+        $this->setId($document->find('span.property_value noindex')->text());
+        $this->setName($document->find('h1[itemprop="name"]')->text());
+        $this->setPrice(trim(preg_replace('/\s+/', '', $document->find('div.newprice')->attr('data-price'))));
+        $this->setCurrency($document->find('meta[itemprop="priceCurrency"]')->attr('content'));
 
         return $this->json;
 
@@ -42,10 +36,10 @@ class SantehnikaOnlineRu extends ProductParser
         $html=file_get_contents($this->contentPath);
         $document=phpQuery::newDocumentHTML($html);
 
-        $this->id=0;
-        $this->name='';
-        $this->price=0;
-        $this->currency='';
+        $this->id=null;
+        $this->name=null;
+        $this->price=null;
+        $this->currency=null;
 
         return $this->json;
     }

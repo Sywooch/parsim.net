@@ -18,6 +18,10 @@ use Yii;
  */
 class Loader extends \yii\db\ActiveRecord
 {
+    const TYPE_HTML_CLIENT = 0;
+    const TYPE_IMACROS = 1;
+    
+
     /**
      * @inheritdoc
      */

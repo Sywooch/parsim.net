@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use \phpQuery;
 
+use common\models\Parser;
 
 class BaseParser extends Model
 {
@@ -80,8 +81,25 @@ class BaseParser extends Model
         return $parser;
     }
 
+    /*
     public function getAction()
     {
+        return $this->defaultAction;
+    }
+    */
+    public function getAction()
+    {   
+        $className=end(explode('\\', self::className()));
+
+        $parser=Parser::findByClassName($className);
+        
+        $path=parse_url($this->url, PHP_URL_PATH);
+
+        foreach ($parser->actions as $key => $action){
+            if(preg_match($action->reg_exp,$path)){
+                return $action->category->name;
+            }
+        }
         return $this->defaultAction;
     }
 

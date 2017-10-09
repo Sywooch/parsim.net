@@ -25,16 +25,17 @@ class m170605_131113_create_tarif_table extends Migration
 
             'duration' => $this->string(32),
             'price'=>$this->float(),
+            'qty'=>$this->integer(),
             
             
         ], $tableOptions);
 
-        $this->batchInsert('{{%tarif}}', ['alias','name', 'type', 'status', 'duration', 'price'], [
+        $this->batchInsert('{{%tarif}}', ['alias','name', 'type', 'status', 'duration', 'price','qty'], [
             //User status
             //['','Demo', 0, 1, null,null],
-            ['free-forever','Free Forever', 0, 1, null,null],
-            ['pay-per-period','Per Month', 2, 1, '1 month',300],
-            ['pay-per-action','Per Action', 1, 1, null,0.1],
+            ['free-forever','Free Forever', 0, 1, null,null,1],
+            ['pay-per-period','Per Month', 2, 1, '1 month',300,null],
+            ['pay-per-action','Per Action', 1, 1, null,0.1,null],
         ]);
     }
 

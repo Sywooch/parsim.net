@@ -51,8 +51,8 @@ class m170823_081239_create_category_table extends Migration
         $this->batchInsert('{{%category}}', ['id','parent_id', 'type', 'alias','name','path'], [
             //Parser category
             [1,null,0,'parser-category','Parser category','/parser-category'],
-            [2,1,0,'product-list','Product list','/parser-category/product-list'],
-            [3,1,0,'product-card','Product card','/parser-category/product-card'],
+            [2,1,0,'product-list','ProductList','/parser-category/product-list'],
+            [3,1,0,'product-card','ProductCard','/parser-category/product-card'],
         ]);
     
         $this->execute('ALTER SEQUENCE category_id_seq RESTART WITH 4');

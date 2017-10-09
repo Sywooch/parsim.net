@@ -4,11 +4,11 @@ namespace common\models\parsers;
 
 use Yii;
 use \phpQuery;
+
 use common\models\Parser;
 
-class CenterSantehnikiRu extends ProductParser
+class AquadomRu extends ProductParser
 {
-    
     
     
     public function run()
@@ -22,21 +22,18 @@ class CenterSantehnikiRu extends ProductParser
     {
         $html=file_get_contents($this->contentPath);
         $document=phpQuery::newDocumentHTML($html);
+
+        $price=phpQuery::newDocumentHTML($document->find('.table-product1 span.price')->html());
+
+        $currency=$price->find('span.currency')->text();
+        $price->find('span.currency')->remove();
         
-        $price=phpQuery::newDocumentHTML($document->find('span.product-price-item')->html());
 
-        $currency=$price->find('span')->text();
-        $price->find('span')->remove();
-        $price->find('.old-price.item_old_price')->remove();
-
+       
         $this->setId('n/a');
-        $this->setName($document->find('h1.page-gray-title')->text());
+        $this->setName($document->find('.product-info2 h1')->text());
         $this->setPrice(trim(preg_replace('/\s+/', '', $price->text())));
-
         $this->setCurrency($currency);
-        //$this->setCurrency('руб.');
-
-        
 
         return $this->json;
     }

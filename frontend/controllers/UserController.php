@@ -109,6 +109,13 @@ class UserController extends Controller
         ]);
     }
 
+    public function actionProfile()
+    {
+        return $this->render('profile', [
+            'model' => Yii::$app->user->identity,
+        ]);
+    }
+
     public function goToLoginForm()
     {
         return Yii::$app->getResponse()->redirect(User::getLoginUrl());   

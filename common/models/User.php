@@ -385,7 +385,7 @@ class User extends ActiveRecord implements IdentityInterface
     public static function getPasswordRecoveryUrl(){
         return Yii::$app->urlManager->createUrl('user/password-reset-request');
     }
-    public  function getProfileUrl(){
+    public static function getProfileUrl(){
         $url=Yii::$app->urlManager->createUrl('user/profile');
         return $url;
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\assets\project;
+namespace backend\assets\parser;
 
 use yii\web\AssetBundle;
 
@@ -15,8 +15,10 @@ class FormAsset extends AssetBundle
         
     ];
     public $js = [
-        //'js/plugins/editors/summernote/summernote.min.js',
-        //'js/views/orgunit/_form.js'
+        '/js/plugins/forms/styling/uniform.min.js',
+        'js/plugins/forms/selects/bootstrap_multiselect.js',
+        'js/plugins/forms/selects/select2.min.js',
+        'js/views/parser/_form.js'
     ];
     public $depends = [
         'backend\assets\AppAsset',

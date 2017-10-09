@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "parser_action".
@@ -35,13 +36,11 @@ class ParserAction extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parser_id', 'category_id', 'name', 'reg_exp'], 'required'],
-            [['parser_id', 'category_id', 'order_num', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'reg_exp'], 'string', 'max' => 512],
+            [['parser_id', 'category_id','reg_exp'], 'required'],
+            [['parser_id', 'category_id', 'order_num', 'status'], 'integer'],
+            [['reg_exp'], 'string', 'max' => 512],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['parser_id'], 'exist', 'skipOnError' => true, 'targetClass' => Parser::className(), 'targetAttribute' => ['parser_id' => 'id']],
-            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
-            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
         ];
     }
 
@@ -55,7 +54,6 @@ class ParserAction extends \yii\db\ActiveRecord
             'parser_id' => Yii::t('app', 'Parser ID'),
             'category_id' => Yii::t('app', 'Category ID'),
             'order_num' => Yii::t('app', 'Order Num'),
-            'name' => Yii::t('app', 'Name'),
             'reg_exp' => Yii::t('app', 'Reg Exp'),
             'status' => Yii::t('app', 'Status'),
             'created_by' => Yii::t('app', 'Created By'),
@@ -64,4 +62,34 @@ class ParserAction extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
+
+    //=========================================================
+    //
+    // Блок relations
+    //
+    //=========================================================
+    public function getCategory()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'category_id']);
+    }
+
+
+    //=========================================================
+    //
+    // Блок атрибутов
+    //
+    //=========================================================
+    public function getStatusName(){
+        return Lookup::item('PARSER_STATUS',$this->status);
+    }
+    public function getStatusList(){
+        return Lookup::items('PARSER_STATUS');
+    }
+
+
+    public function getCategoryList(){
+        return ArrayHelper::map(Category::find()->where(['parent_id'=>1])->all(),'id','name');
+    }
+
+    
 }

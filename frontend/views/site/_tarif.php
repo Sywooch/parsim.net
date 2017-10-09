@@ -14,7 +14,7 @@
                 <div class="plan-title"><span class="theme_color"><?= $promoName[$model->alias]; ?></span></div>
                 <?php if($model->alias=='free-forever'): ?>
                     <h4>Акция в честь запуска<br/></h4>
-                    <span class="last-offers theme_color">Всего предложений - 99 шт.</span>
+                    <span class="last-offers theme_color">Всего предложений - <?= $model->AvailableQty; ?> шт.</span>
                 <?php elseif($model->alias=='pay-per-period'): ?>
                     <span class="price"><span class="dollar-sign">₽</span><span class="total-amount"> 300 </span> <sup>.00</sup> <sub>/ месяц</sub></span>
                 <?php elseif($model->alias=='pay-per-action'): ?>

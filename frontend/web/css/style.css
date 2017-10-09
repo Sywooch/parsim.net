@@ -263,6 +263,26 @@ ul,li{
 	border-color:#18254f;
 }
 
+/*Btn Style Four*/
+
+.btn-style-five{
+	position:relative;
+	padding:11px 40px;
+	line-height:24px;
+	color:#13192d;
+	font-size:14px;
+	font-weight:600;
+	background:transparent;
+	text-transform:uppercase;
+	border:2px solid #18254f;
+}
+
+.btn-style-five:hover{
+	color:#ffffff;
+	background:#18254f;
+	border-color:#18254f;
+}
+
 /*Social Icon One*/
 
 .social-icon-one{
@@ -4057,7 +4077,7 @@ section .form-group{
 
 .blog-cat li:last-child a{
 	border:0px;
-	padding-bottom:0px;
+	/*padding-bottom:0px;*/
 }
 
 .blog-cat li a span{
@@ -6046,12 +6066,67 @@ section .form-group{
 }
 
 
-.form-group input[type="submit"],
+/*.form-group input[type="submit"],
 .form-group button,
 .form-group a.theme-btn{
 	margin-top: 15px;
 }
+*/
 
+.sidebar-widget .nav-pills li a{
+	border-radius: 0px;
+}
 
+.sidebar-widget .nav-pills li.active a{
+	border-radius: 0px;
+	background-color: #fff;
+	color: #000;
+	border: 2px solid #000;
+}
 
+.tab-pane h2 {
+    font-size: 32px;
+    color: #000000;
+    font-weight: 600;
+    line-height: 1.4em;
+}
+
+.tab-pane p{
+	font-size: 16px;
+  font-weight: 400;
+}
+
+.tab-pane ul li{
+	margin-left: 40px;
+	list-style:square outside;
+	font-size: 16px;
+  font-weight: 400;
+}
+
+.type {
+    font-family: "Source Sans Pro", sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    display: inline-block;
+    margin: 20px 0 5px 0;
+    padding: 4px 5px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    background-color: #3387CC;
+    color: #ffffff;
+}
+
+.type__post {
+    background-color: #4070ec;
+}
+
+.type__delete {
+    background-color: #ed0039;
+}
+.type__get {
+    background-color: green;
+}
+.type__put {
+    background-color: #e5c500;
+}
 

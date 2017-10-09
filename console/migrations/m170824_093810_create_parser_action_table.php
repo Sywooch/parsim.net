@@ -20,15 +20,10 @@ class m170824_093810_create_parser_action_table extends Migration
 
             'order_num'=>$this->integer()->notNull()->defaultValue(0),
             
-            'name' => $this->string(512)->notNull(),
             'reg_exp' => $this->string(512)->notNull(),
 
             'status' => $this->integer()->notNull()->defaultValue(0),
-
-            'created_by' => $this->integer()->notNull()->defaultValue(1),
-            'updated_by' => $this->integer()->notNull()->defaultValue(1),
-            'created_at' => $this->integer()->notNull()->defaultValue(0),
-            'updated_at' => $this->integer()->notNull()->defaultValue(0),
+            
         ], $tableOptions);
 
         // creates index for column `parser_id`
@@ -63,51 +58,18 @@ class m170824_093810_create_parser_action_table extends Migration
             '{{%category}}',
             'id',
             'CASCADE'
-        );   
-
-        // creates index for column `created_by`
-        $this->createIndex(
-            'fki-parser-action-created-by',
-            '{{%parser_action}}',
-            'created_by'
         );
         
-        // add foreign key for table `user`
-        $this->addForeignKey(
-            'fk-parser-action-created-by',
-            '{{%parser_action}}',
-            'created_by',
-            '{{%user}}',
-            'id',
-            'CASCADE'
-        );
-
-        // creates index for column `updated_by`
-        $this->createIndex(
-            'fki-parser-action-updated-by',
-            '{{%parser_action}}',
-            'updated_by'
-        );
-        // add foreign key for table `user`
-        $this->addForeignKey(
-            'fk-parser-actions-updated-by',
-            '{{%parser_action}}',
-            'updated_by',
-            '{{%user}}',
-            'id',
-            'CASCADE'
-        );
-
-        $this->batchInsert('{{%parser_action}}', ['parser_id', 'category_id', 'name', 'reg_exp','order_num'], [
+        $this->batchInsert('{{%parser_action}}', ['parser_id', 'category_id','reg_exp','order_num'], [
             //DushevoiRu status
-            [1,2,'productList', '/\bproducts\b/i',0],
-            [1,3,'productCard', '/(\bproducts\b)?(\b-ware\b)/i',1],
+            [1,2, '/^(?>(?!ware).)*$/',0],
+            [1,3, '/-ware[\/]{0,}$/i',1],
             //CenterSantehnikiRu
-            [2,2,'productList', '111',0],
-            [2,3,'productCard', '222',1],
+            [2,2, '/^\/catalog(\/[\w-]+){1,2}[\/]?$/i',0],
+            [2,3, '/^\/catalog(\/[\w-]+){3}[\/]?$/i',1],
             //SantehnikaOnlineRu
-            [3,2,'productList', '111',0],
-            [3,3,'productCard', '222',1],
+            [3,2, '/^(?>(?!product).)*$/',0],
+            [3,3, '/^\/product/',1],
         ]);
 
     }

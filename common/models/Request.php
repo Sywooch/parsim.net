@@ -4,6 +4,8 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use common\models\parsers\BaseParser;
+
 
 /**
  * This is the model class for table "request".
@@ -177,7 +179,17 @@ class Request extends \yii\db\ActiveRecord
 
         }else{
 
+            //Регистрирую ошибку 
             $this->regError(Error::CODE_PARSER_NOT_FOUND,'Не найден парсер для хоста '.$host);
+
+            //Создаю черновик парсера
+            $parser=new Parser();
+            $parser->host=$host;
+            $parser->loader_type=Loader::TYPE_HTML_CLIENT;
+            $parser->class_name=BaseParser::url2ClassName($this->request_url);
+            $parser->status=Parser::STATUS_FIXING;
+            $parser->save();
+
             return false;
         }
     }

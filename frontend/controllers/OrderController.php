@@ -37,10 +37,10 @@ class OrderController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create','pay'],
+                'only' => ['create','pay','gift'],
                 'rules' => [
                     [
-                        'actions' => ['create','pay'],
+                        'actions' => ['create','pay','gift'],
                         'allow' => true,
                         'roles' => ['@'],
                     ]
@@ -91,7 +91,29 @@ class OrderController extends Controller
     }
 
 
+    public function actionGift($tarif)
+    {
+
+        $tarif=Tarif::findOne(['alias'=>$tarif]);
+        if(isset($tarif->availableQty) && $tarif->availableQty>0){
+            $user=Yii::$app->user->identity;
+            $user->tarif_id=$tarif->id;    
+            if($user->save()){
+                return $this->render('gift',['model'=>$tarif]);    
+            }else{
+                throw new NotFoundHttpException('Ошибка подключения тарифа.');
+            }
+        }else{
+            return $this->render('unAvailable',['model'=>$tarif]);    
+        }
+        
+        
+        
+        
     
+    }
+
+
     public function actionPay($tarif)
     {
         $model = new order();
@@ -104,6 +126,7 @@ class OrderController extends Controller
             $model->amount=1000;
             $model->qty=$model->amount/$tarif->price;
         }
+
         if($tarif->type==Tarif::STATUS_COST_PER_PERIOD){
             $model->qty=2;
             $model->amount=$tarif->price*$model->qty;

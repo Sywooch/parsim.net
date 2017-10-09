@@ -130,6 +130,8 @@ class Response extends \yii\db\ActiveRecord
             {
                 
             }
+
+            unlink($this->contentPath);
         }
 
         return $result;

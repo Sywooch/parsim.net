@@ -93,6 +93,15 @@ class Tarif extends \yii\db\ActiveRecord
         return $this->visible==1?true:false;
     }
 
+    public function getAvailableQty()
+    {
+        if(isset($this->qty)){
+            $utilization=count(User::find()->where(['tarif_id'=>$this->id])->all());
+            return $this->qty-$utilization;
+        }
+        return null;
+    }
+
     
     //=========================================================
     //
@@ -101,6 +110,9 @@ class Tarif extends \yii\db\ActiveRecord
     //=========================================================
     public function getOrderUrl()
     {
+        if($this->type==self::TYPE_FREE){
+            return Yii::$app->urlManager->createUrl(['order/gift','tarif'=>$this->alias]);
+        }
         return Yii::$app->urlManager->createUrl(['order/pay','tarif'=>$this->alias]);
     }
 }

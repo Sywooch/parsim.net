@@ -563,7 +563,10 @@ $this->params['headerClass']="main-header";
     <div class="auto-container">
         <div class="clearfix">
             <?php foreach (Tarif::findVisible() as $key => $tarif){
-                echo $this->render('_tarif',['model'=>$tarif]);
+                
+                echo $this->render('_tarif',['model'=>$tarif]);    
+                
+                
             }?>
         </div>
     </div>
