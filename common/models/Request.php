@@ -113,7 +113,7 @@ class Request extends \yii\db\ActiveRecord
             return false;
         }
 
-        $this->ip=Yii::$app->request->userIP;
+        //$this->ip=Yii::$app->request->userIP;
         $this->created_by=Yii::$app->user->id;
         $this->updated_by=Yii::$app->user->id;
 
