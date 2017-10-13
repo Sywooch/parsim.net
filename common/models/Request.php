@@ -66,11 +66,11 @@ class Request extends \yii\db\ActiveRecord
             
             ['response_email', 'required', 'on' => self::SCENARIO_DEMO],
 
+            /*
             ['response_url', 'required', 'when' => function($model) {
                 return !isset($model->response_email);
             }],
-
-            
+            */
 
             [['response_id', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['alias'], 'string', 'max' => 16],
@@ -112,6 +112,10 @@ class Request extends \yii\db\ActiveRecord
         if (!parent::beforeSave($insert)) {
             return false;
         }
+
+        $this->ip=Yii::$app->request->userIP;
+        $this->created_by=Yii::$app->user->id;
+        $this->updated_by=Yii::$app->user->id;
 
         if($this->scenario==self::SCENARIO_DEMO){
             $this->sleep_time=null; //Запросы созданные в демо режиме не актуализируются

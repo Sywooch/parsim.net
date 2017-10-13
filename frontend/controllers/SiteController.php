@@ -123,7 +123,7 @@ class SiteController extends Controller
                 }
                 
             }
-            $request->ip=Yii::$app->request->userIP;
+            
             if($request->save()){
                 Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Ваш запрос взят в работу! <br/>Подробности отправлены на Ваш E-mail.'));
             }else{

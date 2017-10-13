@@ -10,19 +10,19 @@ use yii\filters\AccessControl;
 use frontend\models\ContactForm;
 
 
+
 /**
  * Site controller
  */
 class RequestController extends Controller
 {
     
-    
     /**
      * Displays homepage.
      *
      * @return mixed
      */
-    public function actionView($alias)
+    public function actionView($id)
     {
         return $this->render('view',[
         ]);

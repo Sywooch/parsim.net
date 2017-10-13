@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 use common\models\User;
 
@@ -11,6 +12,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 //$this->params['htmlClass']="cover";
 //$this->params['bodyClass']="login";
+$key='{key}';
+if(!Yii::$app->user->isGuest){
+    $key=Yii::$app->user->identity->auth_key; 
+}
 
 ?>
 
@@ -78,48 +83,52 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?php endif; ?>    
                         </div> 
                         
-                        <div class="tab-pane fade" role="tabpanel" id="api-test" aria-labelledby="api-test-tab">
-                            <h2>Тестирование запросов</h2>
-                        </div>
+                        
                         <div class="tab-pane fade" role="tabpanel" id="create-request" aria-labelledby="create-request-tab">
-                            <h2>Добавление URL для парсинга</h2>
+                            <h2>Добавление URL</h2>
+                             <p>с помощью этого сервиса Вы можете добавлять новые страницы для парсинга</p>
                             <span class="type type__post">post</span>
-                            <pre class="prettyprint language-html prettyprinted" data-type="post" style=""><code><span class="pln">https://parsim.net/api/request/create?key={key}</span></code></pre>
+                            <pre class="prettyprint language-html prettyprinted" data-type="post" style=""><code><span class="pln"><?= Url::base(true); ?>/api/request/create?key=<?= $key; ?></span></code></pre>
                             <h2 class="mt-20">Параметры запрса</h2>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
-                                      <tr>
-                                        <th style="width: 15%">Название</th>
-                                        <th style="width: 15%">Тип</th>
-                                        <th style="width: 70%">Описание</th>
-                                      </tr>
+                                        <tr>
+                                            <th style="width: 15%">Название</th>
+                                            <th style="width: 15%">Тип</th>
+                                            <th style="width: 70%">Описание</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                      <tr>
-                                        <td>url</td>
-                                        <td>Строка</td>
-                                        <td>Целевой URL для парсинга</td>
-                                      </tr>
-                                      <tr>
-                                        <td>avisoUrl</td>
-                                        <td>Строка</td>
-                                        <td>URL для ответа</td>
-                                      </tr>
-                                      <tr>
-                                        <td>avisoEmail</td>
-                                        <td>Строка</td>
-                                        <td>E-mail для ответа</td>
-                                      </tr>
-                                      <tr>
-                                        <td>frequency</td>
-                                        <td>целое число</td>
-                                        <td>Частота обновления информации в сутки. Значение 1 соответствует 1 раз в сутки. Максимально возможное значение 24, что соответствует 1 раз в час. Частота обновлений также зависит от действующего тарифа. </td>
-                                      </tr>
+                                        <tr>
+                                            <td>key</td>
+                                            <td>Строка</td>
+                                            <td>Ваш API Key</td>
+                                        </tr>
+                                        <tr>
+                                            <td>url</td>
+                                            <td>Строка</td>
+                                            <td>Целевой URL для парсинга</td>
+                                        </tr>
+                                        <tr>
+                                            <td>avisoUrl</td>
+                                            <td>Строка</td>
+                                            <td>URL для ответа</td>
+                                        </tr>
+                                        <tr>
+                                            <td>avisoEmail</td>
+                                            <td>Строка</td>
+                                            <td>E-mail для ответа</td>
+                                        </tr>
+                                        <tr>
+                                            <td>frequency</td>
+                                            <td>целое число</td>
+                                            <td>Частота обновления информации в сутки. Значение 1 соответствует 1 раз в сутки. Максимально возможное значение 24, что соответствует 1 раз в час. Частота обновлений также зависит от действующего тарифа. </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 <h2 class="mt-20">Success</h2>
-                                <p>В случае успешной регистрации запроса парсинга URL, API вернет ответ в формате JSON, который будет содержать следущие аттрибуты</p>
+                                <p>В случае успешной выполнения, API вернет ответ в формате JSON, который будет содержать следущие значения</p>
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
@@ -130,16 +139,21 @@ $this->params['breadcrumbs'][] = $this->title;
                                           </tr>
                                         </thead>
                                         <tbody>
-                                          <tr>
-                                            <td>id</td>
-                                            <td>Строка</td>
-                                            <td>ID запроса. Его следует использовать для ручного запроса результатов парсинга</td>
-                                          </tr>
+                                            <tr>
+                                                <td>status</td>
+                                                <td>Строка</td>
+                                                <td>success</td>
+                                              </tr>
+                                              <tr>
+                                                <td>id</td>
+                                                <td>Строка</td>
+                                                <td>ID запроса. Его следует использовать для ручного запроса результатов парсинга</td>
+                                              </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <h2 class="mt-20">Fail</h2>
-                                <p>В случае, если регистрация запроса на парсинг URL не удалась, API вернет ответ в формате JSON, который будет содержать следущие аттрибуты</p>
+                                <p>Если в ходе выполнения произошла ошибка, API вернет код ошибки и ее описание в JSON формате.</p>
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
@@ -151,46 +165,76 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </thead>
                                         <tbody>
                                           <tr>
-                                            <td>id</td>
+                                            <td>status</td>
                                             <td>Строка</td>
-                                            <td>ID запроса. Его следует использовать для ручного запроса результатов парсинга</td>
+                                            <td>fail</td>
+                                          </tr>
+                                          <tr>
+                                            <td>code</td>
+                                            <td>целое число</td>
+                                            <td>Код ошибки</td>
+                                          </tr>
+                                          <tr>
+                                            <td>description</td>
+                                            <td>строка</td>
+                                            <td>Описание ошибки</td>
                                           </tr>
                                         </tbody>
                                     </table>
                                 </div>
+
+                                <h3 class="mt-30 ">Пример обращения.</h3>
+                                <pre class="prettyprint language-html prettyprinted" data-type="post" style=""><code><span class="pln">curl -d "url={url}" -X POST <?= Url::base(true); ?>/api/request?key=<?= $key; ?></code></pre>
+                                <p>
+                                    вместо <code>{url}</code> укажите URL, который хотите парсить (обязательный параметр)<br/>
+                                    <?php if(Yii::$app->user->isGuest): ?>
+                                    вместо <code>{key}</code> укажите Ваш API Key<br/>
+                                    <?php endif; ?>
+                                </p>
                             </div>
                         </div>
 
                         <div class="tab-pane fade" role="tabpanel" id="update-request" aria-labelledby="update-request-tab">
                             <h2>Изменение запроса парсинга</h2>
+                            <p>с помощью этого сервиса Вы можете скорректирвать параметры ранее созданного запроса</p>
                             <span class="type type__put">put</span>
-                            <pre class="prettyprint language-html prettyprinted" data-type="post" style=""><code><span class="pln">https://parsim.net/api/request/{request_id}?key={key}</span></code></pre>
+                            <pre class="prettyprint language-html prettyprinted" data-type="post" style=""><code><span class="pln"><?= Url::base(true); ?>/api/request/{request_id}?key=<?= $key; ?></span></code></pre>
                             <h2 class="mt-20">Параметры запрса</h2>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
-                                      <tr>
-                                        <th style="width: 15%">Название</th>
-                                        <th style="width: 15%">Тип</th>
-                                        <th style="width: 70%">Описание</th>
-                                      </tr>
+                                        <tr>
+                                            <th style="width: 15%">Название</th>
+                                            <th style="width: 15%">Тип</th>
+                                            <th style="width: 70%">Описание</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                      <tr>
-                                        <td>avisoUrl</td>
-                                        <td>Строка</td>
-                                        <td>URL для ответа</td>
-                                      </tr>
-                                      <tr>
-                                        <td>avisoEmail</td>
-                                        <td>Строка</td>
-                                        <td>E-mail для ответа</td>
-                                      </tr>
-                                      <tr>
-                                        <td>frequency</td>
-                                        <td>целое число</td>
-                                        <td>Частота обновления информации в сутки. Значение 1 соответствует 1 раз в сутки. Максимально возможное значение 24, что соответствует 1 раз в час. Частота обновлений также зависит от действующего тарифа. </td>
-                                      </tr>
+                                        <tr>
+                                            <td>key</td>
+                                            <td>Строка</td>
+                                            <td>Ваш API Key</td>
+                                        </tr>
+                                        <tr>
+                                            <td>request_id</td>
+                                            <td>Строка</td>
+                                            <td>ID запроса, который хотите изменить</td>
+                                        </tr>
+                                        <tr>
+                                            <td>avisoUrl</td>
+                                            <td>Строка</td>
+                                            <td>Новое значение URL для ответа</td>
+                                        </tr>
+                                        <tr>
+                                            <td>avisoEmail</td>
+                                            <td>Строка</td>
+                                            <td>Новое значение E-mail для ответа</td>
+                                        </tr>
+                                        <tr>
+                                            <td>frequency</td>
+                                            <td>целое число</td>
+                                            <td>Новое значение частоты обновления информации в сутки. Значение 1 соответствует 1 раз в сутки. Максимально возможное значение 24, что соответствует 1 раз в час. Частота обновлений также зависит от действующего тарифа. </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 <h2 class="mt-20">Success</h2>
@@ -225,52 +269,57 @@ $this->params['breadcrumbs'][] = $this->title;
                                           </tr>
                                         </thead>
                                         <tbody>
-                                          <tr>
-                                            <td>id</td>
-                                            <td>Строка</td>
-                                            <td>ID запроса. Его следует использовать для ручного запроса результатов парсинга</td>
+                                            <tr>
+                                                <td>key</td>
+                                                <td>Строка</td>
+                                                <td>Ваш API Key</td>
+                                            </tr>
+                                            <tr>
+                                                <td>id</td>
+                                                <td>Строка</td>
+                                                <td>ID запроса. Его следует использовать для ручного запроса результатов парсинга</td>
                                           </tr>
                                         </tbody>
                                     </table>
                                 </div>
+
+                                <h3 class="mt-30 ">Пример обращения.</h3>
+                                <pre class="prettyprint language-html prettyprinted" data-type="post" style=""><code><span class="pln">curl -X PUT <?= Url::base(true); ?>/api/request/{request_id}?key=<?= $key; ?></span></code></pre>
+                                <p>
+                                    вместо <code>{request_id}</code> укажите ID запроса, который получили во время регистрации<br/>
+                                    <?php if(Yii::$app->user->isGuest): ?>
+                                    вместо <code>{key}</code> укажите Ваш API Key<br/>
+                                    <?php endif; ?>
+                                </p>
                             </div>
                         </div>
 
                         <div class="tab-pane fade" role="tabpanel" id="delete-request" aria-labelledby="delete-request-tab">
-                            <h2>Удаление URL для парсинга</h2>
+                            <h2>Удаление URL</h2>
+                            <p>с помощью этого сервиса Вы можете удалить ранее созданный запрос</p>
                             <span class="type type__delete">Delete</span>
-                            <pre class="prettyprint language-html prettyprinted" data-type="post" style=""><code><span class="pln">https://parsim.net/api/request/{request_id}?key={key}</span></code></pre>
+                            <pre class="prettyprint language-html prettyprinted" data-type="post" style=""><code><span class="pln"><?= Url::base(true); ?>/api/request/{request_id}?key=<?= $key; ?></span></code></pre>
                             <h2 class="mt-20">Параметры запрса</h2>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
-                                      <tr>
-                                        <th style="width: 15%">Название</th>
-                                        <th style="width: 15%">Тип</th>
-                                        <th style="width: 70%">Описание</th>
-                                      </tr>
+                                        <tr>
+                                            <th style="width: 15%">Название</th>
+                                            <th style="width: 15%">Тип</th>
+                                            <th style="width: 70%">Описание</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                      <tr>
-                                        <td>url</td>
-                                        <td>Строка</td>
-                                        <td>Целевой URL для парсинга</td>
-                                      </tr>
-                                      <tr>
-                                        <td>avisoUrl</td>
-                                        <td>Строка</td>
-                                        <td>URL для ответа</td>
-                                      </tr>
-                                      <tr>
-                                        <td>avisoEmail</td>
-                                        <td>Строка</td>
-                                        <td>E-mail для ответа</td>
-                                      </tr>
-                                      <tr>
-                                        <td>frequency</td>
-                                        <td>целое число</td>
-                                        <td>Частота обновления информации в сутки. Значение 1 соответствует 1 раз в сутки. Максимально возможное значение 24, что соответствует 1 раз в час. Частота обновлений также зависит от действующего тарифа. </td>
-                                      </tr>
+                                        <tr>
+                                            <td>key</td>
+                                            <td>Строка</td>
+                                            <td>Ваш API Key</td>
+                                        </tr>
+                                        <tr>
+                                            <td>request_id</td>
+                                            <td>Строка</td>
+                                            <td>ID запроса, который хотите удалить</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 <h2 class="mt-20">Success</h2>
@@ -278,18 +327,18 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
-                                          <tr>
-                                            <th style="width: 15%">Название</th>
-                                            <th style="width: 15%">Тип</th>
-                                            <th style="width: 70%">Описание</th>
-                                          </tr>
+                                            <tr>
+                                                <th style="width: 15%">Название</th>
+                                                <th style="width: 15%">Тип</th>
+                                                <th style="width: 70%">Описание</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                          <tr>
-                                            <td>id</td>
-                                            <td>Строка</td>
-                                            <td>ID запроса. Его следует использовать для ручного запроса результатов парсинга</td>
-                                          </tr>
+                                            <tr>
+                                                <td>request_id</td>
+                                                <td>Строка</td>
+                                                <td>ID запроса. Его следует использовать для ручного запроса результатов парсинга</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -298,59 +347,58 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
-                                          <tr>
-                                            <th style="width: 15%">Название</th>
-                                            <th style="width: 15%">Тип</th>
-                                            <th style="width: 70%">Описание</th>
-                                          </tr>
+                                            <tr>
+                                                <th style="width: 15%">Название</th>
+                                                <th style="width: 15%">Тип</th>
+                                                <th style="width: 70%">Описание</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                          <tr>
-                                            <td>id</td>
-                                            <td>Строка</td>
-                                            <td>ID запроса. Его следует использовать для ручного запроса результатов парсинга</td>
-                                          </tr>
+                                            <tr>
+                                                <td>request_id</td>
+                                                <td>Строка</td>
+                                                <td>ID запроса. Его следует использовать для ручного запроса результатов парсинга</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
+                                <h3 class="mt-30 ">Пример обращения.</h3>
+                                <pre class="prettyprint language-html prettyprinted" data-type="post" style=""><code><span class="pln">curl -X DELETE <?= Url::base(true); ?>/api/request/{request_id}?key=<?= $key; ?></span></code></pre>
+                                <p>
+                                    вместо <code>{request_id}</code> укажите ID запроса, который получили во время регистрации<br/>
+                                    <?php if(Yii::$app->user->isGuest): ?>
+                                    вместо <code>{key}</code> укажите Ваш API Key<br/>
+                                    <?php endif; ?>
+                                </p>
                             </div>
                         </div>
 
                         <div class="tab-pane fade" role="tabpanel" id="view-request" aria-labelledby="view-request-tab">
                             <h2>Запрос результата парсинга</h2>
+                            <p>с помощью этого сервиса Вы можете запросить резулльтат парсинга по ранее созданному запросу</p>
                             <span class="type type__get">GET</span>
-                            <pre class="prettyprint language-html prettyprinted" data-type="post" style=""><code><span class="pln">https://parsim.net/api/request/{request_id}?key={key}</span></code></pre>
+                            <pre class="prettyprint language-html prettyprinted" data-type="post" style=""><code><span class="pln"><?= Url::base(true); ?>/api/request/{request_id}?key=<?= $key; ?></span></code></pre>
                             <h2 class="mt-20">Параметры запрса</h2>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
-                                      <tr>
-                                        <th style="width: 15%">Название</th>
-                                        <th style="width: 15%">Тип</th>
-                                        <th style="width: 70%">Описание</th>
-                                      </tr>
+                                        <tr>
+                                            <th style="width: 15%">Название</th>
+                                            <th style="width: 15%">Тип</th>
+                                            <th style="width: 70%">Описание</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                      <tr>
-                                        <td>url</td>
-                                        <td>Строка</td>
-                                        <td>Целевой URL для парсинга</td>
-                                      </tr>
-                                      <tr>
-                                        <td>avisoUrl</td>
-                                        <td>Строка</td>
-                                        <td>URL для ответа</td>
-                                      </tr>
-                                      <tr>
-                                        <td>avisoEmail</td>
-                                        <td>Строка</td>
-                                        <td>E-mail для ответа</td>
-                                      </tr>
-                                      <tr>
-                                        <td>frequency</td>
-                                        <td>целое число</td>
-                                        <td>Частота обновления информации в сутки. Значение 1 соответствует 1 раз в сутки. Максимально возможное значение 24, что соответствует 1 раз в час. Частота обновлений также зависит от действующего тарифа. </td>
-                                      </tr>
+                                        <tr>
+                                            <td>key</td>
+                                            <td>Строка</td>
+                                            <td>Ваш API Key</td>
+                                        </tr>
+                                        <tr>
+                                            <td>request_id</td>
+                                            <td>Строка</td>
+                                            <td>ID запроса, по которому Вы хотите получить результат парсинга</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 <h2 class="mt-20">Success</h2>
@@ -358,17 +406,17 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
-                                          <tr>
-                                            <th style="width: 15%">Название</th>
-                                            <th style="width: 15%">Тип</th>
-                                            <th style="width: 70%">Описание</th>
-                                          </tr>
+                                            <tr>
+                                                <th style="width: 15%">Название</th>
+                                                <th style="width: 15%">Тип</th>
+                                                <th style="width: 70%">Описание</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                          <tr>
-                                            <td>id</td>
-                                            <td>Строка</td>
-                                            <td>ID запроса. Его следует использовать для ручного запроса результатов парсинга</td>
+                                            <tr>
+                                                <td>request_id</td>
+                                                <td>Строка</td>
+                                                <td>ID запроса. Его следует использовать для ручного запроса результатов парсинга</td>
                                           </tr>
                                         </tbody>
                                     </table>
@@ -378,28 +426,37 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
-                                          <tr>
-                                            <th style="width: 15%">Название</th>
-                                            <th style="width: 15%">Тип</th>
-                                            <th style="width: 70%">Описание</th>
-                                          </tr>
+                                            <tr>
+                                                <th style="width: 15%">Название</th>
+                                                <th style="width: 15%">Тип</th>
+                                                <th style="width: 70%">Описание</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                          <tr>
-                                            <td>id</td>
-                                            <td>Строка</td>
-                                            <td>ID запроса. Его следует использовать для ручного запроса результатов парсинга</td>
-                                          </tr>
+                                            <tr>
+                                                <td>request_id</td>
+                                                <td>Строка</td>
+                                                <td>ID запроса. Его следует использовать для ручного запроса результатов парсинга</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
+                                <h3 class="mt-30 ">Пример обращения.</h3>
+                                <pre class="prettyprint language-html prettyprinted" data-type="post" style=""><code><span class="pln">curl <?= Url::base(true); ?>/api/request/{request_id}?key=<?= $key; ?></span></code></pre>
+                                <p>
+                                    вместо <code>{request_id}</code> укажите ID запроса, который получили во время регистрации<br/>
+                                    <?php if(Yii::$app->user->isGuest): ?>
+                                    вместо <code>{key}</code> укажите Ваш API Key<br/>
+                                    <?php endif; ?>
+                                </p>
                             </div>
                         </div>
 
                         <div class="tab-pane fade" role="tabpanel" id="list-request" aria-labelledby="list-request-tab">
                             <h2>Мои запросы</h2>
+                            <p>с помощью этого сервиса Вы можете получить полный список всех Ваших запросов парсинга</p>
                             <span class="type type__get">GET</span>
-                            <pre class="prettyprint language-html prettyprinted" data-type="post" style=""><code><span class="pln">https://parsim.net/api/request?key={key}</span></code></pre>
+                            <pre class="prettyprint language-html prettyprinted" data-type="get" style=""><code><span class="pln"><?= Url::base(true); ?>/api/requests?key=<?= $key; ?></span></code></pre>
                             <h2 class="mt-20">Параметры запрса</h2>
                             <div class="table-responsive">
                                 <table class="table">
@@ -412,24 +469,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                     </thead>
                                     <tbody>
                                       <tr>
-                                        <td>url</td>
+                                        <td>key</td>
                                         <td>Строка</td>
-                                        <td>Целевой URL для парсинга</td>
-                                      </tr>
-                                      <tr>
-                                        <td>avisoUrl</td>
-                                        <td>Строка</td>
-                                        <td>URL для ответа</td>
-                                      </tr>
-                                      <tr>
-                                        <td>avisoEmail</td>
-                                        <td>Строка</td>
-                                        <td>E-mail для ответа</td>
-                                      </tr>
-                                      <tr>
-                                        <td>frequency</td>
-                                        <td>целое число</td>
-                                        <td>Частота обновления информации в сутки. Значение 1 соответствует 1 раз в сутки. Максимально возможное значение 24, что соответствует 1 раз в час. Частота обновлений также зависит от действующего тарифа. </td>
+                                        <td>Ваш API Key</td>
                                       </tr>
                                     </tbody>
                                 </table>
@@ -446,9 +488,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </thead>
                                         <tbody>
                                           <tr>
-                                            <td>id</td>
-                                            <td>Строка</td>
-                                            <td>ID запроса. Его следует использовать для ручного запроса результатов парсинга</td>
+                                            <td>items</td>
+                                            <td>Массив</td>
+                                            <td>Массив объектов типа Запрос</td>
                                           </tr>
                                         </tbody>
                                     </table>
@@ -466,13 +508,20 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </thead>
                                         <tbody>
                                           <tr>
-                                            <td>id</td>
+                                            <td>request_id</td>
                                             <td>Строка</td>
                                             <td>ID запроса. Его следует использовать для ручного запроса результатов парсинга</td>
                                           </tr>
                                         </tbody>
                                     </table>
                                 </div>
+                                <h3 class="mt-30 ">Пример обращения.</h3>
+                                <pre class="prettyprint language-html prettyprinted" data-type="post" style=""><code><span class="pln">curl -i -H "Accept:application/json" -H "Content-Type:application/json" -XGET "http://parsim.dev/api/requests?key=<?= $key; ?>"</span></code></pre>
+                                <p>
+                                    <?php if(Yii::$app->user->isGuest): ?>
+                                    вместо <code>{key}</code> укажите Ваш API Key<br/>
+                                    <?php endif; ?>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -504,7 +553,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             </li>
                             <li class="active"><a href="#summary" id="summary-tab" role="tab" data-toggle="tab" aria-controls="summary-tab" aria-expanded="true">Схема работы с API</a></li>
                             <li><a href="#api-key" id="api-key-tab" role="tab" data-toggle="tab" aria-controls="api-key-tab" aria-expanded="true">Авторизация</a></li>
-                            <li><a href="#api-test" id="api-test-tab" role="tab" data-toggle="tab" aria-controls="api-test-tab" aria-expanded="true">Тестирование запросов</a></li>
                             <li>
                                 <div class="sidebar-title">
                                     <h2>Парсинг URL</h2>

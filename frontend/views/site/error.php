@@ -39,7 +39,7 @@ $this->title = $name;
             <div class="image"><img src="/images/resource/error-image.jpg" alt="" /></div>
         </div>
         <h3>Opps!! Looks like somthing went wrong</h3>
-        <div class="text">The page you are looking for was moved, removed, renamed or might never existed.</div>
+        <div class="text"><?= $message; ?>.</div>
         <div class="error-options">
             <a href="index.html" class="theme-btn btn-style-one">Go Home</a>
             <span class="or">Or</span>

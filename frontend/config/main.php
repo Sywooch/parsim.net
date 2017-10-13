@@ -53,9 +53,13 @@ return [
                 '<_a:(login|logout|signup|email-confirm|password-reset-request|password-reset)>' => 'user/<_a>',
 
                 //API rules
-                'api/'=>'api/default/index',
-                'api/<controller:\w+>/<alias:\w+>/'=>'api/<controller>/view',
-                'api/<controller:\w+>/'=>'api/<controller>/index',
+                'api'=>'api/default/index',
+                ['class' => 'yii\rest\UrlRule', 'controller' => [
+                    'api/request'
+                ]],
+                
+                
+            
                 
 
                 '<controller:\w+>/view/<alias:\w+>/'=>'<controller>/view',
@@ -65,10 +69,13 @@ return [
         ],
         
     ],
+    
     'modules' => [
         'api' => [
+            'basePath' => '@app/modules/api',
             'class' => 'app\modules\api\Module',
         ],
     ],
+    
     'params' => $params,
 ];

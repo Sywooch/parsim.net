@@ -14,6 +14,17 @@ class RequestController extends ApiBaseController
         return RestRequest::findOne(['alias'=>$alias]);
     }
 
+    public function actionCreate(){
+
+      $model= new RestRequest();
+      if($model->load(Yii::$app->request->post()) && $model->save()){
+        
+      }
+      
+      return $model;
+
+    }
+
     
 
     

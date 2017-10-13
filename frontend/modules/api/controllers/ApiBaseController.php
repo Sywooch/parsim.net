@@ -21,9 +21,27 @@ class ApiBaseController extends ActiveController
     public function actions()
     {
         $actions = parent::actions();
-        unset($actions['view']);
+        //unset($actions['view']);
+        //unset($actions['create']);
+        
         return $actions;
     }
+
+
+    /*
+    protected function verbs()
+    {
+        return [
+            'index' => ['GET', 'HEAD'],
+            'view' => ['GET', 'HEAD'],
+            'create' => ['POST'],
+            'update' => ['PUT', 'PATCH'],
+            'delete' => ['DELETE'],
+        ];
+    }
+    */
+
+    
 
     public $serializer = [
         'class' => 'yii\rest\Serializer',
@@ -62,14 +80,24 @@ class ApiBaseController extends ActiveController
                 'application/json' => \yii\web\Response::FORMAT_JSON,
             ],
         ];
-        
+        $behaviors['verbs'] = [
+            'class' => \yii\filters\VerbFilter::className(),
+            'actions' => [
+                'index'  => ['get'],
+                'view'   => ['get'],
+                'create' => ['get', 'post'],
+                'update' => ['get', 'put', 'post'],
+                'delete' => ['post', 'delete'],
+            ],
+        ];
+
         //права доступа
         $behaviors['access'] = [
             'class' => \yii\filters\AccessControl::className(),
-            'only' => ['index','create', 'update', 'delete'],
+            'only' => ['index','create', 'update', 'delete','view'],
             'rules' => [
                 [
-                    'actions' => ['index','create', 'update', 'delete'],
+                    'actions' => ['index','create', 'update', 'delete','view'],
                     'allow' => true,
                     'roles' => ['@'],
                 ],

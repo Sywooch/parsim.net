@@ -12,19 +12,6 @@ return [
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ]
-        ],
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'enableStrictParsing' => true,
-            'showScriptName' => false,
-            'rules' => [
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => ['request', 'response'],
-                ],
-             
-            ]
-        ],
-
+        ]
     ]
 ];
