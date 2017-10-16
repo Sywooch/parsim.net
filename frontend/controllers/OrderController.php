@@ -86,21 +86,30 @@ class OrderController extends Controller
                         return false;
                     }else{
                         //Создаю транзакцию
-                        $transaction=new Transaction();
-                        $transaction->type=Transaction::TYPE_IN;
-                        $transaction->order_id=$order->id;
-                        $transaction->status=Transaction::STATUS_SUCCESS;
-                        $transaction->amount=$order->amount;
-                        $transaction->created_at=$user_id;
-                        $transaction->updated_at=$user_id;
+                        $transaction=Transaction::findOne(['order_id'=>$order->id,'status'=>Transaction::STATUS_SUCCESS]);
 
-                        if($transaction->save()){
-                            $order->status=Order::STATUS_PAID;
-                            return $order->save();
+                        if(($transaction == null){
+                            $transaction=new Transaction();
+                            $transaction->type=Transaction::TYPE_IN;
+                            $transaction->order_id=$order->id;
+                            $transaction->status=Transaction::STATUS_SUCCESS;
+                            $transaction->amount=$order->amount;
+                            $transaction->created_at=$user_id;
+                            $transaction->updated_at=$user_id;
+
+                            if($transaction->save()){
+                                $order->status=Order::STATUS_PAID;
+                                return $order->save();
+                            }else{
+                                Yii::warning("Ошибка оплаты заказа! Order Id: {$id}", Yii::$app->yakassa->logCategory);    
+                                return false;
+                            }
                         }else{
-                            Yii::warning("Ошибка оплаты заказа! Order Id: {$id}", Yii::$app->yakassa->logCategory);    
+                            Yii::warning("Попытка повторно оплатить транзакцию! Transaction Id: {$transaction->id}", Yii::$app->yakassa->logCategory);    
                             return false;
                         }
+
+                        
                     }
                     
                     return true;
