@@ -18,6 +18,9 @@ use Yii;
  */
 class Order extends \yii\db\ActiveRecord
 {
+    const STATUS_NEW = 0;
+    const STATUS_PAID = 1;
+
     public $email;
     /**
      * @inheritdoc

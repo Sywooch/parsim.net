@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use common\models\Tarif;
 use common\models\Order;
+use common\models\Transaction;
 use common\models\SignupForm;
 use common\models\Error;
 use common\models\User;
@@ -61,20 +62,44 @@ class OrderController extends Controller
                     /**
                      * @var \yii\web\Request $request
                      */
-                    $invoice_id = (int) $request->post('orderNumber');
-                    Yii::warning("Кто-то хотел оплатить заказ! InvoiceId: {$invoice_id}", Yii::$app->yakassa->logCategory);
-                    return true;
-                }
+                    $id = (int) $request->post('orderNumber');
+                    
+                    if(($order = Order::findOne($id)) == null){
+                        Yii::warning("Кто-то хотел оплатить несуществующий заказ! Order Id: {$id}", Yii::$app->yakassa->logCategory);    
+                        return false;
+                    }
 
+                    return false;
+                }
             ],
             'payment-aviso' => [
                 'class' => 'kroshilin\yakassa\actions\PaymentAvisoAction',
                 'beforeResponse' => function ($request) {
-                    /**
-                     * @var \yii\web\Request $request
-                     */
-
-                    return true;
+                    
+                    $id = (int) $request->post('orderNumber');
+                    $user_id=(int) $request->post('customerNumber');
+                    
+                    if(($order = Order::findOne($id)) == null){
+                        Yii::warning("Кто-то хотел оплатить несуществующий заказ! Order Id: {$id}", Yii::$app->yakassa->logCategory);    
+                        return false;
+                    }else{
+                        //Создаю транзакцию
+                        $transaction=new Transaction();
+                        $transaction->type=Transaction::TYPE_IN;
+                        $transaction->order_id=$order->id;
+                        $transaction->status=Transaction::STATUS_SUCCESS;
+                        $transaction->amount=$order->amount;
+                        $transaction->created_at=$user_id;
+                        $transaction->updated_at=$user_id;
+                        if($transaction->save()){
+                            $order->status=Order::STATUS_PAID;
+                            return $order->save();
+                        }else{
+                            Yii::warning("Ошибка оплаты заказа! Order Id: {$id}", Yii::$app->yakassa->logCategory);    
+                            return false;
+                        }
+                    }
+                    
                 }
             ],
         ];
