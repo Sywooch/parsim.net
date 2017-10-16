@@ -22,7 +22,7 @@ FormDynamicAsset::register($this);
         <?php
         echo Html::hiddenInput('shopId', Yii::$app->yakassa->shopId);
         echo Html::hiddenInput('scid', Yii::$app->yakassa->scId);
-        echo Html::hiddenInput('sum', $model->amount,['id'=>'sum']);
+        echo Html::hiddenInput('sum', number_format($model->amount, 2, '.', ''),['id'=>'sum']);
         echo Html::hiddenInput('customerNumber', $model->user_id,['id'=>'customerNumber']);
         echo Html::hiddenInput('paymentType', 'AC');
         echo Html::hiddenInput('cps_phone', $model->user->phone,['id'=>'cps_phone']);
