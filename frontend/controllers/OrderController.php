@@ -32,7 +32,7 @@ class OrderController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                     'check' => ['POST','GET'],
-                    'payment-notification' => ['POST','GET'],
+                    'payment-notification' => ['POST'],
                 ],
             ],
             'access' => [
@@ -58,9 +58,9 @@ class OrderController extends Controller
                     /**
                      * @var \yii\web\Request $request
                      */
-                    $invoice_id = (int) $request->post('orderNumber');
-                        Yii::warning("Кто-то хотел купить несуществующую подписку! InvoiceId: {$invoice_id}", Yii::$app->yakassa->logCategory);
-                    return false;
+                    //$invoice_id = (int) $request->post('orderNumber');
+                    //Yii::warning("Кто-то хотел купить несуществующую подписку! InvoiceId: {$invoice_id}", Yii::$app->yakassa->logCategory);
+                    return true;
                 }
             ],
             'payment-aviso' => [
@@ -69,6 +69,8 @@ class OrderController extends Controller
                     /**
                      * @var \yii\web\Request $request
                      */
+
+                    return true;
                 }
             ],
         ];
