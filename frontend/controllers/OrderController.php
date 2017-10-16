@@ -75,7 +75,7 @@ class OrderController extends Controller
             'payment-aviso' => [
                 'class' => 'kroshilin\yakassa\actions\PaymentAvisoAction',
                 'beforeResponse' => function ($request) {
-                    
+                    /*
                     $id = (int) $request->post('orderNumber');
                     $user_id=(int) $request->post('customerNumber');
                     
@@ -100,7 +100,8 @@ class OrderController extends Controller
                             return false;
                         }
                     }
-                    return false;
+                    */
+                    return true;
                 }
             ],
         ];
