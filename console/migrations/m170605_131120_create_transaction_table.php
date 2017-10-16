@@ -18,7 +18,7 @@ class m170605_131120_create_transaction_table extends Migration
             'id' => $this->primaryKey(), 
             'type' => $this->integer()->notNull()->defaultValue(0),
 
-            'order_id' => $this->integer()->notNull(),
+            'order_id' => $this->integer(),
             
             'response_id' => $this->integer(),
 
@@ -43,6 +43,22 @@ class m170605_131120_create_transaction_table extends Migration
             '{{%transaction}}',
             'order_id',
             '{{%order}}',
+            'id',
+            'CASCADE'
+        );
+
+        // creates index for column `response_id`
+        $this->createIndex(
+            'fki-transaction-response-id',
+            '{{%transaction}}',
+            'response_id'
+        );
+        // add foreign key for table `response`
+        $this->addForeignKey(
+            'fk-transaction-response-id',
+            '{{%transaction}}',
+            'response_id',
+            '{{%response}}',
             'id',
             'CASCADE'
         );

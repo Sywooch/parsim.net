@@ -84,6 +84,10 @@ class m170605_122428_create_lookup_table extends Migration
             ['Parse success', 5, 'RESPONSE_STATUS',5],
             ['Parse error', 6, 'RESPONSE_STATUS',6],
 
+            //Order status
+            ['NEW', 0, 'ORDER_STAUS',0],
+            ['PAID', 1, 'ORDER_STAUS',1],
+
             //Transactin type
             ['IN', 0, 'TRANSACTION_TYPE',0],
             ['OUT', 1, 'TRANSACTION_TYPE',1],

@@ -91,6 +91,7 @@ class OrderController extends Controller
                         $transaction->amount=$order->amount;
                         $transaction->created_at=$user_id;
                         $transaction->updated_at=$user_id;
+
                         if($transaction->save()){
                             $order->status=Order::STATUS_PAID;
                             return $order->save();
@@ -99,7 +100,7 @@ class OrderController extends Controller
                             return false;
                         }
                     }
-                    
+                    return false;
                 }
             ],
         ];
