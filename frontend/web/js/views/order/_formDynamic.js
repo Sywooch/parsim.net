@@ -1,5 +1,10 @@
 $(function(){
-  
+  $('#order-amount').on('input',function(){
+    //
+    var ammount=Number($(this).val()).toFixed(2);
+    
+    $('#sum').val(ammount);
+  });
   $('#btn-submit').click(function(){
 
     $.ajax({

@@ -3,6 +3,7 @@ $(function(){
     var ammount=$(this).val()*$('#order-price').val();
     $('#total-amount').text(ammount);
     $('#order-amount').val(ammount);
+    $('#sum').val(ammount.toFixed(2));
   });
 
   $('#btn-submit').click(function(){
