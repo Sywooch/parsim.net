@@ -43,7 +43,7 @@ $qty=[
         echo Html::hiddenInput('orderNumber', $model->id,['id'=>'orderNumber']);
         ?>
         <div class="select-input">
-            <?= $form->field($model, 'qty')->dropDownList($qty,['id'=>'order-qty'])->label(false) ?>
+            <?= $form->field($model, 'qty')->dropDownList($qty,['id'=>'order-qty', 'name'=>'qty'])->label(false) ?>
         </div>
         <h1>Итого к оплате: <span id="total-amount"><?= $model->amount; ?></span> руб.</h1>
         <?= $form->field($model, 'tarif_id')->hiddenInput(['name'=>'tarif_id'])->label(false) ?>
