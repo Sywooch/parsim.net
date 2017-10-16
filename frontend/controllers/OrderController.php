@@ -12,6 +12,8 @@ use common\models\User;
 use common\models\searchForms\OrderSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\HttpException;
+
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
@@ -171,11 +173,10 @@ class OrderController extends Controller
             $model->price=$request->post('price');
             
             
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if ($model->save()) {
                 return json_encode($model->toArray());
             }else{
-                //return(json_encode(['error'=>$model->errors]))
-                throw new NotFoundHttpException(json_encode($model->errors));
+                throw new HttpException(400 ,json_encode($model->toArray()));
             }
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
