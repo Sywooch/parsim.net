@@ -88,7 +88,7 @@ class OrderController extends Controller
                         //Создаю транзакцию
                         $transaction=Transaction::findOne(['order_id'=>$order->id,'status'=>Transaction::STATUS_SUCCESS]);
 
-                        if(($transaction == null){
+                        if($transaction == null){
                             $transaction=new Transaction();
                             $transaction->type=Transaction::TYPE_IN;
                             $transaction->order_id=$order->id;
