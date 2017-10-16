@@ -69,7 +69,7 @@ class OrderController extends Controller
                         return false;
                     }
 
-                    return false;
+                    return true;
                 }
             ],
             'payment-aviso' => [
