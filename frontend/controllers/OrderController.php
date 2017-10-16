@@ -35,7 +35,7 @@ class OrderController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                     'check' => ['POST'],
-                    'payment-notification' => ['POST'],
+                    'payment-aviso' => ['POST'],
                 ],
             ],
             'access' => [
