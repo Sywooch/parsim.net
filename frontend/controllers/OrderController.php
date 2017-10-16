@@ -165,16 +165,11 @@ class OrderController extends Controller
             //в наименовании поля (Order[amount])
             //поэтому этим значениям задаются вручную хначения аттр. nane
             //и вручную обрабатываются в контроллере
-            if(isset(Yii::$app->request->post('amount'))){
-                $model->amount=Yii::$app->request->post('amount');
-            }
-
-            if(isset(Yii::$app->request->post('tarif_id'))){
-                $model->tarif_id=Yii::$app->request->post('tarif_id');
-            }
-            if(isset(Yii::$app->request->post('price'))){
-                $model->price=Yii::$app->request->post('price');
-            }
+            $request = Yii::$app->request;
+            $model->amount=$request->post('amount');
+            $model->tarif_id=$request->post('tarif_id');
+            $model->price=$request->post('price');
+            
             
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return json_encode($model->toArray());
