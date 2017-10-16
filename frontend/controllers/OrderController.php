@@ -62,14 +62,14 @@ class OrderController extends Controller
                     /**
                      * @var \yii\web\Request $request
                      */
-                    /*
+                    
                     $id = (int) $request->post('orderNumber');
                     
                     if(($order = Order::findOne($id)) == null){
                         Yii::warning("Кто-то хотел оплатить несуществующий заказ! Order Id: {$id}", Yii::$app->yakassa->logCategory);    
                         return false;
                     }
-                    */
+
 
                     return true;
                 }
@@ -77,7 +77,7 @@ class OrderController extends Controller
             'payment-aviso' => [
                 'class' => 'kroshilin\yakassa\actions\PaymentAvisoAction',
                 'beforeResponse' => function ($request) {
-                    /*
+                    
                     $id = (int) $request->post('orderNumber');
                     $user_id=(int) $request->post('customerNumber');
                     
@@ -102,7 +102,7 @@ class OrderController extends Controller
                             return false;
                         }
                     }
-                    */
+                    
                     return true;
                 }
             ],
