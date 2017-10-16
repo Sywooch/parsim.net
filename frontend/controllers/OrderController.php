@@ -31,7 +31,7 @@ class OrderController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                    'check' => ['POST','GET'],
+                    'check' => ['POST'],
                     'payment-notification' => ['POST'],
                 ],
             ],
@@ -157,8 +157,25 @@ class OrderController extends Controller
     {
         $model = new order();
 
+
         if(Yii::$app->request->isAjax)
         {
+
+            //Обход ограничения  Yandex, он не может обрабатывать значения []
+            //в наименовании поля (Order[amount])
+            //поэтому этим значениям задаются вручную хначения аттр. nane
+            //и вручную обрабатываются в контроллере
+            if(isset(Yii::$app->request->post('amount'))){
+                $model->amount=Yii::$app->request->post('amount');
+            }
+
+            if(isset(Yii::$app->request->post('tarif_id'))){
+                $model->tarif_id=Yii::$app->request->post('tarif_id');
+            }
+            if(isset(Yii::$app->request->post('price'))){
+                $model->price=Yii::$app->request->post('price');
+            }
+            
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return json_encode($model->toArray());
             }else{

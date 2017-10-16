@@ -46,9 +46,9 @@ $qty=[
             <?= $form->field($model, 'qty')->dropDownList($qty,['id'=>'order-qty'])->label(false) ?>
         </div>
         <h1>Итого к оплате: <span id="total-amount"><?= $model->amount; ?></span> руб.</h1>
-        <?= $form->field($model, 'tarif_id')->hiddenInput()->label(false) ?>
-        <?= $form->field($model, 'price')->hiddenInput(['id'=>'order-price'])->label(false) ?>
-        <?= $form->field($model, 'amount')->hiddenInput(['id'=>'order-amount'])->label(false) ?>
+        <?= $form->field($model, 'tarif_id')->hiddenInput(['name'=>'tarif_id'])->label(false) ?>
+        <?= $form->field($model, 'price')->hiddenInput(['id'=>'order-price','name'=>'price'])->label(false) ?>
+        <?= $form->field($model, 'amount')->hiddenInput(['id'=>'order-amount','name'=>'amount'])->label(false) ?>
         <div class="form-group">
             <?= Html::button('Оплатить', ['class' => 'btn-block theme-btn btn-style-two','id'=>'btn-submit']) ?>
         </div>

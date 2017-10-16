@@ -30,9 +30,9 @@ FormDynamicAsset::register($this);
         echo Html::hiddenInput('orderNumber', $model->id,['id'=>'orderNumber']);
         ?>
         
-        <?= $form->field($model, 'amount')->textInput(['placeholder'=>'Сумма оплаты в рублях'])->label(false); ?>
-        <?= $form->field($model, 'tarif_id')->hiddenInput()->label(false) ?>
-        <?= $form->field($model, 'price')->hiddenInput(['id'=>'order-price'])->label(false) ?>
+        <?= $form->field($model, 'amount')->textInput(['placeholder'=>'Сумма оплаты в рублях','name'=>'amount'])->label(false); ?>
+        <?= $form->field($model, 'tarif_id')->hiddenInput(['name'=>'tarif_id'])->label(false) ?>
+        <?= $form->field($model, 'price')->hiddenInput(['id'=>'order-price','name'=>'price'])->label(false) ?>
         
 
         <div class="form-group">
