@@ -27,7 +27,7 @@ class m170926_140642_create_error_table extends Migration
 
             'code' => $this->integer()->notNull()->defaultValue(100),
             'msg' => $this->text(),
-            'msg' => $this->description(),
+            'description' => $this->text(),
 
             'created_at' => $this->integer()->notNull()->defaultValue(0),
             'updated_at' => $this->integer()->notNull()->defaultValue(0),
