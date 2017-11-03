@@ -18,6 +18,7 @@ class FormAsset extends AssetBundle
         '/js/plugins/forms/styling/uniform.min.js',
         'js/plugins/forms/selects/bootstrap_multiselect.js',
         'js/plugins/forms/selects/select2.min.js',
+        //'js/plugins/editors/ace/ace.js',
         'js/views/parser/_form.js'
     ];
     public $depends = [

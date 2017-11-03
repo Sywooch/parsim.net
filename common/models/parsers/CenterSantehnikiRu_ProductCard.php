@@ -1,23 +1,17 @@
 <?php
-
+//Парсинг карточки товара
 namespace common\models\parsers;
 
 use Yii;
 use \phpQuery;
-use common\models\Parser;
 
+use common\models\parsers\classes\ProductParser;
 
-class SantehnikaOnlineRu extends ProductParser
+class CenterSantehnikiRu_ProductCard extends ProductParser
 {
     
+    
     public function run()
-    {
-        $action=$this->getAction();
-        return $this->$action;
-    }
-
-    //Parser actions
-    public function getProductCard()
     {
         $html=file_get_contents($this->contentPath);
         $document=phpQuery::newDocumentHTML($html);
@@ -28,20 +22,7 @@ class SantehnikaOnlineRu extends ProductParser
         $this->setCurrency($document->find('meta[itemprop="priceCurrency"]')->attr('content'));
 
         return $this->json;
-
     }
 
-    public function getProductList()
-    {
-        $html=file_get_contents($this->contentPath);
-        $document=phpQuery::newDocumentHTML($html);
-
-        $this->id=null;
-        $this->name=null;
-        $this->price=null;
-        $this->currency=null;
-
-        return $this->json;
-    }
 
 }

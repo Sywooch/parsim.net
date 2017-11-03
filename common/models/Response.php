@@ -48,14 +48,7 @@ class Response extends \yii\db\ActiveRecord
         ];
     }
 
-    //=========================================================
-    //
-    // Блок relations
-    //
-    //=========================================================
-    public function getRequest(){
-        return $this->hasOne(Request::className(), ['id' => 'request_id']);
-    }
+
 
     /**
      * @inheritdoc
@@ -88,10 +81,29 @@ class Response extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getContentPath(){
-        return Yii::getAlias('@console'.Yii::$app->params['contentFolder']).'/'.$this->request->alias.'.html';
+    //=========================================================
+    //
+    // Блок relations
+    //
+    //=========================================================
+    public function getRequest(){
+        return $this->hasOne(Request::className(), ['id' => 'request_id']);
+    }
+    //=========================================================
+    //
+    // Блок поисковых выдач
+    //
+    //=========================================================
+    public static function findByAlias($alias)
+    {
+        return Response::findOne(['alias'=>$alias]);
     }
 
+    //=========================================================
+    //
+    // Блок событий ActiveRecord
+    //
+    //=========================================================
     public function beforeSave($insert)
     {
         if (!parent::beforeSave($insert)) {
@@ -136,6 +148,61 @@ class Response extends \yii\db\ActiveRecord
 
         return $result;
     }
+
+
+    //=========================================================
+    //
+    // Блок атрибутов
+    //
+    //=========================================================
+    public function getStatusName(){
+        return Lookup::item('RESPONSE_STATUS',$this->status);
+    }
+    public function getStatusList(){
+        return Lookup::items('RESPONSE_STATUS');
+    }
+    public function getResponseTo(){
+        $url=$this->request->response_url;
+        $email=$this->request->response_email;
+
+        $retVal='';
+        if(isset($url) && $url!=''){
+            $retVal.=$url.'; ';
+        }
+        if(isset($email) && $email!=''){
+            $retVal.=$email;
+        }
+
+        return $retVal;
+    }
+
+    public function getContentPath(){
+        return Yii::getAlias('@console'.Yii::$app->params['contentFolder']).'/'.$this->request->alias.'.html';
+    }
+
+    //=========================================================
+    //
+    // Блок генерации Url
+    //
+    //=========================================================
+    public static function getIndexUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['response/index']);
+    }
+    public function getViewUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['response/view','alias'=>$this->alias]);
+    }
+
+    public function getRequestUrl(){
+        return $this->request->viewUrl;
+    }
+
+    //=========================================================
+    //
+    // Блок вспомагательных методов
+    //
+    //=========================================================
     
 
     

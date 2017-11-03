@@ -5,6 +5,7 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
 
 use common\models\Request;
 use common\models\searchForms\RequestSearch;
@@ -62,39 +63,19 @@ class RequestController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
-    public function actionDownload()
-    {
-        $query = Task::find()->where(['status'=>Task::STATUS_READY_TO_LOAD,'type'=>Task::TYPE_TASK]);
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-        
-
-        return $this->render('download', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-
     /**
      * Creates a new Logo model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($project)
+    public function actionCreate()
     {
-        $model = new Task();
-        $model->type=Task::TYPE_TASK;
-        $model->status=Task::STATUS_READY_TO_LOAD;
-        $project=Project::find()->where(['alias'=>$project])->one();
-        $model->parent_id=$project->id;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/project/view', 'alias' => $project->alias]);
+        $model = new Request();
+        
+        if ($model->load(Yii::$app->request->post()) && $model->save()){
+            return $this->redirect($model->viewUrl);
         } else {
             return $this->render('create', [
-                'project'=>$project,
                 'model' => $model,
             ]);
         }
@@ -109,21 +90,19 @@ class RequestController extends Controller
     public function actionUpdate($alias)
     {
         $model = $this->findModel($alias);
-        $project=$model->getRoot();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/project/view', 'alias' => $project->alias]);
-        } else {
-            return $this->render('update', [
-                'project'=>$project,
-                'model' => $model,
-            ]);
+            return $this->redirect($model->indexUrl);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
-    public function actionView($id)
+    public function actionView($alias)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($alias);
         
         return $this->render('view', [
             'model' => $model,
@@ -149,8 +128,7 @@ class RequestController extends Controller
 
     protected function findModel($alias)
     {
-        //$task= new Task();
-        if (($model = Task::find()->where(['alias'=>$alias])->one()) !== null) {
+        if (($model = Request::findByAlias($alias)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

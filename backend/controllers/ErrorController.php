@@ -5,20 +5,17 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
 
-use common\models\Parser;
-use common\models\ParserAction;
-use common\models\searchForms\ParserSearch;
-
-use common\models\parsers\BaseParser;
+use common\models\Error;
+use common\models\searchForms\ErrorSearch;
 
 use yii\data\ActiveDataProvider;
-
 
 /**
  * Site controller
  */
-class ParserController extends Controller
+class ErrorController extends Controller
 {
     /**
      * @inheritdoc
@@ -49,8 +46,6 @@ class ParserController extends Controller
         ];
     }
 
-
-
     /**
      * Displays homepage.
      *
@@ -58,7 +53,7 @@ class ParserController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ParserSearch();
+        $searchModel = new ErrorSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -66,10 +61,6 @@ class ParserController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
-    
-
-
     /**
      * Creates a new Logo model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -77,8 +68,8 @@ class ParserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Parser();
-        $model->loader_type=0;
+        $model = new Error();
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()){
             return $this->redirect($model->viewUrl);
         } else {
@@ -94,30 +85,27 @@ class ParserController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($alias)
     {
-        $model = $this->findModel($id);
-        
-        
+        $model = $this->findModel($alias);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()){
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect($model->indexUrl);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
-    public function actionView($id)
+    public function actionView($alias)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($alias);
         
         return $this->render('view', [
             'model' => $model,
         ]);
     }
-
 
     /**
      * Deletes an existing Logo model.
@@ -125,23 +113,22 @@ class ParserController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($alias)
     {
-        $model=$this->findModel($id);
+        $model=$this->findModel($alias);
         $model->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect($model->indexUrl);
         
-    }    
+    }
 
 
-    protected function findModel($id)
+    protected function findModel($alias)
     {
-        //$task= new Task();
-        if (($model = Parser::findOne($id)) !== null) {
+        if (($model = Error::findByAlias($alias)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('The Errored page does not exist.');
         }
     }
     

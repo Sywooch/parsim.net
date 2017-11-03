@@ -5,12 +5,12 @@ namespace common\models\searchForms;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Parser;
+use common\models\Error;
 
 /**
  * UserSearch represents the model behind the search form about `common\models\User`.
  */
-class ParserSearch extends Parser
+class ErrorSearch extends Error
 {
     public $url;
     //public $type=self::TYPE_DESTINATION;
@@ -42,7 +42,7 @@ class ParserSearch extends Parser
      */
     public function search($params)
     {
-        $query = Parser::find()->orderBy(['example_url'=>SORT_DESC,'name'=>SORT_ASC]);
+        $query = Error::find();
         
 
         // add conditions that should always apply here

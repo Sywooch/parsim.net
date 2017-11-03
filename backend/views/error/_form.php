@@ -7,12 +7,13 @@ use common\models\Lookup;
 
 
 
-/* @var $this yii\web\View */
-/* @var $model common\models\Direction */
-/* @var $form yii\widgets\ActiveForm */
+$labelClass=[
+  $model::STATUS_NEW=>'label-danger',
+  $model::STATUS_IN_PROGRESS=>'label-primary',
+  $model::STATUS_TESTING=>'label-primary',
+  $model::STATUS_FIXED=>'label-success',
+];
 
-//use backend\assets\request\FormAsset;
-//FormAsset::register($this);
 ?>
 
 <div class="request-form">
@@ -25,33 +26,19 @@ use common\models\Lookup;
 
   <?= $form->errorSummary($model,['class'=>'alert alert-danger alert-bordered']); ?>  
   <div class="panel panel-flat">
+    <div class="panel-heading">
+      <h6>Error: <?= $model->code; ?> <span class="label <?= $labelClass[$model->status]; ?>"><?= $model->statusName; ?></span></h6>
+      <h6><?= $model->msg; ?></h6>
+      <div class="heading-elements">
+          <?= $form->field($model, 'status')->dropDownList($model->statusList,['class'=>'multiselect'])->label(false) ?>
+      </div>
+    </div>
     <div class="panel-body">
       <div class="row">
         <div class="col-md-12">
-          <legend class="text-semibold">
-            <i class="icon-download4 position-left"></i>Request status <span class="label label-primary"><?= $model->statusName; ?></span>
-          </legend>
-          <div class="row">
-            <div class="col-md-6">
-              <?= $form->field($model, 'request_url')->textInput(['maxlength' => true]); ?>
-            </div>
-            <div class="col-md-6">
-              <?= $form->field($model, 'sleep_time')->dropDownList($model->freqList,['class'=>'select']); ?>
-            </div>
-            
-          </div>
+          <?= $form->field($model, 'description')->textArea(['rows' => 10]); ?>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <?= $form->field($model, 'response_url')->textInput(['maxlength' => true]); ?>
-        </div>
-        <div class="col-md-6">
-          <?= $form->field($model, 'response_email')->textInput(['maxlength' => true]); ?>
-        </div>
-      </div>
-      
-      
     </div>
     
     <div class="panel-footer"><a class="heading-elements-toggle"><i class="icon-more"></i></a>

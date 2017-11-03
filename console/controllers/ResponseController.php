@@ -8,9 +8,9 @@ use yii\console\Controller;
 use common\models\Request;
 use common\models\Response;
 
-use common\models\HtmlLoader;
+use common\models\parsers\classes\HtmlLoader;
 
-use common\models\parsers\BaseParser;
+use common\models\parsers\classes\BaseParser;
 
 
 class ResponseController extends Controller
@@ -39,15 +39,15 @@ class ResponseController extends Controller
         }
 
         //Загрузка контента htmlClient
-        $responses=Response::find()->where(['status'=>Request::STATUS_READY])->all();
+        $responses=Response::find()->where(['status'=>Response::STATUS_READY])->all();
         foreach ($responses as $key => $response){
             
             $request=$response->request;
             $content_path=$response->contentPath;
 
             if($request->loader==HtmlLoader::TYPE_HTML){
-                $response->status=Response::STATUS_LOADING;    
-                $response->save();
+                //$response->status=Response::STATUS_LOADING;    
+                //$response->save();
 
                 $loader=new HtmlLoader();
 

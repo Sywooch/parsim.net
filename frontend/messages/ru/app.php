@@ -21,7 +21,7 @@ return [
   'Try our parser Free Now'=>'Проверь работу парсера бесплатно',
 
 
-  'Type any website address here'=>'Кукажите страницу, которую хотите проверить',
+  'Type any website address here'=>'Укажите страницу, которую хотите проверить',
   'Email for answer'=>'Укажите E-mail, для ответа',
   'Parse now'=>'Проверить сейчас',
 

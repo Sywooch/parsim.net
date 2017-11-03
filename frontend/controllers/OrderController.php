@@ -105,10 +105,10 @@ class OrderController extends Controller
                                 return false;
                             }
                         }else{
-                            Yii::warning("Попытка повторно оплатить транзакцию! Transaction Id: {$transaction->id}", Yii::$app->yakassa->logCategory);    
-                            return false;
+                            //Отправка данных для чека???
+                            //Yii::warning("Попытка повторно оплатить транзакцию! Transaction Id: {$transaction->id}", Yii::$app->yakassa->logCategory);    
+                            return true;
                         }
-
                         
                     }
                     

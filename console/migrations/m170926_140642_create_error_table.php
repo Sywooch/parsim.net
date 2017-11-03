@@ -17,17 +17,17 @@ class m170926_140642_create_error_table extends Migration
             'id' => $this->primaryKey(),
             'alias'=>$this->string(16)->notNull(),
             
+            'parser_id' => $this->integer(), 
             'request_id' => $this->integer(),
             'response_id' => $this->integer(),
             'loader_id' => $this->integer(), 
-            'parser_id' => $this->integer(), 
-            'action_id' => $this->integer(), 
             
 
             'status' => $this->integer()->notNull()->defaultValue(0),
 
             'code' => $this->integer()->notNull()->defaultValue(100),
             'msg' => $this->text(),
+            'msg' => $this->description(),
 
             'created_at' => $this->integer()->notNull()->defaultValue(0),
             'updated_at' => $this->integer()->notNull()->defaultValue(0),
@@ -103,22 +103,6 @@ class m170926_140642_create_error_table extends Migration
             'CASCADE'
         );
 
-        // creates index for column `action_id`
-        $this->createIndex(
-            'fki-error-action-id',
-            '{{%error}}',
-            'action_id'
-        );
-        
-        // add foreign key for table `parser_action`
-        $this->addForeignKey(
-            'fk-error-action-id',
-            '{{%error}}',
-            'action_id',
-            '{{%parser_action}}',
-            'id',
-            'CASCADE'
-        );
     }
 
     /**

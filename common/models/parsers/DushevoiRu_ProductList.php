@@ -1,24 +1,17 @@
 <?php
-
+//Парсинг карточки товара
 namespace common\models\parsers;
 
 use Yii;
 use \phpQuery;
 
-use common\models\Parser;
+use common\models\parsers\classes\ProductParser;
 
-class DushevoiRu extends ProductParser
+class DushevoiRu_ProductList extends ProductParser
 {
     
     
     public function run()
-    {
-        $action=$this->getAction();
-        return $this->$action;
-    }
-
-    //Parser actions
-    public function getProductCard()
     {
         $html=file_get_contents($this->contentPath);
         $document=phpQuery::newDocumentHTML($html);
@@ -31,17 +24,5 @@ class DushevoiRu extends ProductParser
         return $this->json;
     }
 
-    public function getProductList()
-    {
-        $html=file_get_contents($this->contentPath);
-        $document=phpQuery::newDocumentHTML($html);
-
-        $this->id=0;
-        $this->name='';
-        $this->price=0;
-        $this->currency='';
-
-        return $this->json;
-    }
 
 }

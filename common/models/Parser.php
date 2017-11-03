@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "parser".
@@ -25,8 +26,7 @@ class Parser extends \yii\db\ActiveRecord
     const STATUS_HAS_ERROR = 1;
     const STATUS_FIXING = 2;
 
-    public $parserActionsArray=[];
-
+    
     public function behaviors()
     {
         return [
@@ -55,13 +55,14 @@ class Parser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['class_name', 'host','status','loader_type'], 'required'],
-            [['status', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['name','status','loader_type','example_url','reg_exp'], 'required'],
+            [['status', 'created_by', 'updated_by', 'created_at', 'updated_at','type_id'], 'integer'],
             [['alias'], 'string', 'max' => 16],
-            [['host'], 'string', 'max' => 512],
+            [['name'], 'string', 'max' => 128],
+            [['description'], 'safe'],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
-            [['parserActionsArray'],'safe'],
+            
         ];
     }
 
@@ -76,7 +77,6 @@ class Parser extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'alias' => Yii::t('app', 'Alias'),
             'name' => Yii::t('app', 'Name'),
-            'host' => Yii::t('app', 'Host'),
             'loader' => Yii::t('app', 'Loader'),
             'status' => Yii::t('app', 'Status'),
             'created_by' => Yii::t('app', 'Created By'),
@@ -91,61 +91,52 @@ class Parser extends \yii\db\ActiveRecord
     // Блок relations
     //
     //=========================================================
-    private $_actions;
-    public function getActions(){
-        if(!isset($this->_actions)){
-            $this->_actions = $this->hasMany(ParserAction::className(), ['parser_id' => 'id'])->orderBy(['order_num'=>SORT_ASC]);
-        }
-        return $this->_actions;
+
+    public function getType()
+    {
+        return $this->hasOne(ParserType::className(), ['id' => 'type_id']);
     }
-    public function setActions($value){
-        $this->_actions=$value;
-    }
+    
 
     //=========================================================
     //
     // Блок событий ActiveRecord
     //
     //=========================================================
+    /*
     public function beforeValidate()
     {
         if(!parent::beforeValidate())
             return false;
 
-        $actions=[];
-        if(is_array($this->parserActionsArray)){
-
-            foreach ($this->parserActionsArray as $key => $value){
-                $action=new ParserAction();
-                $action->parser_id=$this->id;
-                $action->order_num=$key;
-                $action->category_id=$value['category_id'];
-                $action->reg_exp=$value['reg_exp'];
-                $action->status=$value['status'];
-
-                if(!$action->validate()){
-                    $this->addErrors($action->errors);
-                }
-                $actions[]=$action;
-            }
-        }
-        $this->actions=$actions;
-
-
-        return count($this->errors)>0?false:true;
+    
 
     }
+    */
     public function afterSave($insert, $changedAttributes)
     {
+        
         parent::afterSave($insert, $changedAttributes);
 
-        ParserAction::deleteAll(['parser_id'=>$this->id]);
-        foreach ($this->actions as $key => $action){
-            $action->save();
+        if(!file_exists($this->classPath)){
+            $code=file_get_contents($this->templateClassPath); 
+            $code=str_replace('{class_name}',$this->className,$code);
+            file_put_contents($this->classPath,$code);
         }
+
+        self::checkErrors($this->example_url);
         
         
     }
+     public function beforeDelete()
+     {
+        if(file_exists($this->classPath)){
+            unlink($this->classPath);  
+        }
+          
+        return parent::beforeDelete();
+     }
+    
 
     
     //=========================================================
@@ -153,9 +144,25 @@ class Parser extends \yii\db\ActiveRecord
     // Блок поисковых выдач
     //
     //=========================================================
+    /*
     public static function findByClassName($className)
     {
         return Parser::find()->where(['class_name'=>$className])->one();
+    }
+    */
+
+    public static function findByUrl($url)
+    {
+        $models= self::find()->where('SUBSTRING(\''.$url.'\' ,reg_exp) IS NOT NULL')->all();
+
+        if(count($models)>1){
+            //reg error
+
+            return false;
+        }
+
+        return $models[0];
+
     }
 
     //=========================================================
@@ -176,6 +183,51 @@ class Parser extends \yii\db\ActiveRecord
     public function getLoaderList(){
         return Lookup::items('LOADER_TYPE');
     }
+
+    public function getHostName(){
+        $host=parse_url($this->example_url, PHP_URL_HOST);
+        $host=str_replace('www.', '', $host);
+        return $host;
+    }
+
+    private $_className;
+    public function getClassName(){
+        if(!isset($this->_className)){
+            $class=$this->hostName;
+            $class=str_replace('.', '-', $class);
+            $className='';
+            foreach (explode('-', $class) as $key => $value) {
+                $className.=ucfirst($value);
+            }
+            $className.='_'.$this->typeName;    
+
+            $this->_className=$className;
+        }
+        
+        return $this->_className;
+    }
+
+
+    public function getClassPath()
+    {   
+        return  Yii::getAlias('@common/models/parsers/'.$this->className.'.php');
+    }
+    public function getTemplateClassPath()
+    {   
+        return  Yii::getAlias('@common/models/parsers/templates/'.$this->typeName.'.php');
+    }
+
+    public function getTypeName()
+    {
+        return $this->type->name;
+    }
+
+    public function getTypeList()
+    {
+        return ArrayHelper::map(ParserType::find()->all(),'id','name');
+    }
+
+
 
 
     //=========================================================
@@ -203,4 +255,62 @@ class Parser extends \yii\db\ActiveRecord
     {
         return Yii::$app->urlManager->createUrl(['parser/view','id'=>$this->id]);
     }
+
+
+    //=========================================================
+    //
+    // Блок вспомагательных методов
+    //
+    //=========================================================
+    public static function CheckErrors($url)
+    {
+        
+        $description="Неизвестная ошибка";
+        
+        
+        //Проверка работы регулярных выражений (на всех парсерах хоста)
+        $host=parse_url($url, PHP_URL_HOST);
+        $parsers=self::find()->where("example_url LIKE '%".$host."%'")->all();
+        
+        foreach ($parsers as $key => $parser) {
+            $has_error=true;
+            //В идеале должна быть одна запись и соответствоват значению $parser->example_url
+            $models= self::find()->where('SUBSTRING(\''.$parser->example_url.'\' ,reg_exp) IS NOT NULL')->all();
+
+            if(count($models)==1 && $models[0]->example_url==$parser->example_url){
+                //Нет ошибок
+                if($models[0]->status==self::STATUS_HAS_ERROR){
+                    $sql="UPDATE parser SET status=".self::STATUS_READY.", err_description='Ошибок не обнаружено.' WHERE id=".$models[0]->id;
+                    Yii::$app->db->createCommand($sql)->execute();    
+                }
+                $has_error=false;
+            }
+
+            if(count($models)>1){
+                $msg='';
+                foreach ($models as $key => $model) {
+                    $msg.=$model->example_url.PHP_EOL;
+                }
+                $description='Выражение возвращает более одного значения: '.$msg;
+            }
+            if(count($models)==0){
+                $description='Выражение возвращает пустое значение';
+            }
+            if(count($models)==1 && $models[0]->example_url!=$parser->example_url){
+                $description='Выражение возвращает неверный url ('.$models[0]->example_url.')';
+            }
+
+            if($has_error){
+                $sql="UPDATE parser SET status=".self::STATUS_HAS_ERROR.", err_description='".$description."' WHERE id=".$parser->id;
+                Yii::$app->db->createCommand($sql)->execute();    
+            }
+        }
+
+        
+
+        return false;
+        
+    }
+
+
 }

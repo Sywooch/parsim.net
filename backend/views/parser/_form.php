@@ -36,10 +36,10 @@ FormAsset::register($this);
           
           <div class="row">
             <div class="col-md-4">
-              <?= $form->field($model, 'host')->textInput(['maxlength' => true]); ?>
+              <?= $form->field($model, 'name')->textInput(['maxlength' => true]); ?>
             </div>
             <div class="col-md-4">
-              <?= $form->field($model, 'class_name')->textInput(['maxlength' => true]); ?>
+              <?= $form->field($model, 'type_id')->dropDownList($model->typeList,['class'=>'select']); ?>
             </div>
             <div class="col-md-4">
               <?= $form->field($model, 'loader_type')->dropDownList($model->loaderList,['class'=>'select']); ?>
@@ -49,28 +49,44 @@ FormAsset::register($this);
       </div>
       <div class="row">
         <div class="col-md-12">
-          <legend class="text-semibold mt-20">
-            <i class="icon-pushpin position-left"></i><?= Yii::t('app','Parser actions'); ?>
-            <?= Html::a('Add action','#',['class'=>'add-action pull-right text-success']); ?>
-          </legend>  
-
+          
+          <div class="row">
+            <div class="col-md-8">
+              <?= $form->field($model, 'example_url')->textInput(['maxlength' => true]); ?>
+            </div>
+            <div class="col-md-4">
+              <?= $form->field($model, 'reg_exp')->textInput(['maxlength' => true]); ?>
+            </div>
+            
+          </div>
         </div>
       </div>
-      <div id="action-list">
-      <?php foreach ($model->actions as $key => $action){
-        echo $this->render('_action',['model'=>$action,'index'=>$key]);
-      }?>
+      <div class="row">
+        <div class="col-md-12">
+          
+          <div class="row">
+            <div class="col-md-12">
+              <?= $form->field($model, 'description')->textArea(); ?>
+            </div>
+          </div>
+        </div>
       </div>
+      
     </div>
       
       
     
     <div class="panel-footer"><a class="heading-elements-toggle"><i class="icon-more"></i></a>
       <div class="heading-elements">
+        <?php if($model->status==$model::STATUS_HAS_ERROR): ?>
+          <span class="heading-text text-danger-400"><i class="icon-bug2  position-left"></i> <?= $model->err_description; ?></span>
+        <?php elseif($model->status==$model::STATUS_READY): ?>
+          <span class="heading-text text-success-400"><i class="icon-checkmark3  position-left"></i> <?= $model->err_description; ?></span>
+        <?php endif; ?>
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save'), ['class' => ($model->isNewRecord ? 'btn btn-success' : 'btn btn-primary').' heading-btn pull-right']) ?>
         <?php
           if(!$model->isNewRecord){
-            echo Html::a(Yii::t('app', 'Delete'), ['delete', 'alias' => $model->alias], [
+            echo Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
               'class' => 'btn btn-danger pull-right',
               'data' => [
                   'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),

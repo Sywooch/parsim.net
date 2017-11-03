@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models\parsers;
+namespace common\models\parsers\classes;
 
 use Yii;
 use yii\base\Model;

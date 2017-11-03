@@ -4,6 +4,7 @@ namespace common\models;
 
 
 use Yii;
+use yii\helpers\Html;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -15,7 +16,6 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $response_id
  * @property integer $loader_id
  * @property integer $parser_id
- * @property integer $action_id
  * @property integer $status
  * @property string $msg
  */
@@ -58,12 +58,11 @@ class Error extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['request_id', 'response_id', 'loader_id', 'parser_id', 'action_id', 'status'], 'integer'],
-            [['msg'], 'string'],
+            [['request_id', 'response_id', 'loader_id', 'parser_id', 'status'], 'integer'],
+            [['msg','description'], 'string'],
             [['alias'], 'string', 'max' => 16],
             [['loader_id'], 'exist', 'skipOnError' => true, 'targetClass' => Loader::className(), 'targetAttribute' => ['loader_id' => 'id']],
             [['parser_id'], 'exist', 'skipOnError' => true, 'targetClass' => Parser::className(), 'targetAttribute' => ['parser_id' => 'id']],
-            [['action_id'], 'exist', 'skipOnError' => true, 'targetClass' => ParserAction::className(), 'targetAttribute' => ['action_id' => 'id']],
             [['request_id'], 'exist', 'skipOnError' => true, 'targetClass' => Request::className(), 'targetAttribute' => ['request_id' => 'id']],
             [['response_id'], 'exist', 'skipOnError' => true, 'targetClass' => Response::className(), 'targetAttribute' => ['response_id' => 'id']],
         ];
@@ -81,12 +80,44 @@ class Error extends \yii\db\ActiveRecord
             'response_id' => Yii::t('app', 'Response ID'),
             'loader_id' => Yii::t('app', 'Loader ID'),
             'parser_id' => Yii::t('app', 'Parser ID'),
-            'action_id' => Yii::t('app', 'Action ID'),
             'status' => Yii::t('app', 'Status'),
             'msg' => Yii::t('app', 'Msg'),
         ];
     }
 
+    //=========================================================
+    //
+    // Блок relations
+    //
+    //=========================================================
+    public function getParser(){
+        return $this->hasOne(Parser::className(), ['id' => 'parser_id']);
+    }
+    public function getRequest(){
+        return $this->hasOne(Request::className(), ['id' => 'request_id']);
+    }
+    public function getResponse(){
+        return $this->hasOne(Request::className(), ['id' => 'response_id']);
+    }
+    public function getLoader(){
+        return $this->hasOne(Loader::className(), ['id' => 'loader_id']);
+    }
+
+    //=========================================================
+    //
+    // Блок поисковых выдач
+    //
+    //=========================================================
+    public static function findByAlias($alias)
+    {
+        return Error::findOne(['alias'=>$alias]);
+    }
+
+    //=========================================================
+    //
+    // Блок событий ActiveRecord
+    //
+    //=========================================================
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
@@ -100,4 +131,76 @@ class Error extends \yii\db\ActiveRecord
         }
         
     }
+
+     //=========================================================
+    //
+    // Блок атрибутов
+    //
+    //=========================================================
+    public function getStatusName(){
+        return Lookup::item('ERROR_STATUS',$this->status);
+    }
+    public function getStatusList(){
+        return Lookup::items('ERROR_STATUS');
+    }
+    
+
+    //=========================================================
+    //
+    // Блок генерации Url
+    //
+    //=========================================================
+    public static function getIndexUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['error/index']);
+    }
+    public function getUpdateUrl(){
+        return Yii::$app->urlManager->createUrl(['error/update','alias'=>$this->alias]);
+    }
+    public function getDeleteUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['error/delete','alias'=>$this->alias]);
+    }
+    public function getViewUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['error/view','alias'=>$this->alias]);
+    }
+
+    public function getParserLink($options=[]){
+        $model=$this->parser;
+        if(isset($model)){
+            return Html::a($model->alias,$model->viewUrl,$options);
+        }
+        return '';
+    }
+    public function getLoaderLink($options=[]){
+        $model=$this->loader;
+        if(isset($model)){
+            return Html::a($model->alias,$model->viewUrl,$options);
+        }
+        return '';
+    }
+    public function getRequestLink($options=[]){
+        $model=$this->request;
+        if(isset($model)){
+            return Html::a($model->alias,$model->viewUrl,$options);
+        }
+        return '';
+    }
+
+    public function getResponseLink($options=[]){
+        $model=$this->response;
+        if(isset($model)){
+            return Html::a($model->alias,$model->viewUrl,$options);
+        }
+        return '';
+    }
+    
+
+    //=========================================================
+    //
+    // Блок вспомагательных методов
+    //
+    //=========================================================
+    
 }

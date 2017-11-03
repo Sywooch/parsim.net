@@ -5,7 +5,7 @@ namespace common\models\parsers;
 use Yii;
 use \phpQuery;
 
-use common\models\Parser;
+use common\models\parsers\classes\ProductParser;
 
 class AquadomRu extends ProductParser
 {

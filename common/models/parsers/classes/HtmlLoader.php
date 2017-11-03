@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models;
+namespace common\models\parsers\classes;
 
 use Yii;
 
@@ -14,11 +14,7 @@ class HtmlLoader extends ContentLoader
     {
         $httpClient = new Client();  
         $res = $httpClient->request('GET', $url);
-        //$charset=trim(explode('=', $res->getHeader('content-type')[0])[1]);
         $html = $res->getBody();
-        //if($charset!='utf-8'){
-        //  $html=iconv($charset,"UTF-8", $html);
-        //}
 
         return file_put_contents($path,$html);
 

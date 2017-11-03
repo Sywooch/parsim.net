@@ -4,7 +4,8 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use common\models\parsers\BaseParser;
+//use common\models\parsers\classes\BaseParser;
+//use common\models\parsers\classes\ContentLoader;
 
 
 /**
@@ -72,7 +73,7 @@ class Request extends \yii\db\ActiveRecord
             }],
             */
 
-            [['response_id', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['response_id', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at','sleep_time'], 'integer'],
             [['alias'], 'string', 'max' => 16],
             [['request_url', 'response_url'], 'string', 'max' => 512],
 
@@ -102,27 +103,47 @@ class Request extends \yii\db\ActiveRecord
         ];
     }
 
+    //=========================================================
+    //
+    // Блок relations
+    //
+    //=========================================================
 
-    public function getLoader(){
-        return ContentLoader::getTypeByUrl($this->request_url);
+    public function getResponses()
+    {
+        return $this->hasMany(Response::className(), ['request_id' => 'id']);
+    }
+    public function getResponseCount()
+    {
+        return $this->hasMany(Response::className(), ['request_id' => 'id'])->count();
+    }
+
+    //=========================================================
+    //
+    // Блок поисковых выдач
+    //
+    //=========================================================
+    public static function findByAlias($alias)
+    {
+        return Request::findOne(['alias'=>$alias]);
     }
     
+    
+    //=========================================================
+    //
+    // Блок событий ActiveRecord
+    //
+    //=========================================================
     public function beforeSave($insert)
     {
         if (!parent::beforeSave($insert)) {
             return false;
         }
 
-        //$this->ip=Yii::$app->request->userIP;
-        //$this->created_by=Yii::$app->user->id;
-        //$this->updated_by=Yii::$app->user->id;
-
         if($this->scenario==self::SCENARIO_DEMO){
             $this->sleep_time=null; //Запросы созданные в демо режиме не актуализируются
             $this->tarif_id=null; //Запросы созданные в демо режиме не тарифицируются
         }
-
-        
 
         return true;
     }
@@ -145,10 +166,8 @@ class Request extends \yii\db\ActiveRecord
         $response->request_id=$this->id;
         $response->status=Response::STATUS_READY;
 
-        $host=strtolower(str_replace('www.', '', parse_url($this->request_url, PHP_URL_HOST)));
-        $path=parse_url($this->request_url, PHP_URL_PATH);
-
-        $parser=Parser::findOne(['host'=>$host]);
+        
+        $parser=Parser::findByUrl($this->request_url);
 
         if(isset($parser)){
             $response->parser_id=$parser->id;
@@ -163,18 +182,6 @@ class Request extends \yii\db\ActiveRecord
                 $this->regError(Error::CODE_LOADER_NOT_FOUND,'Не найден загрузчик контента для парсера '.$parser->class_name,$parser->id);
                 return false;
             }
-            
-            $response->action_id=null;
-            foreach ($parser->actions as $key => $action){
-                if(preg_match($action->reg_exp,$path)){
-                    $response->action_id=$action->id;
-                }
-            }
-
-            if(!isset($response->action_id)){
-                $this->regError(Error::CODE_PARSER_ACTION_NOT_FOUND,'Не найдено действие для парсера '.$parser->class_name,$parser->id,null,$loader->id);
-                return false;
-            }
 
             if($response->save()){
                 $this->status=Request::STATUS_PROCESSING;
@@ -184,41 +191,105 @@ class Request extends \yii\db\ActiveRecord
         }else{
 
             //Регистрирую ошибку 
-            $this->regError(Error::CODE_PARSER_NOT_FOUND,'Не найден парсер для хоста '.$host);
-
-            //Создаю черновик парсера
-            $parser=new Parser();
-            $parser->host=$host;
-            $parser->loader_type=Loader::TYPE_HTML_CLIENT;
-            $parser->class_name=BaseParser::url2ClassName($this->request_url);
-            $parser->status=Parser::STATUS_FIXING;
-            $parser->save();
-
+            $this->regError(Error::CODE_PARSER_NOT_FOUND,'Не найден парсер URL '.$this->request_url);
             return false;
         }
     }
 
-    private function regError($code,$msg,$parser_id=null,$action_id=null,$loader_id=null){
+    
+
+
+    //=========================================================
+    //
+    // Блок атрибутов
+    //
+    //=========================================================
+    public function getStatusName()
+    {
+        return Lookup::item('REQUEST_STATUS',$this->status);
+    }
+    public function getStatusList()
+    {
+        return Lookup::items('REQUEST_STATUS');
+    }
+    public function getFreqName()
+    {
+        if(!array_key_exists ($this->sleep_time , $this->freqList )){
+            return 'N/A';
+        }
+        return $this->freqList[$this->sleep_time];
+    }
+
+    public function getFreqList()
+    {
+        return [
+            ''=>'Не обновлять',
+            15=>'Каждые 15 мин.',
+            10=>'Каждые 30 мин.',
+            60=>'Каждый час',
+            120=>'Каждые 2 часа',
+            60*6=>'Четыре раза в сутки',
+            60*12=>'Два раза в сутки',
+            60*24=>'Раза в сутки',
+            60*24*15=>'Раза в 15 дней',
+            60*24*30=>'Раза в 30 дней',
+        ];
+    }
+
+    //=========================================================
+    //
+    // Блок генерации Url
+    //
+    //=========================================================
+    public static function getIndexUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['request/index']);
+    }
+    public static function getCreateUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['request/create']);
+    }
+    public function getUpdateUrl(){
+        return Yii::$app->urlManager->createUrl(['request/update','alias'=>$this->alias]);
+    }
+    public function getDeleteUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['request/delete','alias'=>$this->alias]);
+    }
+    public function getViewUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['request/view','alias'=>$this->alias]);
+    }
+
+    public function getResponsesUrl(){
+        return Yii::$app->urlManager->createUrl(['response/index','request'=>$this->alias]);
+    }
+
+
+    
+    
+
+    //=========================================================
+    //
+    // Блок вспомагательных методов
+    //
+    //=========================================================
+    private function regError($code,$msg,$parser_id=null,$loader_id=null){
         $error=new Error();
 
         $error->code=$code;
         $error->msg=$msg;
         $error->status=Error::STATUS_NEW;
         $error->request_id=$this->id;
-        
-
         $error->parser_id=$parser_id;
-        $error->action_id=$action_id;
-
         $error->loader_id=$loader_id;
 
         $error->save();
     }
 
-
-
-    public function getUpdateUrl(){
-        return Yii::$app->urlManager->createUrl(['request/update','alias'=>$this->alias]);
+    public function getLoader(){
+        $parser=Parser::findByUrl($this->request_url);
+        return $parser->loader_type;
     }
 
 

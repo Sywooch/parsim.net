@@ -20,7 +20,6 @@ class m170825_093809_create_response_table extends Migration
 
             'loader_id' => $this->integer(), 
             'parser_id' => $this->integer(), 
-            'action_id' => $this->integer(), 
             
             'status' => $this->integer()->notNull()->defaultValue(0),
 

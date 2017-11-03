@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Logo */
 
-$this->title = Yii::t('app', 'Create request');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Requests'), 'url' => $model->indexUrl];
+$this->title = Yii::t('app', 'Create error');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Errors'), 'url' => $model->indexUrl];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="parser-create">

@@ -123,17 +123,23 @@ AppAsset::register($this);
                                             'visible'=>Yii::$app->user->identity->isAdmin,
                                         ],
                                         [
-                                            'label' => '<i class="icon-folder4 position-left"></i> <span>'.Yii::t('app','Request').'</span>',
+                                            'label' => '<i class="icon-download4 position-left"></i> <span>'.Yii::t('app','Requests').'</span>',
                                             'url' => ['request/index'],
                                             'encode'=>false,
                                             'visible'=>Yii::$app->user->identity->isAdmin,
                                         ],
                                         [
-                                            'label' => '<i class="icon-download4 position-left"></i> <span>'.Yii::t('app','Download Content').'</span>',
-                                            'url' => ['task/download'],
+                                            'label' => '<i class="icon-upload4 position-left"></i> <span>'.Yii::t('app','Responses').'</span>',
+                                            'url' => ['response/index'],
                                             'encode'=>false,
                                             'visible'=>Yii::$app->user->identity->isAdmin,
-                                        ]
+                                        ],
+                                        [
+                                            'label' => '<i class="icon-bug2 position-left"></i> <span>'.Yii::t('app','Errors').'</span>',
+                                            'url' => ['error/index'],
+                                            'encode'=>false,
+                                            'visible'=>Yii::$app->user->identity->isAdmin,
+                                        ],
                                     ],
                                     'options'=>['class'=>'navigation navigation-main navigation-accordion']
                                 ]);
