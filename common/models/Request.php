@@ -31,6 +31,7 @@ class Request extends \yii\db\ActiveRecord
     const STATUS_PROCESSING = 1;
     const STATUS_SUCCESS = 2;
     const STATUS_ERROR = 3;
+    const STATUS_NEED_PAY = 4;
 
     const SCENARIO_DEMO='demo';
     
@@ -91,9 +92,11 @@ class Request extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'alias' => Yii::t('app', 'Alias'),
             'response_id' => Yii::t('app', 'Response ID'),
-            'request_url' => Yii::t('app', 'Target Url'),
-            'response_url' => Yii::t('app', 'Aviso Url'),
-            'loader' => Yii::t('app', 'Loader'),
+            'request_url' => 'Целевой URL',//Yii::t('app', 'Target Url'),
+            'sleep_time'=>'Частота обновления',
+            'response_url' => 'URL - обработчик ответа',//Yii::t('app', 'Aviso Url'),
+            'response_email' => 'E-mail - обработчик ответа',//Yii::t('app', 'Aviso Url'),
+            //'loader' => Yii::t('app', 'Loader'),
             'parser' => Yii::t('app', 'Parser'),
             'status' => Yii::t('app', 'Status'),
             'created_by' => Yii::t('app', 'Created By'),
@@ -118,6 +121,10 @@ class Request extends \yii\db\ActiveRecord
         return $this->hasMany(Response::className(), ['request_id' => 'id'])->count();
     }
 
+    public function getOwner(){
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
+    }
+
     //=========================================================
     //
     // Блок поисковых выдач
@@ -140,6 +147,13 @@ class Request extends \yii\db\ActiveRecord
             return false;
         }
 
+        
+
+        if($insert && isset(Yii::$app->user->id)){
+            $this->created_by=Yii::$app->user->id;
+            $this->updated_by=Yii::$app->user->id;
+        }
+
         if($this->scenario==self::SCENARIO_DEMO){
             $this->sleep_time=null; //Запросы созданные в демо режиме не актуализируются
             $this->tarif_id=null; //Запросы созданные в демо режиме не тарифицируются
@@ -153,43 +167,90 @@ class Request extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-
-        if($insert){
-            $this->addResponse();
-        }
         
     }
 
     public function addResponse(){
-        $response= new Response();
 
-        $response->request_id=$this->id;
-        $response->status=Response::STATUS_READY;
-
-        
+        //Проверяю наличие подходящего парсера
         $parser=Parser::findByUrl($this->request_url);
 
+        //Если парсер найден, ищу загрузчик и создаю ответ и сразуже его оплачиваю (создаю транзакцию)
+        //Если в последствие в ходе загрузки контента или парсинге взникнет ошибка
+        //Транзакция будет сторнирована во время регистрации ошибки
         if(isset($parser)){
-            $response->parser_id=$parser->id;
 
             //Ищу соответствующий закрузчих 
             //ToDo фильтр по статусу, загруженности и т.п.
             $loader=Loader::findOne(['type'=>$parser->loader_type]);
-
             if(isset($loader)){
-                $response->loader_id=$loader->id;
+                //Ответ создается только в случае положительного баланса
+                if($this->owner->hasMoney){
+                    $response= new Response();
+                    $response->request_id=$this->id;
+                    $response->status=Response::STATUS_READY;
+
+                    $response->loader_id=$loader->id;
+                    $response->parser_id=$parser->id;
+
+                    if($response->save()){
+                        //Создаю транзакцию
+                        $response->addTransaction();
+
+                        //Обновляю статус запроса
+                        $this->status=Request::STATUS_PROCESSING;
+                        $this->save();
+
+                        return $response;
+                    }
+
+                }else{
+                    //Создаю сообщение о недостатке средств
+                    //Для этого вясняю последнию дату оплаты
+                    //И дату последнего сообщения о дефиците средств
+                    //Сообщение создаю только в том слуяае если дата оплаты больше даты последнего сообщения
+                    //т.е. после последней оплаты уведомлений еще не было
+                    
+                    //Исключаю дубли сообщений                    
+                    $need_msg=false;
+                    $last_notification=Notification::find()->where(['type'=>Notification::TYPE_NEED_PAY,'user_id'=>$this->owner->id])->orderBy(['created_at'=>SORT_DESC])->one();
+                    if(!isset($last_notification)){
+                        $need_msg=true;
+                    }else{
+                        $last_transaction=Transaction::find()->where(['type'=>Transaction::TYPE_IN,'user_id'=>$this->owner->id])->orderBy(['created_at'=>SORT_DESC])->one();
+                        if(isset($last_transaction) && $last_notification->created_at<$last_transaction->created_at){
+                            $need_msg=true;
+                        }
+                    }
+                    
+                    //$need_msg=false;
+                    //Добавляю сообщение
+                    if($need_msg){
+                        $notification=new Notification();
+                        $notification->user_id=$this->owner->id;
+                        $notification->type=Notification::TYPE_NEED_PAY;
+                        $notification->status=Notification::STATUS_NEW;
+                        $notification->msg='Недостаточно средств на счете!!! Необходимо <a href="">пополнить счет</a>';
+                        $notification->save();        
+                    }
+
+                    //test
+                    /*
+                    $transaction=new Transaction();
+                    $transaction->type=Transaction::TYPE_IN;
+                    $transaction->user_id=$this->owner->id;
+                    $transaction->status=Transaction::STATUS_SUCCESS;
+                    $transaction->amount=0.25;
+                    $transaction->save();
+                    */
+                    
+
+                }
             }else{
                 $this->regError(Error::CODE_LOADER_NOT_FOUND,'Не найден загрузчик контента для парсера '.$parser->class_name,$parser->id);
                 return false;
             }
-
-            if($response->save()){
-                $this->status=Request::STATUS_PROCESSING;
-                $this->save();
-            }
-
         }else{
-
             //Регистрирую ошибку 
             $this->regError(Error::CODE_PARSER_NOT_FOUND,'Не найден парсер URL '.$this->request_url);
             return false;
@@ -223,14 +284,14 @@ class Request extends \yii\db\ActiveRecord
     public function getFreqList()
     {
         return [
-            ''=>'Не обновлять',
+            ''=>'Выполнить один раз',
             15=>'Каждые 15 мин.',
             10=>'Каждые 30 мин.',
             60=>'Каждый час',
             120=>'Каждые 2 часа',
             60*6=>'Четыре раза в сутки',
             60*12=>'Два раза в сутки',
-            60*24=>'Раза в сутки',
+            60*24=>'Раз в сутки',
             60*24*15=>'Раза в 15 дней',
             60*24*30=>'Раза в 30 дней',
         ];
@@ -287,10 +348,12 @@ class Request extends \yii\db\ActiveRecord
         $error->save();
     }
 
+    /*
     public function getLoader(){
         $parser=Parser::findByUrl($this->request_url);
         return $parser->loader_type;
     }
+    */
 
 
 }

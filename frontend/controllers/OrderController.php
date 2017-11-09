@@ -24,6 +24,8 @@ use yii\filters\AccessControl;
  */
 class OrderController extends Controller
 {
+    public $layout = 'column2';
+    
     /**
      * @inheritdoc
      */
@@ -40,10 +42,10 @@ class OrderController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create','pay','gift'],
+                'only' => ['create','pay'],
                 'rules' => [
                     [
-                        'actions' => ['create','pay','gift'],
+                        'actions' => ['create','pay'],
                         'allow' => true,
                         'roles' => ['@'],
                     ]
@@ -91,6 +93,7 @@ class OrderController extends Controller
                         if($transaction == null){
                             $transaction=new Transaction();
                             $transaction->type=Transaction::TYPE_IN;
+                            $transaction->user_id=$user_id;
                             $transaction->order_id=$order->id;
                             $transaction->status=Transaction::STATUS_SUCCESS;
                             $transaction->amount=$order->amount;
@@ -134,34 +137,11 @@ class OrderController extends Controller
         ]);
     }
 
-
-    public function actionGift($tarif)
-    {
-
-        $tarif=Tarif::findOne(['alias'=>$tarif]);
-        if(isset($tarif->availableQty) && $tarif->availableQty>0){
-            $user=Yii::$app->user->identity;
-            $user->tarif_id=$tarif->id;    
-            if($user->save()){
-                return $this->render('gift',['model'=>$tarif]);    
-            }else{
-                throw new NotFoundHttpException('Ошибка подключения тарифа.');
-            }
-        }else{
-            return $this->render('unAvailable',['model'=>$tarif]);    
-        }
-        
-        
-        
-        
-    
-    }
-
-
-    public function actionPay($tarif)
+    public function actionPay()
     {
         $model = new order();
-        $tarif=Tarif::findOne(['alias'=>$tarif]);
+        $tarif=Yii::$app->user->identity->tarif;
+
         $model->tarif_id=$tarif->id;
         $model->price=$tarif->price;
         $model->user_id=Yii::$app->user->identity->id;
@@ -171,24 +151,28 @@ class OrderController extends Controller
             $model->qty=$model->amount/$tarif->price;
         }
 
+        /*
         if($tarif->type==Tarif::STATUS_COST_PER_PERIOD){
             $model->qty=2;
             $model->amount=$tarif->price*$model->qty;
         }
+        */
         
-        return $this->render('pay', [
+        return $this->render('_form', [
             'model' => $model,
         ]);
     }
 
     public function actionSuccess()
     {
-        return $this->render('success');
+        $this->layout = 'content';
+        return $this->render('paySuccess');
     }
 
     public function actionFail()
     {
-        return $this->render('fail');
+        $this->layout = 'content';
+        return $this->render('payFail');
     }
 
     
@@ -220,11 +204,7 @@ class OrderController extends Controller
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        } 
     }
 
 

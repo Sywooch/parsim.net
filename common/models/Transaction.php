@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "transaction".
@@ -33,14 +34,21 @@ class Transaction extends \yii\db\ActiveRecord
         return 'transaction';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['type', 'order_id', 'response_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['order_id'], 'required'],
+            [['type', 'user_id','order_id','request_id','response_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['user_id'], 'required'],
             [['amount'], 'number'],
             [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => Order::className(), 'targetAttribute' => ['order_id' => 'id']],
         ];
@@ -61,5 +69,28 @@ class Transaction extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
+    }
+
+    //=========================================================
+    //
+    // Блок событий ActiveRecord
+    //
+    //=========================================================
+    
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        //Прячу все уведомления о недостатке средств
+        if($insert && $this->type==Transaction::TYPE_IN && $this->status==Transaction::STATUS_SUCCESS){
+            Notification::updateAll(
+                ['status' => Notification::STATUS_READED],
+                'type='.Notification::TYPE_NEED_PAY.' AND user_id='.$this->user_id.' AND created_at<='.$this->created_at
+            );    
+        }
+        
+
+        
     }
 }

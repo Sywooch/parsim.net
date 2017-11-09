@@ -74,6 +74,7 @@ class m170605_122428_create_lookup_table extends Migration
             ['Processing', 1, 'REQUEST_STATUS',1],
             ['Success', 2, 'REQUEST_STATUS',2],
             ['Error', 3, 'REQUEST_STATUS',3],
+            ['Need pay', 4, 'REQUEST_STATUS',3],
 
             //Response status
             ['Ready', 0, 'RESPONSE_STATUS',0],
@@ -93,8 +94,16 @@ class m170605_122428_create_lookup_table extends Migration
             ['OUT', 1, 'TRANSACTION_TYPE',1],
 
             //Transactin status
-            ['FAIL', 0, 'TRANSACTION_STAUS',0],
-            ['SUCCESS', 1, 'TRANSACTION_STAUS',1],
+            ['FAIL', 0, 'TRANSACTION_STATUS',0],
+            ['SUCCESS', 1, 'TRANSACTION_STATUS',1],
+
+            //Notification type
+            ['Need pay', 0, 'NOTIFICATION_TYPE',0],
+            
+
+            //Notification status
+            ['New', 0, 'NOTIFICATION_STATUS',0],
+            ['Readed', 1, 'NOTIFICATION_STATUS',1],
         ]);
     }
 

@@ -1,0 +1,86 @@
+/*
+====================================================================
+  Form styles
+====================================================================
+
+ ***/
+
+.form .form-group{
+  position:relative;
+  margin-bottom:22px;
+}
+
+.form .form-group input[type="text"],
+.form .form-group input[type="password"],
+.form .form-group input[type="tel"],
+.form .form-group input[type="email"],
+.form .form-group select{
+  position:relative;
+  display:block;
+  width:100%;
+  line-height:28px;
+  padding:15px 20px;
+  height:60px;
+  font-size:16px;
+  background-color:#ffffff;
+  border:1px solid #ededed;
+  -webkit-transition:all 300ms ease;
+  -ms-transition:all 300ms ease;
+  -o-transition:all 300ms ease;
+  -moz-transition:all 300ms ease;
+  transition:all 300ms ease;
+}
+
+.form .form-group input[type="text"]:focus,
+.form .form-group input[type="password"]:focus,
+.form .form-group input[type="tel"]:focus,
+.form .form-group input[type="email"]:focus,
+.form .form-group select:focus,
+.form .form-group textarea:focus{
+  border-color:#ff5926;
+}
+
+.form .form-group textarea{
+  position:relative;
+  display:block;
+  width:100%;
+  line-height:32px;
+  padding:12px 20px;
+  height:200px;
+  resize:none;
+  font-size:16px;
+  border:1px solid #ededed;
+  -webkit-transition:all 300ms ease;
+  -ms-transition:all 300ms ease;
+  -o-transition:all 300ms ease;
+  -moz-transition:all 300ms ease;
+  transition:all 300ms ease;
+}
+
+.form button{
+  position:relative;
+  font-weight:600;
+  margin-top:0px;
+  padding:13px 44px;
+  font-size:14px;
+  display:inline-block;
+  font-family: 'Poppins', sans-serif;
+}
+
+.badge-warning{
+  background-color: #ff5926;
+}
+
+.msg-list{
+  min-height: 500px;
+}
+
+.panel .close{
+  position: relative;
+  top: -21px;
+  color: inherit;
+  opacity: 0.5;
+}
+.panel .close:hover{
+  opacity: 0.8;
+}

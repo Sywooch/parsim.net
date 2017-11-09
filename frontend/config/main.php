@@ -58,6 +58,8 @@ return [
                     'api/request'
                 ]],
                 
+                //Admin rules
+                'admin'=>'admin/default/index',
                 
             
                 
@@ -74,6 +76,9 @@ return [
         'api' => [
             'basePath' => '@app/modules/api',
             'class' => 'app\modules\api\Module',
+        ],
+        'admin' => [
+            'class' => 'frontend\modules\admin\Module',
         ],
     ],
     

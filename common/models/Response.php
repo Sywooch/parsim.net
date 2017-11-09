@@ -89,6 +89,11 @@ class Response extends \yii\db\ActiveRecord
     public function getRequest(){
         return $this->hasOne(Request::className(), ['id' => 'request_id']);
     }
+
+    public function getLoader(){
+        return $this->hasOne(Loader::className(), ['id' => 'loader_id']);
+    }
+
     //=========================================================
     //
     // Блок поисковых выдач
@@ -116,6 +121,14 @@ class Response extends \yii\db\ActiveRecord
         //$this->parser='baseParser';
 
         return true;
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+
+        
     }
 
     public function sendData()
@@ -204,6 +217,51 @@ class Response extends \yii\db\ActiveRecord
     //
     //=========================================================
     
+    public function addTransaction()
+    {
+        if(isset($this->request->owner)){
+            $transaction=new Transaction();
+        
+            $transaction->type=Transaction::TYPE_OUT;
+            $transaction->response_id=$this->id;
+            $transaction->request_id=$this->request->id;
+            $transaction->user_id=$this->request->owner->id;
+            $transaction->amount=-1*$this->request->owner->tarif->price;
+            
+            $transaction->save();    
+        }
+    }
 
+    public function regEventContentLoad()
+    {
+        $this->status=Response::STATUS_LOADING_SUCCESS;
+        $this->save();
+    }
+
+    public function regData($data)
+    {
+        $this->json=$data;
+        $this->error=null;
+        $this->status=Response::STATUS_PARSING_SUCCESS;
+        $this->save();
+
+        $this->request->status=Request::STATUS_SUCCESS;
+        $this->request->save();
+
+        $this->sendData();
+
+    }
+
+    public function regError($status,$msg)
+    {
+        $this->json=null;
+        $this->error=json_encode($msg);
+        $this->status=$status;
+        $this->save();
+
+        $this->request->status=Request::STATUS_ERROR;
+        $this->request->save();        
+
+    }
     
 }

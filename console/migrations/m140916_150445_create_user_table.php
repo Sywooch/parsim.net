@@ -29,7 +29,8 @@ class m140916_150445_create_user_table extends Migration
             'avatar_id' => $this->integer(),
             'background_id' => $this->integer(),
 
-            'tarif_id' => $this->integer(),
+            'tarif_id' => $this->integer()->notNull()->defaultValue(3),
+
 
             'status' => $this->smallInteger()->notNull()->defaultValue(0),
             'created_by' => $this->integer()->notNull()->defaultValue(1),

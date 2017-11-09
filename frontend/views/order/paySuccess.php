@@ -4,11 +4,10 @@
 
 use yii\helpers\Html;
 
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title='Оплата прошла успешно';
+$this->params['title']=$this->title;
 
-//$this->params['htmlClass']="cover";
-//$this->params['bodyClass']="login";
+$this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
@@ -26,10 +25,11 @@ $this->params['breadcrumbs'][] = $this->title;
             
             <!--Content Column-->
             <div class="content-column col-md-6 col-sm-12 col-xs-12">
-                <div class="register-content">
-                    <h2>Регистрация</h2>
-                    <div class="dark-text">When we first get to know you, we’ll immediately begin analyzing your website. We want to know everything we can about it.</div>
-                    <?= $this->render('_signupForm',['model'=>$model,'autofocus'=>true]); ?>
+                <div class="login-content">
+                    <h2>Оплата прошла успешно!</h2>
+                    <!--
+                    <div class="dark-text">Здесь будет дополнтительный текст с комментарием к заказу.</div>
+                    -->
                 </div>
             </div>
             

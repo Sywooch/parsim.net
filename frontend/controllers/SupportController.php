@@ -16,15 +16,15 @@ use yii\filters\AccessControl;
  */
 class SupportController extends Controller
 {
-
+  //public $layout = 'column2';
     
-    /**
-     * Lists all order models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
+  /**
+   * Lists all order models.
+   * @return mixed
+   */
+  public function actionIndex()
+  {
+      return $this->render('index');
+  }
 
 }

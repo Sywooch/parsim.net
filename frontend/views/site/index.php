@@ -7,6 +7,8 @@ use common\models\Tarif;
 $this->title = 'Parsim NET';
 $this->params['headerClass']="main-header";
 
+$tarif=Tarif::findOne(3);
+
 ?>
 
 <!--Main Slider-->
@@ -435,7 +437,9 @@ $this->params['headerClass']="main-header";
                 </div>
                 <div class="column col-md-6 col-sm-12 col-xs-12">
                     <div class="text">
-                        <?= Yii::t('app','The basic principle of the parser: as easy and convenient for the user as possible, speed and accuracy, low cost'); ?>.
+                        Наш принципы работы<br/>
+                        Как можно проще, удобнее, быстрее, надежней и дешевле.
+                        Никакой абонентской платы, оплата только за результат.
                     </div>
                 </div>
             </div>
@@ -450,7 +454,7 @@ $this->params['headerClass']="main-header";
                   <div class="icon-box">
                       <span class="icon"><img src="/images/resource/icon-1.png" alt="" /></span>
                     </div>
-                    <h3><a href="services-2.html"><?= Yii::t('app','Simple <br> Team & Quick Support'); ?></a></h3>
+                    <h3><a href="services-2.html">Просто <br>добавьте URL и получите результат</a></h3>
                     <a href="services-2.html" class="learn-more"><?= Yii::t('app','Learn More'); ?> <span class="arrow fa fa-long-arrow-right"></span></a>
                 </div>
             </div>
@@ -461,8 +465,8 @@ $this->params['headerClass']="main-header";
                   <div class="icon-box">
                       <span class="icon"><img src="/images/resource/icon-2.png" alt="" /></span>
                     </div>
-                    <h3><a href="services-2.html"><?= Yii::t('app','Fast & <br> Quick Result'); ?></a></h3>
-                    <a href="services-2.html" class="learn-more"><?= Yii::t('app','Learn More'); ?> <span class="arrow fa fa-long-arrow-right"></span></a>
+                    <h3><a href="services-2.html">Быстро <br> добавляем новые парсеры в течении 30 мин. </a></h3>
+                    <a href="services-2.html" class="learn-more"><?= Yii::t('app','Learn More'); ?><span class="arrow fa fa-long-arrow-right"></span></a>
                 </div>
             </div>
             
@@ -474,7 +478,7 @@ $this->params['headerClass']="main-header";
                     <div class="icon-box">
                         <span class="icon"><img src="/images/resource/icon-3.png" alt="" /></span>
                     </div>
-                    <h3><a href="services-2.html"><?= Yii::t('app','Quality <br> Service in Low Cost'); ?></a></h3>
+                    <h3><a href="services-2.html">Качествено <br> непрерывный контроль работы парсеров</a></h3>
                     <a href="services-2.html" class="learn-more"><?= Yii::t('app','Learn More'); ?> <span class="arrow fa fa-long-arrow-right"></span></a>
                 </div>
             </div>
@@ -507,14 +511,14 @@ $this->params['headerClass']="main-header";
             <!--Content Column-->
             <div class="content-column col-md-7 col-sm-12 col-xs-12">
                 <div class="inner-content">
-                    <h2><?= Yii::t('app','Why We’re The Best Match <br> For Your Business'); ?>!!</h2>
+                    <h2>Почемы Мы лучшие для Вашего бизнеса!!</h2>
                     <div class="dark-text">
-                        <?= Yii::t('app','We appreciate the time and are convinced that the whole routine should be done by robots. We know how to do this and will spare you the deal. So you can focus on your business'); ?>.
+                        Мы ценим время и убеждены, что всю рутину должны делать роботы. Мы знаем как это сделать и може избавить Вас от необходимости в этом разбираться. Так, что Вы сможете сфокусироваться только на своем бизнесе.
                     </div>
                     <ul class="list-style-one">
-                        <li><?= Yii::t('app','We will never leave you without support'); ?></li>
-                        <li><?= Yii::t('app','We’re always refining our craft which means you’ll always be getting better and better results'); ?>!</li>
-                        <li><?= Yii::t('app','We’re a team of IT experts innovation is an inherent part of our business model'); ?>.</li>
+                        <li>Мы не берем абонентской платы! Вы всегда оплачиваете только результативные итерации парсинга.</li>
+                        <li>Мы постоянно совершенствуем наши алгоритмы, что означает, что Вы всегда будете получать лучшие и лучшие результаты!</li>
+                        <li>Мы - комадна высококвалифицированных IT специалистов, инновации являются неотъемлемой частью нашей бизнес-модели.</li>
                     </ul>
                 </div>
             </div>
@@ -531,13 +535,17 @@ $this->params['headerClass']="main-header";
         <div class="row clearfix">
             <!--Content Column-->
             <div class="content-column col-md-6 col-sm-12 col-xs-12">
-                <h2><?= Yii::t('app','How Parsim<span class="theme_color"> NET</span> Work?'); ?></h2>
-                    <div class="dark-text"><?= Yii::t('app','We tried to simplify the work with the parser as much as possible. The main work is carried out through the API or personal cabinet. For this you need to register'); ?>.</div>
+                <h2>Как работает Parsim<span class="theme_color"> NET</span>?</h2>
+                    <div class="dark-text">
+                        Мы постарались максимально упростить работу с парсером. Для начала работы Вам потребуется совершить несколько простых шагов.
+                    </div>
                     <ul class="list-style-one">
-                        <li><?= Yii::t('app','Register on the site and get the API access key'); ?>.</li>
-                        <li><?= Yii::t('app','In your account or through the IPA, add URLs, which you want to follow and the URL or E-mail, where to send the results'); ?></li>
-                        <li><?= Yii::t('app','Choose a favorable rate and top up your account'); ?>.</li>
+                        <li>Зарегистрировать свой аккаунт.</li>
+                        <li>Пополнить лицевой счет удобным для Вас способом.</li>
+                        <li>В личном кабинете добавить ссылки для парсинга и указать частоту их обработки.</li>
+                        <li>Вы можете использовать наш API для автоматизации перечисленных действий и интеграции со своими системами.</li>
                     </ul>
+                    
             </div>
 
             <!--Image Column-->
@@ -559,15 +567,33 @@ $this->params['headerClass']="main-header";
 <!--End Marketing Section-->
 
 <!--Price Section -->
-<section class="price-section-two" id="pricing">
+<section class="business-section alternate light-bg" id="pricing">
     <div class="auto-container">
-        <div class="clearfix">
-            <?php foreach (Tarif::findVisible() as $key => $tarif){
-                
-                echo $this->render('_tarif',['model'=>$tarif]);    
-                
-                
-            }?>
+        <div class="row clearfix">
+            
+            <!--Image Column-->
+            <div class="image-column col-md-5 col-sm-12 col-xs-12">
+                <div class="image">
+                    <img src="/images/resource/business-img.png" alt="" />
+                </div>
+            </div>
+            
+            <!--Content Column-->
+            <div class="content-column col-md-7 col-sm-12 col-xs-12">
+                <div class="inner-content">
+                    <h2>Цена - <?=Yii::$app->formatter->asCurrency($tarif->price); ?> за результат!!</h2>
+                    <div class="dark-text">
+                        Для начала работы необходимо пополнить лицевой счет. Списание средств будет происходить по результатам успешных итераций парсинга.
+                    </div>
+                    <ul class="list-style-one">
+                        <li>Никакой абоненетской платы! Вы платите только за результат.</li>
+                        <li>Контролируйте бюджета в реальном времени. Меняйте количество ссылок для парсинга и частоту их обработки.</li>
+                        <li>Принимаем оплату банковскими картами, электронными деньгами, банковские переводы.</li>
+                    </ul>
+                    <a href="<?= $tarif->orderUrl; ?>" class="theme-btn btn-style-one">Пополнить счет</a>
+                </div>
+            </div>
+            
         </div>
     </div>
 </section>
@@ -575,7 +601,7 @@ $this->params['headerClass']="main-header";
 
 <?php if(Yii::$app->user->isGuest): ?>
 <!--Create  account-->
-<section class="login-section alternate light-bg">
+<section class="login-section alternate ">
     <div class="auto-container">
         <div class="row clearfix">
             
@@ -587,8 +613,8 @@ $this->params['headerClass']="main-header";
             <!--Content Column-->
             <div class="content-column col-md-7 col-sm-12 col-xs-12">
                 <div class="inner-content">
-                    <h2><?= Yii::t('app','Create your free account now and get immediate access to our service'); ?></h2>
-                    <div class="dark-text">На время запуска сервиса, мы выпустили ограниченное количество предложений <span class="theme_color">"100% функционала - бесплатно - навсегда"</span></div>
+                    <h2>Создай бесплатный аккаунт и попробуй работу парсера</h2>
+                    <div class="dark-text">Для регистрации достаточно указать Ваш E-mail и придумать пароль.</div>
                     
                 </div>
             </div>

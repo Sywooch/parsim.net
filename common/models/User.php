@@ -163,6 +163,17 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(Image::className(), ['id' => 'avatar_id']);
     }
 
+    public function getTarif()
+    {
+        return $this->hasOne(Tarif::className(), ['id' => 'tarif_id']);
+    }
+
+    public function getMsgCount()
+    {
+        return $this->hasMany(Notification::className(), ['user_id' => 'id'])->where(['status'=>Notification::STATUS_NEW])->count();
+    }
+
+    
     public function getStatusName()
     {
         return ArrayHelper::getValue(self::getStatusesArray(), $this->status);
@@ -416,6 +427,21 @@ class User extends ActiveRecord implements IdentityInterface
             return true;
         }
         return false;
-    }                                         
+    } 
+
+    public function getBalanse()
+    {
+        $sum=Yii::$app->db->createCommand('SELECT sum(amount) FROM transaction WHERE user_id='.$this->id)->queryScalar();
+        if(!isset($sum)){
+            $sum=0;
+        }
+        return $sum;
+    }
+
+    public function getHasMoney()
+    {
+        return $this->balanse>=$this->tarif->price;
+    }
+    
 
 }

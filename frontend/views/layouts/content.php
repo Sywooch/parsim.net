@@ -3,12 +3,21 @@
   use yii\widgets\Menu;
 
   use common\models\User;
+  use common\models\Notification;
 
   use frontend\assets\AppAsset;
   AppAsset::register($this);
 
 
-  $menuItems=[]
+  $menuItems=[];
+
+  use yii\widgets\Breadcrumbs;
+  if(!array_key_exists('title',$this->params)){
+    $this->params['title']='';
+  }
+  if(!array_key_exists('breadcrumbs',$this->params)){
+    $this->params['breadcrumbs']=[];
+  }
   
 ?>
 <?php $this->beginContent('@app/views/layouts/main.php'); ?>
@@ -82,12 +91,13 @@
                                 ['label'=>'API','url'=>['/api/index']],
                                 ['label'=>'Поддержка','url'=>'/support/index'],
                                 ['label'=>'Вход','url'=>User::getLoginUrl(),'visible'=>Yii::$app->user->isGuest],
-                                ['label'=>(Yii::$app->user->isGuest?'':Yii::$app->user->identity->fullName),'url'=>User::getLogoutUrl(),'visible'=>!Yii::$app->user->isGuest,'options'=>['class'=>'dropdown'],'items'=>[
-                                  ['label'=>'Настройки','url'=>User::getProfileUrl()],
-                                  ['label'=>'Мои URL','url'=>'#'],
-                                  ['label'=>'Оплата','url'=>'#'],
+                                ['label'=>(Yii::$app->user->isGuest?'':Yii::$app->user->identity->fullName).((Yii::$app->user->isGuest || Yii::$app->user->identity->msgCount==0)?'':' <span class="badge  badge-warning">'.Yii::$app->user->identity->msgCount.'</span>'),'url'=>User::getLogoutUrl(),'visible'=>!Yii::$app->user->isGuest,'options'=>['class'=>'dropdown'],'items'=>[
+                                  ['label'=>'Мой профиль','url'=>User::getProfileUrl()],
+                                  ['label'=>'Добавить URL','url'=>'/request/create'],
+                                  ['label'=>'Баланс '.(Yii::$app->user->isGuest?'':'<span class="pull-right ">'.Yii::$app->formatter->asCurrency(Yii::$app->user->identity->balanse).'</span>'),'url'=>'#','encode'=>false],
+                                  ['label'=>'Сообщения '.((Yii::$app->user->isGuest || Yii::$app->user->identity->msgCount==0)?'':'<span class="badge  badge-warning pull-right">'.Yii::$app->user->identity->msgCount.'</span>'),'url'=>Notification::getIndexUrl(),'encode'=>false],
                                   ['label'=>'Выход','url'=>User::getLogoutUrl()],
-                                ]],
+                                ],'encode'=>false],
                               ],
                               'options'=>['class'=>'navigation clearfix'],
                               'activeCssClass'=>'current'
@@ -147,6 +157,30 @@
 
   </header>
   <!--End Main Header -->
+
+  <!--Page Title-->
+  <section class="page-title">
+      <div class="auto-container">
+          <div class="row clearfix">
+              <!--Title -->
+              <div class="title-column col-md-6 col-sm-8 col-xs-12">
+                  <h1><?= $this->params['title']; ?></h1>
+              </div>
+              <!--Bread Crumb -->
+              <div class="breadcrumb-column col-md-6 col-sm-4 col-xs-12">
+                  
+                  <?=
+                    Breadcrumbs::widget([
+                      'links' => $this->params['breadcrumbs'],
+                      'options'=>['class'=>'bread-crumb clearfix'],
+                    ]);
+                  ?>
+              </div>
+              
+          </div>
+      </div>
+  </section>
+  <!--End Page Title-->
   <?= $content; ?>
   
   <!--Main Footer-->

@@ -5,18 +5,14 @@ namespace common\models\searchForms;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Request;
+use common\models\Notification;
 
 /**
  * UserSearch represents the model behind the search form about `common\models\User`.
  */
-class RequestSearch extends Request
+class NotificationSearch extends Notification
 {
-    public $url;
-    //public $type=self::TYPE_DESTINATION;
-    /**
-     * @inheritdoc
-     */
+    
     public function rules()
     {
         return [
@@ -42,7 +38,7 @@ class RequestSearch extends Request
      */
     public function search($params)
     {
-        $query = Request::find();
+        $query = Notification::find();
         
 
         // add conditions that should always apply here
@@ -66,7 +62,7 @@ class RequestSearch extends Request
 
         
         $query->andFilterWhere([
-            'created_by' => $this->created_by,
+            'user_id' => $this->user_id,
         ]);
 
 

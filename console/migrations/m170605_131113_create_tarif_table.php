@@ -24,7 +24,7 @@ class m170605_131113_create_tarif_table extends Migration
             'visible' => $this->integer()->notNull()->defaultValue(1),
 
             'duration' => $this->string(32),
-            'price'=>$this->float(),
+            'price'=>$this->money(),
             'qty'=>$this->integer(),
             
             

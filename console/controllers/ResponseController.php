@@ -8,8 +8,7 @@ use yii\console\Controller;
 use common\models\Request;
 use common\models\Response;
 
-use common\models\parsers\classes\HtmlLoader;
-
+use common\models\parsers\classes\HTMLLoader;
 use common\models\parsers\classes\BaseParser;
 
 
@@ -32,9 +31,10 @@ class ResponseController extends Controller
 
         //Создаю новые ответы для запросов в статусе READY
         //Это запросы для которых настало время обновить информацию
-        $requests=Request::find()->where(['status'=>Request::STATUS_READY])->all();
+        $requests=Request::find()->where(['status'=>[Request::STATUS_READY]])->all();
         
         foreach ($requests as $key => $request) {
+            //Создаю новый ответ
             $request->addResponse();
         }
 
@@ -45,18 +45,19 @@ class ResponseController extends Controller
             $request=$response->request;
             $content_path=$response->contentPath;
 
-            if($request->loader==HtmlLoader::TYPE_HTML){
+            if($response->loader->type==HTMLLoader::TYPE_HTML){
                 //$response->status=Response::STATUS_LOADING;    
                 //$response->save();
 
                 $loader=new HtmlLoader();
 
                 if($loader->load($request->request_url,$content_path)){
-                    $response->status=Response::STATUS_LOADING_SUCCESS;
+                    $response->regEventContentLoad();
                 }else{
-                    $response->status=Response::STATUS_LOADING_ERROR;        
+                    //Регистрирую ошибку загрузки контента
+                    $response->regError(Response::STATUS_LOADING_ERROR,'Ошибка загрузки контента');
                 }
-                $response->save();
+                
             }
         }
 
@@ -64,33 +65,15 @@ class ResponseController extends Controller
         $responses=Response::find()->where(['status'=>Response::STATUS_LOADING_SUCCESS])->all();
         foreach ($responses as $key => $response){
 
-            $request=$response->request;
-            $url=$request->request_url;
             
-            $parser = BaseParser::initParser($url,$response->contentPath);
-            //$parser->contentPath=$response->contentPath;
-            
-            //$json=$parser->productCard;
-            //$this->stdout($status['status']. PHP_EOL);
+            $parser = BaseParser::initParser($response->request->request_url,$response->contentPath);
             
             if($parser->run() && $parser->validate()){
+                
+                $response->regData($parser->json);
 
-                $response->json=$parser->json;
-                $response->error=null;
-
-
-                $response->status=Response::STATUS_PARSING_SUCCESS;
-                $request->status=Request::STATUS_SUCCESS;
             }else{
-                $response->json=null;
-                $response->error=json_encode($parser->errors);
-
-                $response->status=Response::STATUS_PARSING_ERROR;
-                $request->status=Request::STATUS_ERROR;
-            }
-            
-            if($response->save() && $request->save()){
-                $response->sendData();
+                $response->regError(Response::STATUS_PARSING_ERROR,json_encode($parser->errors));
             }
         }
         

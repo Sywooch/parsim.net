@@ -12,25 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
-<!--Page Title-->
-    <section class="page-title">
-        <div class="auto-container">
-            <div class="row clearfix">
-                <!--Title -->
-                <div class="title-column col-md-6 col-sm-8 col-xs-12">
-                    <h1>Поддержка</h1>
-                </div>
-                <!--Bread Crumb -->
-                <div class="breadcrumb-column col-md-6 col-sm-4 col-xs-12">
-                    <ul class="bread-crumb clearfix">
-                        <li><a href="index.html">Home</a></li>
-                        <li class="active">Поддержка</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--End Page Title-->
     
     <!--Faq Section-->
     <section class="faq-section">

@@ -18,18 +18,36 @@ class m170825_093810_create_transaction_table extends Migration
             'id' => $this->primaryKey(), 
             'type' => $this->integer()->notNull()->defaultValue(0),
 
+            'user_id' => $this->integer()->notNull(),
             'order_id' => $this->integer(),
-            
             'response_id' => $this->integer(),
+            'request_id' => $this->integer(),
 
             'status' => $this->integer()->notNull()->defaultValue(0),
 
-            'amount'=>$this->float(),
+            'amount'=>$this->money()->notNull(),
 
             'created_at' => $this->integer()->notNull()->defaultValue(0),
             'updated_at' => $this->integer()->notNull()->defaultValue(0),
             
         ], $tableOptions);
+
+        // creates index for column `user_id`
+        $this->createIndex(
+            'fki-transaction-user-id',
+            '{{%transaction}}',
+            'user_id'
+        );
+        // add foreign key for table `user`
+        $this->addForeignKey(
+            'fk-transaction-user-id',
+            '{{%transaction}}',
+            'user_id',
+            '{{%user}}',
+            'id',
+            'CASCADE'
+            
+        );
 
         // creates index for column `order_id`
         $this->createIndex(
@@ -60,6 +78,22 @@ class m170825_093810_create_transaction_table extends Migration
             '{{%transaction}}',
             'response_id',
             '{{%response}}',
+            'id',
+            'CASCADE'
+        );
+
+        // creates index for column `request_id`
+        $this->createIndex(
+            'fki-transaction-request-id',
+            '{{%transaction}}',
+            'request_id'
+        );
+        // add foreign key for table `request`
+        $this->addForeignKey(
+            'fk-transaction-request-id',
+            '{{%transaction}}',
+            'request_id',
+            '{{%request}}',
             'id',
             'CASCADE'
         );

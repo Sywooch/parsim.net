@@ -28,8 +28,8 @@ class m170605_131118_create_order_table extends Migration
             'updated_at' => $this->integer()->notNull()->defaultValue(0),
 
             'qty' => $this->integer()->notNull()->defaultValue(1),
-            'price' => $this->float()->notNull(),
-            'amount' => $this->float()->notNull(),
+            'price' => $this->money()->notNull(),
+            'amount' => $this->money()->notNull(),
             
         ], $tableOptions);
 
