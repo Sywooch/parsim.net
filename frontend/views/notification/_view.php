@@ -3,7 +3,6 @@
   $msg=[
     $model::TYPE_NEED_PAY=>[
       'title'=>'Недостаточно средств на счете',
-      'description'=>'Работа парсера временно приостановленна, по причине отсутствия средств на счете. Для восстановления работы пополните свой лицевой счет',
       'class'=>'panel-danger'
     ],
   ];
@@ -16,6 +15,6 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-id="<?= $model->id; ?>"><span aria-hidden="true">×</span></button>
   </div> 
   <div class="panel-body">
-    <?= $msg[$model->type]['description']; ?>
+    <?= $model->msg; ?>
   </div> 
 </div>

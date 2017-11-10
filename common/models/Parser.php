@@ -282,6 +282,10 @@ class Parser extends \yii\db\ActiveRecord
                 if($models[0]->status==self::STATUS_HAS_ERROR){
                     $sql="UPDATE parser SET status=".self::STATUS_READY.", err_description='Ошибок не обнаружено.' WHERE id=".$models[0]->id;
                     Yii::$app->db->createCommand($sql)->execute();    
+
+                    //Сбрасываю статус ошибки со всех связанных запрсов
+                    $sql="UPDATE request SET status=".Request::STATUS_READY." WHERE status=".Request::STATUS_ERROR." AND request_url ~'".$models[0]->reg_exp."'";
+                    Yii::$app->db->createCommand($sql)->execute();    
                 }
                 $has_error=false;
             }

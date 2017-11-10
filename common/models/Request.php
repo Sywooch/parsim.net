@@ -230,19 +230,21 @@ class Request extends \yii\db\ActiveRecord
                         $notification->user_id=$this->owner->id;
                         $notification->type=Notification::TYPE_NEED_PAY;
                         $notification->status=Notification::STATUS_NEW;
-                        $notification->msg='Недостаточно средств на счете!!! Необходимо <a href="">пополнить счет</a>';
+                        $notification->msg='Работа парсера временно приостановленна, по причине отсутствия средств на счете. Для восстановления работы <a href="/order/pay">пополните</a> свой лицевой счет';
                         $notification->save();        
                     }
 
                     //test
-                    /*
+                    
                     $transaction=new Transaction();
                     $transaction->type=Transaction::TYPE_IN;
                     $transaction->user_id=$this->owner->id;
                     $transaction->status=Transaction::STATUS_SUCCESS;
-                    $transaction->amount=0.25;
+                    $transaction->amount=100;
+                    $transaction->description="Пополнение счета";
                     $transaction->save();
-                    */
+                    
+                    
                     
 
                 }
@@ -285,6 +287,7 @@ class Request extends \yii\db\ActiveRecord
     {
         return [
             ''=>'Выполнить один раз',
+            1=>'Раз в минуту',
             15=>'Каждые 15 мин.',
             10=>'Каждые 30 мин.',
             60=>'Каждый час',

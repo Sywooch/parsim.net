@@ -21,7 +21,7 @@ class ResponseController extends Controller
         $requests=Request::find()->where([
             'status'=>Request::STATUS_SUCCESS,
         ]);
-        $requests->andWhere('(extract(epoch from now())-updated_at)/60 >= sleep_time');
+        $requests->andWhere('EXTRACT(EPOCH FROM current_timestamp-to_timestamp(updated_at))/60 >= sleep_time');
         
         foreach ($requests->all() as $key => $request) {
             //$request->addResponse();
@@ -71,6 +71,7 @@ class ResponseController extends Controller
             if($parser->run() && $parser->validate()){
                 
                 $response->regData($parser->json);
+                //$response->regError(Response::STATUS_PARSING_ERROR,'test');
 
             }else{
                 $response->regError(Response::STATUS_PARSING_ERROR,json_encode($parser->errors));

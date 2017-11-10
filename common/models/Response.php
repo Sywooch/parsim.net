@@ -93,6 +93,9 @@ class Response extends \yii\db\ActiveRecord
     public function getLoader(){
         return $this->hasOne(Loader::className(), ['id' => 'loader_id']);
     }
+    public function getParser(){
+        return $this->hasOne(Parser::className(), ['id' => 'parser_id']);
+    }
 
     //=========================================================
     //
@@ -227,6 +230,24 @@ class Response extends \yii\db\ActiveRecord
             $transaction->request_id=$this->request->id;
             $transaction->user_id=$this->request->owner->id;
             $transaction->amount=-1*$this->request->owner->tarif->price;
+            $transaction->description='Списание за обработку <a href="/request/view?alias='.$this->request->alias.'">URL</a>. Результат обработки Вы можнеие посмотреть по этой <a href="/response/view?alias='.$this->alias.'">ссылке</a>';
+            
+            $transaction->save();    
+        }
+    }
+    public function stornoTransaction($description)
+    {
+        //Если баланс отрицательный (с точки зрения клиента), т.е. списание было,
+        //а сторнирования еще нет
+        if($this->balanse<0){
+            $transaction=new Transaction();
+        
+            $transaction->type=Transaction::TYPE_IN;
+            $transaction->response_id=$this->id;
+            $transaction->request_id=$this->request->id;
+            $transaction->user_id=$this->request->owner->id;
+            $transaction->amount=$this->balanse*(-1); //сторнирую плюсовой суммой
+            $transaction->description=$description;
             
             $transaction->save();    
         }
@@ -254,14 +275,62 @@ class Response extends \yii\db\ActiveRecord
 
     public function regError($status,$msg)
     {
+        //Обновляю ответ
         $this->json=null;
         $this->error=json_encode($msg);
         $this->status=$status;
         $this->save();
 
-        $this->request->status=Request::STATUS_ERROR;
-        $this->request->save();        
+        //Регистрирую ошибку
+        $err_codes=[
+            self::STATUS_LOADING_ERROR=>Error::CODE_LOADING_ERROR,
+            self::STATUS_PARSING_ERROR=>Error::CODE_PARSING_ERROR,
+        ];
 
+        $error=new Error();
+        $error->code=$err_codes[$status];
+        $error->msg=$msg;
+        $error->status=Error::STATUS_NEW;
+        $error->request_id=$this->request_id;
+        $error->response_id=$this->id;
+        $error->parser_id=$this->parser_id;
+        $error->loader_id=$this->loader_id;
+        $error->save();
+
+        //Обновляю статус запроса
+        $this->request->status=Request::STATUS_ERROR;
+        $this->request->save();  
+
+        //Сторнирую оплату
+        $description='Отмена оплаты по причине обнаруженной ошиби в работе парсера ';
+        if($status==self::STATUS_LOADING_ERROR){
+            $description.='(ошибка загрузки целевой страницы)';
+
+            //Меняю статус загрузчика
+            $loader=$this->loader;
+            $loader->status=Loader::STATUS_HAS_ERROR;
+            $loader->save();
+        }
+
+        if($status==self::STATUS_PARSING_ERROR){
+            $description.='(ошибка парсинга целевой страницы)';
+
+            //Меняю статус парсера
+            $parser_description='Во время обработки ответа <a href="/response/view?alias='.$this->alias.'">'.$this->alias.'</a> возникла онибка разбора контента';
+            $sql="UPDATE parser SET status=".Parser::STATUS_HAS_ERROR.", err_description='".$parser_description."' WHERE id=".$this->parser_id;
+            Yii::$app->db->createCommand($sql)->execute(); 
+        }
+        $this->stornoTransaction($description);
+        
+
+    }
+    
+    private $_balanse;
+    public function getBalanse(){
+        if(!isset($this->_balanse)){
+            $this->_balanse=Yii::$app->db->createCommand('SELECT sum(amount) FROM transaction WHERE response_id='.$this->id)->queryScalar();
+        }
+        return $this->_balanse;
     }
     
 }

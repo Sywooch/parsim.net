@@ -20,6 +20,10 @@ class Loader extends \yii\db\ActiveRecord
 {
     const TYPE_HTML_CLIENT = 0;
     const TYPE_IMACROS = 1;
+
+    const STATUS_RAEDY = 0;
+    const STATUS_HAS_ERROR = 1;
+    const STATUS_FIXING = 2;
     
 
     /**
@@ -59,5 +63,45 @@ class Loader extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
+    }
+
+
+    //=========================================================
+    //
+    // Блок атрибутов
+    //
+    //=========================================================
+    public function getTypeName(){
+        return Lookup::item('LOADER_TYPE',$this->type);
+    }
+    public function getTypeList(){
+        return Lookup::items('LOADER_TYPE');
+    }
+
+
+    //=========================================================
+    //
+    // Блок генерации Url
+    //
+    //=========================================================
+    public static function getIndexUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['loader/index']);
+    }
+    public static function getCreateUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['loader/create']);
+    }
+    public function getUpdateUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['loader/update','id'=>$this->id]);
+    }
+    public function getDeleteUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['loader/delete','id'=>$this->id]);
+    }
+    public function getViewUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['loader/view','id'=>$this->id]);
     }
 }

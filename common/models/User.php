@@ -409,6 +409,16 @@ class User extends ActiveRecord implements IdentityInterface
         return Yii::$app->urlManager->createUrl(['user/update','id'=>$this->id]);
     }
 
+    public function getPayUrl(){
+        return Order::getPayUrl();
+    }
+    public function getBalanseUrl(){
+        return Yii::$app->urlManager->createUrl(['user/balanse']);
+    }
+
+    
+
+
     public function getAvatarImg($options=[]){
         if(isset($this->avatar)){
             return $this->avatar->getImg('xs',['class'=>'img-circle img-responsive','alt'=>$this->fullName]);

@@ -26,6 +26,7 @@ class m170825_093810_create_transaction_table extends Migration
             'status' => $this->integer()->notNull()->defaultValue(0),
 
             'amount'=>$this->money()->notNull(),
+            'description'=>$this->text(),
 
             'created_at' => $this->integer()->notNull()->defaultValue(0),
             'updated_at' => $this->integer()->notNull()->defaultValue(0),

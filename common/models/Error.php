@@ -169,14 +169,14 @@ class Error extends \yii\db\ActiveRecord
     public function getParserLink($options=[]){
         $model=$this->parser;
         if(isset($model)){
-            return Html::a($model->alias,$model->viewUrl,$options);
+            return Html::a($model->name,$model->viewUrl,$options);
         }
         return '';
     }
     public function getLoaderLink($options=[]){
         $model=$this->loader;
         if(isset($model)){
-            return Html::a($model->alias,$model->viewUrl,$options);
+            return Html::a($model->typeName,$model->viewUrl,$options);
         }
         return '';
     }

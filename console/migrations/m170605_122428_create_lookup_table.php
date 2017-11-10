@@ -49,6 +49,12 @@ class m170605_122428_create_lookup_table extends Migration
             ['HtmlClient', 0, 'LOADER_TYPE',0],
             ['iMacros', 1, 'LOADER_TYPE',1],
 
+            //Loader status
+            ['Ready', 0, 'LOADER_STATUS',0],
+            ['Has error', 1, 'LOADER_STATUS',1],
+            ['Fixing', 2, 'LOADER_STATUS',2],
+            
+
             //Parser status
             ['Ready', 0, 'PARSER_STATUS',0],
             ['Has error', 1, 'PARSER_STATUS',1],

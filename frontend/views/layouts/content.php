@@ -94,7 +94,7 @@
                                 ['label'=>(Yii::$app->user->isGuest?'':Yii::$app->user->identity->fullName).((Yii::$app->user->isGuest || Yii::$app->user->identity->msgCount==0)?'':' <span class="badge  badge-warning">'.Yii::$app->user->identity->msgCount.'</span>'),'url'=>User::getLogoutUrl(),'visible'=>!Yii::$app->user->isGuest,'options'=>['class'=>'dropdown'],'items'=>[
                                   ['label'=>'Мой профиль','url'=>User::getProfileUrl()],
                                   ['label'=>'Добавить URL','url'=>'/request/create'],
-                                  ['label'=>'Баланс '.(Yii::$app->user->isGuest?'':'<span class="pull-right ">'.Yii::$app->formatter->asCurrency(Yii::$app->user->identity->balanse).'</span>'),'url'=>'#','encode'=>false],
+                                  ['label'=>'Баланс '.(Yii::$app->user->isGuest?'':'<span class="pull-right ">'.Yii::$app->formatter->asCurrency(Yii::$app->user->identity->balanse).'</span>'),'url'=> Yii::$app->user->isGuest?'#':Yii::$app->user->identity->balanseUrl,'encode'=>false],
                                   ['label'=>'Сообщения '.((Yii::$app->user->isGuest || Yii::$app->user->identity->msgCount==0)?'':'<span class="badge  badge-warning pull-right">'.Yii::$app->user->identity->msgCount.'</span>'),'url'=>Notification::getIndexUrl(),'encode'=>false],
                                   ['label'=>'Выход','url'=>User::getLogoutUrl()],
                                 ],'encode'=>false],

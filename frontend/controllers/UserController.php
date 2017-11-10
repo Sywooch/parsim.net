@@ -11,6 +11,8 @@ use common\models\SignupForm;
 use common\models\PasswordResetRequestForm;
 use common\models\PasswordResetForm;
 
+use common\models\searchForms\TransactionSearch;
+
 use yii\web\BadRequestHttpException;
 
 /**
@@ -114,6 +116,20 @@ class UserController extends Controller
         return $this->render('profile', [
             'model' => Yii::$app->user->identity,
         ]);
+    }
+
+    public function actionBalanse()
+    {
+        $this->layout = 'column2';
+        $searchModel = new TransactionSearch();
+        $searchModel->user_id=Yii::$app->user->id;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('transaction', [
+            'model' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
     }
 
     public function goToLoginForm()

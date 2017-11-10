@@ -2,6 +2,7 @@
 
 use common\models\SignupForm;
 use common\models\Tarif;
+use common\models\Order;
 
 
 $this->title = 'Parsim NET';
@@ -590,7 +591,7 @@ $tarif=Tarif::findOne(3);
                         <li>Контролируйте бюджета в реальном времени. Меняйте количество ссылок для парсинга и частоту их обработки.</li>
                         <li>Принимаем оплату банковскими картами, электронными деньгами, банковские переводы.</li>
                     </ul>
-                    <a href="<?= $tarif->orderUrl; ?>" class="theme-btn btn-style-one">Пополнить счет</a>
+                    <a href="<?= Order::getPayUrl(); ?>" class="theme-btn btn-style-one">Пополнить счет</a>
                 </div>
             </div>
             

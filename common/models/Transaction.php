@@ -49,6 +49,7 @@ class Transaction extends \yii\db\ActiveRecord
         return [
             [['type', 'user_id','order_id','request_id','response_id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['user_id'], 'required'],
+            [['description'], 'string'],
             [['amount'], 'number'],
             [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => Order::className(), 'targetAttribute' => ['order_id' => 'id']],
         ];

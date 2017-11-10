@@ -21,8 +21,8 @@
                             <h2>Оплата</h2>
                         </div>
                         <ul class="blog-cat">
-                            <li><a href="#">Пополнить счет</a></li>
-                            <li><a href="#">Детализация</a></li>
+                            <li><a href="<?= Yii::$app->user->identity->payUrl; ?>">Пополнить счет</a></li>
+                            <li><a href="<?= Yii::$app->user->identity->balanseUrl; ?>">Детализация</a></li>
                         </ul>
                         <div class="sidebar-title">
                             <h2>Тех. поддержка</h2>

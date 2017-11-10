@@ -103,4 +103,14 @@ class Order extends \yii\db\ActiveRecord
         }
         return false;
     }
+
+    //=========================================================
+    //
+    // Блок генерации Url
+    //
+    //=========================================================
+    public function getPayUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['order/pay']);
+    }
 }

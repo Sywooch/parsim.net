@@ -99,6 +99,7 @@ class OrderController extends Controller
                             $transaction->amount=$order->amount;
                             $transaction->created_at=$user_id;
                             $transaction->updated_at=$user_id;
+                            $transaction->description='Пополнение счета';
 
                             if($transaction->save()){
                                 $order->status=Order::STATUS_PAID;
