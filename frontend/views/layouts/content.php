@@ -13,7 +13,7 @@
 
   use yii\widgets\Breadcrumbs;
   if(!array_key_exists('title',$this->params)){
-    $this->params['title']='';
+    $this->params['title']=null;
   }
   if(!array_key_exists('breadcrumbs',$this->params)){
     $this->params['breadcrumbs']=[];
@@ -158,6 +158,7 @@
   </header>
   <!--End Main Header -->
 
+  <?php if(isset($this->params['title'])): ?>
   <!--Page Title-->
   <section class="page-title">
       <div class="auto-container">
@@ -168,7 +169,6 @@
               </div>
               <!--Bread Crumb -->
               <div class="breadcrumb-column col-md-6 col-sm-4 col-xs-12">
-                  
                   <?=
                     Breadcrumbs::widget([
                       'links' => $this->params['breadcrumbs'],
@@ -181,6 +181,7 @@
       </div>
   </section>
   <!--End Page Title-->
+  <?php endif; ?>
   <?= $content; ?>
   
   <!--Main Footer-->
@@ -196,8 +197,8 @@
                           <!--Footer Column-->
                           <div class="footer-column col-md-7 col-sm-6 col-xs-12">
                               <div class="footer-widget about-widget">
-                                  <h3><span class="theme_color">12K+</span> Сайтов готовы<br> для сканнирования</h3>
-                                  <div class="text"> Наш принцип работы - Делать все как можно проще и удобнее. Скорость, точность и надежность. Низкая стоимость. Качественная тех. поддержка и квалифицированная помощь в автоматизации.</div>
+                                  <h3><span class="theme_color">12K+</span> Парсеров<br> к Вашим услугам</h3>
+                                  <div class="text">Наш принцип работы - Делать все как можно проще и удобнее за приемлемую стоимость. В первом приоритете всегда скорость, точность и надежность.</div>
                                   <ul class="social-icon-one">
                                       <li><a href="#"><span class="fa fa-facebook"></span></a></li>
                                       <li><a href="#"><span class="fa fa-twitter"></span></a></li>
@@ -236,11 +237,10 @@
                                  <h2>Быстрые <br/> ссылки</h2>
                                   <div class="widget-content">
                                       <ul class="list">
-                                          <li><a href="#">Privacy Policy</a></li>
-                                          <li><a href="#">Terms & Condition</a></li>
-                                          <li><a href="#">Поддержка</a></li>
-                                          <li><a href="#">Refund Policy</a></li>
-                                          <li><a href="#">Обратная связь</a></li>
+                                          <li><a href="/site/page?view=agreement">Ползовательское соглашение</a></li>
+                                          <li><a href="/support/index">Тех. поддержка</a></li>
+                                          <li><a href="/request/create">Добавить URL</a></li>
+                                          <li><a href="/order/pay">Пополнить счет</a></li>
                                       </ul>
                                   </div>
                               </div>
@@ -249,11 +249,9 @@
                           <!--Footer Column-->
                           <div class="footer-column col-md-6 col-sm-6 col-xs-12">
                               <div class="footer-widget address-widget">
-                                  <h2>Наш адрес</h2>
+                                  <h2>Контакты</h2>
                                   <div class="widget-content">
                                       <ul class="list-style-two">
-                                          <li><span class="icon fa fa-map-marker"></span>Nilkhet Market,Dhanmondhi 09 Modhho Dhaka - 1210</li>
-                                          <li><span class="icon fa fa-phone"></span>(880) 1723801729</li>
                                           <li><span class="icon">@</span><?= Yii::$app->params['contactEmail']; ?></li>
                                       </ul>
                                   </div>

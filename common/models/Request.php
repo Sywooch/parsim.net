@@ -93,7 +93,7 @@ class Request extends \yii\db\ActiveRecord
             'alias' => Yii::t('app', 'Alias'),
             'response_id' => Yii::t('app', 'Response ID'),
             'request_url' => 'Целевой URL',//Yii::t('app', 'Target Url'),
-            'sleep_time'=>'Частота обновления',
+            'sleep_time'=>'Периодичность парсинга',
             'response_url' => 'URL - обработчик ответа',//Yii::t('app', 'Aviso Url'),
             'response_email' => 'E-mail - обработчик ответа',//Yii::t('app', 'Aviso Url'),
             //'loader' => Yii::t('app', 'Loader'),

@@ -159,7 +159,7 @@ class OrderController extends Controller
         }
         */
         
-        return $this->render('_form', [
+        return $this->render('create', [
             'model' => $model,
         ]);
     }

@@ -24,15 +24,15 @@ use common\models\Lookup;
   ]); ?>
 
     <?= $form->errorSummary($model,['class'=>'alert alert-danger alert-bordered']); ?>  
-    <?= $form->field($model, 'request_url')->textInput(['maxlength' => true, 'placeholder'=>'http://target-domain.com/products/id','class'=>'']); ?>
+    <?= $form->field($model, 'request_url')->textInput(['maxlength' => true, 'placeholder'=>'Укажите URL, который хотите парсить','class'=>'']); ?>
     <?= $form->field($model, 'sleep_time')->dropDownList($model->freqList,['class'=>'select']); ?>
     
     <div class="row">
       <div class="col-md-8">
-        <?= $form->field($model, 'response_url')->textInput(['maxlength' => true,'placeholder'=>'http://my-domain.com/api?param=your_value','class'=>'']); ?>
+        <?= $form->field($model, 'response_url')->textInput(['maxlength' => true,'placeholder'=>'Укажите URL, на который нужно отправлять результаты парсинга','class'=>'']); ?>
       </div>
       <div class="col-md-4">
-        <?= $form->field($model, 'response_email')->textInput(['maxlength' => true,'placeholder'=>'handler@my-domain.com','class'=>'']); ?>
+        <?= $form->field($model, 'response_email')->textInput(['maxlength' => true,'placeholder'=>'Укажите E-mail, на который отправлять результаты парсинга','class'=>'']); ?>
       </div>
     </div>
     <div class="row">

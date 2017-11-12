@@ -3,13 +3,9 @@ return [
   'Learn More'=>'Подробнее',
 
   'for your Business'=>'создан для бизнеса',
-  'Start working with an SEO company that can provide everything you need to generate awareness, drive traffic, connect with customers, and increase sales'=>'Начни работать с продвинутым онлайн парсером, который может тебе автоматизировать рутинные операции, повысит осведомленность о ценах конкурентов и прочей важной информации, которая может стать базой для принятия верных управленческих решений',
-  
   'Make Your <br> Business easier'=>'Сделай <br> бизнес легче',
-  'Stop wasting your time on routine. All the work on collecting important information on the Internet can be done for you by our parser'=>'Перестань тратить свое время на рутину. Всю работу по сбору важной информации в Интернет может сделать за тебя наш парсер',
-
   'Grow your <br> Business with us'=>'Развивай<br> бизнес с нами',
-  'Our parser is constantly evolving. Every day he learns to analyze more than 20 new resources. Now he is already able to analyze more than 12K Internet resources'=>'Наш парсер постоянно развивается. Ежедневно он обучается анализировать более 20 новых ресурсов. Сейчас он уже умеет анализировать более 12К интернет ресурсов',
+  
 
   'fast & cheap online parser'=>'быстрый & дешевый парсер',
   'The basic principle of the parser: as easy and convenient for the user as possible, speed and accuracy, low cost'=>'Наш принцип работы - как можно проще и удобнее, скорость, точность и надежность, низкая стоимость, качественная тех. поддержка и квалифицированная помощь в автоматизации',

@@ -13,6 +13,9 @@ return [
     
     'contentLoadingTime'=>1, //лимит времени загрузки контента в минутах
 
+
+    'CompanyName'=>'ИП Тимофеев'
+
     
 
 ];

@@ -33,6 +33,15 @@ use common\widgets\Alert;
 <?= $content; ?>
 
 <?php $this->endBody() ?>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109508652-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-109508652-1');
+</script>
 </body>
 </html>
 <?php $this->endPage() ?>
