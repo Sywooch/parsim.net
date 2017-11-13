@@ -23,6 +23,7 @@ class Tarif extends \yii\db\ActiveRecord
     const TYPE_COST_PER_ACTION = 1;
     const STATUS_COST_PER_PERIOD = 2;
     
+    const TARIF_FREE = 1;
 
 
     /**

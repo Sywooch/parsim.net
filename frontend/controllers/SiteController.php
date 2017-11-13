@@ -18,6 +18,7 @@ use common\models\SignupForm;
 use common\models\User;
 use common\models\Error;
 use common\models\Request;
+use common\models\Tarif;
 
 
 /**
@@ -106,6 +107,8 @@ class SiteController extends Controller
                 
                 $userForm->subject='Запрос сканирования страницы';
                 $userForm->request_url=$request->request_url;
+                
+                $userForm->tarif=Tarif::TARIF_FREE;
 
                 $userForm->email=$request->response_email;
                 $userForm->password=uniqid();

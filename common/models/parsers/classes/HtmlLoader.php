@@ -10,7 +10,7 @@ use GuzzleHttp\Client; // подключаем Guzzle
 class HtmlLoader extends ContentLoader
 {
 
-    public function load($url,$path)
+    public function loadContent($url,$path)
     {
         $httpClient = new Client();  
         $res = $httpClient->request('GET', $url);

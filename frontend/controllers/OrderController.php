@@ -67,7 +67,7 @@ class OrderController extends Controller
                     
                     $id = (int) $request->post('orderNumber');
                     
-                    if(($order = Order::findOne($id)) == null){
+                    if(($order = Order::findOne(['alias'=>$id])) == null){
                         Yii::warning("Кто-то хотел оплатить несуществующий заказ! Order Id: {$id}", Yii::$app->yakassa->logCategory);    
                         return false;
                     }
@@ -83,7 +83,7 @@ class OrderController extends Controller
                     $id = (int) $request->post('orderNumber');
                     $user_id=(int) $request->post('customerNumber');
                     
-                    if(($order = Order::findOne($id)) == null){
+                    if(($order = Order::findOne(['alias'=>$id])) == null){
                         Yii::warning("Кто-то хотел оплатить несуществующий заказ! Order Id: {$id}", Yii::$app->yakassa->logCategory);    
                         return false;
                     }else{

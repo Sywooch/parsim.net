@@ -235,7 +235,7 @@ class Request extends \yii\db\ActiveRecord
                     }
 
                     //test
-                    
+                    /*
                     $transaction=new Transaction();
                     $transaction->type=Transaction::TYPE_IN;
                     $transaction->user_id=$this->owner->id;
@@ -243,6 +243,7 @@ class Request extends \yii\db\ActiveRecord
                     $transaction->amount=100;
                     $transaction->description="Пополнение счета";
                     $transaction->save();
+                    */
                     
                     
                     

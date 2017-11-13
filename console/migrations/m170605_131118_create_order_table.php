@@ -16,6 +16,7 @@ class m170605_131118_create_order_table extends Migration
 
         $this->createTable('{{%order}}', [
             'id' => $this->primaryKey(), 
+            'alias'=>$this->string(16)->notNull(),
             'user_id' => $this->integer()->notNull(),
             'tarif_id' => $this->integer()->notNull(),
 
