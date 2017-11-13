@@ -1,10 +1,19 @@
-curl -kvd 'action=checkOrder&shopId=160915&scid=559206&customerNumber=1&cdd_pan_mask=444444|4448 \
-&orderNumber=2&paymentType=AC&invoiceId=2000000833650&shopSumAmount=100.00&md5=33f55234cfc37588cc7a266454820c47 \
-&orderSumAmount=100.00&cdd_exp_date=1217&paymentPayerCode=4100322062290&cdd_rrn=&external_id=deposit \
-&requestDatetime=2016-07-11T15:29:35.438+03:00&depositNumber=tNGTnJmP7sPdWnPiSeOXLUFLB5MZ.001f.201607 \
-&cps_user_country_code=PL&orderCreatedDatetime=2016-07-11T15:29:35.360+03:00&sk=yed009c9df4e4f0a47d15e20d4af3231e \
-&shopSumBankPaycash=1003&shopSumCurrencyPaycash=10643&rebillingOn=false&orderSumBankPaycash=1003&cps_region_id=213 \
-&orderSumCurrencyPaycash=10643&merchant_order_id=38_110716152918_00000_64759 \
-&unilabel=1f15a4dd-0009-5000-8000-0000116d476c&yandexPaymentId=2570052456918' http://dev.parsim.net/order/check
+//dev.parsim.net
+curl -kvd 'action=checkOrder&shopId=160915&scid=559206&customerNumber=1&cdd_pan_mask=444444|4448&orderNumber=5a09d2c3e875e&paymentType=AC&invoiceId=2000000833650&shopSumAmount=100.00&md5=33f55234cfc37588cc7a266454820c47&orderSumAmount=100.00&cdd_exp_date=1217&paymentPayerCode=4100322062290&cdd_rrn=&external_id=deposit&requestDatetime=2016-07-11T15:29:35.438+03:00&depositNumber=tNGTnJmP7sPdWnPiSeOXLUFLB5MZ.001f.201607&cps_user_country_code=PL&orderCreatedDatetime=2016-07-11T15:29:35.360+03:00&sk=yed009c9df4e4f0a47d15e20d4af3231e&shopSumBankPaycash=1003&shopSumCurrencyPaycash=10643&rebillingOn=false&orderSumBankPaycash=1003&cps_region_id=213&orderSumCurrencyPaycash=10643&merchant_order_id=38_110716152918_00000_64759&unilabel=1f15a4dd-0009-5000-8000-0000116d476c&yandexPaymentId=2570052456918' http://dev.parsim.net/order/check
+
+
+
+//parsim.dev
+curl -kvd 'action=checkOrder&shopId=160915&scid=559206&customerNumber=1&cdd_pan_mask=444444|4448&orderNumber=5a09d084c55e7&paymentType=AC&invoiceId=2000000833650&shopSumAmount=100.00&md5=33f55234cfc37588cc7a266454820c47&orderSumAmount=100.00&cdd_exp_date=1217&paymentPayerCode=4100322062290&cdd_rrn=&external_id=deposit&requestDatetime=2016-07-11T15:29:35.438+03:00&depositNumber=tNGTnJmP7sPdWnPiSeOXLUFLB5MZ.001f.201607&cps_user_country_code=PL&orderCreatedDatetime=2016-07-11T15:29:35.360+03:00&sk=yed009c9df4e4f0a47d15e20d4af3231e&shopSumBankPaycash=1003&shopSumCurrencyPaycash=10643&rebillingOn=false&orderSumBankPaycash=1003&cps_region_id=213&orderSumCurrencyPaycash=10643&merchant_order_id=38_110716152918_00000_64759&unilabel=1f15a4dd-0009-5000-8000-0000116d476c&yandexPaymentId=2570052456918' http://parsim.dev/order/check
 
 MD5(checkOrder;100.00;10643;1003;160915;2000000833650;1;Ehdym_99)=33f55234cfc37588cc7a266454820c47
+
+
+MD5(action;суммазаказа;orderSumCurrencyPaycash;orderSumBankPaycash;shopId;invoiceId;customerNumber;shopPassword);
+
+https://github.com/yandex-money/yandex-money-joinup/blob/master/demo/010%20%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B0%D1%86%D0%B8%D1%8F%20%D0%B4%D0%BB%D1%8F%20%D1%81%D0%B0%D0%BC%D0%BE%D0%BF%D0%B8%D1%81%D0%BD%D1%8B%D1%85%20%D1%81%D0%B0%D0%B9%D1%82%D0%BE%D0%B2.md#%D0%A8%D0%B0%D0%B3-22-%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-%D0%BE%D1%82%D0%B2%D0%B5%D1%82%D0%BE%D0%B2-%D0%BA%D0%BE%D0%BB%D0%B1%D0%B5%D0%BA%D0%BE%D0%B2-checkurl-%D0%B8-avisourl
+
+
+
+
+

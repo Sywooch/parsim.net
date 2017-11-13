@@ -65,10 +65,10 @@ class OrderController extends Controller
                      * @var \yii\web\Request $request
                      */
                     
-                    $id = (int) $request->post('orderNumber');
+                    $alias = $request->post('orderNumber');
                     
-                    if(($order = Order::findOne(['alias'=>$id])) == null){
-                        Yii::warning("Кто-то хотел оплатить несуществующий заказ! Order Id: {$id}", Yii::$app->yakassa->logCategory);    
+                    if(($order = Order::find()->where(['alias'=>$alias])->one()) == null){
+                        Yii::warning("Кто-то хотел оплатить несуществующий заказ! Order Id: {$alias}", Yii::$app->yakassa->logCategory);    
                         return false;
                     }
 
@@ -80,11 +80,11 @@ class OrderController extends Controller
                 'class' => 'kroshilin\yakassa\actions\PaymentAvisoAction',
                 'beforeResponse' => function ($request) {
                     
-                    $id = (int) $request->post('orderNumber');
+                    $alias = $request->post('orderNumber');
                     $user_id=(int) $request->post('customerNumber');
                     
-                    if(($order = Order::findOne(['alias'=>$id])) == null){
-                        Yii::warning("Кто-то хотел оплатить несуществующий заказ! Order Id: {$id}", Yii::$app->yakassa->logCategory);    
+                    if(($order = Order::find()->where(['alias'=>$alias])->one()) == null){
+                        Yii::warning("Кто-то хотел оплатить несуществующий заказ! Order Id: {$alias}", Yii::$app->yakassa->logCategory);    
                         return false;
                     }else{
                         //Создаю транзакцию
@@ -105,7 +105,7 @@ class OrderController extends Controller
                                 $order->status=Order::STATUS_PAID;
                                 return $order->save();
                             }else{
-                                Yii::warning("Ошибка оплаты заказа! Order Id: {$id}", Yii::$app->yakassa->logCategory);    
+                                Yii::warning("Ошибка оплаты заказа! Order Id: {$alias}", Yii::$app->yakassa->logCategory);    
                                 return false;
                             }
                         }else{
