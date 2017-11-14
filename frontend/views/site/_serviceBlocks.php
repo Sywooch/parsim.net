@@ -22,8 +22,8 @@
           <div class="icon-box">
               <span class="icon"><img src="/images/resource/icon-1.png" alt="" /></span>
             </div>
-            <h3><a href="services-2.html">Просто <br>добавьте URL и получите результат</a></h3>
-            <a href="/site/page?view=about" class="learn-more"><?= Yii::t('app','Learn More'); ?> <span class="arrow fa fa-long-arrow-right"></span></a>
+            <h3><a href="/site/page?view=about#parsim-net-is-easy">Просто <br>добавьте URL и получите результат</a></h3>
+            <a href="/site/page?view=about#parsim-net-is-easy" class="learn-more"><?= Yii::t('app','Learn More'); ?> <span class="arrow fa fa-long-arrow-right"></span></a>
         </div>
     </div>
     
@@ -33,8 +33,8 @@
           <div class="icon-box">
               <span class="icon"><img src="/images/resource/icon-2.png" alt="" /></span>
             </div>
-            <h3><a href="services-2.html">Быстро <br> добавляем новые парсеры в течении 30 мин. </a></h3>
-            <a href="/site/page?view=about" class="learn-more"><?= Yii::t('app','Learn More'); ?><span class="arrow fa fa-long-arrow-right"></span></a>
+            <h3><a href="/site/page?view=about#parsim-net-is-fast">Быстро <br>парсер на заказ бесплатно в течении 30 мин. </a></h3>
+            <a href="/site/page?view=about#parsim-net-is-fast" class="learn-more"><?= Yii::t('app','Learn More'); ?><span class="arrow fa fa-long-arrow-right"></span></a>
         </div>
     </div>
     
@@ -46,8 +46,8 @@
             <div class="icon-box">
                 <span class="icon"><img src="/images/resource/icon-3.png" alt="" /></span>
             </div>
-            <h3><a href="services-2.html">Качествено <br> непрерывный контроль работы парсеров</a></h3>
-            <a href="/site/page?view=about" class="learn-more"><?= Yii::t('app','Learn More'); ?> <span class="arrow fa fa-long-arrow-right"></span></a>
+            <h3><a href="/site/page?view=about#parsim-net-is-safe">Качествено <br> непрерывный контроль работы парсеров</a></h3>
+            <a href="/site/page?view=about#parsim-net-is-safe" class="learn-more"><?= Yii::t('app','Learn More'); ?> <span class="arrow fa fa-long-arrow-right"></span></a>
         </div>
     </div>
     

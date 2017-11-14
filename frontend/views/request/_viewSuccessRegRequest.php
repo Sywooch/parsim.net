@@ -1,5 +1,5 @@
 <?php
-  use common\models\User;
+  use common\models\Request;
 ?>
 <div class="row">
   <div class="col-xs-12 text-center">
@@ -23,6 +23,6 @@
 <div class="row">
   <div class="col-xs-12 text-center">
       <button id="try-again" class="theme-btn btn-style-two">Создать еше один запрос</button>
-      <a href="<?= User::getLoginUrl(); ?>" class="theme-btn btn-style-two">Войти в личный кабинет</a>
+      <a href="<?= Request::getIndexUrl(); ?>" class="theme-btn btn-style-two">Войти в личный кабинет</a>
   </div>  
 </div>
