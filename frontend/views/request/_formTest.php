@@ -1,5 +1,8 @@
 <?php
     use yii\widgets\ActiveForm;
+
+    use frontend\assets\request\FormTestAsset;
+    FormTestAsset::register($this);
 ?>
 
 <div class="audit-form">
@@ -8,6 +11,7 @@
     <div class="audit-form">
         <?php $form = ActiveForm::begin([
             'id' => 'request-form',
+            'action'=>'/request/create-test', 
         ]); ?>
             <div class="row clearfix">
               <div class="column col-md-9 col-sm-12 col-xs-12">
@@ -18,7 +22,7 @@
                 </div>
                 <div class="column col-md-3 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <button type="submit" class="theme-btn btn-style-two"><?= Yii::t('app','Parse now'); ?></button>
+                        <button id="request-submit" class="theme-btn btn-style-two"><?= Yii::t('app','Parse now'); ?></button>
                     </div>
                 </div>
             </div>

@@ -4,6 +4,7 @@ use app\modules\main\Module;
 
 /* @var $this yii\web\View */
 /* @var $user app\modules\user\models\User */
+$values=json_decode($model->json,true);
 
 ?>
 
@@ -80,7 +81,7 @@ use app\modules\main\Module;
               <td height="50"><img src="<?= Yii::$app->params['srcUrl']; ?>/images/email/blank.gif" alt="" width="1" height="1" /></td>
             </tr>
             <tr>
-              <td style="text-align: center;color:#000; font-family: 'Lato', sans-serif;font-size:18px; font-weight: 500; word-spacing: 1px;">
+              <td style="text-align: left;color:#000; font-family: 'Lato', sans-serif;font-size:18px; font-weight: 500; word-spacing: 1px;">
                 <p style="padding: 0px 20px;">
                   И вот что у нас получилось.
                 </p>
@@ -89,24 +90,36 @@ use app\modules\main\Module;
               
             </tr>
             <tr>
-              <td height="10"><img src="<?= Yii::$app->params['srcUrl']; ?>/images/email/blank.gif" alt="" width="1" height="1" /></td>
+              <td height="10"><img src="http://parsim.net/images/email/blank.gif" alt="" width="1" height="1" /></td>
             </tr>
             <tr>
-              <td style="text-align: center;color:#444; font-family: 'Lato', sans-serif;font-size:16px; font-weight: 500; word-spacing: 1px;">
-                <p style="padding: 0px 20px;">
-                  <?= $model->json; ?>
-                </p>
+              <td style="text-align: left;color:#444; font-family: 'Lato', sans-serif;font-size:16px; font-weight: 500; word-spacing: 1px; padding:0 20px;">
+                <table width="100%" border="1px">
+                  <thead>
+                    <tr>
+                      <th width="30%" align="center" style="padding:10px 0px;">Атрибут</th>
+                      <th width="70%" align="center" style="padding:10px 0px;">Значение</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                      foreach ($values as $key => $value) {
+                        echo '<tr>';
+                        echo '<td style="padding:5px 20px;">'.$key.'</td>';
+                        echo '<td style="padding:5px 20px;">'.$value.'</td>';
+                        echo '</tr>';
+                      }
+                    ?>
+                  </tbody>
+                </table>
               </td>
             </tr>
-                            
-              
-
             <tr>
               <td height="80"><img src="<?= Yii::$app->params['srcUrl']; ?>/images/email/blank.gif" alt="" width="1" height="1" /></td>
             </tr>
             <tr>
               <td style="text-align: center;color:#767781; font-family: 'Lato', sans-serif;font-size:20px; font-weight: 400; word-spacing: 1px;">
-                <a href="<?= Yii::$app->params['srcUrl']; ?>#request" style="text-decoration: none; padding:15px 40px; width: 40%; height: 60px; background: none; color: #1f2936; border: 2px solid #2b3d5e;">
+                <a href="<?= $createUrl; ?>" style="text-decoration: none; padding:15px 40px; width: 40%; height: 60px; background: none; color: #1f2936; border: 2px solid #2b3d5e;">
                    Создать еще запрос
                 </a>
               </td>

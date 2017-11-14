@@ -51,7 +51,7 @@ class ResponseController extends Controller
 
                 $loader=new HtmlLoader();
 
-                if($loader->load($request->request_url,$content_path)){
+                if($loader->loadContent($request->request_url,$content_path)){
                     $response->regEventContentLoad();
                 }else{
                     //Регистрирую ошибку загрузки контента

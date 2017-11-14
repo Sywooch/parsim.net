@@ -147,7 +147,7 @@ class Response extends \yii\db\ActiveRecord
             if(isset($this->request->response_email))
             {   
                 
-                Yii::$app->mailqueue->compose(['html' => 'response/responseSuccess'], ['model' => $this])
+                Yii::$app->mailqueue->compose(['html' => 'response/responseSuccess'], ['model' => $this,'createUrl'=>Yii::$app->urlManager->createAbsoluteUrl(['/request/create'])])
                     ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
                     ->setTo($this->request->response_email)
                     ->setSubject('Parsing result from ' . Yii::$app->name)

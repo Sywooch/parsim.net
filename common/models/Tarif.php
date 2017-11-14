@@ -23,7 +23,8 @@ class Tarif extends \yii\db\ActiveRecord
     const TYPE_COST_PER_ACTION = 1;
     const STATUS_COST_PER_PERIOD = 2;
     
-    const TARIF_FREE = 1;
+    const FREE_TARIF = 1;
+    const DEFAULT_TARIF = 2;
 
 
     /**
@@ -82,6 +83,10 @@ class Tarif extends \yii\db\ActiveRecord
     {
         return self::find()->where(['status'=>self::STATUS_ACTIVE,'visible'=>1])->all();
     }
+    public static function findDefault()
+    {
+        return self::findOne(self::DEFAULT_TARIF);
+    }
 
 
     //=========================================================
@@ -102,6 +107,14 @@ class Tarif extends \yii\db\ActiveRecord
         }
         return null;
     }
+
+    public static function getDefaultPrice()
+    {
+        $model=self::findDefault();
+
+        return $model->price;
+    }
+    
 
     
     //=========================================================

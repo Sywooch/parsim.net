@@ -77,9 +77,6 @@ return [
             'basePath' => '@app/modules/api',
             'class' => 'app\modules\api\Module',
         ],
-        'admin' => [
-            'class' => 'frontend\modules\admin\Module',
-        ],
     ],
     
     'params' => $params,

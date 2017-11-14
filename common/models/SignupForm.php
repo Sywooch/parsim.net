@@ -4,6 +4,7 @@ namespace common\models;
 
 use common\models\User;
 use yii\base\Model;
+use yii\helpers\BaseUrl;
 use Yii;
 
 /**
@@ -102,46 +103,54 @@ class SignupForm extends Model
             $user = new User();
             //$user->username = $this->username;
             $user->email = $this->email;
+            $user->setPassword($this->password);    
+            
             if($this->scenario==self::SCENARIO_AUTO_MODE){
-                $user->password_hash=$this->password;
+                //В авто режиме сразу активирю пользователя, без подтверждения E-mail
+                //т.к. пасс для него будет сформирован автоматически и отправлен на почту
+                //если пользователь знает пасс, значет у него есть доступ к указанной почте
+                $user->status = User::STATUS_ACTIVE;
             }else{
-                $user->setPassword($this->password);    
+                $user->status = User::STATUS_WAIT;
+                $user->generateEmailConfirmToken();
             }
             
             $user->scenario=$this->scenario;
-
-            $user->status = User::STATUS_WAIT;
             $user->role = $this->_defaultRole;
+            $user->tarif_id=Tarif::DEFAULT_TARIF;
             $user->generateAuthKey();
-            $user->generateEmailConfirmToken();
+            
 
             if ($user->save()) {
-                
-                Yii::$app->mailqueue->compose(['html' => $this->emailTemplate], ['model' => $user,'request_url'=>$this->request_url])
+                //если это авто режим отправляю информацию о параметрах запрса на парсинг и учетные данные для входа в ЛК
+                if($this->scenario==self::SCENARIO_AUTO_MODE){
+
+                    Yii::$app->mailqueue->compose(['html' => 'user/signupAuto'], [
+                        'model' => $user,
+                        'password'=>$this->password,
+                        'request_url'=>$this->request_url,
+                        'manageUrl'=>Yii::$app->urlManager->createAbsoluteUrl(['/request/index'])
+                    ])
                     ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
                     ->setTo($this->email)
                     ->setSubject($this->subject)
                     ->queue();
+                }
+
+                //В обычном режиме отправляю письмо с просьбой подтвердить свой E-mail
+                if($this->scenario==self::SCENARIO_STANDART_MODE){
+                    Yii::$app->mailqueue->compose(['html' => 'user/emailConfirm'], ['model' => $user])
+                    ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
+                    ->setTo($this->email)
+                    ->setSubject($this->subject)
+                    ->queue();
+                }
+
+                
                 return $user;
             }
         }
 
         return null;
-    }
-
-    public function getEmailTemplate()
-    {
-        $defaultTemplate='user/emailConfirmStandart';
-
-        $templates=[
-            self::SCENARIO_STANDART_MODE=>$defaultTemplate,
-            self::SCENARIO_AUTO_MODE=>'user/emailConfirmAuto',
-        ];
-
-        if(isset($templates[$this->scenario])){
-            $defaultTemplate=$templates[$this->scenario];
-        }
-
-        return $defaultTemplate;
     }
 }

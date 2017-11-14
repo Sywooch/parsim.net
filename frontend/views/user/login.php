@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="content-column col-md-6 col-sm-12 col-xs-12">
                 <div class="login-content">
                     <h2>Вход</h2>
-                    <div class="dark-text">When we first get to know you, we’ll immediately begin analyzing your website. We want to know everything we can about it.</div>
+                    <div class="dark-text">Для входа укажите свои E-mail и пароль.</div>
                     <?= $this->render('_loginForm',['model'=>$model]); ?>
                 </div>
             </div>

@@ -10,6 +10,11 @@ use yii\filters\AccessControl;
 
 use common\models\searchForms\RequestSearch;
 use common\models\Request;
+use common\models\Tarif;
+use common\models\Error;
+
+use common\models\User;
+use common\models\SignupForm;
 
 
 
@@ -19,6 +24,30 @@ use common\models\Request;
 class RequestController extends Controller
 {
     public $layout = 'column2';
+
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index','create','update','delete','view'],
+                'rules' => [
+                    [
+                        'actions' => ['index','create','update','delete','view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    
+                ],
+            ]
+        ];
+    }
     
     public function actionIndex()
     {
@@ -36,6 +65,9 @@ class RequestController extends Controller
     public function actionCreate()
     {
         $model=new Request();
+        
+        $model->tarif_id=Tarif::DEFAULT_TARIF;
+
         $model->sleep_time=1440;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()){
@@ -46,6 +78,86 @@ class RequestController extends Controller
             'model'=>$model,
         ]);
     }
+
+    //Создание запроса на парсинг в тестовом режибе (бесплатно на гл. странице)
+    public function actionCreateTest()
+    {
+        $model=new Request();
+        $model->scenario=Request::SCENARIO_DEMO;
+        
+        $data=[];
+        $password=null;
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            //Проверяю есть ли пользователь с таким E-mail в базе
+            $user=User::findOne(['email'=>$model->response_email]);
+            
+            //Если пользователь не найден, создаю нового пользователя
+            if(!isset($user)){
+                $userForm = new SignupForm('user');
+                $userForm->scenario=SignupForm::SCENARIO_AUTO_MODE;
+                
+                $userForm->subject='Запрос сканирования страницы';
+                $userForm->request_url=$model->request_url;
+                
+                $userForm->email=$model->response_email;
+                $password=uniqid();
+                $userForm->password=$password;
+
+                if($userForm->validate() && $user=$userForm->signup()){
+
+                    //Добавляю id пользователя к запросу как автора запроса
+                    $model->created_by=$user->id;
+                    $model->updated_by=$user->id;
+                }else{
+
+                    //регистрирую ошибку авто регистрации пользователя
+                    $error=new Error();
+                    $error->code=Error::CODE_UNKNOW_ERROR;
+                    $error->msg='Ошибка регистрации пользователя через форму запрса на главной странице сайта';
+                    $error->status=Error::STATUS_NEW;
+                    $error->save();
+                    
+                    
+                    //возвращаю сообщение об ошибке
+                    $data['view']=$this->renderPartial('_viewErrRegUser',[
+                        'user'=>$user,
+                        'form'=>$userForm,
+                    ]);
+                    return json_encode($data);
+                }
+                
+            }
+            
+            if($model->save()){
+                //возвращаю сообщение о удачной регистрации запроса
+                $data['view']=$this->renderPartial('_viewSuccessRegRequest',[
+                    'model'=>$model,
+                    'password'=>$password,
+                    
+                ]);
+                return json_encode($data);
+            }else{
+                $error=new Error();
+                $error->code=Error::CODE_UNKNOW_ERROR;
+                $error->msg='Ошибка создания запроса на главной странице сайта';
+                $error->status=Error::STATUS_NEW;
+                $error->save();
+
+                //возвращаю сообщение об ошибке
+                $data['view']=$this->renderPartial('_viewErrRegRequest',[
+                    'model'=>$model,
+                ]);
+                return json_encode($data);
+            }
+        }
+
+        $data['form']=$this->renderPartial('_formTest',['model'=>$model]);
+
+        return json_encode($data);
+    }
+
     public function actionUpdate($alias)
     {
         $model=$this->findModel($alias);

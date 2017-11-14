@@ -156,7 +156,7 @@ class Request extends \yii\db\ActiveRecord
 
         if($this->scenario==self::SCENARIO_DEMO){
             $this->sleep_time=null; //Запросы созданные в демо режиме не актуализируются
-            $this->tarif_id=null; //Запросы созданные в демо режиме не тарифицируются
+            $this->tarif_id=Tarif::FREE_TARIF;
         }
 
         return true;
@@ -184,7 +184,28 @@ class Request extends \yii\db\ActiveRecord
             //ToDo фильтр по статусу, загруженности и т.п.
             $loader=Loader::findOne(['type'=>$parser->loader_type]);
             if(isset($loader)){
-                //Ответ создается только в случае положительного баланса
+
+                //если это тестовый запрос (бесплатнвый)
+                if($this->tarif_id==Tarif::FREE_TARIF){
+                    $response= new Response();
+                    $response->request_id=$this->id;
+                    $response->status=Response::STATUS_READY;
+
+                    $response->loader_id=$loader->id;
+                    $response->parser_id=$parser->id;
+
+
+                    if($response->save()){
+
+                        //Обновляю статус запроса
+                        $this->status=Request::STATUS_PROCESSING;
+                        $this->save();
+
+                        return $response;
+                    }
+                }
+
+                //Если это платный запрс, ответ создается только в случае положительного баланса
                 if($this->owner->hasMoney){
                     $response= new Response();
                     $response->request_id=$this->id;
@@ -231,23 +252,17 @@ class Request extends \yii\db\ActiveRecord
                         $notification->type=Notification::TYPE_NEED_PAY;
                         $notification->status=Notification::STATUS_NEW;
                         $notification->msg='Работа парсера временно приостановленна, по причине отсутствия средств на счете. Для восстановления работы <a href="/order/pay">пополните</a> свой лицевой счет';
-                        $notification->save();        
+                        $notification->save();
+
+                        //Отправляю E-mail уведомление
+                        Yii::$app->mailqueue->compose(['html' => 'user/needPay'], [
+                            'payUrl'=>Yii::$app->urlManager->createAbsoluteUrl(['/order/pay'])
+                        ])
+                        ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
+                        ->setTo($this->owner->email)
+                        ->setSubject('Требуется пополнение счета Parsin.NET')
+                        ->queue();      
                     }
-
-                    //test
-                    /*
-                    $transaction=new Transaction();
-                    $transaction->type=Transaction::TYPE_IN;
-                    $transaction->user_id=$this->owner->id;
-                    $transaction->status=Transaction::STATUS_SUCCESS;
-                    $transaction->amount=100;
-                    $transaction->description="Пополнение счета";
-                    $transaction->save();
-                    */
-                    
-                    
-                    
-
                 }
             }else{
                 $this->regError(Error::CODE_LOADER_NOT_FOUND,'Не найден загрузчик контента для парсера '.$parser->class_name,$parser->id);
