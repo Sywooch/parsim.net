@@ -3,7 +3,7 @@
 /* @var $user app\modules\user\models\User */
 //use common\models\User;
 
-$confirmLink = Yii::$app->urlManager->createAbsoluteUrl(['user/email-confirm', 'token' => $model->email_confirm_token]);
+
 ?>
 <!-- 2 -->
 <tr>
