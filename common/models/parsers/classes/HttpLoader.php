@@ -7,7 +7,7 @@ use Yii;
 use GuzzleHttp\Client; // подключаем Guzzle
 
 
-class HtmlLoader extends ContentLoader
+class HttpLoader extends ContentLoader
 {
 
     public function loadContent($url,$path)

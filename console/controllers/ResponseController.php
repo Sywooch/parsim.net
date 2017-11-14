@@ -8,7 +8,7 @@ use yii\console\Controller;
 use common\models\Request;
 use common\models\Response;
 
-use common\models\parsers\classes\HtmlLoader;
+use common\models\parsers\classes\HttpLoader;
 use common\models\parsers\classes\BaseParser;
 
 
@@ -45,11 +45,11 @@ class ResponseController extends Controller
             $request=$response->request;
             $content_path=$response->contentPath;
 
-            if($response->loader->type==HtmlLoader::TYPE_HTML){
+            if($response->loader->type==HttpLoader::TYPE_HTTP){
                 //$response->status=Response::STATUS_LOADING;    
                 //$response->save();
 
-                $loader=new HtmlLoader();
+                $loader=new HttpLoader();
 
                 if($loader->loadContent($request->request_url,$content_path)){
                     $response->regEventContentLoad();

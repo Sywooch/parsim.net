@@ -8,7 +8,7 @@ use yii\base\Model;
 
 class ContentLoader extends Model
 {
-    const TYPE_HTML = 'htmlClient';
+    const TYPE_HTTP = 'httpClient';
     const TYPE_IMACROS = 'iMacros';
 
     public static $iMacrosHosts = [
