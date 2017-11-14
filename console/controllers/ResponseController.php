@@ -8,7 +8,7 @@ use yii\console\Controller;
 use common\models\Request;
 use common\models\Response;
 
-use common\models\parsers\classes\HTMLLoader;
+use common\models\parsers\classes\HtmlLoader;
 use common\models\parsers\classes\BaseParser;
 
 
