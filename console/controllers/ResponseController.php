@@ -45,7 +45,7 @@ class ResponseController extends Controller
             $request=$response->request;
             $content_path=$response->contentPath;
 
-            if($response->loader->type==HTMLLoader::TYPE_HTML){
+            if($response->loader->type==HtmlLoader::TYPE_HTML){
                 //$response->status=Response::STATUS_LOADING;    
                 //$response->save();
 
