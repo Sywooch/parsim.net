@@ -17,8 +17,10 @@ $(function(){
           // Event parameters
           'event_category': 'order',
           'event_action': 'create',
+          'event_label':'Создание заказа на оплату',
+          'value':data.amount
         });
-        
+
         $('#form-pay #sum').val(data.amount);
         $('#form-pay #customerNumber').val(data.user_id);
         $('#form-pay #orderNumber').val(data.alias);
