@@ -122,13 +122,23 @@ class Error extends \yii\db\ActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
 
-        if(isset(Yii::$app->params['errorEmail'])){
-           Yii::$app->mailqueue->compose(['html' => 'error/view'], ['model' => $this])
-                ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
-                ->setTo(Yii::$app->params['errorEmail'])
-                ->setSubject('Parsing error registred')
-                ->queue();
+        if($insert){
+            if(isset(Yii::$app->params['errorEmail'])){
+               Yii::$app->mailqueue->compose(['html' => 'error/view'], ['model' => $this,'adminUrl'=>Yii::$app->urlManagerBackEnd->createUrl(['/error/index'])])
+                    ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
+                    ->setTo(Yii::$app->params['errorEmail'])
+                    ->setSubject('Parsing error registred')
+                    ->queue();
+            }    
         }
+
+        if($this->status==self::STATUS_FIXED && isset($this->request)){
+            $this->request->status=Request::STATUS_READY;
+            $this->request->save();
+        }
+
+        
+
         
     }
 

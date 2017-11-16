@@ -11,6 +11,7 @@ return [
     'id' => 'app-console',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language'=>'en-EN',
     'controllerNamespace' => 'console\controllers',
     'controllerMap' => [
         'fixture' => [

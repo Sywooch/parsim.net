@@ -365,6 +365,9 @@ class Request extends \yii\db\ActiveRecord
         $error->loader_id=$loader_id;
 
         $error->save();
+
+        $this->status=self::STATUS_ERROR;
+        $this->save();
     }
 
     /*
