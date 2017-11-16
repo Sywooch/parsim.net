@@ -20,7 +20,7 @@ $(function(){
           gtag('event', 'test_parser', {
             // Event parameters
             'event_category': 'request',
-            'event_action': 'create',
+            'event_action': 'test',
           });
 
           initForm();
