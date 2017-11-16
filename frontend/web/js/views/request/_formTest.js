@@ -17,6 +17,7 @@ $(function(){
           if(data.view){
            $('#demo-request-area').html(data.view);   
           }
+          ga('send', 'event', 'request', 'create', 'from index page');
 
           initForm();
         },
