@@ -17,7 +17,11 @@ $(function(){
           if(data.view){
            $('#demo-request-area').html(data.view);   
           }
-          ga('send', 'event', 'request', 'create', 'from index page');
+          gtag('event', 'test_parser', {
+            // Event parameters
+            'event_category': 'request',
+            'event_action': 'create',
+          });
 
           initForm();
         },
