@@ -13,6 +13,7 @@ $(function(){
       dataType:'JSON',
       data:$('#form-pay').serialize(),
       success:function(data){
+        /*
         gtag('event', 'test_parser', {
           // Event parameters
           'event_category': 'order',
@@ -20,6 +21,7 @@ $(function(){
           'event_label':'Создание заказа на оплату',
           'value':data.amount
         });
+        */
 
         $('#form-pay #sum').val(data.amount);
         $('#form-pay #customerNumber').val(data.user_id);

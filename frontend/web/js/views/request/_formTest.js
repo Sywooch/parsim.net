@@ -17,11 +17,7 @@ $(function(){
           if(data.view){
            $('#demo-request-area').html(data.view);   
           }
-          gtag('event', 'test_parser', {
-            // Event parameters
-            'event_category': 'request',
-            'event_action': 'test',
-          });
+          
 
           initForm();
         },
