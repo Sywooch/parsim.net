@@ -5,6 +5,8 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
+use GuzzleHttp\Client; // подключаем Guzzle
+
 /**
  * This is the model class for table "response".
  *
@@ -156,7 +158,8 @@ class Response extends \yii\db\ActiveRecord
 
             if(isset($this->response_url))
             {
-                
+                $httpClient = new Client();  
+                $r = $httpClient->request('POST', $this->response_url, ['data' => $this->json]);
             }
 
             unlink($this->contentPath);

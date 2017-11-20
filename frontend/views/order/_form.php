@@ -13,7 +13,7 @@ FormDynamicAsset::register($this);
 ?>
 
 <!--Content Column-->
-<div class="col-xs-12">
+<div class="col-xs-12 col-sm-6">
     
     <h2>Сумма</h2>
     <p>

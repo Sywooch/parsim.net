@@ -93,10 +93,10 @@ class m140916_150445_create_user_table extends Migration
         );
 
         //добавляю админа с паролем 12345678
-        $this->batchInsert('{{%user}}', ['first_name','last_name','auth_key', 'password_hash','email','phone','created_by','updated_by','role','status'],
+        $this->batchInsert('{{%user}}', ['first_name','last_name','auth_key', 'password_hash','email','phone','created_by','updated_by','role','status','tarif_id'],
         [
             //['admin','Павел','Тимофеев', '$2y$13$Z1qBvDkVNNjmRPu7j9dxV.z6NPz7H30gbY3YsWEMo.4WfAuMGJMpq','$2y$13$Z1qBvDkVNNjmRPu7j9dxV.z6NPz7H30gbY3YsWEMo.4WfAuMGJMpq', 'ptimofeev@yandex.ru','+79269483354',1,1,'admin',1],
-            ['Павел','Тимофеев', uniqid(),'$2y$13$Z1qBvDkVNNjmRPu7j9dxV.z6NPz7H30gbY3YsWEMo.4WfAuMGJMpq', 'ptimofeev@yandex.ru','+79269483354',1,1,'admin',1],
+            ['Павел','Тимофеев', uniqid(),'$2y$13$Z1qBvDkVNNjmRPu7j9dxV.z6NPz7H30gbY3YsWEMo.4WfAuMGJMpq', 'ptimofeev@yandex.ru','+79269483354',1,1,'admin',1,1],
         
         ]
     );
