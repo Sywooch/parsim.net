@@ -32,7 +32,7 @@ class m170605_131113_create_tarif_table extends Migration
 
         $this->batchInsert('{{%tarif}}', ['alias','name', 'type', 'status', 'duration', 'price','qty'], [
             //Tarifs
-            ['free-for-test','Free for test', 0, 1, null,null,1],
+            ['free-for-test','Free for test', 0, 1, null,0,null],
             ['pay-per-action','Per Action', 1, 1, null,0.1,null],
         ]);
     }

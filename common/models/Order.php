@@ -105,12 +105,15 @@ class Order extends \yii\db\ActiveRecord
         if (parent::beforeSave($insert)){
             $this->price=$this->tarif->price;
             $this->user_id=Yii::$app->user->identity->id;
+            
             if($this->tarif->type==Tarif::TYPE_COST_PER_ACTION){
                 $this->qty=$this->amount/$this->price;
             }
             if($this->tarif->type==Tarif::STATUS_COST_PER_PERIOD){
                 $this->amount=$this->qty*$this->price;
             }
+            
+
             return true;
         }
         return false;

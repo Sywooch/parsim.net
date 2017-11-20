@@ -194,7 +194,7 @@ class OrderController extends Controller
             $model->amount=$request->post('amount');
             $model->tarif_id=$request->post('tarif_id');
             $model->price=$request->post('price');
-            $model->qty=$request->post('qty');
+            //$model->qty=$request->post('qty');
             
             
             if ($model->save()) {
