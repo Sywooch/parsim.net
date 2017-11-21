@@ -77,6 +77,7 @@ class Request extends \yii\db\ActiveRecord
             [['response_id', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at','sleep_time'], 'integer'],
             [['alias'], 'string', 'max' => 16],
             [['request_url', 'response_url'], 'string', 'max' => 512],
+            [['statusName'],'safe']
 
             //[['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             //[['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
@@ -299,13 +300,13 @@ class Request extends \yii\db\ActiveRecord
         return $this->freqList[$this->sleep_time];
     }
 
-    public function getFreqList()
+    public static function getFreqList()
     {
         return [
             ''=>'Выполнить один раз',
             1=>'Раз в минуту',
             15=>'Каждые 15 мин.',
-            10=>'Каждые 30 мин.',
+            30=>'Каждые 30 мин.',
             60=>'Каждый час',
             120=>'Каждые 2 часа',
             60*6=>'Четыре раза в сутки',

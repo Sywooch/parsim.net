@@ -8,6 +8,7 @@ return [
     'controllerNamespace' => 'frontend\api\controllers',
     //'layout' => 'content',
     'components' => [
+        
         'request' => [
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',

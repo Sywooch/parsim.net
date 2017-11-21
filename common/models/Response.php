@@ -146,7 +146,7 @@ class Response extends \yii\db\ActiveRecord
         if($this->status==self::STATUS_PARSING_SUCCESS)
         {
             //Отправка ответа на E-mail
-            if(isset($this->request->response_email))
+            if(isset($this->request->response_email) && $this->request->response_email!='')
             {   
                 
                 Yii::$app->mailqueue->compose(['html' => 'response/responseSuccess'], ['model' => $this,'createUrl'=>Yii::$app->urlManager->createAbsoluteUrl(['/request/create'])])
@@ -156,10 +156,17 @@ class Response extends \yii\db\ActiveRecord
                     ->queue();
             }
 
-            if(isset($this->response_url))
+            //Отправляю данные на указанный URL
+            if(isset($this->request->response_url) && $this->request->response_url!='')
             {
                 $httpClient = new Client();  
-                $r = $httpClient->request('POST', $this->response_url, ['data' => $this->json]);
+                $r = $httpClient->request(
+                    'POST',
+                    $this->request->response_url,
+                    [
+                        'json'=> ['data'=>$this->json]
+                    ]
+                );
             }
 
             unlink($this->contentPath);

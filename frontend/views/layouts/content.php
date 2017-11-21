@@ -89,7 +89,7 @@
                                 ['label'=>'Главная','url'=>['/site/index']],
                                 ['label'=>'Цены','url'=>Yii::$app->urlManager->createUrl(['/site/index','#'=>'pricing'])],
                                 ['label'=>'API','url'=>['/api/index']],
-                                ['label'=>'Поддержка','url'=>'/support/index'],
+                                //['label'=>'Поддержка','url'=>'/support/index'],
                                 ['label'=>'Вход','url'=>User::getLoginUrl(),'visible'=>Yii::$app->user->isGuest],
                                 ['label'=>(Yii::$app->user->isGuest?'':Yii::$app->user->identity->fullName).((Yii::$app->user->isGuest || Yii::$app->user->identity->msgCount==0)?'':' <span class="badge  badge-warning">'.Yii::$app->user->identity->msgCount.'</span>'),'url'=>User::getLogoutUrl(),'visible'=>!Yii::$app->user->isGuest,'options'=>['class'=>'dropdown'],'items'=>[
                                   ['label'=>'Мой профиль','url'=>User::getProfileUrl()],
@@ -105,48 +105,12 @@
                             ]);
                           ?>
                           </div>
-                          <!--
                           
-                          <div class="navbar-collapse collapse clearfix">
-                              <ul class="navigation clearfix">
-                                  <li><a href="/">Home</a></li>
-                                  <li><a href="#pricing">Pricing</a></li>
-                                  <li><a href="/site/page?view=api">API</a></li>  
-                                  <li><a href="/">Support</a></li>  
-                                  <li><a href="contact.html">Contact Us</a></li>
-                               </ul>
-                          </div>
-                          -->
                       </nav>
                       <!-- Main Menu End-->
                       
-                      <!--Right Info-->
-                      <div class="info-options">
-                        <!--Info Block-->
-                          <div class="info-block clearfix">
-                              <!--Search Box-->
-                              <div class="search-box-outer">
+                      
 
-                                  <div class="dropdown">
-                                      <button class="search-box-btn dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-search"></span></button>
-                                      <ul class="dropdown-menu pull-right search-panel" aria-labelledby="dropdownMenu3">
-                                          <li class="panel-outer">
-                                              <div class="form-container">
-                                                  <form method="post" action="blog.html">
-                                                      <div class="form-group">
-                                                          <input type="search" name="field-name" value="" placeholder="Search Here" required>
-                                                          <button type="submit" class="search-btn"><span class="fa fa-search"></span></button>
-                                                      </div>
-                                                  </form>
-                                              </div>
-                                          </li>
-                                      </ul>
-                                  </div>
-                              </div>
-                              
-                              
-                          </div>
-                      </div>
                       
                   </div>
                   <!--Nav Outer End-->

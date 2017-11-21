@@ -1,6 +1,7 @@
 <?php
 namespace app\modules\api\controllers;
 
+use Yii;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBasicAuth;
 use yii\filters\auth\HttpBearerAuth;
@@ -18,28 +19,12 @@ use yii\rest\ActiveController;
 class ApiBaseController extends ActiveController
 {
     
+
     public function actions()
     {
-        $actions = parent::actions();
-        //unset($actions['view']);
-        //unset($actions['create']);
-        
+        $actions = parent::actions();        
         return $actions;
     }
-
-
-    /*
-    protected function verbs()
-    {
-        return [
-            'index' => ['GET', 'HEAD'],
-            'view' => ['GET', 'HEAD'],
-            'create' => ['POST'],
-            'update' => ['PUT', 'PATCH'],
-            'delete' => ['DELETE'],
-        ];
-    }
-    */
 
     
 
@@ -51,23 +36,12 @@ class ApiBaseController extends ActiveController
     {
         $behaviors = parent::behaviors();
         
-        /*
-        $behaviors['authenticator'] = [
-            'class' => CompositeAuth::className(),
-            'authMethods' => [
-                //HttpBasicAuth::className(),
-                //HttpBearerAuth::className(),
-                QueryParamAuth::className(),
-            ]
-        ];
-        */
-
         //доступ к API с других доменов
         $behaviors['corsFilter' ] = [
               'class' => \yii\filters\Cors::className(),
         ];
 
-        //утентификация по ключу
+        //аутентификация по ключу
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::className(),
             'tokenParam' => 'key',
@@ -80,16 +54,19 @@ class ApiBaseController extends ActiveController
                 'application/json' => \yii\web\Response::FORMAT_JSON,
             ],
         ];
+        
+        /*
         $behaviors['verbs'] = [
             'class' => \yii\filters\VerbFilter::className(),
             'actions' => [
                 'index'  => ['get'],
                 'view'   => ['get'],
-                'create' => ['get', 'post'],
-                'update' => ['get', 'put', 'post'],
-                'delete' => ['post', 'delete'],
+                'create' => ['post'],
+                'update' => ['put'],
+                'delete' => ['delete'],
             ],
         ];
+        */
 
         //права доступа
         $behaviors['access'] = [
@@ -104,11 +81,31 @@ class ApiBaseController extends ActiveController
             ],
         ];
 
+        /*
+        public function checkAccess($action, $model = null, $params = [])
+        {
+            // проверяем может ли пользователь редактировать или удалить запись
+            // выбрасываем исключение ForbiddenHttpException если доступ запрещен
+            if ($action === 'update' || $action === 'delete') {
+                if ($model->user_id !== \Yii::$app->user->id)
+                    throw new \yii\web\ForbiddenHttpException(sprintf('You can only %s lease that you\'ve created.', $action));
+            }
+        }
+        */
+
         return $behaviors;
+    }
+
+    public function makeError($code,$msg)
+    {   
+        Yii::$app->response->statusCode = $code;
+        return ['errorCode'=>$code,'errorMessage'=>$msg];
     }
     
     
 }
+
+
 
 
 ?>

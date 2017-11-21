@@ -11,7 +11,7 @@
     <div class="audit-form">
         <?php $form = ActiveForm::begin([
             'id' => 'request-form',
-            'action'=>'/request/create-test', 
+            'action'=>'/request/test', 
         ]); ?>
             <div class="row clearfix">
               <div class="column col-md-9 col-sm-12 col-xs-12">

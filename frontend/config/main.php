@@ -45,8 +45,11 @@ return [
         
         'urlManager' => [
             'class'=>'common\components\LangUrlManager',
+            
             'enablePrettyUrl' => true,
+            'enableStrictParsing' => true,
             'showScriptName' => false,
+
             'rules'=>[
                 '/' => 'site/index',
                 '<_a:(about|contact)>' => 'site/<_a>',
@@ -54,15 +57,13 @@ return [
 
                 //API rules
                 'api'=>'api/default/index',
-                ['class' => 'yii\rest\UrlRule', 'controller' => [
-                    'api/request'
-                ]],
-                
-                //Admin rules
-                'admin'=>'admin/default/index',
-                
-            
-                
+                'PUT,PATCH api/requests/<requestId:\w+>' => 'api/request/update',
+                'GET api/requests/<requestId:\w+>' => 'api/request/view',
+                'DELETE api/requests/<requestId:\w+>' => 'api/request/delete',
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => ['api/request','api/test-api'],
+                ],
 
                 '<controller:\w+>/view/<alias:\w+>/'=>'<controller>/view',
                 '<controller:\w+>/'=>'<controller>/index',

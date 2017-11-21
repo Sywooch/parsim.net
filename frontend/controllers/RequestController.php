@@ -80,8 +80,9 @@ class RequestController extends Controller
     }
 
     //Создание запроса на парсинг в тестовом режибе (бесплатно на гл. странице)
-    public function actionCreateTest()
+    public function actionTest()
     {
+    
         $model=new Request();
         $model->scenario=Request::SCENARIO_DEMO;
         
