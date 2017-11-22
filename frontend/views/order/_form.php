@@ -17,7 +17,7 @@ FormDynamicAsset::register($this);
     
     <h2>Сумма</h2>
     <p>
-        укажите сумму, которую хотите внести на счет
+        укажите сумму в рублях, которую хотите внести на счет
     </p>
     <div class="order-form">
         <?php $form = ActiveForm::begin([
