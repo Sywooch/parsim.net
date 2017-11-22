@@ -1419,7 +1419,7 @@ img{
 	position:relative;
 	text-align:center;
 	padding:50px 15px 40px;
-	background-color:#ff5926;
+	background-color:#277df3;
 }
 
 .services-block .inner-box .icon-box{
@@ -1454,7 +1454,7 @@ img{
 }
 
 .services-block:nth-child(2) .inner-box{
-	background-color:#277df3;
+	background-color:#ff5926;
 }
 
 .services-block:nth-child(3) .inner-box{
