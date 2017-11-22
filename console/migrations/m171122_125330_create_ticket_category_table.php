@@ -12,6 +12,8 @@ class m171122_125330_create_ticket_category_table extends Migration
      */
     public function up()
     {
+
+        $tableOptions = null;
         $this->createTable('{{%ticket_category}}', [
             'id' => $this->primaryKey(),
             'name'=>$this->string(256)->notNull(),
