@@ -9,9 +9,9 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th>ID запроса</th>
-          <th>Целевой Url</th>
-          <th>Ответов</th>
+          <th>ID обращения</th>
+          <th>Тема</th>
+          <th>Дата</th>
           <th>Статус</th>
         </tr>
       </thead>

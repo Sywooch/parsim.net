@@ -41,6 +41,22 @@ return [
   'Enter your E-mail'=>'E-mail',
   'Enter your password'=>'Пароль',
 
+  //User
+  'First name'=>'Имя',
+  'Last name'=>'Фамилия',
+  'Phone'=>'Телефон',
+  'Signup success'=>'Вы успешно зарегистрировались',
+  'Current password'=>'Текущий пароль',
+  'Enter your current password'=>'Введите Ваш текущий пароль',
+  'New password'=>'Новый пароль',
+  'Enter new password'=>'Введите новый пароль',
+  'Repeat new password'=>'Повторите новый пароль',
+
+  //Ticket
+  'Category'=>'Категория',
+  'Subject'=>'Тема',
+  'Message'=>'Сообщение',
+
   
 ];
 

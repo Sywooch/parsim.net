@@ -151,13 +151,6 @@ class OrderController extends Controller
             $model->amount=1000;
             $model->qty=$model->amount/$tarif->price;
         }
-
-        /*
-        if($tarif->type==Tarif::STATUS_COST_PER_PERIOD){
-            $model->qty=2;
-            $model->amount=$tarif->price*$model->qty;
-        }
-        */
         
         return $this->render('create', [
             'model' => $model,

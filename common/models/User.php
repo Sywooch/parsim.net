@@ -135,6 +135,7 @@ class User extends ActiveRecord implements IdentityInterface
             'role' => Yii::t('app', 'Role'),
             'newPassword' => Yii::t('app', 'Password'),
             'newPasswordRepeat' => Yii::t('app', 'Password repeat'),
+            'phone'=>Yii::t('app', 'Phone'),
         ];
     }
 
@@ -267,7 +268,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function generateAuthKey()
     {
-        $this->auth_key = Yii::$app->security->generateRandomString();
+        $this->auth_key = uniqid(); //Yii::$app->security->generateRandomString();
     }
 
     /**
@@ -393,11 +394,20 @@ class User extends ActiveRecord implements IdentityInterface
     public static function getLogoutUrl(){
         return Yii::$app->urlManager->createUrl('/user/logout');
     }
+    //URL восстановления пароля по E-mail
     public static function getPasswordRecoveryUrl(){
         return Yii::$app->urlManager->createUrl('user/password-reset-request');
     }
-    public static function getProfileUrl(){
-        $url=Yii::$app->urlManager->createUrl('user/profile');
+    //URL смены пароля,например, из ЛК
+    public static function getChangePasswordUrl(){
+        return Yii::$app->urlManager->createUrl('/user/password-change');
+    }
+    public static function getViewProfileUrl(){
+        $url=Yii::$app->urlManager->createUrl('user/view-profile');
+        return $url;
+    }
+    public static function getUpdateProfileUrl(){
+        $url=Yii::$app->urlManager->createUrl('user/update-profile');
         return $url;
     }
 

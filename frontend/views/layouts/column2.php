@@ -11,6 +11,15 @@
                     <!--URL Links Widget-->
                     <div class="sidebar-widget sidebar-blog-category">
                         <div class="sidebar-title">
+                            <h2>Мой профиль</h2>
+                        </div>
+                        <ul class="blog-cat">
+                            <li><a href="<?= Yii::$app->user->identity->viewProfileUrl; ?>">Настройки</a></li>
+                            <li><a href="<?= Yii::$app->user->identity->changePasswordUrl; ?>">Изменить пароль</a></li>
+                            <li><a href="<?= Yii::$app->user->identity->payUrl; ?>">Пополнить счет</a></li>
+                            <li><a href="<?= Yii::$app->user->identity->balanseUrl; ?>">История операций</a></li>
+                        </ul>
+                        <div class="sidebar-title">
                             <h2>Парсинг</h2>
                         </div>
                         <ul class="blog-cat">
@@ -18,18 +27,11 @@
                             <li><a href="/request/index">Мои URL</a></li>
                         </ul>
                         <div class="sidebar-title">
-                            <h2>Оплата</h2>
-                        </div>
-                        <ul class="blog-cat">
-                            <li><a href="<?= Yii::$app->user->identity->payUrl; ?>">Пополнить счет</a></li>
-                            <li><a href="<?= Yii::$app->user->identity->balanseUrl; ?>">Детализация</a></li>
-                        </ul>
-                        <div class="sidebar-title">
                             <h2>Тех. поддержка</h2>
                         </div>
                         <ul class="blog-cat">
-                            <li><a href="#">Задать вопрос</a></li>
-                            <li><a href="#">Мои обращения</a></li>
+                            <li><a href="/ticket/create">Задать вопрос</a></li>
+                            <li><a href="/ticket/index">Мои обращения</a></li>
                         </ul>
                     </div>
                     

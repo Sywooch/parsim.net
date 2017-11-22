@@ -19,7 +19,8 @@
         'dataProvider' => $dataProvider,
         'itemView' => '_viewTransaction',
         'options'=>['class'=>'list-study'],
-        'layout'=>'{items}'
+        'layout'=>'{items}',
+        'emptyText'=>false
       ]); ?>
     </tbody>
   </table>

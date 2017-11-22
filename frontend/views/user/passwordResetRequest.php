@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="content-column col-md-6 col-sm-12 col-xs-12">
                 <div class="login-content">
                     <h2><?= $this->title; ?></h2>
-                    <div class="dark-text">When we first get to know you, we’ll immediately begin analyzing your website. We want to know everything we can about it.</div>
+                    <div class="dark-text">Укажите E-mail учетной записи, для которой Вы хотите изменить пароль.</div>
                     <?php $form = ActiveForm::begin([
                         'id' => 'reset-form',
                     ]); ?>

@@ -110,6 +110,10 @@ class m170605_122428_create_lookup_table extends Migration
             //Notification status
             ['New', 0, 'NOTIFICATION_STATUS',0],
             ['Readed', 1, 'NOTIFICATION_STATUS',1],
+
+            //Ticket status
+            ['Open', 0, 'TICKET_STATUS',0],
+            ['Close', 1, 'TICKET_STATUS',1],
         ]);
     }
 

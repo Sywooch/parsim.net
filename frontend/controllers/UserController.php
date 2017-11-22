@@ -10,6 +10,7 @@ use common\models\EmailConfirmForm;
 use common\models\SignupForm;
 use common\models\PasswordResetRequestForm;
 use common\models\PasswordResetForm;
+use common\models\PasswordChangeForm;
 
 use common\models\searchForms\TransactionSearch;
 
@@ -111,10 +112,43 @@ class UserController extends Controller
         ]);
     }
 
-    public function actionProfile()
+    public function actionPasswordChange()
     {
-        return $this->render('profile', [
-            'model' => Yii::$app->user->identity,
+        $this->layout = 'column2';
+        $model = new PasswordChangeForm(Yii::$app->user->identity);
+        
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->changePassword()) {
+            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Ваш пароль успешно изменен'));
+            return $this->render('viewProfile', [
+                'model' => Yii::$app->user->identity,
+            ]);
+        }
+        return $this->render('passwordChange', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionViewProfile()
+    {
+        $this->layout = 'column2';
+        $model=Yii::$app->user->identity;
+        
+        return $this->render('viewProfile', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionUpdateProfile()
+    {
+        $this->layout = 'column2';
+        $model=Yii::$app->user->identity;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect($model->viewProfileUrl);
+        }
+
+        return $this->render('updateProfile', [
+            'model' => $model,
         ]);
     }
 

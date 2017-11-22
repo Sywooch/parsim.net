@@ -24,7 +24,7 @@ use common\models\Lookup;
   ]); ?>
 
     <?= $form->errorSummary($model,['class'=>'alert alert-danger alert-bordered']); ?>  
-    <?= $form->field($model, 'request_url')->textInput(['maxlength' => true, 'placeholder'=>'Укажите URL, который хотите парсить','class'=>'']); ?>
+    <?= $form->field($model, 'request_url')->textInput(['maxlength' => true, 'placeholder'=>'Укажите URL, который хотите парсить','class'=>'','disabled' => !$model->isNewRecord]); ?>
     <?= $form->field($model, 'sleep_time')->dropDownList($model->freqList,['class'=>'select']); ?>
     
     <div class="row">

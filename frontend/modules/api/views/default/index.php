@@ -71,7 +71,7 @@ if(!Yii::$app->user->isGuest){
                             </p>
                             <?php if(Yii::$app->user->isGuest): ?>
                                 <p>
-                                    Узнать свой {secret_key} Вы можете в <a href="<?= User::getProfileUrl(); ?>" class="">личном кабинете</a> ParsimNet.
+                                    Узнать свой {secret_key} Вы можете в <a href="<?= User::getViewProfileUrl(); ?>" class="">личном кабинете</a> ParsimNet.
                                 </p>
                                 <div class="mt-20">
                                     <a href="<?= User::getSignupUrl(); ?>" class="theme-btn btn-style-five mr-20">Регистрация</a>    
@@ -81,7 +81,7 @@ if(!Yii::$app->user->isGuest){
                                 <p>
                                     Вместо {secret_key} используйте свой секретный ключ:
                                 </p>
-                                <a href="<?= Yii::$app->user->identity->getProfileUrl(); ?>" class="theme-btn btn-style-five"><?= Yii::$app->user->identity->auth_key; ?></a>    
+                                <div class="field-value text-center"><?= Yii::$app->user->identity->auth_key; ?></div>
                             <?php endif; ?>    
                         </div> 
                         

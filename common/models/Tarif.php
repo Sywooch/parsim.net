@@ -108,6 +108,12 @@ class Tarif extends \yii\db\ActiveRecord
         return null;
     }
 
+    public function getFullName()
+    {
+
+        return Yii::$app->formatter->asCurrency($this->price).' / парсинг' ;
+    }
+
     public static function getDefaultPrice()
     {
         $model=self::findDefault();
