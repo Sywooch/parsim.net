@@ -29,6 +29,16 @@ use common\widgets\Alert;
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <?php if (isset($this->params['description'])): ?>
+      <meta name="description" content="<?= $this->params['description']; ?>"> 
+    <?php endif; ?> 
+    
+    <?php if (isset($this->params['keywords'])): ?>
+      <meta name="Keywords" content="<?= $this->params['keywords']; ?>">
+    <?php endif; ?> 
+    
+    
 
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode(Yii::$app->name.': '.$this->title) ?></title>
