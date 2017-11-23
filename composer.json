@@ -23,7 +23,8 @@
         "guzzlehttp/guzzle": "^6.3",
         "kroshilin/yii2-yandex-kassa": "^0.1.4",
         "comodojo/zip": "^2.1",
-        "nterms/yii2-mailqueue": "^0.0.14"
+        "nterms/yii2-mailqueue": "^0.0.14",
+        "himiklab/yii2-recaptcha-widget": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

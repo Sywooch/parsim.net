@@ -13,6 +13,12 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'layout' => 'content',
     'components' => [
+        'reCaptcha' => [
+            'name' => 'reCaptcha',
+            'class' => 'himiklab\yii2\recaptcha\ReCaptcha',
+            'siteKey' => '6LeeAToUAAAAAJHYpeVpM57Tso9QZJngGiFdAoam',
+            'secret' => '6LeeAToUAAAAALxk2PkrQXsbciGS7un4F213WdBi',
+        ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
             'class' => 'common\components\LangRequest',

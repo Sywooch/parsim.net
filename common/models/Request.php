@@ -34,6 +34,8 @@ class Request extends \yii\db\ActiveRecord
     const STATUS_NEED_PAY = 4;
 
     const SCENARIO_DEMO='demo';
+
+    public $reCaptcha;
     
     /**
      * @inheritdoc
@@ -67,6 +69,7 @@ class Request extends \yii\db\ActiveRecord
             [['response_email'], 'email'],
             
             ['response_email', 'required', 'on' => self::SCENARIO_DEMO],
+            [['reCaptcha'], \himiklab\yii2\recaptcha\ReCaptchaValidator::className(), 'secret' => '6LeeAToUAAAAALxk2PkrQXsbciGS7un4F213WdBi', 'uncheckedMessage' => 'Please confirm that you are not a bot.', 'on' => self::SCENARIO_DEMO],
 
             /*
             ['response_url', 'required', 'when' => function($model) {
