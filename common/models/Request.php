@@ -62,6 +62,7 @@ class Request extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+
         return [
             [['request_url'], 'required'],
             [['request_url','response_url'],'url', 'defaultScheme' => ''],
@@ -69,7 +70,7 @@ class Request extends \yii\db\ActiveRecord
             [['response_email'], 'email'],
             
             ['response_email', 'required', 'on' => self::SCENARIO_DEMO],
-            [['reCaptcha'], \himiklab\yii2\recaptcha\ReCaptchaValidator::className(), 'secret' => '6LeeAToUAAAAALxk2PkrQXsbciGS7un4F213WdBi', 'uncheckedMessage' => 'Please confirm that you are not a bot.', 'on' => self::SCENARIO_DEMO],
+            [['reCaptcha'], \himiklab\yii2\recaptcha\ReCaptchaValidator::className(), 'secret' => Yii::$app->reCaptcha->secret, 'uncheckedMessage' => 'Please confirm that you are not a bot.', 'on' => self::SCENARIO_DEMO],
 
             /*
             ['response_url', 'required', 'when' => function($model) {

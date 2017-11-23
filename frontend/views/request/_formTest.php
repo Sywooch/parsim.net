@@ -11,7 +11,7 @@
     <div class="audit-form">
         <?php $form = ActiveForm::begin([
             'id' => 'request-form',
-            'action'=>'/request/test', 
+            'action'=>'/request/create-test', 
         ]); ?>
             <div class="row clearfix">
               <div class="column col-md-9 col-sm-12 col-xs-12">
@@ -20,9 +20,9 @@
                         <?= $form->field($model, 'response_email',['options' => ['class' => 'form-group  col-md-5 col-sm-6 co-xs-12']])->textInput(['class'=>'form-control bordered','placeholder'=>Yii::t('app','Email for answer')])->label(false); ?>
 
                     </div>
-                    <div class="row">
-                        <div class="col-xs-12 text-center">
-                            <?= $form->field($model, 'reCaptcha')->widget(\himiklab\yii2\recaptcha\ReCaptcha::className()) ?>
+                    <div class="row clearfix">
+                        <div class="col-xs-4 col-xs-offset-5">
+                            <?= $form->field($model, 'reCaptcha')->widget(\himiklab\yii2\recaptcha\ReCaptcha::className())->label(false) ?>
                         </div>
                     </div>
                 </div>

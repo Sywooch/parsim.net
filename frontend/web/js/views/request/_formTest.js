@@ -37,12 +37,16 @@ $(function(){
         success:function(data){
 
           if(data.form){
-            $('#demo-request-area').html(data.form);  
+            $('#demo-request-area').html(data.form); 
+            //alert(11);
+            //Recaptcha.reload();
+            
           }
 
           if(data.view){
            $('#demo-request-area').html(data.view);   
           }
+
 
           initForm();
         },
@@ -55,7 +59,7 @@ $(function(){
       
       
       return false; 
-    });    
+    });  
   }
   
 });
