@@ -156,15 +156,17 @@ class Parser extends \yii\db\ActiveRecord
 
     public static function findByUrl($url)
     {
-        $models= self::find()->where('SUBSTRING(\''.$url.'\' ,reg_exp) IS NOT NULL')->all();
+        $model= self::find()->where('SUBSTRING(\''.$url.'\' ,reg_exp) IS NOT NULL')->one();
 
+        /*
         if(count($models)>1){
             //reg error
 
             return false;
-        }
+        }*/
 
-        return $models[0];
+
+        return $model;
 
     }
 
