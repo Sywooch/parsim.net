@@ -68,18 +68,20 @@ class ResponseController extends Controller
             
             $parser = BaseParser::initParser($response->request->request_url,$response->contentPath);
             
-            if($parser->run() && $parser->validate()){
+            if($json=$parser->run()){
                 
-                $response->regData($parser->json);
+                $response->regData($json);
                 //$response->regError(Response::STATUS_PARSING_ERROR,'test');
 
             }else{
+                
                 $info=[
                     'errors'=>$parser->errors,
                     'data'=>$parser->json,
                 ];
                 
                 $response->regError(Response::STATUS_PARSING_ERROR,json_encode($info));
+
             }
         }
         

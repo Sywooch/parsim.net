@@ -7,7 +7,7 @@ use \phpQuery;
 
 use common\models\parsers\classes\ProductParser;
 
-class {class_name} extends ProductParser
+class SantehnikaOnlineRu_Product extends ProductParser
 {
     
     
@@ -22,6 +22,16 @@ class {class_name} extends ProductParser
         $this->setCurrency($document->find('span[itemprop="priceCurrency"]')->attr('content'));
 
         return $this->json;
+    }
+
+    private function parseList()
+    {
+
+    }
+
+    private function parseCard()
+    {
+        
     }
 
 

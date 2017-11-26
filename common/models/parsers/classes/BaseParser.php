@@ -13,6 +13,8 @@ class BaseParser extends Model
     const FORMAT_JSON = 0;
     const FORMAT_XML = 1;
     
+    const CONTENT_TYPE_LIST = 1;
+    const CONTENT_TYPE_CARD = 2;
     
     public $contentPath;
     public $url;

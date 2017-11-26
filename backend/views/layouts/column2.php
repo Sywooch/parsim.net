@@ -71,7 +71,7 @@ AppAsset::register($this);
                     <div class="sidebar-user-material">
                         <div class="category-content">
                             <div class="sidebar-user-material-content">
-                                <a href="<?= Yii::$app->user->identity->profileUrl; ?>">
+                                <a href="<?= Yii::$app->user->identity->viewProfileUrl; ?>">
                                     <?= Yii::$app->user->identity->avatarImg; ?>
                                 </a>
                                 <h6><?= Yii::$app->user->identity->fullName; ?></h6>
@@ -85,7 +85,7 @@ AppAsset::register($this);
                         
                         <div class="navigation-wrapper collapse" id="user-nav">
                             <ul class="navigation">
-                                <li><a href="<?= Yii::$app->user->identity->profileUrl; ?>"><i class="icon-user-plus"></i> <span><?= Yii::t('app','My account'); ?></span></a></li>
+                                <li><a href="<?= Yii::$app->user->identity->viewProfileUrl; ?>"><i class="icon-user-plus"></i> <span><?= Yii::t('app','My account'); ?></span></a></li>
                                 <li><a href="<?= Yii::$app->user->identity->logoutUrl; ?>"><i class="icon-switch2"></i> <span><?= Yii::t('app','Logout'); ?></span></a></li>
                             </ul>
                         </div>

@@ -9,7 +9,9 @@ use \phpQuery;
 
 class ProductParser extends BaseParser
 {
+  
   private $_id;
+  private $_qty=1;
   private $_price;
   private $_name;
   private $_currency;
@@ -20,7 +22,8 @@ class ProductParser extends BaseParser
       'руб.'=>'rub',
       'rur'=>'rub',
       'р.'=>'rub',
-      'руб'=>'rub'
+      'руб'=>'rub',
+      'p'=>'rub'
     ],
   ];
 
@@ -39,6 +42,15 @@ class ProductParser extends BaseParser
   public function setId($value)
   {
     $this->_id=$value;
+  }
+  //Qty
+  public function getQty()
+  {
+    return $this->_qty;
+  }
+  public function setQty($value)
+  {
+    $this->_qty=$value;
   }
   //Price
   public function getPrice()
@@ -79,8 +91,8 @@ class ProductParser extends BaseParser
   public function rules()
   {
       return [
-          [['price','name'], 'required'],
-          [['price'], 'number'],
+          [['price','name','qty'], 'required'],
+          [['price','qty'], 'number'],
           [['id','name','currency'], 'string'],
       ];
   }

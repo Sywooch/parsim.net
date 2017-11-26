@@ -129,6 +129,9 @@ class RequestController extends Controller
                     return json_encode($data);
                 }
                 
+            }else{
+                $model->created_by=$user->id;
+                $model->updated_by=$user->id;
             }
             
             if($model->save()){

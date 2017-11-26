@@ -85,6 +85,7 @@ class m170824_093808_create_parser_table extends Migration
             'CASCADE'
         );
 
+        /*
         $this->batchInsert('{{%parser}}', ['alias','name','reg_exp','example_url'], [
             //User status
             [uniqid(), 'Список товаров на dushevoi.ru','(?!^.*-ware)(^https?://.*dushevoi.ru/products/)','https://www.dushevoi.ru/products/dushevye-kabiny/'],
@@ -92,6 +93,7 @@ class m170824_093808_create_parser_table extends Migration
             [uniqid(), 'Карточка товара на santehnika-online.ru','^(http[s]?://[\w.]*santehnika-online.ru[\w./-]*)$','https://santehnika-online.ru/product/dushevoy_boks_aqualux_aq_4075gfh/'],
             [uniqid(), 'Карточка товара на center-santehniki.ru','^(http[s]?://[\w.]*center-santehniki.ru[\w./-]*)$','http://center-santehniki.ru/catalog/dushevye_kabiny_i_shtorki/dushevye_kabiny/dushevaya-kabina-am-pm-like-w80c-016-090mta/'],
         ]);
+        */
 
         //$this->execute('ALTER SEQUENCE parser_id_seq RESTART WITH 4');
     }

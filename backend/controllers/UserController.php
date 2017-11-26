@@ -196,7 +196,7 @@ class UserController extends Controller
 
     
 
-    public function actionProfile()
+    public function actionVievProfile()
     {
         
         $model = $this->findModel(Yii::$app->user->identity->id);

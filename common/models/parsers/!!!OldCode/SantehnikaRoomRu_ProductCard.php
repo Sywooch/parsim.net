@@ -7,7 +7,7 @@ use \phpQuery;
 
 use common\models\parsers\classes\ProductParser;
 
-class DushevoiRt_ProductList extends ProductParser
+class SantehnikaRoomRu_ProductCard extends ProductParser
 {
     
     

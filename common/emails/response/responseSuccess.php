@@ -5,6 +5,14 @@ use app\modules\main\Module;
 /* @var $this yii\web\View */
 /* @var $user app\modules\user\models\User */
 $values=json_decode($model->json,true);
+$models=[];
+
+//Если это одна модель (данные одной кароточки)
+if(!is_array($values[0])){
+  $models[]=$values;
+}else{
+  $models=$values;  
+}
 
 ?>
 
@@ -19,16 +27,16 @@ $values=json_decode($model->json,true);
     <div>
       <table width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
-          <td class="spacer-ad-width" width="79"><img src="images/blank.gif" alt="" width="1" height="1"/></td>
+          <td class="spacer-ad-width" width="79"><img src="<?= Yii::$app->params['srcUrl']; ?>/images/blank.gif" alt="" width="1" height="1"/></td>
           <td>
             <table width="100%" border="0" cellpadding="0" cellspacing="0" >
               <tr>
-                <td height="300"><img src="images/blank.gif" alt="" width="1" height="1" /></td>
+                <td height="300"><img src="<?= Yii::$app->params['srcUrl']; ?>/images/blank.gif" alt="" width="1" height="1" /></td>
               </tr>
             </table>
           </td>
           <td class="spacer-ad-width" width="79">
-            <img src="images/blank.gif" alt="" width="1" height="1" />
+            <img src="<?= Yii::$app->params['srcUrl']; ?>/images/blank.gif" alt="" width="1" height="1" />
           </td>
         </tr>
       </table>
@@ -103,11 +111,18 @@ $values=json_decode($model->json,true);
                   </thead>
                   <tbody>
                     <?php
-                      foreach ($values as $key => $value) {
-                        echo '<tr>';
-                        echo '<td style="padding:5px 20px;">'.$key.'</td>';
-                        echo '<td style="padding:5px 20px;">'.$value.'</td>';
-                        echo '</tr>';
+                      foreach ($models as $obj){
+                        foreach ($obj as $key => $value){
+                          echo '<tr>';
+                          echo '<td style="padding:5px 20px;">'.$key.'</td>';
+                          echo '<td style="padding:5px 20px;">'.$value.'</td>';
+                          echo '</tr>';  
+                        }
+                        if(count($models)>1){
+                          echo '<tr>';
+                          echo '<td colspan=2 height="20"><img src="'.Yii::$app->params['srcUrl'].'/images/email/blank.gif" alt="" width="1" height="1" /></td>';
+                          echo '</tr>';    
+                        }
                       }
                     ?>
                   </tbody>

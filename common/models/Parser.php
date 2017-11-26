@@ -121,6 +121,9 @@ class Parser extends \yii\db\ActiveRecord
         if(!file_exists($this->classPath)){
             $code=file_get_contents($this->templateClassPath); 
             $code=str_replace('{class_name}',$this->className,$code);
+            $code=str_replace('{host_name}',$this->hostName,$code);
+            $code=str_replace('{parser_id}',$this->id,$code);
+            
             file_put_contents($this->classPath,$code);
         }
 
@@ -195,6 +198,18 @@ class Parser extends \yii\db\ActiveRecord
         if(!isset($this->_className)){
             $class=$this->hostName;
             $class=str_replace('.', '-', $class);
+
+            $class=str_replace('0', 'Zero', $class);
+            $class=str_replace('1', 'One', $class);
+            $class=str_replace('2', 'Two', $class);
+            $class=str_replace('3', 'Three', $class);
+            $class=str_replace('4', 'Four', $class);
+            $class=str_replace('5', 'Five', $class);
+            $class=str_replace('6', 'Six', $class);
+            $class=str_replace('7', 'Seven', $class);
+            $class=str_replace('8', 'Eight', $class);
+            $class=str_replace('9', 'Nine', $class);
+
             $className='';
             foreach (explode('-', $class) as $key => $value) {
                 $className.=ucfirst($value);
