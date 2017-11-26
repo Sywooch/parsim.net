@@ -14,18 +14,15 @@ class m171126_183113_update_parser_type_table extends Migration
     public function up()
     {
         $this->update('{{%parser_type}}', ['name'=>'Product'], ['name'=>'ProductCard']);
-
-        $this->batchInsert('{{%parser_type}}', ['name'], [
-            ['Account'],
-        ]);
+        $this->update('{{%parser_type}}', ['name'=>'Account'], ['name'=>'ProductList']);
+        
 
     }
 
     public function down()
     {
         $this->update('{{%parser_type}}', ['name'=>'ProductCard'], ['name'=>'Product']);
-
-        $this->delete('{{%parser_type}}', ['name'=>'Account']);
+        $this->update('{{%parser_type}}', ['name'=>'ProductList'], ['name'=>'Account']);
 
         return false;
     }
