@@ -21,9 +21,7 @@ class m170824_093807_create_parser_type_table extends Migration
         
 
         $this->batchInsert('{{%parser_type}}', ['name'], [
-            
-            ['Product'],
-            ['Account'],
+            ['ProductCard'],
         ]);
     }
 
