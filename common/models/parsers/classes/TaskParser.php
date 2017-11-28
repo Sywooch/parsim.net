@@ -138,7 +138,7 @@ class TaskParser extends BaseParser
       return [
           [['price','name','description'], 'required'],
           [['id','price','name','description','type','viewUrl','date'], 'string'],
-          [['views','answers'], 'integer'],
+          [['views','answers'], 'string'],
       ];
   }
   

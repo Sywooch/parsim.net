@@ -45,7 +45,7 @@ class ResponseController extends Controller
             $request=$response->request;
             $content_path=$response->contentPath;
 
-            $this->stdout('Path: '.$content_path.PHP_EOL);
+            //$this->stdout('Path: '.$content_path.PHP_EOL);
 
             if($response->loader->type==HttpLoader::TYPE_HTTP){
                 //$response->status=Response::STATUS_LOADING;    
@@ -71,14 +71,14 @@ class ResponseController extends Controller
             
             $parser = BaseParser::initParser($response->request->request_url,$response->contentPath);
             
-            $this->stdout('Class '.$parser->className().PHP_EOL);
+            //$this->stdout('Class '.$parser->className().PHP_EOL);
             
 
             if($json=$parser->run()){
                 
                 $response->regData($json);
                 
-                $this->stdout('Data '.$json.PHP_EOL);
+                //$this->stdout('Data '.$json.PHP_EOL);
                 //$response->regError(Response::STATUS_PARSING_ERROR,'test');
 
             }else{
@@ -88,7 +88,7 @@ class ResponseController extends Controller
                     'data'=>$parser->json,
                 ];
                 
-                $response->regError(Response::STATUS_PARSING_ERROR,json_encode($info));
+               // $response->regError(Response::STATUS_PARSING_ERROR,json_encode($info));
 
             }
         }

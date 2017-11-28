@@ -95,19 +95,20 @@ class FlRu_Task extends TaskParser
             
             $task->setType( pq($item)->find('span.b-post__bold.b-layout__txt_inline-block')->text() );
             $task->setDate( pq($item)->find('span.b-post__txt.b-post__txt_fontsize_11.b-post__txt_overflow_hidden')->text() );
-            
-            $task->setViews( str_replace(' ', '', pq($item)->find('span.b-post__txt.b-post__txt_float_right.b-post__txt_fontsize_11.b-post__txt_bold.b-post__link_margtop_7')->text()) );
+        
+            $task->setViews( preg_replace('/\s\s+/', ' ', pq($item)->find('span.b-post__txt.b-post__txt_float_right.b-post__txt_fontsize_11.b-post__txt_bold.b-post__link_margtop_7')->text()) );
             $task->setAnswers( pq($item)->find('a.b-post__link.b-post__txt_float_right.b-post__link_bold.b-post__link_fontsize_11.b-post__link_color_4e.b-post__link_color_0f71c8_hover.b-post__link_margtop_7.b-page__desktop')->text() );
 
+            
             if($task->validate()){
                 $tasks[]=$task->toArray();
             }else{
-                $this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "списка товаров" для '.$this->host, json_encode($task->errors));
+                $this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "списка задач" для '.$this->host.' '.json_encode($task->errors), json_encode($task->errors));
                 return false;
             }
         }
 
-        return json_encode($task,JSON_UNESCAPED_UNICODE);
+        return json_encode($tasks,JSON_UNESCAPED_UNICODE);
     }
     //Парсинг карточки товаров
     private function parseCard()
