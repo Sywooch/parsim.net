@@ -5,11 +5,11 @@ namespace common\models\parsers;
 use Yii;
 use \phpQuery;
 
-use common\models\parsers\classes\ProductParser;
+use common\models\parsers\classes\TaskParser;
 use common\models\Error;
 use common\models\Parser;
 
-class {class_name} extends ProductParser
+class {class_name} extends TaskParser
 {
     private $html;
     private $document;
@@ -34,15 +34,15 @@ class {class_name} extends ProductParser
         }elseif($this->contentType==self::CONTENT_TYPE_CARD){
             return $this->parseCard();
         }else{
-            return $this->regError(Error::CODE_PARSING_ERROR,'Ошибка определения типа контента "списка товаров" или "карточка товара" для хоста '.$this->host);
+            return $this->regError(Error::CODE_PARSING_ERROR,'Ошибка определения типа контента "списка задач" или "карточка задачи" для хоста '.$this->host);
         }
     }
 
     ///Определение типа контента
     public function getContentType()
     {
-        $list_selector='.template-product-list';
-        $card_selector='.prod-wrap';
+        $list_selector='.enter_here_unic_marker_of_list';
+        $card_selector='.enter_here_unic_marker_of_card';
 
         $count_list=count($this->document->find($list_selector));
         $count_card=count($this->document->find($card_selector));
@@ -64,28 +64,28 @@ class {class_name} extends ProductParser
     //Парсинг списка товаров
     private function parseList()
     {
-        $products=[];
+        $tasks=[];
 
         $items_selector='div.template-product-list .row .col-md-4';
 
         $items=$this->document->find($items_selector);
         foreach ($items as $key => $item) {
-            $product= new ProductParser();
+            $task= new TaskParser();
 
-            $product->setId( pq($item)->find('div[type="lis-comments-external"]')->attr('data-id') );
-            $product->setName( pq($item)->find('div[type="lis-comments-external"]')->attr('data-title') );
-            $product->setPrice( str_replace(' ', '', pq($item)->find('div.price span.h2.text-warning')->text()) );
-            $product->setCurrency(pq($item)->find('div.price span.h4.text-muted')->text());
+            $task->setId( pq($item)->find('div[type="lis-comments-external"]')->attr('data-id') );
+            $task->setName( pq($item)->find('div[type="lis-comments-external"]')->attr('data-title') );
+            $task->setPrice( str_replace(' ', '', pq($item)->find('div.price span.h2.text-warning')->text()) );
+            $task->setCurrency(pq($item)->find('div.price span.h4.text-muted')->text());
 
-            if($product->validate()){
-                $products[]=$product->toArray();
+            if($task->validate()){
+                $tasks[]=$task->toArray();
             }else{
                 //$this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "списка товаров" для '.$this->host, json_encode($product->errors));
                 return false;
             }
         }
 
-        return json_encode($products,JSON_UNESCAPED_UNICODE);
+        return json_encode($task,JSON_UNESCAPED_UNICODE);
     }
     //Парсинг карточки товаров
     private function parseCard()

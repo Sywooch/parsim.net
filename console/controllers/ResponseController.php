@@ -45,6 +45,8 @@ class ResponseController extends Controller
             $request=$response->request;
             $content_path=$response->contentPath;
 
+            $this->stdout('Path: '.$content_path.PHP_EOL);
+
             if($response->loader->type==HttpLoader::TYPE_HTTP){
                 //$response->status=Response::STATUS_LOADING;    
                 //$response->save();
@@ -61,6 +63,7 @@ class ResponseController extends Controller
             }
         }
 
+
         //Парсинг загруженного контента
         $responses=Response::find()->where(['status'=>Response::STATUS_LOADING_SUCCESS])->all();
         foreach ($responses as $key => $response){
@@ -68,9 +71,14 @@ class ResponseController extends Controller
             
             $parser = BaseParser::initParser($response->request->request_url,$response->contentPath);
             
+            $this->stdout('Class '.$parser->className().PHP_EOL);
+            
+
             if($json=$parser->run()){
                 
                 $response->regData($json);
+                
+                $this->stdout('Data '.$json.PHP_EOL);
                 //$response->regError(Response::STATUS_PARSING_ERROR,'test');
 
             }else{

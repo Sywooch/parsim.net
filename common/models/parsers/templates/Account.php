@@ -20,7 +20,7 @@ class {class_name} extends AccountParser
     {
         $this->parser=Parser::findOne('{parser_id}');
 
-        $this->html=file_get_contents($this->contentPath);
+        $this->html=str_replace('script', 'script_tag',file_get_contents($this->contentPath));
 
         //раскомментируй эту строчку, если контент в win-1251
         //$this->html= iconv('cp1251','utf-8', $this->html);

@@ -473,6 +473,14 @@ class ParserInitData extends Model
                 'example_url'=>'https://www.sportmaster.ru/catalog/begovye_lyzhi/lyzhi/',
             ],
 
+            //https://www.fl.ru/projects/
+            [
+                'type_id'=>3,
+                'name'=>'fl.ru',
+                'reg_exp'=>'(^http[s]?://.*fl.ru/projects/.*$)',
+                'example_url'=>'https://www.fl.ru/projects/',
+            ],
+
         ];
     }
 
