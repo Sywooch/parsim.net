@@ -61,45 +61,72 @@ class {class_name} extends TaskParser
         
     }
 
-    //Парсинг списка товаров
+
+    //Парсинг списка
     private function parseList()
     {
         $tasks=[];
 
-        $items_selector='div.template-product-list .row .col-md-4';
-
+        $items_selector='#projects-list .b-post';
         $items=$this->document->find($items_selector);
+
         foreach ($items as $key => $item) {
+
             $task= new TaskParser();
 
-            $task->setId( pq($item)->find('div[type="lis-comments-external"]')->attr('data-id') );
-            $task->setName( pq($item)->find('div[type="lis-comments-external"]')->attr('data-title') );
-            $task->setPrice( str_replace(' ', '', pq($item)->find('div.price span.h2.text-warning')->text()) );
-            $task->setCurrency(pq($item)->find('div.price span.h4.text-muted')->text());
+            
+            $task->setId( pq($item)->find('')->text() );
+            $task->setName( pq($item)->find('')->text() );
+            
 
+            $task->setPrice(pq($item)->find('')->text() );
+            $task->setDescription( pq($item)->find('')->text() );
+            
+            
+            $task->setViewUrl( 'https://www.________.ru'.pq($item)->find('')->text() );
+
+            
+            $task->setType( pq($item)->find('')->text() );
+            $task->setDate( pq($item)->find('')->text() );
+        
+            $task->setViews( pq($item)->find('')->text() );
+            $task->setAnswers( pq($item)->find('')->text() );
+
+            
             if($task->validate()){
                 $tasks[]=$task->toArray();
             }else{
-                //$this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "списка товаров" для '.$this->host, json_encode($product->errors));
+                $this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "списка" для '.$this->host.' '.json_encode($task->errors), json_encode($task->errors));
                 return false;
             }
         }
 
-        return json_encode($task,JSON_UNESCAPED_UNICODE);
+        return json_encode($tasks,JSON_UNESCAPED_UNICODE);
     }
-    //Парсинг карточки товаров
+    //Парсинг карточки 
     private function parseCard()
     {
+        $item=$this->document->find('');
+
+        $this->setId( pq($item)->find('')->text() );
+        $this->setName( pq($item)->find('')->text() );
         
-        $this->setId($this->document->find('span[lis-action="lisShowRating"]')->attr('lis-data-id'));
-        $this->setName($this->document->find('h1[itemprop="name"]')->text());
-        $this->setPrice($this->document->find('span[itemprop="price"]')->attr('content'));
-        $this->setCurrency($this->document->find('span[itemprop="priceCurrency"]')->attr('content'));
+
+        $this->setPrice(pq($item)->find('')->text() );
+        $this->setDescription( pq($item)->find('')->text() );
+        
+        $this->setViewUrl( 'https://www.________.ru'.pq($item)->find('')->text() );
+        
+        $this->setType( pq($item)->find('')->text() );
+        $this->setDate( pq($item)->find('')->text() );
+    
+        $this->setViews( pq($item)->find('')->text() );
+        $this->setAnswers( pq($item)->find('')->text() );
 
         if($this->validate()){
             return $this->json;
         }else{
-            //$this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "карточки товаров" для '.$this->host, json_encode($this->errors));
+            $this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "карточки" для '.$this->host.' '.json_encode($this->errors), json_encode($task->errors));
             return false;
         }
         

@@ -88,7 +88,7 @@ class ResponseController extends Controller
                     'data'=>$parser->json,
                 ];
                 
-               // $response->regError(Response::STATUS_PARSING_ERROR,json_encode($info));
+                //$response->regError(Response::STATUS_PARSING_ERROR,json_encode($info));
 
             }
         }

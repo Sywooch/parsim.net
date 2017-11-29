@@ -18,9 +18,9 @@ class MeridaRu_Product extends ProductParser
     
     public function run()
     {
-        $this->parser=Parser::findOne('54');
+        $this->parser=Parser::findOne('58');
 
-        $this->html=file_get_contents($this->contentPath);
+        $this->html=str_replace('script', 'script_tag',file_get_contents($this->contentPath));
 
         //раскомментируй эту строчку, если контент в win-1251
         //$this->html= iconv('cp1251','utf-8', $this->html);
@@ -41,8 +41,8 @@ class MeridaRu_Product extends ProductParser
     ///Определение типа контента
     public function getContentType()
     {
-        $list_selector='.template-product-list';
-        $card_selector='.prod-wrap';
+        $list_selector='#list-items-wrapper';
+        $card_selector='#product_page';
 
         $count_list=count($this->document->find($list_selector));
         $count_card=count($this->document->find($card_selector));
@@ -61,45 +61,51 @@ class MeridaRu_Product extends ProductParser
         
     }
 
-    //Парсинг списка товаров
+    //Парсинг списка 
     private function parseList()
     {
         $products=[];
 
-        $items_selector='div.template-product-list .row .col-md-4';
+        $items_selector='#list-items-wrapper .item-details';
 
         $items=$this->document->find($items_selector);
         foreach ($items as $key => $item) {
             $product= new ProductParser();
 
-            $product->setId( pq($item)->find('div[type="lis-comments-external"]')->attr('data-id') );
-            $product->setName( pq($item)->find('div[type="lis-comments-external"]')->attr('data-title') );
-            $product->setPrice( str_replace(' ', '', pq($item)->find('div.price span.h2.text-warning')->text()) );
-            $product->setCurrency(pq($item)->find('div.price span.h4.text-muted')->text());
+            $product->setId( pq($item)->find('.number')->text() );
+            
+            $product->setName( pq($item)->find('.name a')->text() );
+            $product->setViewUrl( 'http://merida.ru'.pq($item)->find('.name a')->attr('href') );
+
+            $product->setPrice( intval(str_replace(' ', '', pq($item)->find('.prices.visible-desktop .price-base')->text())) );
+            $product->setCurrency(str_replace(' ', '', pq($item)->find('.prices.visible-desktop .price-currency')->text()) );
+
 
             if($product->validate()){
                 $products[]=$product->toArray();
             }else{
-                //$this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "списка товаров" для '.$this->host, json_encode($product->errors));
+                $this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "списка товаров" для '.$this->host.' '.json_encode($product->errors), json_encode($product->errors));
                 return false;
             }
         }
 
         return json_encode($products,JSON_UNESCAPED_UNICODE);
     }
-    //Парсинг карточки товаров
+    //Парсинг карточки 
     private function parseCard()
     {
-        
-        $this->setId($this->document->find('span[lis-action="lisShowRating"]')->attr('lis-data-id'));
-        $this->setName($this->document->find('h1[itemprop="name"]')->text());
-        $this->setPrice($this->document->find('span[itemprop="price"]')->attr('content'));
-        $this->setCurrency($this->document->find('span[itemprop="priceCurrency"]')->attr('content'));
+        $item=$this->document->find('#product_page #product-page-details');
+
+        $this->setId( pq($item)->find('div#number b')->text() );
+        $this->setName( pq($item)->find('span#name')->text() );
+        $this->setPrice( pq($item)->find('div.price-base')->text() );
+
+        $this->setCurrency( pq($item)->find('div.price-currency')->text() );
 
         if($this->validate()){
             return $this->json;
         }else{
-            //$this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "карточки товаров" для '.$this->host, json_encode($this->errors));
+            $this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "карточки товаров" для '.$this->host.' '.json_encode($product->errors), json_encode($this->errors));
             return false;
         }
         

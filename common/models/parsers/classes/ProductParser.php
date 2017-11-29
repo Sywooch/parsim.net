@@ -15,6 +15,7 @@ class ProductParser extends BaseParser
   private $_price;
   private $_name;
   private $_currency;
+  private $_viewURL;
 
   public $dict=[
     'currency'=>[
@@ -85,6 +86,15 @@ class ProductParser extends BaseParser
     }
   }
 
+  public function getViewUrl()
+  {
+    return $this->_viewURL;
+  }
+  public function setViewUrl($value)
+  {
+    $this->_viewURL=$value;
+  }
+
 
 
 
@@ -93,7 +103,7 @@ class ProductParser extends BaseParser
       return [
           [['price','name','qty'], 'required'],
           [['price','qty'], 'number'],
-          [['id','name','currency'], 'string'],
+          [['id','name','currency','viewUrl'], 'string'],
       ];
   }
   
@@ -104,7 +114,8 @@ class ProductParser extends BaseParser
       'id',
       'name',
       'price',
-      'currency'
+      'currency',
+      'viewUrl'
     ];
   }
 

@@ -13,6 +13,7 @@ class ProductParser extends BaseParser
   private $_login;
   private $_name;
   private $_regDate;
+  private $_viewURL;
 
   
 
@@ -50,6 +51,15 @@ class ProductParser extends BaseParser
   public function setRegDate($value)
   {
     $this->_regDate=$value;
+  }
+
+  public function getViewUrl()
+  {
+    return $this->_viewURL;
+  }
+  public function setViewUrl($value)
+  {
+    $this->_viewURL=$value;
   }
   
 

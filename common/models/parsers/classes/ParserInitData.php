@@ -441,13 +441,7 @@ class ParserInitData extends Model
                 'example_url'=>'https://kwork.ru/land/parser-dlya-sayta',
             ],
 
-            //http://merida.ru/tovary
-            [
-                'type_id'=>1,
-                'name'=>'merida.ru',
-                'reg_exp'=>'(^http[s]?://.*merida.ru/tovary.*$)',
-                'example_url'=>'http://merida.ru/tovary',
-            ],
+            
 
             //http://vkak.deer.io/
             [
@@ -479,6 +473,14 @@ class ParserInitData extends Model
                 'name'=>'fl.ru',
                 'reg_exp'=>'(^http[s]?://.*fl.ru/projects/.*$)',
                 'example_url'=>'https://www.fl.ru/projects/',
+            ],
+
+            //http://merida.ru/tovary
+            [
+                'type_id'=>1,
+                'name'=>'merida.ru',
+                'reg_exp'=>'(^http[s]?://.*merida.ru/tovar.*$)',
+                'example_url'=>'http://merida.ru/tovary',
             ],
 
         ];

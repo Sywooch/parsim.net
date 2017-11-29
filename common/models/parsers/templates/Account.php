@@ -61,46 +61,49 @@ class {class_name} extends AccountParser
         
     }
 
-    //Парсинг списка товаров
+    //Парсинг списка 
     private function parseList()
     {
         $products=[];
-
-        $items_selector='';
-        $id_selector='';
-        $name_selector='';
-        $price_selector='';
-        $currency_selector='';
-
+        $items_selector='#list-items-wrapper .item-details';
         $items=$this->document->find($items_selector);
+
         foreach ($items as $key => $item) {
             $product= new ProductParser();
 
-            $product->setId(pq($item)->find($id_selector));
-            $product->setName(pq($item)->find($name_selector));
-            $product->setPrice(pq($item)->find($price_selector));
-            $product->setCurrency(pq($item)->find($currency_selector));
+            $product->setId( pq($item)->find('')->text() );
+            $product->setName( pq($item)->find('')->text() );
+            $product->setPrice( intval(str_replace(' ', '', pq($item)->find('')->text())) );
+            $product->setCurrency(str_replace(' ', '', pq($item)->find('')->text()) );
 
             if($product->validate()){
-                $products[]=$product;
+                $products[]=$product->toArray();
             }else{
-                $this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "списка товаров" для '.$this->host, json_encode($product->errors));
+                $this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "списка товаров" для '.$this->host.' '.json_encode($product->errors), json_encode($product->errors));
                 return false;
             }
         }
 
         return json_encode($products,JSON_UNESCAPED_UNICODE);
     }
-    //Парсинг карточки товаров
+    
+    //Парсинг карточки 
     private function parseCard()
     {
-        
-        $this->setId($this->document->find('span[lis-action="lisShowRating"]')->attr('lis-data-id'));
-        $this->setName($this->document->find('h1[itemprop="name"]')->text());
-        $this->setPrice($this->document->find('span[itemprop="price"]')->attr('content'));
-        $this->setCurrency($this->document->find('span[itemprop="priceCurrency"]')->attr('content'));
-        
-        return $this->json;
+        $item=$this->document->find('');
+
+        $this->setId( pq($item)->find('')->text() );
+        $this->setName( pq($item)->find('')->text() );
+        $this->setPrice( pq($item)->find('')->text() );
+        $this->setViewUrl( 'http://____________'.pq($item)->find('')->attr('href') );
+        $this->setCurrency( pq($item)->find('')->text() );
+
+        if($this->validate()){
+            return $this->json;
+        }else{
+            $this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "карточки товаров" для '.$this->host.' '.json_encode($product->errors), json_encode($this->errors));
+            return false;
+        }
     }
 
     private function regError($code,$msg,$description=null){

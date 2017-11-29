@@ -114,11 +114,12 @@ class FlRu_Task extends TaskParser
     private function parseCard()
     {
 
+        //$item=$this->document->find($items_selector);
         
-        //$this->setId($this->document->find('span[lis-action="lisShowRating"]')->attr('lis-data-id'));
-        //$this->setName($this->document->find('h1[itemprop="name"]')->text());
-        //$this->setPrice($this->document->find('span[itemprop="price"]')->attr('content'));
-        //$this->setCurrency($this->document->find('span[itemprop="priceCurrency"]')->attr('content'));
+        $this->setId( $this->document->find('h1.b-page__title')->attr('id') );
+        $this->setName( $this->document->find('h1.b-page__title')->text() );
+        
+        //$task->setPrice( $this->document->find('h1.b-page__title')->text() );
 
         if($this->validate()){
             return $this->json;
