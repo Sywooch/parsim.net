@@ -1,4 +1,7 @@
 <?php
+
+  use yii\helpers\Html;
+
   $labelClass=[
     $model::STATUS_READY=>'label-success',
     $model::STATUS_LOADING=>'label-primary',
@@ -13,7 +16,16 @@
   <td ><a href="<?= $model->viewUrl; ?>" class="src-link"><?= $model->alias; ?></a></td>
   <td><?=date('d.m.y h:i:s',$model->created_at); ?></td>
   <td ><?= $model->request->request_url; ?></td>
-  <td ><?= $model->json; ?></td>
   <td ><?= $model->responseTo; ?></td>
   <td ><span class="label <?= $labelClass[$model->status]; ?>"><?= $model->statusName; ?></span></td>
+  <td>
+    <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'alias' => $model->alias], [
+        'class' => 'btn btn-danger btn-xs',
+        'data' => [
+            'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+            'method' => 'post',
+        ],
+      ]);
+    ?>
+  </td>
 </tr>

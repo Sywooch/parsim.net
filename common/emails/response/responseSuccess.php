@@ -4,15 +4,8 @@ use app\modules\main\Module;
 
 /* @var $this yii\web\View */
 /* @var $user app\modules\user\models\User */
-$values=json_decode($model->json,true);
-$models=[];
+$data=json_decode($model->json,true);
 
-//Если это одна модель (данные одной кароточки)
-if(!is_array($values[0])){
-  $models[]=$values;
-}else{
-  $models=$values;  
-}
 
 ?>
 
@@ -111,17 +104,37 @@ if(!is_array($values[0])){
                   </thead>
                   <tbody>
                     <?php
-                      foreach ($models as $obj){
-                        foreach ($obj as $key => $value){
+                      foreach ($data as $key => $value){
+                        if($key=='items'){
+                          echo '<tr>';
+                          echo '<td colspan=2 height="20" align="center"><h2>Записи первой страницы каталога</h2></td>';
+                          echo '</tr>'; 
+                          foreach ($value as $item){
+                            foreach ($item as $attr_name => $attr_value){
+                              echo '<tr>';
+                              echo '<td style="padding:5px 20px;">'.$attr_name.'</td>';
+                              echo '<td style="padding:5px 20px;">'.$attr_value.'</td>';
+                              echo '</tr>';
+                            }
+                            echo '<tr>';
+                            echo '<td colspan=2 height="20"><img src="'.Yii::$app->params['srcUrl'].'/images/email/blank.gif" alt="" width="1" height="1" /></td>';
+                            echo '</tr>';
+                          }
+                        }elseif($key=='pages'){
+                          echo '<tr>';
+                          echo '<td colspan=2 height="20" align="center"><h2>Ссылки на другие страницы каталога</h2></td>';
+                          echo '</tr>'; 
+                          foreach ($value as $item){
+                            echo '<tr>';
+                              echo '<td style="padding:5px 20px;">'.$item['title'].'</td>';
+                              echo '<td style="padding:5px 20px;">'.$item['url'].'</td>';
+                            echo '</tr>';
+                          }
+                        }else{
                           echo '<tr>';
                           echo '<td style="padding:5px 20px;">'.$key.'</td>';
                           echo '<td style="padding:5px 20px;">'.$value.'</td>';
                           echo '</tr>';  
-                        }
-                        if(count($models)>1){
-                          echo '<tr>';
-                          echo '<td colspan=2 height="20"><img src="'.Yii::$app->params['srcUrl'].'/images/email/blank.gif" alt="" width="1" height="1" /></td>';
-                          echo '</tr>';    
                         }
                       }
                     ?>

@@ -5,118 +5,69 @@ namespace common\models\parsers;
 use Yii;
 use \phpQuery;
 
-use common\models\parsers\classes\ProductParser;
+use common\models\parsers\classes\ParserProduct;
 use common\models\Error;
-use common\models\Parser;
 
-class QqRu_Product extends ProductParser
+class QqRu_Product extends ParserProduct
 {
-    private $html;
-    private $document;
-    private $host='qq.ru';
-    private $parser;
+    public $parsActions=[
+        'actionParsList'=>'',
+        'actionParsItem'=>'',
+    ];
+    public $testUrls=[
+        'actionParsList'=>'', //в классе наследнике указывается эталонный URL, по которому проверяется корректность работы действия - парсинг списка
+        'actionParsItem'=>'', //в классе наследнике указывается эталонный URL, по которому проверяется корректность работы действия - парсинг записи
+    ];
     
-    public function run()
+
+    //Парсинг списка 
+    public function actionParsList()
     {
-        $this->parser=Parser::findOne('32');
-
-        $this->html=file_get_contents($this->contentPath);
-
-        //раскомментируй эту строчку, если контент в win-1251
-        //$this->html= iconv('cp1251','utf-8', $this->html);
-
-        $this->document=phpQuery::newDocumentHTML($this->html);
-
-        //Определяю тип контента (карточка или список),
-        //если определить не удалось, регистрирую ошибку
-        if($this->contentType==self::CONTENT_TYPE_LIST){
-            return $this->parseList();
-        }elseif($this->contentType==self::CONTENT_TYPE_CARD){
-            return $this->parseCard();
-        }else{
-            return $this->regError(Error::CODE_PARSING_ERROR,'Ошибка определения типа контента "списка товаров" или "карточка товара" для хоста '.$this->host);
-        }
-    }
-
-    ///Определение типа контента
-    public function getContentType()
-    {
-        $list_selector='.template-product-list';
-        $card_selector='.prod-wrap';
-
-        $count_list=count($this->document->find($list_selector));
-        $count_card=count($this->document->find($card_selector));
-
-
-        if($count_card>0 && $count_list==0){
-            return self::CONTENT_TYPE_CARD;
-        }
-
-        if($count_list>0 && $count_card==0){
-            return self::CONTENT_TYPE_LIST;
-        }
-
-        return false;
-        
-        
-    }
-
-    //Парсинг списка товаров
-    private function parseList()
-    {
-        $products=[];
-
-        $items_selector='div.template-product-list .row .col-md-4';
-
+        $items_selector='';
         $items=$this->document->find($items_selector);
+
+        $data=parent::parsPage();
+
         foreach ($items as $key => $item) {
-            $product= new ProductParser();
+            $model= new ParserProduct();
 
-            $product->setId( pq($item)->find('div[type="lis-comments-external"]')->attr('data-id') );
-            $product->setName( pq($item)->find('div[type="lis-comments-external"]')->attr('data-title') );
-            $product->setPrice( str_replace(' ', '', pq($item)->find('div.price span.h2.text-warning')->text()) );
-            $product->setCurrency(pq($item)->find('div.price span.h4.text-muted')->text());
+            $model->setAttrOne( pq($item)->find('')->text() );
+            $model->setAttrTwo( pq($item)->find('')->text() );
 
-            if($product->validate()){
-                $products[]=$product->toArray();
+            if($model->validate()){
+                $data['items'][]=$model->toArray();
             }else{
-                //$this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "списка товаров" для '.$this->host, json_encode($product->errors));
+                $model->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга списка');
+                $model->saveErrors();
                 return false;
             }
         }
-
-        return json_encode($products,JSON_UNESCAPED_UNICODE);
-    }
-    //Парсинг карточки товаров
-    private function parseCard()
-    {
+        return json_encode($data,JSON_UNESCAPED_UNICODE);
         
-        $this->setId($this->document->find('span[lis-action="lisShowRating"]')->attr('lis-data-id'));
-        $this->setName($this->document->find('h1[itemprop="name"]')->text());
-        $this->setPrice($this->document->find('span[itemprop="price"]')->attr('content'));
-        $this->setCurrency($this->document->find('span[itemprop="priceCurrency"]')->attr('content'));
+    }
+    
+    //Парсинг записи 
+    public function actionParsItem()
+    {
+
+        $data=parent::parsPage();
+
+        $item_selector='';
+        $item=$this->document->find($item_selector);
+
+        $this->setAttrOne( pq($item)->find('')->text() );
+        $this->setAttrTwo( pq($item)->find('')->text() );
+        
 
         if($this->validate()){
-            return $this->json;
+            $data=array_merge($data,$this->toArray);
+            return json_encode($data,JSON_UNESCAPED_UNICODE);
         }else{
-            //$this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "карточки товаров" для '.$this->host, json_encode($this->errors));
+            $model->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга записи');
+            $model->saveErrors();
             return false;
         }
         
-        
     }
-
-    private function regError($code,$msg,$description=null){
-        $error=new Error();
-
-        $error->code=$code;
-        $error->msg=$msg;
-        $error->description=$description;
-        $error->status=Error::STATUS_NEW;
-        $error->parser_id=$this->parser->id;
-
-        $error->save();
-    }
-
 
 }

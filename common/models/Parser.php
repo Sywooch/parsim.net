@@ -26,6 +26,16 @@ class Parser extends \yii\db\ActiveRecord
     const STATUS_HAS_ERROR = 1;
     const STATUS_FIXING = 2;
 
+    public $listSelector;
+    public $pagesSelector;
+    public $itemSelector;
+
+    public $listTestUrl;
+    public $itemTestUrl;
+
+    public $fillItem;
+    public $fillListItem;
+    public $fillPage;
     
     public function behaviors()
     {
@@ -59,7 +69,7 @@ class Parser extends \yii\db\ActiveRecord
             [['status', 'created_by', 'updated_by', 'created_at', 'updated_at','type_id'], 'integer'],
             [['alias'], 'string', 'max' => 16],
             [['name'], 'string', 'max' => 128],
-            [['description'], 'safe'],
+            [['description','classCode'], 'safe'],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
             
@@ -119,13 +129,26 @@ class Parser extends \yii\db\ActiveRecord
         parent::afterSave($insert, $changedAttributes);
 
         if(!file_exists($this->classPath)){
-            $code=file_get_contents($this->templateClassPath); 
-            $code=str_replace('{class_name}',$this->className,$code);
-            $code=str_replace('{host_name}',$this->hostName,$code);
-            $code=str_replace('{parser_id}',$this->id,$code);
+            $this->classCode=file_get_contents($this->templateClassPath); 
+            $this->classCode=str_replace('{CLASS_NAME}',$this->className,$this->classCode);
             
-            file_put_contents($this->classPath,$code);
+            $this->classCode=str_replace('{URL_HOST}',parse_url($this->example_url, PHP_URL_HOST),$this->classCode);
+            $this->classCode=str_replace('{URL_SCHEME}',parse_url($this->example_url, PHP_URL_SCHEME),$this->classCode);
+
+            $this->classCode=str_replace('{LIST_SELECTOR}',$this->listSelector,$this->classCode);
+            $this->classCode=str_replace('{ITEM_SELECTOR}',$this->itemSelector,$this->classCode);
+            $this->classCode=str_replace('{PAGES_SELECTOR}',$this->pagesSelector,$this->classCode);
+
+            $this->classCode=str_replace('{LIST_TEST_URL}',$this->listTestUrl,$this->classCode);
+            $this->classCode=str_replace('{ITEM_TEST_URL}',$this->itemTestUrl,$this->classCode);
+
+            //$this->classCode=str_replace('{FILL_ITEM}',$this->fillItem,$this->classCode);
+            //$this->classCode=str_replace('{FILL_LIST_ITEM}',$this->fillListItem,$this->classCode);
+            //$this->classCode=str_replace('{FILL_PAGE}',$this->fillPage,$this->classCode);
+
         }
+        
+        file_put_contents($this->classPath,$this->classCode);
 
         self::checkErrors($this->example_url);
         
@@ -154,10 +177,11 @@ class Parser extends \yii\db\ActiveRecord
     }
     */
 
+    //Поиск действующего парсерова по URL
     public static function findByUrl($url)
     {
-        $model= self::find()->where('SUBSTRING(\''.$url.'\' ,reg_exp) IS NOT NULL')->one();
-
+        $model= self::find()->where('SUBSTRING(\''.$url.'\' ,reg_exp) IS NOT NULL');
+        $model->andWhere(['status'=>Parser::STATUS_READY]);
         /*
         if(count($models)>1){
             //reg error
@@ -166,7 +190,7 @@ class Parser extends \yii\db\ActiveRecord
         }*/
 
 
-        return $model;
+        return $model->one();
 
     }
 
@@ -194,6 +218,8 @@ class Parser extends \yii\db\ActiveRecord
         $host=str_replace('www.', '', $host);
         return $host;
     }
+
+
 
     private $_className;
     public function getClassName(){
@@ -242,6 +268,20 @@ class Parser extends \yii\db\ActiveRecord
     public function getTypeList()
     {
         return ArrayHelper::map(ParserType::find()->all(),'id','name');
+    }
+
+    private $_code;
+    public function getClassCode()
+    {   
+        if(!isset($this->_code)){
+            
+            $this->_code=file_get_contents($this->classPath);    
+        }
+        return $this->_code;
+    }
+    public function setClassCode($value)
+    {   
+        $this->_code=$value;
     }
 
 

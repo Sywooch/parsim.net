@@ -5,9 +5,9 @@
         <th><?= Yii::t('app','ID'); ?></th>
         <th><?= Yii::t('app','Date'); ?></th>
         <th><?= Yii::t('app','URL'); ?></th>
-        <th><?= Yii::t('app','DATA'); ?></th>
         <th><?= Yii::t('app','Response to'); ?></th>
         <th><?= Yii::t('app','Status'); ?></th>
+        <th><?= Yii::t('app','Delete'); ?></th>
       </tr>
     </thead>
     <tbody>

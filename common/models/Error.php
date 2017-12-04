@@ -24,6 +24,8 @@ class Error extends \yii\db\ActiveRecord
     const CODE_UNKNOW_ERROR = 100;
     const CODE_PARSER_NOT_FOUND = 200;
     const CODE_PARSER_ACTION_NOT_FOUND = 201;
+    const CODE_PARSER_FOUND_MANY_ACTIONS = 203;
+    const CODE_PARSER_CONTENT_NOT_FOUND = 204;
     const CODE_PARSING_ERROR = 202;
     const CODE_LOADER_NOT_FOUND = 300;
     const CODE_LOADING_ERROR = 301;
@@ -97,7 +99,7 @@ class Error extends \yii\db\ActiveRecord
         return $this->hasOne(Request::className(), ['id' => 'request_id']);
     }
     public function getResponse(){
-        return $this->hasOne(Request::className(), ['id' => 'response_id']);
+        return $this->hasOne(Response::className(), ['id' => 'response_id']);
     }
     public function getLoader(){
         return $this->hasOne(Loader::className(), ['id' => 'loader_id']);
@@ -111,6 +113,11 @@ class Error extends \yii\db\ActiveRecord
     public static function findByAlias($alias)
     {
         return Error::findOne(['alias'=>$alias]);
+    }
+
+    public static function getCountNew()
+    {
+        return Error::find()->where(['status'=>Error::STATUS_NEW])->count();
     }
 
     //=========================================================
@@ -152,6 +159,22 @@ class Error extends \yii\db\ActiveRecord
     }
     public function getStatusList(){
         return Lookup::items('ERROR_STATUS');
+    }
+
+    public function getHtmlInfo(){
+        $info=$this->msg.' <br>';
+        if(isset($this->parser)){
+            $info.='Parser ID: <a href="'.$this->parser->updateUrl.'">'.$this->parser->alias.'</a><br>';
+        }
+        if(isset($this->response)){
+            $info.='Response ID: <a href="'.$this->response->viewUrl.'">'.$this->response->alias.'</a><br>';
+        }
+        if(isset($this->request)){
+            $info.='Request ID: <a href="'.$this->request->updateUrl.'">'.$this->request->alias.'</a><br>';
+            $info.='URL: <a href="'.$this->request->request_url.'" target="blank">'.$this->request->request_url.'</a><br>';
+        }
+
+        return $info;
     }
     
 

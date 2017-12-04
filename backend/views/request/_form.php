@@ -32,11 +32,14 @@ use common\models\Lookup;
             <i class="icon-download4 position-left"></i>Request status <span class="label label-primary"><?= $model->statusName; ?></span>
           </legend>
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
               <?= $form->field($model, 'request_url')->textInput(['maxlength' => true]); ?>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
               <?= $form->field($model, 'sleep_time')->dropDownList($model->freqList,['class'=>'select']); ?>
+            </div>
+            <div class="col-md-4">
+              <?= $form->field($model, 'status')->dropDownList($model->statusList,['class'=>'select']); ?>
             </div>
             
           </div>

@@ -5,118 +5,135 @@ namespace common\models\parsers;
 use Yii;
 use \phpQuery;
 
-use common\models\parsers\classes\ProductParser;
+use common\models\parsers\classes\ParserProduct;
+use common\models\parsers\classes\ParserPagination;
 use common\models\Error;
-use common\models\Parser;
 
-class DushevoiRu_Product extends ProductParser
+class DushevoiRu_Product extends ParserProduct
 {
-    private $html;
-    private $document;
-    private $host='dushevoi.ru';
-    private $parser;
+    public $parsActions=[
+        'actionParsList'=>'div.goods div.good-item',
+        'actionParsItem'=>'#item-price-wrap',
+    ];
+    public $testUrls=[
+        'actionParsList'=>'https://www.dushevoi.ru/products/dushevye-kabiny/',
+        'actionParsItem'=>'https://mytishi.dushevoi.ru/products/dushevaya-kabina-eago-dz949f6-49915-ware/',
+    ];
     
-    public function run()
+
+    //Парсинг списка 
+    public function actionParsList()
     {
-        $this->parser=Parser::findOne('1');
-
-        $this->html=file_get_contents($this->contentPath);
-
-        //раскомментируй эту строчку, если контент в win-1251
-        //$this->html= iconv('cp1251','utf-8', $this->html);
-
-        $this->document=phpQuery::newDocumentHTML($this->html);
-
-        //Определяю тип контента (карточка или список),
-        //если определить не удалось, регистрирую ошибку
-        if($this->contentType==self::CONTENT_TYPE_LIST){
-            return $this->parseList();
-        }elseif($this->contentType==self::CONTENT_TYPE_CARD){
-            return $this->parseCard();
-        }else{
-            return $this->regError(Error::CODE_PARSING_ERROR,'Ошибка определения типа контента "списка товаров" или "карточка товара" для хоста '.$this->host);
-        }
-    }
-
-    ///Определение типа контента
-    public function getContentType()
-    {
-        $list_selector='.template-product-list';
-        $card_selector='.prod-wrap';
-
-        $count_list=count($this->document->find($list_selector));
-        $count_card=count($this->document->find($card_selector));
-
-
-        if($count_card>0 && $count_list==0){
-            return self::CONTENT_TYPE_CARD;
-        }
-
-        if($count_list>0 && $count_card==0){
-            return self::CONTENT_TYPE_LIST;
-        }
-
-        return false;
         
-        
-    }
+        $data=parent::parsPage();
+        $base_url=parse_url($this->testUrls['actionParsList'], PHP_URL_SCHEME).'://'.parse_url($this->testUrls['actionParsList'], PHP_URL_HOST);
 
-    //Парсинг списка товаров
-    private function parseList()
-    {
-        $products=[];
-
-        $items_selector='div.template-product-list .row .col-md-4';
-
+        //Парсинг списка
+        $items_selector=$this->parsActions['actionParsList'];
         $items=$this->document->find($items_selector);
         foreach ($items as $key => $item) {
-            $product= new ProductParser();
+            $model= new ParserProduct();
+            $model->parserAR=$this->parserAR;
+            $model->requestAR=$this->requestAR;
+            $model->responseAR=$this->responseAR;
 
-            $product->setId( pq($item)->find('div[type="lis-comments-external"]')->attr('data-id') );
-            $product->setName( pq($item)->find('div[type="lis-comments-external"]')->attr('data-title') );
-            $product->setPrice( str_replace(' ', '', pq($item)->find('div.price span.h2.text-warning')->text()) );
-            $product->setCurrency(pq($item)->find('div.price span.h4.text-muted')->text());
 
-            if($product->validate()){
-                $products[]=$product->toArray();
+            $model->id=pq($item)->find('.compare-button')->attr('data-id');
+            $model->name=pq($item)->find('p a')->text();
+            $model->price=intval(str_replace(' ', '', pq($item)->find('.prices-wrap-price .price')->text()));
+            $model->currency=pq($item)->find('.prices-wrap-price .price span')->text();
+            $model->viewUrl=$base_url.pq($item)->find('p a')->attr('href');
+
+            if($model->validate()){
+                $data['items'][]=$model->toArray();
             }else{
-                //$this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "списка товаров" для '.$this->host, json_encode($product->errors));
+                $model->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга списка');
+                $model->saveErrors();
                 return false;
             }
         }
 
-        return json_encode($products,JSON_UNESCAPED_UNICODE);
-    }
-    //Парсинг карточки товаров
-    private function parseCard()
-    {
+        //Парсинг pagination
         
-        $this->setId($this->document->find('span[lis-action="lisShowRating"]')->attr('lis-data-id'));
-        $this->setName($this->document->find('h1[itemprop="name"]')->text());
-        $this->setPrice($this->document->find('span[itemprop="price"]')->attr('content'));
-        $this->setCurrency($this->document->find('span[itemprop="priceCurrency"]')->attr('content'));
+        $pages_selector='ul.pagination li';
+        $pages=$this->document->find($pages_selector);
+        foreach ($pages as $key => $item) {
+            $page = new ParserPagination();
+            $page->title=pq($item)->find('a')->text();
+            $page->url=$base_url.pq($item)->find('a')->attr('href');
+
+            if($page->validate()){
+                $data['pages'][]=$page->toArray();
+            }else{
+                if(isset($model)){
+                    $model->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга раздела Pagination');
+                    //$model->addErrors($page->errors);
+                    $model->saveErrors();    
+                }
+                
+                return false;
+            }
+        }
+        
+        return json_encode($data,JSON_UNESCAPED_UNICODE);
+        
+    }
+    
+    //Парсинг записи 
+    public function actionParsItem()
+    {
+
+        //load keywords and description
+        $data=parent::parsPage();
+
+        $data['items']=[];
+        $data['pages']=null;
+
+        $item_selector=$this->parsActions['actionParsItem'];
+        $item=$this->document->find($item_selector);
+
+        $this->id=pq($item)->find('span[itemprop="productID"]')->text();
+        $this->name=$this->document->find('h1[itemprop="name"]')->text();
+        $this->price=pq($item)->find('span[itemprop="price"]')->text();
+        $this->currency=pq($item)->find('span[itemprop="priceCurrency"]')->attr('content');
+        $this->viewUrl=$this->requestAR->request_url;
 
         if($this->validate()){
-            return $this->json;
+            //$data=array_merge($data,['items'=>$this->toArray()],['pages'=>null]);
+            $data['items'][]=$this->toArray();
+            return json_encode($data,JSON_UNESCAPED_UNICODE);
         }else{
-            //$this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "карточки товаров" для '.$this->host, json_encode($this->errors));
+            $this->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга записи');
+            $this->saveErrors();
             return false;
         }
         
-        
     }
 
-    private function regError($code,$msg,$description=null){
-        $error=new Error();
+    public function exportToArray()
+    {
+        $data=[
+            'type_id'=>$this->type,
+            'name'=>$this->name,
+            'status'=>$this->status,
+            
+            //parsActions selectors
+            'listSelector'=>'.row.goods',
+            'itemSelector'=>'#item-price-wrap',
+            'pagesSelector'=>'ul.pagination li a',
+            //parsActions selectors
+            'listTestUrl'=>'https://www.dushevoi.ru/products/dushevye-kabiny/',
+            'itemTestUrl'=>'https://mytishi.dushevoi.ru/products/dushevaya-kabina-eago-dz949f6-49915-ware/',
 
-        $error->code=$code;
-        $error->msg=$msg;
-        $error->description=$description;
-        $error->status=Error::STATUS_NEW;
-        $error->parser_id=$this->parser->id;
+            'fillItem'=>'',
+            'fillListItem'=>'',
+            'fillPage'=>'',
 
-        $error->save();
+            'reg_exp'=>$this->reg_exp,
+            'example_url'=>$this->example_url,
+        ];
+
+        return $data;
     }
-
 
 }

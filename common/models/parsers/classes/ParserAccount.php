@@ -7,7 +7,7 @@ use yii\base\Model;
 use \phpQuery;
 
 
-class ProductParser extends BaseParser
+class ParserAccount extends BaseParser
 {
   
   private $_login;
@@ -82,12 +82,5 @@ class ProductParser extends BaseParser
       'name',
       'regDate'
     ];
-  }
-
-  public function getJson()
-  {
-    //Возращает в JSON формате поля, которые определены
-    //в функции fields()
-    return json_encode($this->toArray(),JSON_UNESCAPED_UNICODE);
   }
 }

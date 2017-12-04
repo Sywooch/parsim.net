@@ -5,143 +5,69 @@ namespace common\models\parsers;
 use Yii;
 use \phpQuery;
 
-use common\models\parsers\classes\TaskParser;
+use common\models\parsers\classes\ParserTask;
 use common\models\Error;
-use common\models\Parser;
 
-class FlRu_Task extends TaskParser
+class FlRu_Task extends ParserTask
 {
-    private $html;
-    private $document;
-    private $host='fl.ru';
-    private $parser;
+    public $parsActions=[
+        'actionParsList'=>'',
+        'actionParsItem'=>'',
+    ];
+    public $testUrls=[
+        'actionParsList'=>'', //в классе наследнике указывается эталонный URL, по которому проверяется корректность работы действия - парсинг списка
+        'actionParsItem'=>'', //в классе наследнике указывается эталонный URL, по которому проверяется корректность работы действия - парсинг записи
+    ];
     
-    public function run()
+
+    //Парсинг списка 
+    public function actionParsList()
     {
-
-        
-
-        $this->parser=Parser::findOne('58');
-        $this->html=str_replace('script', 'script_tag',file_get_contents($this->contentPath));
-
-        //раскомментируй эту строчку, если контент в win-1251
-        //$this->html= iconv('cp1251','utf-8', $this->html);
-
-        $this->document=phpQuery::newDocumentHTML($this->html);
-
-
-
-        //Определяю тип контента (карточка или список),
-        //если определить не удалось, регистрирую ошибку
-        if($this->contentType==self::CONTENT_TYPE_LIST){
-            return $this->parseList();
-        }elseif($this->contentType==self::CONTENT_TYPE_CARD){
-            return $this->parseCard();
-        }else{
-            return $this->regError(Error::CODE_PARSING_ERROR,'Ошибка определения типа контента "списка задач" или "карточка задачи" для хоста '.$this->host);
-        }
-
-    }
-
-    ///Определение типа контента
-    public function getContentType()
-    {
-        $list_selector='#projects-list';
-        $card_selector='.main h1.b-page__title.b-page__title_ellipsis';
-
-        $count_list=count($this->document->find($list_selector));
-        $count_card=count($this->document->find($card_selector));
-
-
-        if($count_card>0 && $count_list==0){
-            return self::CONTENT_TYPE_CARD;
-        }
-
-        if($count_list>0 && $count_card==0){
-            return self::CONTENT_TYPE_LIST;
-        }
-
-        return false;
-        
-        
-    }
-
-    //Парсинг списка товаров
-    private function parseList()
-    {
-        $tasks=[];
-
-        
-
-        $items_selector='#projects-list .b-post';
-
+        $items_selector='';
         $items=$this->document->find($items_selector);
 
+        $data=parent::parsPage();
+
         foreach ($items as $key => $item) {
+            $model= new ParserProduct();
 
-            $task= new TaskParser();
+            $model->setAttrOne( pq($item)->find('')->text() );
+            $model->setAttrTwo( pq($item)->find('')->text() );
 
-            
-            $task->setId( str_replace('project-item', '', pq($item)->attr('id')) );
-            $task->setName( pq($item)->find('h2 a.b-post__link')->text() );
-            
-
-            $task->setPrice( pq($item)->find('.b-post__price')->text() );
-            $task->setDescription( pq($item)->find('div.b-post__body div.b-post__txt')->text() );
-            
-            
-            $task->setViewUrl( 'https://www.fl.ru'.pq($item)->find('h2 a')->attr('href') );
-
-            
-            $task->setType( pq($item)->find('span.b-post__bold.b-layout__txt_inline-block')->text() );
-            $task->setDate( pq($item)->find('span.b-post__txt.b-post__txt_fontsize_11.b-post__txt_overflow_hidden')->text() );
-        
-            $task->setViews( preg_replace('/\s\s+/', ' ', pq($item)->find('span.b-post__txt.b-post__txt_float_right.b-post__txt_fontsize_11.b-post__txt_bold.b-post__link_margtop_7')->text()) );
-            $task->setAnswers( pq($item)->find('a.b-post__link.b-post__txt_float_right.b-post__link_bold.b-post__link_fontsize_11.b-post__link_color_4e.b-post__link_color_0f71c8_hover.b-post__link_margtop_7.b-page__desktop')->text() );
-
-            
-            if($task->validate()){
-                $tasks[]=$task->toArray();
+            if($model->validate()){
+                $data['items'][]=$model->toArray();
             }else{
-                $this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "списка задач" для '.$this->host.' '.json_encode($task->errors), json_encode($task->errors));
+                $model->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга списка');
+                $model->saveErrors();
                 return false;
             }
         }
-
-        return json_encode($tasks,JSON_UNESCAPED_UNICODE);
+        return json_encode($data,JSON_UNESCAPED_UNICODE);
+        
     }
-    //Парсинг карточки товаров
-    private function parseCard()
+    
+    //Парсинг записи 
+    public function actionParsItem()
     {
 
-        //$item=$this->document->find($items_selector);
+        $data=parent::parsPage();
+
+        $item_selector='';
+        $item=$this->document->find($item_selector);
+
+        $this->setAttrOne( pq($item)->find('')->text() );
+        $this->setAttrTwo( pq($item)->find('')->text() );
         
-        $this->setId( $this->document->find('h1.b-page__title')->attr('id') );
-        $this->setName( $this->document->find('h1.b-page__title')->text() );
-        
-        //$task->setPrice( $this->document->find('h1.b-page__title')->text() );
 
         if($this->validate()){
-            return $this->json;
+            $data=array_merge($data,$this->toArray);
+            return json_encode($data,JSON_UNESCAPED_UNICODE);
         }else{
-            //$this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "карточки товаров" для '.$this->host, json_encode($this->errors));
+            $model->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга записи');
+            $model->saveErrors();
             return false;
         }
         
-        
     }
-
-    private function regError($code,$msg,$description=null){
-        $error=new Error();
-
-        $error->code=$code;
-        $error->msg=$msg;
-        $error->description=$description;
-        $error->status=Error::STATUS_NEW;
-        $error->parser_id=$this->parser->id;
-
-        $error->save();
-    }
-
 
 }

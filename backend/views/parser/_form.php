@@ -71,6 +71,23 @@ FormAsset::register($this);
           </div>
         </div>
       </div>
+
+      <?php if(!$model->isNewRecord): ?>
+      <div class="row">
+        <div class="col-md-12">
+          
+          <div class="row">
+            <div class="col-md-12">
+              <?= $form->field($model, 'classCode')->textArea(['id'=>'php_editor']); ?>
+
+              <?= $form->field($model, 'classCode')->hiddenInput(['id'=>'class-code'])->label(false); ?>
+            </div>
+          </div>
+        </div>
+      </div>
+      <?php endif; ?>
+
+      
       
     </div>
       

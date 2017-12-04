@@ -283,31 +283,22 @@ class Response extends \yii\db\ActiveRecord
 
     }
 
-    public function regError($status,$msg)
+    public function rollBack($status)
     {
+        //Msg ошибку
+        $status_msg=[
+            self::STATUS_LOADING_ERROR=>'Ошибка загрузки контента',
+            self::STATUS_PARSING_ERROR=>'Ошибка разбора контента',
+        ];
+
         //Обновляю ответ
         $this->json=null;
-        $this->error=json_encode($msg);
+        $this->error=$status_msg[$status];
         $this->status=$status;
         $this->save();
 
-        //Регистрирую ошибку
-        $err_codes=[
-            self::STATUS_LOADING_ERROR=>Error::CODE_LOADING_ERROR,
-            self::STATUS_PARSING_ERROR=>Error::CODE_PARSING_ERROR,
-        ];
-
-        $error=new Error();
-        $error->code=$err_codes[$status];
-        $error->msg=$msg;
-        $error->status=Error::STATUS_NEW;
-        $error->request_id=$this->request_id;
-        $error->response_id=$this->id;
-        $error->parser_id=$this->parser_id;
-        $error->loader_id=$this->loader_id;
-        $error->save();
-
-        //Обновляю статус запроса
+        
+        //Обновляю статус родительского запроса
         $this->request->status=Request::STATUS_ERROR;
         $this->request->save();  
 

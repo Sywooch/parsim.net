@@ -42,9 +42,9 @@ $this->params['breadcrumbs'][] = $model->alias
               <thead>
                 <tr>
                   <th width="10px">#</th>
-                  <th width="150px">Дата</th>
                   <th width="80%">Данныее</th>
                   <th width="100px">Статус</th>
+                  <th>Удалить</th>
                 </tr>
               </thead>
               <tbody>
@@ -64,6 +64,14 @@ $this->params['breadcrumbs'][] = $model->alias
     <div class="panel-footer"><a class="heading-elements-toggle"><i class="icon-more"></i></a>
       <div class="heading-elements">
         <?= Html::a('Изменить',$model->updateUrl, ['class' => 'btn btn-success heading-btn pull-right']) ?>
+        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'alias' => $model->alias], [
+              'class' => 'btn btn-danger pull-right',
+              'data' => [
+                  'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                  'method' => 'post',
+              ],
+            ]);
+        ?>
       </div>
     </div>
   </div>

@@ -6,7 +6,7 @@ namespace console\controllers;
 use Yii;
 use yii\console\Controller;
 use common\models\Parser;
-use common\models\parsers\classes\ParserInitData;
+use common\models\parsers\classes\InitParsData;
 
 
 
@@ -19,7 +19,7 @@ class ParserController extends Controller
         Yii::$app->db->createCommand('ALTER SEQUENCE parser_id_seq RESTART WITH 1')->execute();
         
 
-        foreach (ParserInitData::getInitData() as $key => $parser) {
+        foreach (InitParsData::getInitData() as $key => $parser) {
             $model = new Parser();
 
             $model->alias=uniqid();
@@ -28,7 +28,20 @@ class ParserController extends Controller
             $model->loader_type=0;
             $model->reg_exp=$parser['reg_exp'];
             $model->example_url=$parser['example_url'];
+
+            $model->listSelector=$parser['listSelector'];
+            $model->itemSelector=$parser['itemSelector'];
+            $model->pagesSelector=$parser['pagesSelector'];
+
+            $model->listTestUrl=$parser['listTestUrl'];
+            $model->itemTestUrl=$parser['itemTestUrl'];
+
+            $model->fillItem=$parser['fillItem'];
+            $model->fillListItem=$parser['fillListItem'];
+            $model->fillPage=$parser['fillPage'];
+
             $model->status=0;
+            
             $model->save();
         }
 

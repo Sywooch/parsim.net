@@ -28,7 +28,7 @@ $this->params['keywords']='Парсер, парсер сайтов, парсин
         
         <div id="demo-request-area">
         <!--Request Form-->
-        <?= $this->render('/request/_formTest',['model'=>$request]); ?>
+        <?php //echo $this->render('/request/_formTest',['model'=>$request]); ?>
         <!--End Request Form-->    
         </div>
         

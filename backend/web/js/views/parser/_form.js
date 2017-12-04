@@ -16,5 +16,13 @@ $(function() {
     $('.select').select2({
         minimumResultsForSearch: Infinity
     });
+
+    var php_editor = ace.edit("php_editor");
+        php_editor.setTheme("ace/theme/monokai");
+        php_editor.getSession().setMode("ace/mode/php");
+        php_editor.setShowPrintMargin(false);
+        php_editor.getSession().on('change', function(e) {
+            $('#class-code').val(php_editor.getValue());
+        });
     
 });

@@ -31,7 +31,7 @@ class ResponseController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index','view'],
+                        'actions' => ['index','view','delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -73,6 +73,17 @@ class ResponseController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionDelete($alias)
+    {
+        $model=$this->findModel($alias);
+        $model->delete();
+
+        return $this->redirect(['/response/index']);
+        
+    }
+
+    
 
 
     protected function findModel($alias)

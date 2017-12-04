@@ -7,6 +7,8 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 
+use common\models\Response;
+
 use common\models\Request;
 use common\models\searchForms\RequestSearch;
 
@@ -31,7 +33,7 @@ class RequestController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index','create','update','delete','view'],
+                        'actions' => ['index','create','update','delete','view','response-delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -118,10 +120,21 @@ class RequestController extends Controller
     public function actionDelete($alias)
     {
         $model=$this->findModel($alias);
-        $project_alias=$model->getRoot()->alias;
         $model->delete();
 
-        return $this->redirect(['/project/view', 'alias' => $project_alias]);
+        return $this->redirect(['/request/index']);
+        
+    }
+
+    public function actionResponseDelete($alias)
+    {
+        $model=Response::findOne(['alias'=>$alias]);
+
+        $request=$model->request;
+
+        $model->delete();
+
+        return $this->redirect(['/request/view','alias'=>$request->alias]);
         
     }
 

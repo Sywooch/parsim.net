@@ -76,7 +76,7 @@
             <tr>
               <td style="text-align: center;color:#000; font-family: 'Lato', sans-serif;font-size:18px; font-weight: 500; word-spacing: 1px;">
                 <p style="padding: 0px 20px;">
-                  <?= $model->msg; ?>
+                  <?= $model->htmlInfo; ?>
                 </p>
               </td>
             </tr>

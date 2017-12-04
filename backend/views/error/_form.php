@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use common\models\Lookup;
+use common\models\Parser;
 
 
 
@@ -13,6 +14,8 @@ $labelClass=[
   $model::STATUS_TESTING=>'label-primary',
   $model::STATUS_FIXED=>'label-success',
 ];
+
+
 
 ?>
 
@@ -43,6 +46,8 @@ $labelClass=[
     
     <div class="panel-footer"><a class="heading-elements-toggle"><i class="icon-more"></i></a>
       <div class="heading-elements">
+        
+
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save'), ['class' => ($model->isNewRecord ? 'btn btn-success' : 'btn btn-primary').' heading-btn pull-right']) ?>
         <?php
           if(!$model->isNewRecord){
@@ -55,6 +60,7 @@ $labelClass=[
             ]);
           }
         ?>
+
       </div>
     </div>
   </div>

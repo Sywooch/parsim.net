@@ -3,7 +3,7 @@
 namespace common\models\parsers\classes;
 use yii\base\Model;
 
-class ParserInitData extends Model
+class InitParsData extends Model
 {
     
 
@@ -15,6 +15,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'dushevoi.ru',
+                
+                //parsActions selectors
+                'listSelector'=>'div.goods div.good-item',
+                'itemSelector'=>'#item-price-wrap',
+                'pagesSelector'=>'ul.pagination li',
+                //parsActions selectors
+                'listTestUrl'=>'https://www.dushevoi.ru/products/dushevye-kabiny/',
+                'itemTestUrl'=>'https://mytishi.dushevoi.ru/products/dushevaya-kabina-eago-dz949f6-49915-ware/',
+
                 'reg_exp'=>'(^https?://.*dushevoi.ru/products/)',
                 'example_url'=>'https://www.dushevoi.ru/products/dushevye-kabiny/',
             ],
@@ -23,6 +32,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santehnika-online.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^https?://[\w.]*santehnika-online.ru/.*$)',
                 'example_url'=>'https://santehnika-online.ru/vanny/stalnye/',
             ],
@@ -31,6 +49,16 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'center-santehniki.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
+
                 'reg_exp'=>'(?!^.*html$)(^http[s]?://[\w.]*center-santehniki.ru/catalog/)',
                 'example_url'=>'https://center-santehniki.ru/catalog/vanny/akrilovye/',
             ],
@@ -39,6 +67,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'djakudza.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^https?://.*djakudza.ru/category/)',
                 'example_url'=>'http://www.djakudza.ru/category/dushevye-kabiny/',
             ],
@@ -47,6 +84,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'aquatika.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^https?://.*aquatika.ru/prods_.*html$)',
                 'example_url'=>'http://www.aquatika.ru/prods_radius.html',
             ],
@@ -55,6 +101,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santehnika-tut.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^https?://[\w.]*santehnika-tut.ru/)',
                 'example_url'=>'http://santehnika-tut.ru/dushevye-kabiny/',
             ],
@@ -63,6 +118,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santehgorod.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^https?://[\w.]*santehgorod.ru/catalog/)',
                 'example_url'=>'https://www.santehgorod.ru/catalog/kabiny/',
             ],
@@ -72,6 +136,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'aquadom.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^https?://.*aquadom.ru)',
                 'example_url'=>'http://www.aquadom.ru/rakovini/',
             ],
@@ -80,6 +153,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'dlyavann.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://[\w.]*dlyavann.ru/.*html$)',
                 'example_url'=>'http://www.dlyavann.ru/category/unitazy.html',
             ],
@@ -89,6 +171,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'perfekto.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^https?://.*perfekto.ru/catalog)',
                 'example_url'=>'https://www.perfekto.ru/catalog/unitazy/unitaz_artic_4310_gb114310301737_gb114310301231/',
             ],
@@ -97,6 +188,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'sanone.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^https?://.*sanone.ru/.*$)',
                 'example_url'=>'http://sanone.ru/mebel_dlya_vannoy/alta-marea-atollo-komplekt-mebeli.html',
             ],
@@ -105,6 +205,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santehnika-room',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://[\w.]*santehnika-room.ru/)',
                 'example_url'=>'https://www.santehnika-room.ru/unitazy/napolnye',
             ],
@@ -114,6 +223,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santehtop.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://[\w.]*santehtop.ru/)',
                 'example_url'=>'http://www.santehtop.ru/vanny/akrilovie/aquatika/',
             ],
@@ -122,6 +240,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'sanberry.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://[\w.]*sanberry.ru/)',
                 'example_url'=>'http://sanberry.ru/catalog/sanfayans/unitazy/',
             ],
@@ -130,6 +257,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santeh-era.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://[\w.]*santeh-era.ru/)',
                 'example_url'=>'http://santeh-era.ru/catalog/vanny_chugunnye/',
             ],
@@ -138,6 +274,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'sdvk.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://[\w.]*sdvk.ru/)',
                 'example_url'=>'https://sdvk.ru/Dushevie_kabini/Niagara/',
             ],
@@ -146,6 +291,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santehnica.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://[\w.]*santehnica.ru/)',
                 'example_url'=>'http://www.santehnica.ru/catalog/dushevie-kabini/niagara/',
             ],
@@ -154,6 +308,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'wodolei.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://[\w.]*wodolei.ru/catalog/)',
                 'example_url'=>'https://wodolei.ru/catalog/dushevie_kabini/Niagara/',
             ],
@@ -162,6 +325,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santeh-import.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*santeh-import.ru.*html$)',
                 'example_url'=>'https://www.santeh-import.ru/Vanny-Vanny-pryamougolnye%2C-kvadratnye-kupit-category_438-b0.html',
             ],
@@ -170,6 +342,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santeh-magt.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*santeh-mag.com/katalog/)',
                 'example_url'=>'http://santeh-mag.com/katalog/dushevye-boksy/',
             ],
@@ -178,6 +359,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'techport.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*techport.ru/katalog/.*$)',
                 'example_url'=>'http://www.techport.ru/katalog/products/santehnika/vanny',
             ],
@@ -188,6 +378,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'1san.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*1san.ru/.*html$)',
                 'example_url'=>'https://1san.ru/dushevyekabiny.html',
             ],
@@ -196,6 +395,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'vannamoskva.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*vannamoskva.ru/.*$)',
                 'example_url'=>'https://vannamoskva.ru/catalog/hansgrohe',
             ],
@@ -204,6 +412,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'deltasan.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*deltasan.ru/catalog/.*$)',
                 'example_url'=>'http://deltasan.ru/catalog/dushevye-poddony/nizkiy-dushevoy-poddon/',
             ],
@@ -212,6 +429,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'m-vanna.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*m-vanna.ru/catalog/products/.*$)',
                 'example_url'=>'https://www.m-vanna.ru/catalog/products/gidromassazhnye-boksy/dushevaja-kabina-niagara-ng-1509',
             ],
@@ -220,6 +446,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'ceramicplus.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*ceramicplus.ru/catalog/.*$)',
                 'example_url'=>'https://www.ceramicplus.ru/catalog/dushi/dushevyje_garnitury',
             ],
@@ -228,6 +463,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'suntechnica.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*suntechnica.*$)',
                 'example_url'=>'http://www.suntechnica.ru/dushevaya-kabina-niagara-ng-1310-rl/',
             ],
@@ -236,6 +480,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'suntechnica.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*mirsanteh.ru/catalog/.*$)',
                 'example_url'=>'https://www.mirsanteh.ru/catalog/kabiny/dushevaja_kabina_niagara_ng-13102310_levajapravaja.html',
             ],
@@ -244,6 +497,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'gidro-top.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*gidro-top.ru/product/.*$)|(^http[s]?://.*gidro-top.ru/category/.*$)',
                 'example_url'=>'http://gidro-top.ru/product/viega-704353-advantix-vario-set/',
             ],
@@ -252,6 +514,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'akvita.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*akvita.ru/catalog/.*$)',
                 'example_url'=>'http://www.akvita.ru/catalog/dushevye_kabiny/?id=7413',
             ],
@@ -260,6 +531,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'premium-v.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*premium-v.ru/products/.*$)',
                 'example_url'=>'https://www.premium-v.ru/products/recor_classic_170x75.html',
             ],
@@ -268,6 +548,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'premium-v.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*qq.ru/product/.*$)|(^http[s]?://.*qq.ru/category/.*$)',
                 'example_url'=>'http://qq.ru/product/00000091688/',
             ],
@@ -276,6 +565,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'aquavil.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*aquavil.ru/catalog/.*$)',
                 'example_url'=>'https://aquavil.ru/catalog/baths/square/vanna_relisan_marina_170h75/',
             ],
@@ -284,6 +582,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santeh-diler.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*santeh-diler.ru/product/.*$)|(^http[s]?://.*santeh-diler.ru/category/.*$)',
                 'example_url'=>'http://santeh-diler.ru/product/dushevaya-kabina-niagara-ng-510',
             ],
@@ -292,6 +599,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'grinc.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*grinc.ru/.*$)',
                 'example_url'=>'http://grinc.ru/dushevye-kabiny/s-gidromassazhem/niagara-ng-510/',
             ],
@@ -300,6 +616,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'perl-santehnika.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*perl-santehnika.ru/.*$)',
                 'example_url'=>'http://perl-santehnika.ru/dushevye-kabiny/dushevye-kabiny-s-nizkim-poddonom-652/dushevaya-kabina-river-rein-90-26-mt',
             ],
@@ -308,6 +633,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santeh-opt.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*santeh-opt.ru/.*$)',
                 'example_url'=>'http://www.santeh-opt.ru/tovar.php?nmb=21813',
             ],
@@ -316,6 +650,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'sangold.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*sangold.ru/.*$)',
                 'example_url'=>'http://sangold.ru/index.php?productID=9580',
             ],
@@ -325,6 +668,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santehstok.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*santehstok.ru/shop/.*$)',
                 'example_url'=>'http://santehstok.ru/shop/7207/desc/dushevaja-kabina-niagara-niagara-ng-510',
             ],
@@ -333,6 +685,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santehnika47.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*santehnika47.ru/.*$)',
                 'example_url'=>'http://santehstok.ru/shop/7207/desc/dushevaja-kabina-niagara-niagara-ng-510',
             ],
@@ -341,6 +702,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'vanna-doma.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*vanna-doma.ru/shop/.*$)',
                 'example_url'=>'https://www.vanna-doma.ru/shop/Smesiteli/s_gigienicheskim_dushem/Cezares_GARDA-ID-01_gigienicheskiy_dush-9809.html',
             ],
@@ -349,6 +719,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'aqualetto-markon.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*aqualetto-markon.ru/.*id_kat.*(id_tov)?.*$)',
                 'example_url'=>'http://www.aqualetto-markon.ru/index.php?id_kat=24&id_tov=211',
             ],
@@ -357,6 +736,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santut.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*santut.ru/.*/.*(product_id)?.*$)',
                 'example_url'=>'https://santut.ru/dushevye-kabiny-gidroboksy/dushevye-ugli?product_id=1557',
             ],
@@ -365,6 +753,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'spa.com.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*spa.com.ru/.*(sid=|id=)+.*$)',
                 'example_url'=>'http://spa.com.ru/bathsdetail.php?id=2927&sid=292&l_from=120&l_to=140',
             ],
@@ -373,6 +770,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'axor.su',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*axor.su.*$)',
                 'example_url'=>'https://axor.su/item/dushevaya_kabina_luxus_895/',
             ],
@@ -381,6 +787,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'mir-wan.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*mir-wan.ru.*(sub|tov)+.*$)',
                 'example_url'=>'http://mir-wan.ru/tov/41747/niagara_ng-309/',
             ],
@@ -389,6 +804,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santekhnika.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*santekhnika.ru/.*$)',
                 'example_url'=>'http://www.santekhnika.ru/dushevaya-kabina-niagara-ng-510.html',
             ],
@@ -397,6 +821,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'santeh-centr.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*santeh-centr.ru/.*$)',
                 'example_url'=>'https://santeh-centr.ru/dushevye-kabiny-gidroboksy/dushevye-kabiny/dushevaja-kabina-ammari-am-082-80-8080215-sm-bez-gidromassazha',
             ],
@@ -405,6 +838,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'san-mag.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*san-mag.ru/.*$)',
                 'example_url'=>'http://san-mag.ru/dushevaya-kabina-niagara-ng-2310-r/',
             ],
@@ -413,6 +855,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'bathsale.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*bathsale.ru/katalog-produkczii/.*$)',
                 'example_url'=>'https://bathsale.ru/katalog-produkczii/dushevyie-kabinyi/slivnyie-trapyi/dushevoj-boks-frank-f555-140/85-sm.html',
             ],
@@ -421,6 +872,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'hit-vanna.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*hit-vanna.ru/.*$)',
                 'example_url'=>'http://hit-vanna.ru/dushevye-kabiny-boksy-gidromassazhye/dushevye-kabiny-asimmetrichnye-kupit-ceny-razmery/dushevaja-kabina-niagara-ng-1310-r-uglovaja.html',
             ],
@@ -429,6 +889,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'hunting4all.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*hunting4all.ru/.*$)',
                 'example_url'=>'http://hunting4all.ru/',
             ],
@@ -437,6 +906,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'parser-dlya-sayta.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*kwork.ru/land/parser-dlya-sayta.*$)',
                 'example_url'=>'https://kwork.ru/land/parser-dlya-sayta',
             ],
@@ -447,6 +925,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'vkak.deer.io',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*vkak.deer.io.*$)',
                 'example_url'=>'http://vkak.deer.io/',
             ],
@@ -455,6 +942,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>2,
                 'name'=>'foodmarkets.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*foodmarkets.ru/users.*$)',
                 'example_url'=>'http://foodmarkets.ru/users',
             ],
@@ -463,6 +959,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'sportmaster.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*sportmaster.ru/(catalog|product).*$)',
                 'example_url'=>'https://www.sportmaster.ru/catalog/begovye_lyzhi/lyzhi/',
             ],
@@ -471,6 +976,15 @@ class ParserInitData extends Model
             [
                 'type_id'=>3,
                 'name'=>'fl.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*fl.ru/projects/.*$)',
                 'example_url'=>'https://www.fl.ru/projects/',
             ],
@@ -479,8 +993,34 @@ class ParserInitData extends Model
             [
                 'type_id'=>1,
                 'name'=>'merida.ru',
+
+                //parsActions selectors
+                'listSelector'=>'',
+                'itemSelector'=>'',
+                'pagesSelector'=>'',
+                //parsActions selectors
+                'listTestUrl'=>'',
+                'itemTestUrl'=>'',
+
                 'reg_exp'=>'(^http[s]?://.*merida.ru/tovar.*$)',
                 'example_url'=>'http://merida.ru/tovary',
+            ],
+
+            //https://www.radimax.ru/brands/retrostyle/
+            [
+                'type_id'=>1,
+                'name'=>'radimax.ru',
+                
+                //parsActions selectors
+                'listSelector'=>'div.products_list .product_cart',
+                'itemSelector'=>'#single-product',
+                'pagesSelector'=>'ul.pagination li',
+                //parsActions selectors
+                'listTestUrl'=>'hthttps://www.radimax.ru/brands/retrostyle/',
+                'itemTestUrl'=>'https://www.radimax.ru/chugunnie_radiatory/retro_style_windsor/350/180.html',
+
+                'reg_exp'=>'(^https?://.*radimax.ru/)',
+                'example_url'=>'https://www.radimax.ru/brands/retrostyle/',
             ],
 
         ];

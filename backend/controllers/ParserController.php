@@ -78,6 +78,7 @@ class ParserController extends Controller
     public function actionCreate()
     {
         $model = new Parser();
+        $model->type_id=1;
         $model->reg_exp="(^http[s]?://.*enter_here_host_and_path.*$)";
         $model->loader_type=0;
         if ($model->load(Yii::$app->request->post()) && $model->save()){
@@ -100,6 +101,8 @@ class ParserController extends Controller
         $model = $this->findModel($id);
         
         
+        //echo(json_encode(Yii::$app->request->post()));
+        //die;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()){
             return $this->redirect($model->indexUrl);

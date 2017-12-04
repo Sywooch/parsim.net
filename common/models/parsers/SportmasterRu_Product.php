@@ -5,120 +5,69 @@ namespace common\models\parsers;
 use Yii;
 use \phpQuery;
 
-use common\models\parsers\classes\ProductParser;
+use common\models\parsers\classes\ParserProduct;
 use common\models\Error;
-use common\models\Parser;
 
-class SportmasterRu_Product extends ProductParser
+class SportmasterRu_Product extends ParserProduct
 {
-    private $html;
-    private $document;
-    private $host='sportmaster.ru';
-    private $parser;
+    public $parsActions=[
+        'actionParsList'=>'',
+        'actionParsItem'=>'',
+    ];
+    public $testUrls=[
+        'actionParsList'=>'', //в классе наследнике указывается эталонный URL, по которому проверяется корректность работы действия - парсинг списка
+        'actionParsItem'=>'', //в классе наследнике указывается эталонный URL, по которому проверяется корректность работы действия - парсинг записи
+    ];
     
-    public function run()
+
+    //Парсинг списка 
+    public function actionParsList()
     {
-        $this->parser=Parser::findOne('57');
-
-        $this->html=file_get_contents($this->contentPath);
-
-        //раскомментируй эту строчку, если контент в win-1251
-        //$this->html= iconv('cp1251','utf-8', $this->html);
-
-        $this->document=phpQuery::newDocumentHTML($this->html);
-
-        //Определяю тип контента (карточка или список),
-        //если определить не удалось, регистрирую ошибку
-        if($this->contentType==self::CONTENT_TYPE_LIST){
-            return $this->parseList();
-        }elseif($this->contentType==self::CONTENT_TYPE_CARD){
-            return $this->parseCard();
-        }else{
-            return $this->regError(Error::CODE_PARSING_ERROR,'Ошибка определения типа контента "списка товаров" или "карточка товара" для хоста '.$this->host);
-        }
-    }
-
-    ///Определение типа контента
-    public function getContentType()
-    {
-        $card_selector='.sm-goods_main_details';
-        $list_selector='#categoryItemContainer';
-        
-
-        $count_card=count($this->document->find($card_selector));
-        $count_list=count($this->document->find($list_selector));
-        
-
-
-        if($count_card>0 && $count_list==0){
-            return self::CONTENT_TYPE_CARD;
-        }
-
-        if($count_list>0 && $count_card==0){
-            return self::CONTENT_TYPE_LIST;
-        }
-
-        return false;
-        
-        
-    }
-
-    //Парсинг списка товаров
-    private function parseList()
-    {
-        $products=[];
-
-        $items_selector='#categoryItemContainer .sm-category__item';
-
+        $items_selector='';
         $items=$this->document->find($items_selector);
+
+        $data=parent::parsPage();
+
         foreach ($items as $key => $item) {
-            $product= new ProductParser();
+            $model= new ParserProduct();
 
-            $product->setId( pq($item)->find('span.js-compare-link')->attr('data-id') );
-            $product->setName( pq($item)->find('h2 a')->attr('title') );
-            $product->setPrice( str_replace('value: ', '', pq($item)->find('.sm-category__item-actual-price sm-amount')->attr('params')) );
-            $product->setCurrency('RUB');
+            $model->setAttrOne( pq($item)->find('')->text() );
+            $model->setAttrTwo( pq($item)->find('')->text() );
 
-            if($product->validate()){
-                $products[]=$product->toArray();
+            if($model->validate()){
+                $data['items'][]=$model->toArray();
             }else{
-                $this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "списка товаров" для '.$this->host.' '.json_encode($product->errors), json_encode($product->errors));
+                $model->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга списка');
+                $model->saveErrors();
                 return false;
             }
         }
-
-        return json_encode($products,JSON_UNESCAPED_UNICODE);
-    }
-    //Парсинг карточки товаров
-    private function parseCard()
-    {
+        return json_encode($data,JSON_UNESCAPED_UNICODE);
         
-        $this->setId($this->document->find('span.js-compare-link')->attr('data-id'));
-        $this->setName($this->document->find('.sm-goods_main_details h1')->text());
-        $this->setPrice($this->document->find('meta[itemprop="price"]')->attr('content') );
-        $this->setCurrency('RUB');
+    }
+    
+    //Парсинг записи 
+    public function actionParsItem()
+    {
+
+        $data=parent::parsPage();
+
+        $item_selector='';
+        $item=$this->document->find($item_selector);
+
+        $this->setAttrOne( pq($item)->find('')->text() );
+        $this->setAttrTwo( pq($item)->find('')->text() );
+        
 
         if($this->validate()){
-            return $this->json;
+            $data=array_merge($data,$this->toArray);
+            return json_encode($data,JSON_UNESCAPED_UNICODE);
         }else{
-            //$this->regError(Error::CODE_PARSING_ERROR,'Ошибка парсинга "карточки товаров" для '.$this->host, json_encode($this->errors));
+            $model->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга записи');
+            $model->saveErrors();
             return false;
         }
         
-        
     }
-
-    private function regError($code,$msg,$description=null){
-        $error=new Error();
-
-        $error->code=$code;
-        $error->msg=$msg;
-        $error->description=$description;
-        $error->status=Error::STATUS_NEW;
-        $error->parser_id=$this->parser->id;
-
-        $error->save();
-    }
-
 
 }

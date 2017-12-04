@@ -7,7 +7,7 @@ use yii\base\Model;
 use \phpQuery;
 
 
-class TaskParser extends BaseParser
+class ParserTask extends BaseParser
 {
   
   private $_id;
@@ -155,12 +155,5 @@ class TaskParser extends BaseParser
       'answers',
       'viewUrl'
     ];
-  }
-
-  public function getJson()
-  {
-    //Возращает в JSON формате поля, которые определены
-    //в функции fields()
-    return json_encode($this->toArray(),JSON_UNESCAPED_UNICODE);
   }
 }

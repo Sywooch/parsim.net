@@ -57,7 +57,7 @@ class ResponseController extends Controller
                     $response->regEventContentLoad();
                 }else{
                     //Регистрирую ошибку загрузки контента
-                    $response->regError(Response::STATUS_LOADING_ERROR,'Ошибка загрузки контента');
+                    //$response->regError(Response::STATUS_LOADING_ERROR,'Ошибка загрузки контента');
                 }
                 
             }
@@ -69,24 +69,25 @@ class ResponseController extends Controller
         foreach ($responses as $key => $response){
 
             
-            $parser = BaseParser::initParser($response->request->request_url,$response->contentPath);
+            $parser = BaseParser::initParser($response);
             
             //$this->stdout('Class '.$parser->className().PHP_EOL);
             
 
-            if($json=$parser->run()){
+            if($data=$parser->run()){
                 
-                $response->regData($json);
+                $response->regData($data);
                 
                 //$this->stdout('Data '.$json.PHP_EOL);
                 //$response->regError(Response::STATUS_PARSING_ERROR,'test');
 
             }else{
+                $this->stdout('Ошибка: '.PHP_EOL);
+
+                //Блокирую последующую обработку ответа
+                //и сторнирую оплату (если была)
+                $response->rollBack(Response::STATUS_PARSING_ERROR);
                 
-                $info=[
-                    'errors'=>$parser->errors,
-                    'data'=>$parser->json,
-                ];
                 
                 //$response->regError(Response::STATUS_PARSING_ERROR,json_encode($info));
 

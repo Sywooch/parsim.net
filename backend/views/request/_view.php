@@ -7,7 +7,7 @@
   ]
 ?>
 <tr>
-  <td ><a href="<?= $model->viewUrl; ?>" class="src-link"><?= $model->alias; ?></a></td>
+  <td ><a href="<?= $model->updateUrl; ?>" class="src-link"><?= $model->alias; ?></a></td>
   <td ><a href="<?= $model->request_url; ?>" class="src-link"><?= $model->request_url; ?></a></td>
   <td ><?= $model->freqName; ?></td>
   <td ><a href="<?= $model->response_url; ?>" class="src-link"><?= $model->response_url; ?></a></td>

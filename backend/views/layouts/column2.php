@@ -13,8 +13,12 @@ use common\widgets\Alert;
 use yii\widgets\Menu;
 use backend\widgets\LngSelector;
 
+use common\models\Error;
+
 
 AppAsset::register($this);
+
+$errCount=Error::getCountNew();
 
 
 ?>
@@ -135,7 +139,7 @@ AppAsset::register($this);
                                             'visible'=>Yii::$app->user->identity->isAdmin,
                                         ],
                                         [
-                                            'label' => '<i class="icon-bug2 position-left"></i> <span>'.Yii::t('app','Errors').'</span>',
+                                            'label' => '<i class="icon-bug2 position-left"></i> <span>'.Yii::t('app','Errors'). ($errCount==0?'':' <span class="badge badge-danger">'.$errCount.'</span>').'</span>',
                                             'url' => ['error/index'],
                                             'encode'=>false,
                                             'visible'=>Yii::$app->user->identity->isAdmin,
