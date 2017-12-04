@@ -49,9 +49,9 @@ class ParserSearch extends Parser
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination'=>[
-                'pageSize'=>200,
-            ],
+            'pagination' => [
+                'pageSize'=>10,
+            ]
         ]);
 
         $this->load($params);
