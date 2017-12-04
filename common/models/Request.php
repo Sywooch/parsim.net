@@ -131,6 +131,10 @@ class Request extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
+    public function getTarif(){
+        return $this->hasOne(Tarif::className(), ['id' => 'tarif_id']);
+    }
+
     //=========================================================
     //
     // Блок поисковых выдач
@@ -289,6 +293,15 @@ class Request extends \yii\db\ActiveRecord
     // Блок атрибутов
     //
     //=========================================================
+    public function getTarifName()
+    {
+        if(isset($this->tarif)){
+            return $this->tarif->name;
+        }
+        
+        return '';
+    }
+
     public function getStatusName()
     {
         return Lookup::item('REQUEST_STATUS',$this->status);

@@ -13,5 +13,6 @@
   <td ><a href="<?= $model->response_url; ?>" class="src-link"><?= $model->response_url; ?></a></td>
   <td ><a href="mailto:<?= $model->response_email; ?>" class="src-link"><?= $model->response_email; ?></a></td>
   <td ><a href="<?= $model->responsesUrl; ?>" class="src-link"><?= $model->responseCount; ?></a></td>
+  <td ><?= $model->tarifName; ?></td>
   <td ><span class="label <?= $labelClass[$model->status]; ?>"><?= $model->statusName; ?></span></td>
 </tr>

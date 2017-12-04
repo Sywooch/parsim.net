@@ -8,6 +8,7 @@
         <th><?= Yii::t('app','Response URL'); ?></th>
         <th><?= Yii::t('app','Response E-mail'); ?></th>
         <th><?= Yii::t('app','Responses'); ?></th>
+        <th><?= Yii::t('app','Tarif'); ?></th>
         <th><?= Yii::t('app','Status'); ?></th>
       </tr>
     </thead>
