@@ -36,9 +36,9 @@ class ParserController extends Controller
             $model->listTestUrl=$parser['listTestUrl'];
             $model->itemTestUrl=$parser['itemTestUrl'];
 
-            $model->fillItem=$parser['fillItem'];
-            $model->fillListItem=$parser['fillListItem'];
-            $model->fillPage=$parser['fillPage'];
+            //$model->fillItem=$parser['fillItem'];
+            //$model->fillListItem=$parser['fillListItem'];
+            //$model->fillPage=$parser['fillPage'];
 
             $model->status=0;
             
