@@ -16,7 +16,7 @@ use common\models\Lookup;
         'method' => 'get',
     ]); ?>
     
-    <?= $form->field($model, 'url') ?>
+    <?= $form->field($model, 'name') ?>
 
     <?= 
         $form->field($model, 'status',['template'=>'{label}{input}{error}'])->checkboxList($model->statusList,['item'=>function ($index, $label, $name, $checked, $value){

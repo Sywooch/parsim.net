@@ -20,7 +20,7 @@ class ParserSearch extends Parser
     public function rules()
     {
         return [
-            [['status'], 'safe'],
+            [['status','name'], 'safe'],
         ];
     }
 
@@ -67,10 +67,9 @@ class ParserSearch extends Parser
             'status' => $this->status,
         ]);
 
-        /*
-        $query
-            ->andFilterWhere(['like', 'orgunit.name', $this->name]);
-        */  
+        
+        $query->andFilterWhere(['like', 'name', $this->name]);
+          
             
         return $dataProvider;
     }
