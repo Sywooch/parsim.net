@@ -3,6 +3,10 @@
 /yii_test
 /yii_test.bat
 
+# parser classes
+/common/models/parsers/*
+!/common/models/parsers/classes
+!/common/models/parsers/templates
 
 # phpstorm project files
 .idea
