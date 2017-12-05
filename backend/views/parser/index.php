@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 //use yii\widgets\ListView;
 use yii\widgets\LinkPager;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\searchForms\TemplateSearch */
@@ -12,12 +13,17 @@ $this->title = Yii::t('app', 'Parsers');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['bodyClass']='has-detached-right';
 
+use backend\assets\parser\IndexAsset;
+IndexAsset::register($this);
+
 ?>
 <div class="parser-index">
   <p>
     <?= Html::a(Yii::t('app', 'Create parser'), $model->createUrl, ['class' => 'btn btn-success']) ?>
-    <?= Html::a('<i class="icon-file-upload"></i>', ['upload'], ['class' => 'btn btn-primary btn-icon']) ?>
-    <?= Html::a('<i class="icon-file-download"></i>', ['download'], ['class' => 'btn btn-primary btn-icon']) ?>
+    <?= Html::a('<i class="icon-file-upload"></i>', ['export'], ['class' => 'btn btn-primary btn-icon']) ?>
+
+    <?= Html::a('<i class="icon-file-download"></i>', '#', ['class' => 'btn btn-primary btn-icon', 'id'=>'btn-import']) ?>
+
   </p>
   
   <div class="container-detached">
@@ -58,4 +64,13 @@ $this->params['bodyClass']='has-detached-right';
       </div>
     </div>
   </div>
+  <div class="hidden">
+    <?php $form = ActiveForm::begin([
+        'id' => 'parser-import-form',
+        'options'=>['enctype' => 'multipart/form-data']
+    ]); ?>
+      <?= $form->field($importForm, 'file')->fileInput(['id'=>'input-file']); ?>
+    <?php ActiveForm::end(); ?>
+  </div>
+  
 </div>

@@ -2,6 +2,7 @@
 namespace backend\controllers;
 
 use Yii;
+use ZipArchive;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -9,6 +10,8 @@ use yii\filters\AccessControl;
 use common\models\Parser;
 use common\models\ParserAction;
 use common\models\searchForms\ParserSearch;
+use backend\models\importForm;
+use yii\web\UploadedFile;
 
 use common\models\parsers\BaseParser;
 
@@ -34,7 +37,7 @@ class ParserController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index','create','update','delete','view'],
+                        'actions' => ['index','create','update','delete','view','export','import'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -58,12 +61,25 @@ class ParserController extends Controller
      */
     public function actionIndex()
     {
+        
+
         $searchModel = new ParserSearch();
+        $importForm= new importForm();
+
+        if (Yii::$app->request->isPost) {
+            $importForm->file = UploadedFile::getInstance($importForm, 'file');
+            if ($importForm->upload()) {
+                return $this->redirect($searchModel->indexUrl);
+            }
+        }
+
+
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'model' => $searchModel,
             'dataProvider' => $dataProvider,
+            'importForm'=>$importForm,
         ]);
     }
 
@@ -136,8 +152,24 @@ class ParserController extends Controller
 
         return $this->redirect(['index']);
         
-    }    
+    } 
 
+
+    public function actionExport()
+    {
+        $file=$this->createExportFile();
+        
+        if (file_exists($file)) {
+            header("Content-Type: application/zip");
+            header("Content-Disposition: attachment; filename=".basename($file));
+            header("Content-Length: ".filesize($file));
+            ob_clean();
+            flush();
+            echo readfile("$file");
+            //return Yii::$app->response->sendFile($file);
+        }
+        
+    }  
 
     protected function findModel($id)
     {
@@ -146,6 +178,28 @@ class ParserController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    private function createExportFile()
+    {
+        $file = Yii::getAlias('@webroot/uploads/parsers/export/parsers.zip');
+        $zip = new ZipArchive();
+
+        $zip_mode=ZipArchive::CREATE;
+        if(file_exists($file)){
+            $zip_mode=ZipArchive::OVERWRITE;
+        }
+        
+        if ($zip->open($file, $zip_mode) === TRUE ) {
+            foreach(Parser::find()->all() as $parser){
+                $zip->addFile($parser->classPath,$parser->className.'.php');
+            }
+            $zip->close();
+            return $file;
+
+        }else{
+            throw new \Exception('Cannot create a zip file');
         }
     }
     
