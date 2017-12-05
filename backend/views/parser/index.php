@@ -16,6 +16,8 @@ $this->params['bodyClass']='has-detached-right';
 <div class="parser-index">
   <p>
     <?= Html::a(Yii::t('app', 'Create parser'), $model->createUrl, ['class' => 'btn btn-success']) ?>
+    <?= Html::a('<i class="icon-file-upload"></i>', ['upload'], ['class' => 'btn btn-primary btn-icon']) ?>
+    <?= Html::a('<i class="icon-file-download"></i>', ['download'], ['class' => 'btn btn-primary btn-icon']) ?>
   </p>
   
   <div class="container-detached">
