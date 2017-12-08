@@ -24,7 +24,6 @@ class ErrorSearch extends Error
         ];
     }
 
- 
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
