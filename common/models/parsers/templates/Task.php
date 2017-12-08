@@ -1,5 +1,5 @@
 <?php
-//Парсинг карточки товара
+//Парсинг карточки задачи
 namespace common\models\parsers;
 
 use Yii;

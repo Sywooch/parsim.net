@@ -24,9 +24,7 @@ class ErrorSearch extends Error
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
+ 
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class

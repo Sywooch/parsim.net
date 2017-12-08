@@ -69,6 +69,7 @@ class {CLASS_NAME} extends ParserProduct
         }
 
         //Парсинг pagination
+        
         $pages_selector=$this->parsActions['actionParsList']['pagesSelector'];
         $pages=$this->document->find($pages_selector);
         foreach ($pages as $key => $item) {
