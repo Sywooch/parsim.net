@@ -157,7 +157,8 @@ class Request extends \yii\db\ActiveRecord
             return false;
         }
 
-        
+        //$parser=Parser::findByUrl($this->request_url);
+        //$this->parser_id=$parser->id;
 
         if($insert && isset(Yii::$app->user->id)){
             $this->created_by=Yii::$app->user->id;

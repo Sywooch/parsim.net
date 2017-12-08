@@ -42,17 +42,19 @@ class ParserSearch extends Parser
      */
     public function search($params)
     {
-        $query = Parser::find()->orderBy(['example_url'=>SORT_DESC,'name'=>SORT_ASC]);
+        $query = Parser::find();
         
-
-        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['name'=>SORT_ASC]],
             'pagination' => [
                 'pageSize'=>10,
             ]
         ]);
+        
+
+       
 
         $this->load($params);
 

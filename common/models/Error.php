@@ -22,6 +22,8 @@ use yii\behaviors\TimestampBehavior;
 class Error extends \yii\db\ActiveRecord
 {
     const CODE_UNKNOW_ERROR = 100;
+    const CODE_UNSET_URL = 101;
+    const CODE_UNSET_SELECTOR = 102;
     const CODE_PARSER_NOT_FOUND = 200;
     const CODE_PARSER_ACTION_NOT_FOUND = 201;
     const CODE_PARSER_FOUND_MANY_ACTIONS = 203;
@@ -131,11 +133,13 @@ class Error extends \yii\db\ActiveRecord
 
         if($insert){
             if(isset(Yii::$app->params['errorEmail'])){
+               /* 
                Yii::$app->mailqueue->compose(['html' => 'error/view'], ['model' => $this,'adminUrl'=>Yii::$app->urlManagerBackEnd->createUrl(['/error/index'])])
                     ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
                     ->setTo(Yii::$app->params['errorEmail'])
                     ->setSubject('Parsing error registred')
                     ->queue();
+                */
             }    
         }
 
@@ -162,7 +166,7 @@ class Error extends \yii\db\ActiveRecord
     }
 
     public function getHtmlInfo(){
-        $info=$this->msg.' <br>';
+        $info=$this->msg.'; ';
         if(isset($this->parser)){
             $info.='Parser ID: <a href="'.$this->parser->updateUrl.'">'.$this->parser->alias.'</a><br>';
         }

@@ -17,7 +17,7 @@ class InitParsData extends Model
                 'name'=>'dushevoi.ru',
                 
                 //parsActions selectors
-                'listSelector'=>'div.goods div.good-item',
+                'listSelector'=>'.goods .good-item',
                 'itemSelector'=>'#item-price-wrap',
                 'pagesSelector'=>'ul.pagination li',
                 //parsActions selectors

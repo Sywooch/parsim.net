@@ -4,7 +4,10 @@ namespace common\models\parsers\classes;
 
 use Yii;
 use yii\base\Model;
-use \phpQuery;
+
+use common\models\parsers\classes\HttpLoader; //загрузчик контента
+use \phpQuery; //Parser HTNL
+
 
 use common\models\Parser;
 use common\models\Error;
@@ -27,16 +30,26 @@ class BaseParser extends Model
 
     public $errorsAR=[];
 
+    public $testMode=false;
+
     public $result=[];
 
-    public $parsActions=[
-        'actionParsList'=>'',//в классе наследнике, указывается jQuery selectot, который однозначно идентифицирует действие - парсинг списка
-        'actionParsItem'=>'',//в классе наследнике, указывается jQuery selectot, который однозначно идентифицирует действие - парсинг записи
-    ];
     public $testUrls=[
         'actionParsList'=>'', //в классе наследнике указывается эталонный URL, по которому проверяется корректность работы действия - парсинг списка
         'actionParsItem'=>'', //в классе наследнике указывается эталонный URL, по которому проверяется корректность работы действия - парсинг записи
     ];
+
+    public $parsActions=[
+        'actionParsList'=>[
+            'itemSelector'=>'',
+            'pagesSelector'=>'',
+        ],
+        'actionParsItem'=>[
+            'itemSelector'=>'',
+        ],
+        
+    ];
+   
     
 
     //Инициализация парсера
@@ -70,7 +83,7 @@ class BaseParser extends Model
         }
     }
     //автозагрузкик парсера по имени класса
-    private static function loadParser($parserName)
+    public static function loadParser($parserName)
     {
         $parser=\yii\di\Instance::ensure(
             'common\models\parsers\\' . $parserName
@@ -91,9 +104,64 @@ class BaseParser extends Model
         }
     }
 
-    //Тестирование парсера, прогон по всем эталонным URL
     public function test()
     {
+        $this->testMode=true;
+
+        //$this->errorsAR=[];
+        //$path=Yii::getAlias('@console/data/htmlContent/forTests/'.$this->baseClassName.'/');
+        $path=Parser::getClassDir().'testContetnt/'.$this->baseClassName.'/';
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        foreach ($this->parsActions as $action => $selector) {
+
+            
+            //Проверка наличия тестовых URL
+            $url=$this->testUrls[$action];
+            if(!filter_var($url, FILTER_VALIDATE_URL)){
+                $this->addErrorAR(Error::CODE_UNSET_URL,'Не задан URL для действия '.$action);
+                continue;
+            }
+
+            $file=$path.$action.'.html';
+            //Загрузка контента для тестов
+            if( (!file_exists($file)) || (time()-filemtime($file) > 24*3600) ){
+                //если файл еще нк загружен или старше 24x часов
+                //обновляю файл
+                $loader=new HttpLoader();
+                $loader->loadContent($url,$file);
+            }
+
+            if(!isset($selector['itemSelector']) || $selector['itemSelector']==''){
+                $this->addErrorAR(Error::CODE_UNSET_SELECTOR,'Не задан селектор для действия '.$action);
+                continue;
+            }
+            
+
+            $content=file_get_contents($file);
+            $this->document= phpQuery::newDocument($content);
+            
+
+            //Проверка работы селектора для действия
+            $count=count($this->document->find($selector['itemSelector']));
+            if($count==0){
+                $this->addErrorAR(Error::CODE_PARSER_ACTION_NOT_FOUND,'Не найден селектор \'itemSelector\' для действия '.$action);
+            }
+
+            //Проверка работы парсига (запускаю действие)
+            //Если во время выполнения произойдет ошибка, действие зарегистрирует ошубку, но не юудет егот сохранять в БД
+            $this->$action();
+
+
+        }
+        
+        if($this->hasErrorsAR){
+            return false;
+        }else{
+            return true;    
+        }
 
     }
 
@@ -191,12 +259,65 @@ class BaseParser extends Model
         }
     }
 
+    public function getErrorSummary()
+    {
+        $summary='';
+        if($this->hasErrorsAR){
+            foreach ($this->errorsAR as $key => $error) {
+                $summary.=$error->getHtmlInfo();
+            }
+        }
+        return $summary;
+    }
+
     public function getJson()
     {
         //Возращает в JSON формате поля, которые определены
         //в функции fields()
         return json_encode($this->toArray(),JSON_UNESCAPED_UNICODE);
     }
+
+
+    private $_viewURL;
+    public function getViewUrl()
+    {
+        if(!isset($this->_viewURL)){
+            if(isset($this->requestAR)){
+                $this->_viewURL=$this->requestAR->request_url;
+            }
+        }
+        return $this->_viewURL;
+    }
+    public function setViewUrl($value)
+    {
+        $this->_viewURL=$value;
+    }
+
+    public function getBaseClassName()
+    {
+        $name=get_class($this);
+        $nameArray= explode('\\', $name);
+        $name=$nameArray[count($nameArray)-1];
+        return $name;
+    }
+
+    public function getExportData()
+    {
+        
+        return[
+            'id'=>$this->parserAR->id,
+            'type_id'=>$this->parserAR->type_id,
+            'name'=>$this->parserAR->name,
+
+            'testUrls'=>$this->testUrls,
+            'parsActions'=>$this->parsActions,
+
+            'reg_exp'=>$this->parserAR->reg_exp,
+            'example_url'=>$this->parserAR->example_url,
+        ];
+    }
+
+    
     
 
 }

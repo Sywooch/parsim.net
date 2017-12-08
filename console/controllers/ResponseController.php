@@ -70,16 +70,10 @@ class ResponseController extends Controller
 
             
             $parser = BaseParser::initParser($response);
-            
-            //$this->stdout('Class '.$parser->className().PHP_EOL);
-            
 
             if($data=$parser->run()){
                 
                 $response->regData($data);
-                
-                //$this->stdout('Data '.$json.PHP_EOL);
-                //$response->regError(Response::STATUS_PARSING_ERROR,'test');
 
             }else{
                 $this->stdout('Ошибка: '.PHP_EOL);

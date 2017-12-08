@@ -5,6 +5,7 @@ namespace common\models\parsers\classes;
 use Yii;
 use yii\base\Model;
 use \phpQuery;
+use common\models\Parser;
 
 
 class ParserProduct extends BaseParser
@@ -15,7 +16,8 @@ class ParserProduct extends BaseParser
   private $_price;
   private $_name;
   private $_currency;
-  private $_viewURL;
+
+  
 
   public $dict=[
     'currency'=>[
@@ -35,6 +37,7 @@ class ParserProduct extends BaseParser
   //
   //============================================
   
+
   //ID
   public function getId()
   {
@@ -86,14 +89,7 @@ class ParserProduct extends BaseParser
     }
   }
 
-  public function getViewUrl()
-  {
-    return $this->_viewURL;
-  }
-  public function setViewUrl($value)
-  {
-    $this->_viewURL=$value;
-  }
+  
 
 
 

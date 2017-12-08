@@ -11,13 +11,14 @@ use common\models\Error;
 
 class {class_name} extends ParserAccount
 {
-    public $parsActions=[
-        'actionParsList'=>'{list_selector}',
-        'actionParsItem'=>'{item_selector}',
-    ];
     public $testUrls=[
-        'actionParsList'=>'{list_test_url}',
-        'actionParsItem'=>'{item_test_url}',
+        'actionParsList'=>'{LIST_TEST_URL}',
+        'actionParsItem'=>'{ITEM_TEST_URL}',
+    ];
+    
+    public $parsActions=[
+        'actionParsList'=>'{LIST_SELECTOR}',
+        'actionParsItem'=>'{ITEM_SELECTOR}',
     ];
     
 
@@ -41,8 +42,10 @@ class {class_name} extends ParserAccount
             if($model->validate()){
                 $data['items'][]=$model->toArray();
             }else{
-                $model->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга списка');
-                $model->saveErrors();
+                $this->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга списка');
+                if($this->testMode==false){
+                    $this->saveErrors();    
+                }
                 return false;
             }
         }
@@ -68,7 +71,9 @@ class {class_name} extends ParserAccount
             return json_encode($data,JSON_UNESCAPED_UNICODE);
         }else{
             $this->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга записи');
-            $this->saveErrors();
+            if($this->testMode==false){
+                $this->saveErrors();    
+            }
             return false;
         }
         

@@ -11,13 +11,14 @@ use common\models\Error;
 
 class {class_name} extends ParserTask
 {
-    public $parsActions=[
-        'actionParsList'=>'{list_selector}',
-        'actionParsItem'=>'{item_selector}',
-    ];
     public $testUrls=[
-        'actionParsList'=>'{list_test_url}',
-        'actionParsItem'=>'{item_test_url}',
+        'actionParsList'=>'{LIST_TEST_URL}',
+        'actionParsItem'=>'{ITEM_TEST_URL}',
+    ];
+    
+    public $parsActions=[
+        'actionParsList'=>'{LIST_SELECTOR}',
+        'actionParsItem'=>'{ITEM_SELECTOR}',
     ];
     
 
@@ -25,10 +26,12 @@ class {class_name} extends ParserTask
     public function actionParsList()
     {
         $data=parent::parsPage();
+        $base_url=parse_url($this->testUrls['actionParsList'], PHP_URL_SCHEME).'://'.parse_url($this->testUrls['actionParsList'], PHP_URL_HOST);
 
         //Парсинг списка
-        $items_selector='item_selector';
+        $items_selector=$this->parsActions['actionParsList'];
         $items=$this->document->find($items_selector);
+
         foreach ($items as $key => $item) {
             $model= new TaskParser();
             $model->parserAR=$this->parserAR;
@@ -36,15 +39,16 @@ class {class_name} extends ParserTask
             $model->responseAR=$this->responseAR;
 
             
-            $model->setId( str_replace('project-item', '', pq($item)->attr('id')) );
-            $model->setName( pq($item)->find('h2 a.b-post__link')->text() );
+            $model->id =str_replace('project-item', '', pq($item)->attr('id'));
+            $model->name = pq($item)->find('h2 a.b-post__link')->text();
+            $model->viewUrl=$base_url.pq($item)->find('h2 a')->attr('href');
             
 
             $model->setPrice( pq($item)->find('.b-post__price')->text() );
             $model->setDescription( pq($item)->find('div.b-post__body div.b-post__txt')->text() );
             
             
-            $model->setViewUrl( '{URL_SCHEME}://{URL_HOST}'.pq($item)->find('h2 a')->attr('href') );
+            
 
             
             $model->setType( pq($item)->find('span.b-post__bold.b-layout__txt_inline-block')->text() );
@@ -57,8 +61,10 @@ class {class_name} extends ParserTask
             if($model->validate()){
                 $data['items'][]=$model->toArray();
             }else{
-                $model->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга списка');
-                $model->saveErrors();
+                $this->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга списка');
+                if($this->testMode==false){
+                    $this->saveErrors();    
+                }
                 return false;
             }
         }
@@ -66,18 +72,20 @@ class {class_name} extends ParserTask
         //Парсинг pagination
         $pages_selector='page_selector';
         $pages=$this->document->find($items_selector);
-        foreach ($pages as $key => $page) {
+        foreach ($pages as $key => $item) {
             $page = new ParserPagination();
 
-            $page->title = pq($page)->find('page_num_selector')->attr('attr_name');
-            $page->url = pq($page)->find('page_num_selector')->attr('attr_name');
+            $page->title = pq($item)->find('page_num_selector')->attr('attr_name');
+            $page->url = pq($item)->find('page_num_selector')->attr('attr_name');
             
             if($page->validate()){
                 $data['pages'][]=$page->toArray();
             }else{
                 if(isset($model)){
-                    $model->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга раздела Pagination');
-                    $model->saveErrors();    
+                    $this->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга раздела Pagination');
+                    if($this->testMode==false){
+                        $this->saveErrors();    
+                    }
                 }
                 
                 return false;
@@ -116,7 +124,9 @@ class {class_name} extends ParserTask
             return json_encode($data,JSON_UNESCAPED_UNICODE);
         }else{
             $this->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга записи');
-            $this->saveErrors();
+            if($this->testMode==false){
+                $this->saveErrors();    
+            }
             return false;
         }
         

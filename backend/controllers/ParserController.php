@@ -8,12 +8,11 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
 use common\models\Parser;
+use common\models\parsers\classes\BaseParser;
 use common\models\ParserAction;
 use common\models\searchForms\ParserSearch;
 use backend\models\importForm;
 use yii\web\UploadedFile;
-
-use common\models\parsers\BaseParser;
 
 use yii\data\ActiveDataProvider;
 
@@ -37,7 +36,7 @@ class ParserController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index','create','update','delete','view','export','import'],
+                        'actions' => ['index','create','update','delete','view','export','test'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -169,6 +168,15 @@ class ParserController extends Controller
             //return Yii::$app->response->sendFile($file);
         }
         
+    }
+    public function actionTest($id)
+    {
+        $model=$this->findModel($id);
+        $model->test();
+        
+        return $this->renderPartial('_status', [
+            'model' => $model,
+        ]);
     }  
 
     protected function findModel($id)
@@ -186,15 +194,25 @@ class ParserController extends Controller
         $file = Yii::getAlias('@webroot/uploads/parsers/export/parsers.zip');
         $zip = new ZipArchive();
 
+        $init_data=[];
         $zip_mode=ZipArchive::CREATE;
         if(file_exists($file)){
             $zip_mode=ZipArchive::OVERWRITE;
         }
         
         if ($zip->open($file, $zip_mode) === TRUE ) {
-            foreach(Parser::find()->all() as $parser){
-                $zip->addFile($parser->classPath,$parser->className.'.php');
+            foreach(Parser::find()->all() as $parserAR){
+                $zip->addFile($parserAR->classPath,$parserAR->className.'.php');
+                $pareserFile=BaseParser::loadParser($parserAR->className);
+                $pareserFile->parserAR=$parserAR;
+                $init_data[]=$pareserFile->getExportData();
             }
+
+            $init_file='InitParsData.json';
+            $init_file_path=Parser::getClassDir().$init_file;
+            file_put_contents($init_file_path, json_encode($init_data));
+            $zip->addFile($init_file_path,$init_file);
+
             $zip->close();
             return $file;
 

@@ -6,6 +6,9 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
 
+use common\models\parsers\classes\BaseParser;
+use GuzzleHttp\Client; // подключаем Guzzle
+
 /**
  * This is the model class for table "parser".
  *
@@ -26,16 +29,9 @@ class Parser extends \yii\db\ActiveRecord
     const STATUS_HAS_ERROR = 1;
     const STATUS_FIXING = 2;
 
-    public $listSelector;
-    public $pagesSelector;
-    public $itemSelector;
-
-    public $listTestUrl;
-    public $itemTestUrl;
-
-    public $fillItem;
-    public $fillListItem;
-    public $fillPage;
+    public $testUrls;
+    public $parsActions;
+    
     
     public function behaviors()
     {
@@ -106,6 +102,27 @@ class Parser extends \yii\db\ActiveRecord
     {
         return $this->hasOne(ParserType::className(), ['id' => 'type_id']);
     }
+
+    public function getResponses()
+    {
+        return $this->hasMany(Response::className(), ['parser_id' => 'id']);
+    }
+
+    public function getRequests()
+    {
+        return $this->hasMany(Request::className(), ['id' => 'request_id'])
+            ->via('responses');
+    }
+
+
+    public function getResponsesCount()
+    {
+        return count($this->responses);
+    }
+    public function getRequestsCount()
+    {
+        return count($this->requests);
+    }
     
 
     //=========================================================
@@ -132,25 +149,29 @@ class Parser extends \yii\db\ActiveRecord
             $this->classCode=file_get_contents($this->templateClassPath); 
             $this->classCode=str_replace('{CLASS_NAME}',$this->className,$this->classCode);
             
-            $this->classCode=str_replace('{URL_HOST}',parse_url($this->example_url, PHP_URL_HOST),$this->classCode);
-            $this->classCode=str_replace('{URL_SCHEME}',parse_url($this->example_url, PHP_URL_SCHEME),$this->classCode);
+            if(isset($this->testUrls) && is_array($this->testUrls)){
+                foreach ($this->testUrls as $key => $value) {
+                     $this->classCode=str_replace('{'.$key.'}',$value,$this->classCode);
+                }    
+            }
+            
+            if(isset($this->parsActions) && is_array($this->parsActions)){
 
-            $this->classCode=str_replace('{LIST_SELECTOR}',$this->listSelector,$this->classCode);
-            $this->classCode=str_replace('{ITEM_SELECTOR}',$this->itemSelector,$this->classCode);
-            $this->classCode=str_replace('{PAGES_SELECTOR}',$this->pagesSelector,$this->classCode);
-
-            $this->classCode=str_replace('{LIST_TEST_URL}',$this->listTestUrl,$this->classCode);
-            $this->classCode=str_replace('{ITEM_TEST_URL}',$this->itemTestUrl,$this->classCode);
-
-            //$this->classCode=str_replace('{FILL_ITEM}',$this->fillItem,$this->classCode);
-            //$this->classCode=str_replace('{FILL_LIST_ITEM}',$this->fillListItem,$this->classCode);
-            //$this->classCode=str_replace('{FILL_PAGE}',$this->fillPage,$this->classCode);
+                foreach ($this->parsActions as $actionKey => $actionValue) {
+                    if(is_array($actionValue)){
+                        foreach ($actionValue as $selectorKey => $selectorValue) {
+                         $this->classCode=str_replace('{'.$actionKey.'_'.$selectorKey.'}',$selectorValue,$this->classCode);
+                        }    
+                    }
+                    
+                }
+            }
 
         }
         
         file_put_contents($this->classPath,$this->classCode);
 
-        self::checkErrors($this->example_url);
+        //self::checkErrors($this->example_url);
         
         
     }
@@ -251,13 +272,17 @@ class Parser extends \yii\db\ActiveRecord
     }
 
 
+    public static function getClassDir()
+    {   
+        return  Yii::getAlias('@common/models/parsers/');
+    }
     public function getClassPath()
     {   
-        return  Yii::getAlias('@common/models/parsers/'.$this->className.'.php');
+        return  $this->classDir.$this->className.'.php';
     }
     public function getTemplateClassPath()
     {   
-        return  Yii::getAlias('@common/models/parsers/templates/'.$this->typeName.'.php');
+        return  $this->classDir.'/templates/'.$this->typeName.'.php';
     }
 
     public function getTypeName()
@@ -319,6 +344,7 @@ class Parser extends \yii\db\ActiveRecord
     // Блок вспомагательных методов
     //
     //=========================================================
+    /*
     public static function CheckErrors($url)
     {
         
@@ -367,10 +393,24 @@ class Parser extends \yii\db\ActiveRecord
             }
         }
 
-        
-
         return false;
         
+    }
+    */
+
+    public function test(){
+        $parser= BaseParser::loadParser($this->className);
+
+        if($parser->test()){
+            $this->err_description=null;
+            $this->status=self::STATUS_READY;
+        }else{
+            $this->status=self::STATUS_HAS_ERROR;
+            $this->err_description=$parser->getErrorSummary();
+        }
+
+        $this->save();
+        return $this;
     }
 
 

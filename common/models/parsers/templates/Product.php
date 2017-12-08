@@ -11,14 +11,22 @@ use common\models\Error;
 
 class {CLASS_NAME} extends ParserProduct
 {
-    public $parsActions=[
-        'actionParsList'=>'{LIST_SELECTOR}',
-        'actionParsItem'=>'{ITEM_SELECTOR}',
-    ];
     public $testUrls=[
-        'actionParsList'=>'{LIST_TEST_URL}',
-        'actionParsItem'=>'{ITEM_TEST_URL}',
+        'actionParsList'=>'{actionParsList}',
+        'actionParsItem'=>'{actionParsItem}', 
     ];
+
+    public $parsActions=[
+        'actionParsList'=>[
+            'itemSelector'=>'{actionParsList_itemSelector}',
+            'pagesSelector'=>'{actionParsList_pagesSelector}',
+        ],
+        'actionParsItem'=>[
+            'itemSelector'=>'{actionParsItem_itemSelector}',
+        ],
+        
+    ];
+    
     
 
     //Парсинг списка 
@@ -29,7 +37,7 @@ class {CLASS_NAME} extends ParserProduct
         $base_url=parse_url($this->testUrls['actionParsList'], PHP_URL_SCHEME).'://'.parse_url($this->testUrls['actionParsList'], PHP_URL_HOST);
 
         //Парсинг списка
-        $items_selector=$this->parsActions['actionParsList'];
+        $items_selector=$this->parsActions['actionParsList']['itemSelector'];
         $items=$this->document->find($items_selector);
         foreach ($items as $key => $item) {
             $model= new ParserProduct();
@@ -41,24 +49,29 @@ class {CLASS_NAME} extends ParserProduct
             {FILL_ITEM}
             */
             $model->id=pq($item)->find('.compare-button')->attr('data-id');
+            
             $model->name=pq($item)->find('p a')->text();
+            $model->viewUrl=$base_url.pq($item)->find('p a')->attr('href');
+            
             $model->price=intval(str_replace(' ', '', pq($item)->find('.prices-wrap-price .price')->text()));
             $model->currency=pq($item)->find('.prices-wrap-price .price span')->text();
-            $model->viewUrl=parse_url($this->testUrls['actionParsList'], PHP_URL_SCHEME).'://'.parse_url($this->testUrls['actionParsList'], PHP_URL_HOST).pq($item)->find('p a')->attr('href');
+            
 
             if($model->validate()){
                 $data['items'][]=$model->toArray();
             }else{
-                $model->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга списка');
-                $model->saveErrors();
+                $this->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга списка');
+                if($this->testMode==false){
+                    $this->saveErrors();    
+                }
                 return false;
             }
         }
 
         //Парсинг pagination
-        $pages_selector='{PAGES_SELECTOR}';
+        $pages_selector=$this->parsActions['actionParsList']['pagesSelector'];
         $pages=$this->document->find($pages_selector);
-        foreach ($pages as $key => $page) {
+        foreach ($pages as $key => $item) {
             $page = new ParserPagination();
 
             /*
@@ -72,8 +85,10 @@ class {CLASS_NAME} extends ParserProduct
                 $data['pages'][]=$page->toArray();
             }else{
                 if(isset($model)){
-                    $model->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга раздела Pagination');
-                    $model->saveErrors();    
+                    $this->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга раздела Pagination');
+                    if($this->testMode==false){
+                        $this->saveErrors();    
+                    }
                 }
                 
                 return false;
@@ -89,7 +104,7 @@ class {CLASS_NAME} extends ParserProduct
 
         $data=parent::parsPage();
 
-        $item_selector=$this->parsActions['actionParsItem'];
+        $item_selector=$this->parsActions['actionParsItem']['itemSelector'];
         $item=$this->document->find($item_selector);
 
         /*
@@ -97,16 +112,18 @@ class {CLASS_NAME} extends ParserProduct
         */
         $this->id=pq($item)->find('span[itemprop="productID"]')->text();
         $this->name=$this->document->find('h1[itemprop="name"]')->text();
-        $this->price=pq($item)->find('span[itemprop="price"]')->text();
+        $this->price=intval(str_replace(' ', '', pq($item)->find('.caption .price span.h2')->text()));
         $this->currency=pq($item)->find('span[itemprop="priceCurrency"]')->attr('content');
-        $this->viewUrl=$this->requestAR->request_url;
+        
 
         if($this->validate()){
             $data=array_merge($data,$this->toArray());
             return json_encode($data,JSON_UNESCAPED_UNICODE);
         }else{
             $this->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга записи');
-            $this->saveErrors();
+            if($this->testMode==false){
+                $this->saveErrors();    
+            }
             return false;
         }
         

@@ -7,6 +7,8 @@
         <th><?= Yii::t('app','Class'); ?></th>
         <th><?= Yii::t('app','Loader'); ?></th>
         <th><?= Yii::t('app','Status'); ?></th>
+        <th><?= Yii::t('app','Request count'); ?></th>
+        <th width="100px"><?= Yii::t('app','Action'); ?></th>
       </tr>
     </thead>
     <tbody>
