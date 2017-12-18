@@ -184,14 +184,14 @@ class Request extends \yii\db\ActiveRecord
 
         //Если запрос создает/изменяет залогиненный пользователь обновляю поля автора/редактора
         //В противном случае эти поля заполняются на уровне контроллера в процессе автоматической регистрации/определения пользователя
-        /*
-        if(isset(Yii::$app->user->id)){
+        
+        if(isset(Yii::$app->user) && isset(Yii::$app->user->id)){
             if($insert){
                 $this->created_by=Yii::$app->user->id;
             }
             $this->updated_by=Yii::$app->user->id;
         }
-        */
+        
         
         //Если это демо режим sleep_time=null, это означает выполнить один раз
         if($this->scenario==self::SCENARIO_DEMO){
