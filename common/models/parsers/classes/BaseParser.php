@@ -114,7 +114,7 @@ class BaseParser extends Model
         }
 
         if($actionName=$this->discoverAction($contentFullPath)){
-            return $this->$actionName();
+            return $this->$actionName($this->actionAR);
         }
         
         return false;
