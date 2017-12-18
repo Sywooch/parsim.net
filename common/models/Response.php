@@ -169,7 +169,10 @@ class Response extends \yii\db\ActiveRecord
                 );
             }
 
-            unlink($this->contentPath);
+            if(file_exists($this->contentPath)){
+                unlink($this->contentPath);    
+            }
+            
         }
 
         return $result;
