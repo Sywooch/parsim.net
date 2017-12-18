@@ -183,7 +183,7 @@ class BaseParser extends Model
             //если файл еще нк загружен или старше 24x часов
             //обновляю файл
             $loader=new HttpLoader();
-            $loader->loadContent($url,$contentFullPath);
+            $loader->loadContent($url,$contentFullPath,$this->charset);
         }
 
         if($actionName=$this->discoverAction($contentFullPath)){
@@ -204,10 +204,6 @@ class BaseParser extends Model
         if(file_exists($contentFullPath)){
             $content=file_get_contents($contentFullPath);
 
-            if($this->charset!='utf-8'){
-                $content = iconv($this->charset,'utf-8',$content);    
-            }
-            
 
             $this->document= phpQuery::newDocumentHTML($content);
             //определяю тип действия

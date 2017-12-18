@@ -282,7 +282,7 @@ class Response extends \yii\db\ActiveRecord
         $this->request->status=Request::STATUS_SUCCESS;
         $this->request->save();
 
-        $this->sendData();
+        //$this->sendData();
 
     }
 

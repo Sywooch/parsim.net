@@ -12,6 +12,8 @@ use common\models\Error;
 class {CLASS_NAME} extends ParserProduct
 {
 
+    public $charset='utf-8'; //windows-1251
+
     //Парсинг списка 
     public function actionParsList($action)
     {
