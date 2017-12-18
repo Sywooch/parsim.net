@@ -19,7 +19,7 @@ class HttpLoader extends ContentLoader
         $html = $res->getBody();
         
         if($charset!='utf-8'){
-            $html = iconv($charset,'utf-8',$html);    
+            //$html = iconv($charset,'utf-8',$html);    
         }
 
         $html=preg_replace('/script/', 'tag_script',$html);
