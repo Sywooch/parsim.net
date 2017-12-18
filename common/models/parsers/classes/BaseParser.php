@@ -29,6 +29,7 @@ class BaseParser extends Model
     public $requestAR;
     public $responseAR;
     public $document;
+    public $charset='utf-8';
 
     public $errorsAR=[];
 
@@ -202,6 +203,12 @@ class BaseParser extends Model
         //Если контент загружен
         if(file_exists($contentFullPath)){
             $content=file_get_contents($contentFullPath);
+
+            if($this->charset!='utf-8'){
+                $content = iconv($this->charset,'utf-8',$content);    
+            }
+            
+
             $this->document= phpQuery::newDocumentHTML($content);
             //определяю тип действия
             foreach ($this->parserAR->actions as $action) {
