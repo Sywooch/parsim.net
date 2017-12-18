@@ -333,5 +333,21 @@ class Response extends \yii\db\ActiveRecord
         }
         return $this->_balanse;
     }
+
+    public function regError($code,$msg){
+        $error=new Error();
+
+        $error->code=$code;
+        $error->msg=$msg;
+        $error->status=Error::STATUS_NEW;
+        $error->request_id=$this->request->id;
+        $error->parser_id=$this->parser->id;
+        $error->loader_id=$this->loader->id;
+
+        $error->save();
+
+        $this->status=self::STATUS_PARSING_ERROR;
+        $this->save();
+    }
     
 }

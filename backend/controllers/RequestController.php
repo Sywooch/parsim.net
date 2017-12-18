@@ -33,7 +33,7 @@ class RequestController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index','create','update','delete','view','response-delete'],
+                        'actions' => ['index','create','update','delete','view','response-delete','test'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -73,14 +73,15 @@ class RequestController extends Controller
     public function actionCreate()
     {
         $model = new Request();
+        $model->status=Request::STATUS_READY;
         
         if ($model->load(Yii::$app->request->post()) && $model->save()){
             return $this->redirect($model->viewUrl);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -111,6 +112,21 @@ class RequestController extends Controller
         ]);
     }
 
+    public function actionTest($id)
+    {
+        $model=Request::findOne($id);
+        
+        $model->test();
+        $errors=$model->errors;
+        
+        $model->save();
+        $model->addErrors($errors);
+        
+        return $this->renderPartial('_status', [
+            'model' => $model,
+        ]);
+    }  
+
     /**
      * Deletes an existing Logo model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -122,6 +138,9 @@ class RequestController extends Controller
         $model=$this->findModel($alias);
         $model->delete();
 
+        if (Yii::$app->request->isAjax){
+            return 'ok';
+        }
         return $this->redirect(['/request/index']);
         
     }

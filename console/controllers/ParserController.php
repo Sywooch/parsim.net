@@ -44,5 +44,16 @@ class ParserController extends Controller
         }
 
     }
+
+    public function actionTest(){
+        
+        $parsers=Parser::find()->where(['status'=>Parser::STATUS_READY])->all();
+        foreach($parsers as $key => $parser) {
+            $parser->test();
+            $this->stdout($parser->className.' - '.$parser->err_description.PHP_EOL);
+            $parser->save();
+
+        }
+    }
   
 }

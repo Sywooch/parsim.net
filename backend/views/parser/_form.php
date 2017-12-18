@@ -61,32 +61,11 @@ FormAsset::register($this);
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          
-          <div class="row">
-            <div class="col-md-12">
-              <?= $form->field($model, 'description')->textArea(); ?>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <?php if(!$model->isNewRecord): ?>
-      <div class="row">
-        <div class="col-md-12">
-          
-          <div class="row">
-            <div class="col-md-12">
-              <?= $form->field($model, 'classCode')->textArea(['id'=>'php_editor']); ?>
-
-              <?= $form->field($model, 'classCode')->hiddenInput(['id'=>'class-code'])->label(false); ?>
-            </div>
-          </div>
-        </div>
-      </div>
-      <?php endif; ?>
-
+     
+      <?= $this->render('_actions',[
+        'form'=>$form,
+        'actions'=>$model->actions
+      ]); ?>
       
       
     </div>
@@ -95,11 +74,7 @@ FormAsset::register($this);
     
     <div class="panel-footer"><a class="heading-elements-toggle"><i class="icon-more"></i></a>
       <div class="heading-elements">
-        <?php if($model->status==$model::STATUS_HAS_ERROR): ?>
-          <span class="heading-text text-danger-400"><i class="icon-bug2  position-left"></i> <?= $model->err_description; ?></span>
-        <?php elseif($model->status==$model::STATUS_READY): ?>
-          <span class="heading-text text-success-400"><i class="icon-checkmark3  position-left"></i> <?= $model->err_description; ?></span>
-        <?php endif; ?>
+        
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save'), ['class' => ($model->isNewRecord ? 'btn btn-success' : 'btn btn-primary').' heading-btn pull-right']) ?>
         <?php
           if(!$model->isNewRecord){

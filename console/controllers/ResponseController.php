@@ -25,8 +25,8 @@ class ResponseController extends Controller
         
         foreach ($requests->all() as $key => $request) {
             //$request->addResponse();
-             $request->status=Request::STATUS_READY;
-             $request->save();
+            $request->status=Request::STATUS_READY;
+            $request->save();
         }
 
         //Создаю новые ответы для запросов в статусе READY
@@ -82,8 +82,7 @@ class ResponseController extends Controller
                 //и сторнирую оплату (если была)
                 $response->rollBack(Response::STATUS_PARSING_ERROR);
                 
-                
-                //$response->regError(Response::STATUS_PARSING_ERROR,json_encode($info));
+                $response->regError(Response::STATUS_PARSING_ERROR,json_encode($info));
 
             }
         }

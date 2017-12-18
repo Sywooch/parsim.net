@@ -11,87 +11,57 @@ use common\models\Error;
 
 class {CLASS_NAME} extends ParserProduct
 {
-    public $testUrls=[
-        'actionParsList'=>'{actionParsList}',
-        'actionParsItem'=>'{actionParsItem}', 
-    ];
-
-    public $parsActions=[
-        'actionParsList'=>[
-            'itemSelector'=>'{actionParsList_itemSelector}',
-            'pagesSelector'=>'{actionParsList_pagesSelector}',
-        ],
-        'actionParsItem'=>[
-            'itemSelector'=>'{actionParsItem_itemSelector}',
-        ],
-        
-    ];
-    
-    
 
     //Парсинг списка 
-    public function actionParsList()
+    public function actionParsList($action)
     {
         
         $data=parent::parsPage();
-        $base_url=parse_url($this->testUrls['actionParsList'], PHP_URL_SCHEME).'://'.parse_url($this->testUrls['actionParsList'], PHP_URL_HOST);
+        $base_url=parse_url($action->example_url, PHP_URL_SCHEME).'://'.parse_url($action->example_url, PHP_URL_HOST);
+        
+        //$model->priceCanZero=true;
 
         //Парсинг списка
-        $items_selector=$this->parsActions['actionParsList']['itemSelector'];
-        $items=$this->document->find($items_selector);
+        $items=$this->document->find('{set_here_correct_selector}');
         foreach ($items as $key => $item) {
             $model= new ParserProduct();
-            $model->parserAR=$this->parserAR;
-            $model->requestAR=$this->requestAR;
-            $model->responseAR=$this->responseAR;
-
-            /*
-            {FILL_ITEM}
-            */
-            $model->id=pq($item)->find('.compare-button')->attr('data-id');
             
+            // --- Begin of parse item
+            $model->id='N/A';
             $model->name=pq($item)->find('p a')->text();
             $model->viewUrl=$base_url.pq($item)->find('p a')->attr('href');
-            
-            $model->price=intval(str_replace(' ', '', pq($item)->find('.prices-wrap-price .price')->text()));
-            $model->currency=pq($item)->find('.prices-wrap-price .price span')->text();
+            $model->price=intval( preg_replace('/[a-zA-Zа-яА-Я\s]+/u', '', pq($item)->find('.brief_price_line .product_price')->text()) );
+            $model->currency=preg_replace('/^[0-9\s+]/', '',pq($item)->find('meta[itemprop="priceCurrency"]')->attr('content') );
+            // --- End of parse item
             
 
             if($model->validate()){
                 $data['items'][]=$model->toArray();
             }else{
-                $this->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга списка');
-                if($this->testMode==false){
-                    $this->saveErrors();    
-                }
+                $this->addError('actionParsList',Error::CODE_PARSING_ERROR);
+                $this->addErrors($model->errors);
+
+                //$this->addError('name',pq($item)->find('.new_catalog2 div a')->text() );
+
                 return false;
             }
         }
 
         //Парсинг pagination
-        
-        $pages_selector=$this->parsActions['actionParsList']['pagesSelector'];
+        $pages_selector='ul.pagination li';
         $pages=$this->document->find($pages_selector);
         foreach ($pages as $key => $item) {
-            $page = new ParserPagination();
-
-            /*
-            {FILL_PAGE}
-            */
+            
+            // --- Begin of parse page
             $page = new ParserPagination();
             $page->title=pq($item)->find('a')->text();
-            $page->url=pq($item)->find('a')->attr('href');
+            $page->url=$base_url.pq($item)->find('a')->attr('href');
+            // --- End of parse page
             
             if($page->validate()){
                 $data['pages'][]=$page->toArray();
             }else{
-                if(isset($model)){
-                    $this->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга раздела Pagination');
-                    if($this->testMode==false){
-                        $this->saveErrors();    
-                    }
-                }
-                
+                $this->addError('actionParsList',Error::CODE_PARSING_ERROR);
                 return false;
             }
         }
@@ -100,60 +70,29 @@ class {CLASS_NAME} extends ParserProduct
     }
     
     //Парсинг записи 
-    public function actionParsItem()
+    public function actionParsItem($action)
     {
 
         $data=parent::parsPage();
 
-        $item_selector=$this->parsActions['actionParsItem']['itemSelector'];
-        $item=$this->document->find($item_selector);
-
-        /*
-        {FILL_LIST_ITEM}
-        */
-        $this->id=pq($item)->find('span[itemprop="productID"]')->text();
-        $this->name=$this->document->find('h1[itemprop="name"]')->text();
-        $this->price=intval(str_replace(' ', '', pq($item)->find('.caption .price span.h2')->text()));
-        $this->currency=pq($item)->find('span[itemprop="priceCurrency"]')->attr('content');
+        $item=$this->document->find('{set_here_correct_selector}');
         
+        // --- Begin of parse item
+        $this->id='N/A';
+        $this->name=$this->document->find('h1[itemprop="name"]')->text();
+        $this->price=intval(preg_replace('/[^\w_]+/u', '',pq($item)->find('.caption .price span.h2')->text()) );
+        $this->currency=preg_replace('/^[0-9\s+]/', '',pq($item)->find('span[itemprop="priceCurrency"]')->attr('content') );
+        // --- End of parse item
 
         if($this->validate()){
             $data=array_merge($data,$this->toArray());
             return json_encode($data,JSON_UNESCAPED_UNICODE);
         }else{
-            $this->addErrorAR(Error::CODE_PARSING_ERROR,'Ошибка парсинга записи');
-            if($this->testMode==false){
-                $this->saveErrors();    
-            }
+            $this->addError('actionParsItem',Error::CODE_PARSING_ERROR);
             return false;
         }
         
     }
 
-    public function exportToArray()
-    {
-        $data=[
-            'type_id'=>$this->type,
-            'name'=>$this->name,
-            'status'=>$this->status,
-            
-            //parsActions selectors
-            'listSelector'=>'{LIST_SELECTOR}',
-            'itemSelector'=>'{ITEM_SELECTOR}',
-            'pagesSelector'=>'{PAGES_SELECTOR}',
-            //parsActions selectors
-            'listTestUrl'=>'{LIST_TEST_URL}',
-            'itemTestUrl'=>'{ITEM_TEST_URL}',
-
-            'fillItem'=>'',
-            'fillListItem'=>'',
-            'fillPage'=>'',
-
-            'reg_exp'=>$this->reg_exp,
-            'example_url'=>$this->example_url,
-        ];
-
-        return $data;
-    }
 
 }

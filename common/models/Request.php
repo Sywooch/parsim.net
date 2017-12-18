@@ -4,61 +4,83 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-//use common\models\parsers\classes\BaseParser;
-//use common\models\parsers\classes\ContentLoader;
+use common\models\Error;
 
 
-/**
- * This is the model class for table "request".
- *
- * @property integer $id
- * @property string $alias
- * @property integer $response_id
- * @property string $target_url
- * @property string $aviso_url
- * @property string $loader
- * @property string $parser
- * @property integer $status
- * @property integer $created_by
- * @property integer $updated_by
- * @property integer $created_at
- * @property integer $updated_at
- */
 class Request extends \yii\db\ActiveRecord
 {
-
-    const STATUS_READY = 0;
-    const STATUS_PROCESSING = 1;
-    const STATUS_SUCCESS = 2;
-    const STATUS_ERROR = 3;
-    const STATUS_NEED_PAY = 4;
-
-    const SCENARIO_DEMO='demo';
-
-    public $reCaptcha;
-    
-    /**
-     * @inheritdoc
-     */
+    //Таблица в БД
     public static function tableName()
     {
         return 'request';
     }
 
+    //=========================================================
+    //
+    // Блок описание констант
+    //
+    //=========================================================
+    
+    // Возможные статусы
+    const STATUS_READY = 0;         //готов к работе, ожидает следующую обработку
+    const STATUS_PROCESSING = 1;    //в процессе обработки,идет загрузка контента или парсинг
+    const STATUS_SUCCESS = 2;       //обработка завершена успешно
+    const STATUS_ERROR = 3;         //обработка завершена с ошибками
+    const STATUS_NEED_PAY = 4;      //ожидает оплаты 
+
+
+    // Сценарии создания запрос
+    const SCENARIO_DEMO='demo';     //запрос создан в демо режиме (оплата не требуется)
+
+
+    //=========================================================
+    //
+    // Блок описание переменных
+    //
+    //=========================================================
+    public $reCaptcha; //переменная для хранения значения рекапча
+    public $statusDescription=[
+        self::STATUS_READY=>'Готов и ожидает следующую обработку',
+        self::STATUS_PROCESSING=>'Идет обработка запроса',
+        self::STATUS_SUCCESS=>'Обработка завершена успешно',
+        self::STATUS_ERROR=>'Обработка завершена с ошибками',
+        self::STATUS_NEED_PAY=>'Для возобновления раь=боты требуется пополнеие счета',
+        
+    ];
+    
+    
+    //=========================================================
+    //
+    // Блок описание поведений
+    //
+    //=========================================================
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            //автоматическое заполнение полей даты создания и обновления (created_at и updated_at)
+            TimestampBehavior::className(), 
+            //автоматическое заполнение поля alias. Поле источник(src) не указан, поэтому заполняется значением uniqid()
             'AutoAlias'=>[
                 'class' => 'common\behaviors\AliasGenerator',
                 //'src'=>'title',
                 'dst'=>'alias',
+            ],
+            //Поведение регистрации ошибки в БД
+            'RegError'=>[
+                'class' => 'common\behaviors\RegErrorBehavior',
+                'fields'=>[
+                    'request_id'=>'id'
+                ],
+                'setStatus'=>[
+                    'field'=>'status',
+                    'value'=>self::STATUS_ERROR,
+                ]
             ]
         ];
     }
 
     /**
-     * @inheritdoc
+     * @ Правила валидации
      */
     public function rules()
     {
@@ -66,31 +88,19 @@ class Request extends \yii\db\ActiveRecord
         return [
             [['request_url'], 'required'],
             [['request_url','response_url'],'url', 'defaultScheme' => ''],
-
             [['response_email'], 'email'],
-            
             ['response_email', 'required', 'on' => self::SCENARIO_DEMO],
             [['reCaptcha'], \himiklab\yii2\recaptcha\ReCaptchaValidator::className(), 'secret' => Yii::$app->reCaptcha->secret, 'uncheckedMessage' => 'Please confirm that you are not a bot.', 'on' => self::SCENARIO_DEMO],
-
-            /*
-            ['response_url', 'required', 'when' => function($model) {
-                return !isset($model->response_email);
-            }],
-            */
-
-            [['response_id', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at','sleep_time'], 'integer'],
+            [['response_id', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at','sleep_time','parser_id','action_id'], 'integer'],
             [['alias'], 'string', 'max' => 16],
             [['request_url', 'response_url'], 'string', 'max' => 512],
             [['statusName'],'safe']
-
-            //[['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
-            //[['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
         ];
         
     }
 
     /**
-     * @inheritdoc
+     * @Описание и перевод полей
      */
     public function attributeLabels()
     {
@@ -98,13 +108,11 @@ class Request extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'alias' => Yii::t('app', 'Alias'),
             'response_id' => Yii::t('app', 'Response ID'),
-            'request_url' => 'Целевой URL',//Yii::t('app', 'Target Url'),
-            'sleep_time'=>'Периодичность парсинга',
-            'response_url' => 'URL - обработчик ответа',//Yii::t('app', 'Aviso Url'),
-            'response_email' => 'E-mail - обработчик ответа',//Yii::t('app', 'Aviso Url'),
-            //'loader' => Yii::t('app', 'Loader'),
-            'parser' => Yii::t('app', 'Parser'),
-            'status' => Yii::t('app', 'Status'),
+            'request_url' => Yii::t('app', 'Target Url'),
+            'sleep_time'=>Yii::t('app', 'Parsing frequency'),
+            'response_url' => Yii::t('app', 'URL - resonse handler'),
+            'response_email' => Yii::t('app', 'E-mail - resonse handler'),
+            
             'created_by' => Yii::t('app', 'Created By'),
             'updated_by' => Yii::t('app', 'Updated By'),
             'created_at' => Yii::t('app', 'Created At'),
@@ -118,22 +126,33 @@ class Request extends \yii\db\ActiveRecord
     //
     //=========================================================
 
+    //Связанные ответы
     public function getResponses()
     {
         return $this->hasMany(Response::className(), ['request_id' => 'id']);
     }
+    
+    //Количество ответов
     public function getResponseCount()
     {
-        return $this->hasMany(Response::className(), ['request_id' => 'id'])->count();
+        return count($this->responses);
     }
 
+    //Автор запроса
     public function getOwner(){
         return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
+    //Тариф запроса
     public function getTarif(){
         return $this->hasOne(Tarif::className(), ['id' => 'tarif_id']);
     }
+
+    //Парсер запросов
+    public function getParser(){
+        return $this->hasOne(Parser::className(), ['id' => 'parser_id']);
+    }
+
 
     //=========================================================
     //
@@ -157,16 +176,24 @@ class Request extends \yii\db\ActiveRecord
             return false;
         }
 
-        //$parser=Parser::findByUrl($this->request_url);
-        //$this->parser_id=$parser->id;
+        $parser=Parser::findByUrl($this->request_url);
+        if(isset($parser)){
+            $this->parser_id=$parser->id;    
+        }
+        
 
-        if($insert && isset(Yii::$app->user->id)){
-            $this->created_by=Yii::$app->user->id;
+        //Если запрос создает/изменяет залогиненный пользователь обновляю поля автора/редактора
+        //В противном случае эти поля заполняются на уровне контроллера в процессе автоматической регистрации/определения пользователя
+        if(isset(Yii::$app->user->id)){
+            if($insert){
+                $this->created_by=Yii::$app->user->id;
+            }
             $this->updated_by=Yii::$app->user->id;
         }
-
+        
+        //Если это демо режим sleep_time=null, это означает выполнить один раз
         if($this->scenario==self::SCENARIO_DEMO){
-            $this->sleep_time=null; //Запросы созданные в демо режиме не актуализируются
+            $this->sleep_time=null;
             $this->tarif_id=Tarif::FREE_TARIF;
         }
 
@@ -178,32 +205,45 @@ class Request extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-        
+
+        if($insert && !isset($this->parser_id)){
+            //Если во время СОЗДАНИЯ запрса не было заполнено поле parser_id,
+            //значит по данному URL не был найден парсер и нужно зарегит на эту тему 
+            //ошибку
+
+            $this->regError(Error::CODE_PARSER_NOT_FOUND);
+        }
     }
 
-    public function addResponse(){
 
-        //Проверяю наличие подходящего парсера
-        $parser=Parser::findByUrl($this->request_url);
+    //=========================================================
+    //
+    // Блок методов класс
+    //
+    //=========================================================
 
-        //Если парсер найден, ищу загрузчик и создаю ответ и сразуже его оплачиваю (создаю транзакцию)
-        //Если в последствие в ходе загрузки контента или парсинге взникнет ошибка
-        //Транзакция будет сторнирована во время регистрации ошибки
-        if(isset($parser)){
+    //Формирование ответа
+    public function addResponse()
+    {
 
-            //Ищу соответствующий закрузчих 
+
+        if(isset($this->parser_id)){
+            //Если парсер определен
+
+            //Ищу свободный закрузчих 
             //ToDo фильтр по статусу, загруженности и т.п.
-            $loader=Loader::findOne(['type'=>$parser->loader_type]);
+            $loader=Loader::findOne(['type'=>$this->parser->loader_type]);
             if(isset($loader)){
-
-                //если это тестовый запрос (бесплатнвый)
+                
+                //если это бесплатнвый запрос 
                 if($this->tarif_id==Tarif::FREE_TARIF){
+
                     $response= new Response();
                     $response->request_id=$this->id;
                     $response->status=Response::STATUS_READY;
 
                     $response->loader_id=$loader->id;
-                    $response->parser_id=$parser->id;
+                    $response->parser_id=$this->parser->id;
 
 
                     if($response->save()){
@@ -211,21 +251,24 @@ class Request extends \yii\db\ActiveRecord
                         //Обновляю статус запроса
                         $this->status=Request::STATUS_PROCESSING;
                         $this->save();
-
                         return $response;
+                    }else{
+                        $this->regError(Error::CODE_REQUEST_CANNOT_CREATE_RESPONSE);
+                        return false;
                     }
                 }
 
-                //Если это платный запрс, ответ создается только в случае положительного баланса
+                //если это платный запрос 
                 if($this->owner->hasMoney){
                     $response= new Response();
                     $response->request_id=$this->id;
                     $response->status=Response::STATUS_READY;
 
                     $response->loader_id=$loader->id;
-                    $response->parser_id=$parser->id;
+                    $response->parser_id=$this->parser->id;
 
                     if($response->save()){
+                        
                         //Создаю транзакцию
                         $response->addTransaction();
 
@@ -234,11 +277,14 @@ class Request extends \yii\db\ActiveRecord
                         $this->save();
 
                         return $response;
+                    }else{
+                        $this->regError(Error::CODE_REQUEST_CANNOT_CREATE_RESPONSE);
+                        return false;
                     }
 
                 }else{
                     //Создаю сообщение о недостатке средств
-                    //Для этого вясняю последнию дату оплаты
+                    //Для этого выясняю последнию дату оплаты
                     //И дату последнего сообщения о дефиците средств
                     //Сообщение создаю только в том слуяае если дата оплаты больше даты последнего сообщения
                     //т.е. после последней оплаты уведомлений еще не было
@@ -275,15 +321,42 @@ class Request extends \yii\db\ActiveRecord
                         ->queue();      
                     }
                 }
+
             }else{
-                $this->regError(Error::CODE_LOADER_NOT_FOUND,'Не найден загрузчик контента для парсера '.$parser->class_name,$parser->id);
+                $this->regError(Error::CODE_LOADER_NOT_FOUND);
                 return false;
             }
+
         }else{
-            //Регистрирую ошибку 
-            $this->regError(Error::CODE_PARSER_NOT_FOUND,'Не найден парсер URL '.$this->request_url);
+            //Если парсер неизвестен
             return false;
         }
+    }
+
+    //Тестирование запроса
+    public function test()
+    {
+
+        
+        if(isset($this->parser)){
+            
+            $file_name='test_request_'.$this->alias.'.html';
+            
+            if($this->parser->testUrl($this->request_url,$file_name)){
+                $this->status=self::STATUS_READY;      
+            }else{
+                $this->status=self::STATUS_ERROR;
+                $this->addErrors($this->parser->errors);
+                //$this->addError('request_url','value');
+            }
+        }else{
+            $this->status=self::STATUS_ERROR;    
+            $this->addError('Request->Test()',Error::CODE_PARSER_NOT_FOUND); 
+        }
+
+        //$this->save();
+        
+
     }
 
     
@@ -311,6 +384,7 @@ class Request extends \yii\db\ActiveRecord
     {
         return Lookup::items('REQUEST_STATUS');
     }
+
     public function getFreqName()
     {
         if(!array_key_exists ($this->sleep_time , $this->freqList )){
@@ -318,12 +392,11 @@ class Request extends \yii\db\ActiveRecord
         }
         return $this->freqList[$this->sleep_time];
     }
-
     public static function getFreqList()
     {
         return [
             ''=>'Выполнить один раз',
-            1=>'Раз в минуту',
+            //1=>'Раз в минуту',
             15=>'Каждые 15 мин.',
             30=>'Каждые 30 мин.',
             60=>'Каждый час',
@@ -334,6 +407,32 @@ class Request extends \yii\db\ActiveRecord
             60*24*15=>'Раза в 15 дней',
             60*24*30=>'Раза в 30 дней',
         ];
+    }
+
+    public function getStatusInfo()
+    {
+        $info=$this->statusDescription[$this->status];
+        
+
+        if($this->status==self::STATUS_ERROR){
+            foreach ($this->errors as $key => $errors) {
+                foreach ($errors as $errorCode){
+                    $error = new Error();
+                    $error->code=$errorCode;
+                    $info.=' '.$key.' - '.$error->msg;
+                }
+            }
+        }
+
+        return $info;
+    }
+    public function getParserClassName()
+    {
+        if(isset($this->parser)){
+            return $this->parser->className;
+        }
+        
+        return '';
     }
 
     //=========================================================
@@ -364,38 +463,11 @@ class Request extends \yii\db\ActiveRecord
     public function getResponsesUrl(){
         return Yii::$app->urlManager->createUrl(['response/index','request'=>$this->alias]);
     }
-
-
-    
-    
-
-    //=========================================================
-    //
-    // Блок вспомагательных методов
-    //
-    //=========================================================
-    private function regError($code,$msg,$parser_id=null,$loader_id=null){
-        $error=new Error();
-
-        $error->code=$code;
-        $error->msg=$msg;
-        $error->status=Error::STATUS_NEW;
-        $error->request_id=$this->id;
-        $error->parser_id=$parser_id;
-        $error->loader_id=$loader_id;
-
-        $error->save();
-
-        $this->status=self::STATUS_ERROR;
-        $this->save();
+    public function getParserUrl(){
+        $url='#';
+        if(isset($this->parser)){
+            $url=$this->parser->updateUrl;
+        }
+        return $url;
     }
-
-    /*
-    public function getLoader(){
-        $parser=Parser::findByUrl($this->request_url);
-        return $parser->loader_type;
-    }
-    */
-
-
 }

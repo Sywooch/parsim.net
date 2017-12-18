@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\assets\parser;
+namespace backend\assets\request;
 
 use yii\web\AssetBundle;
 
@@ -13,7 +13,7 @@ class IndexAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [];
     public $js = [
-        'js/views/parser/index.js',
+        'js/views/request/index.js',
         'js/plugins/notifications/sweet_alert.min.js'
     ];
 

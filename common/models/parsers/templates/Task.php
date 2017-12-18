@@ -11,14 +11,20 @@ use common\models\Error;
 
 class {class_name} extends ParserTask
 {
-    public $testUrls=[
-        'actionParsList'=>'{LIST_TEST_URL}',
-        'actionParsItem'=>'{ITEM_TEST_URL}',
-    ];
-    
-    public $parsActions=[
-        'actionParsList'=>'{LIST_SELECTOR}',
-        'actionParsItem'=>'{ITEM_SELECTOR}',
+    public $actions=[
+        'parsList'=>[
+            'selectors'=>[
+                'items'=>'{ITEMS_SELECTOR}',
+                'pages'=>'{PAGES_SELECTOR}',
+            ],
+            'test_url'=>'{ITEMS_TEST_URL}',
+        ],
+        'parsItem'=>[
+            'selectors'=>[
+                'item'=>'{ITEM_SELECTOR}',
+            ],
+            'test_url'=>'{ITEM_TEST_URL}',
+        ],
     ];
     
 

@@ -29,10 +29,12 @@ class Parser extends \yii\db\ActiveRecord
     const STATUS_HAS_ERROR = 1;
     const STATUS_FIXING = 2;
 
-    public $testUrls;
-    public $parsActions;
+    //public $testUrls;
+    //public $parsActions;
     
-    
+    public $parsModel;
+
+
     public function behaviors()
     {
         return [
@@ -92,6 +94,13 @@ class Parser extends \yii\db\ActiveRecord
         ];
     }
 
+    public $statusDescription=[
+        self::STATUS_READY=>'Все в проядке',
+        self::STATUS_HAS_ERROR=>'Обнаружены ошибки в работе',
+        self::STATUS_FIXING=>'Поиск и устранение ошибок',
+        
+    ];
+
     //=========================================================
     //
     // Блок relations
@@ -103,6 +112,35 @@ class Parser extends \yii\db\ActiveRecord
         return $this->hasOne(ParserType::className(), ['id' => 'type_id']);
     }
 
+    private $_actions;
+    public function getActions()
+    {
+        if(!isset($this->_actions)){
+            $this->_actions=$this->hasMany(ParserAction::className(), ['parser_id' => 'id'])->orderBy(['seq'=>SORT_ASC]);
+
+            if(count($this->_actions->all())==0){
+                $this->_actions=[];
+
+                $actionList=new ParserAction();
+                $actionList->seq=0;
+                $actionList->parser_id=$this->id;
+                $actionList->name='ParsList';
+                $actionList->status=0;
+                $actionList->example_url='111';
+                $this->_actions[]=$actionList;   
+
+                $actionItem=new ParserAction();
+                $actionItem->seq=1;
+                $actionItem->parser_id=$this->id;
+                $actionItem->name='ParsItem';
+                $actionItem->status=0;
+                $actionItem->example_url='222';
+                $this->_actions[]=$actionItem;
+            }
+        }
+        return $this->_actions;
+    }
+
     public function getResponses()
     {
         return $this->hasMany(Response::className(), ['parser_id' => 'id']);
@@ -110,8 +148,7 @@ class Parser extends \yii\db\ActiveRecord
 
     public function getRequests()
     {
-        return $this->hasMany(Request::className(), ['id' => 'request_id'])
-            ->via('responses');
+        return $this->hasMany(Request::className(), ['id' => 'request_id'])->via('responses');
     }
 
 
@@ -154,24 +191,9 @@ class Parser extends \yii\db\ActiveRecord
                      $this->classCode=str_replace('{'.$key.'}',$value,$this->classCode);
                 }    
             }
-            
-            if(isset($this->parsActions) && is_array($this->parsActions)){
 
-                foreach ($this->parsActions as $actionKey => $actionValue) {
-                    if(is_array($actionValue)){
-                        foreach ($actionValue as $selectorKey => $selectorValue) {
-                         $this->classCode=str_replace('{'.$actionKey.'_'.$selectorKey.'}',$selectorValue,$this->classCode);
-                        }    
-                    }
-                    
-                }
-            }
-
+            file_put_contents($this->classPath,$this->classCode);    
         }
-        
-        file_put_contents($this->classPath,$this->classCode);
-
-        //self::checkErrors($this->example_url);
         
         
     }
@@ -191,26 +213,13 @@ class Parser extends \yii\db\ActiveRecord
     // Блок поисковых выдач
     //
     //=========================================================
-    /*
-    public static function findByClassName($className)
-    {
-        return Parser::find()->where(['class_name'=>$className])->one();
-    }
-    */
 
     //Поиск действующего парсерова по URL
     public static function findByUrl($url)
     {
         $model= self::find()->where('SUBSTRING(\''.$url.'\' ,reg_exp) IS NOT NULL');
-        $model->andWhere(['status'=>Parser::STATUS_READY]);
-        /*
-        if(count($models)>1){
-            //reg error
-
-            return false;
-        }*/
-
-
+        //$model->andWhere(['status'=>Parser::STATUS_READY]);
+        
         return $model->one();
 
     }
@@ -309,6 +318,31 @@ class Parser extends \yii\db\ActiveRecord
         $this->_code=$value;
     }
 
+    public function getExportData(){
+        $data=$this->toArray();
+        $data['actions']=[];
+        foreach ($this->actions as $key => $action) {
+            $data['actions'][]=$action->toArray();
+        }
+        return $data;
+    }
+
+    public function getErrorSummary()
+    {
+        $summary=$this->statusDescription[$this->status];
+        if($this->hasErrors()){
+            //$summary=$this->statusDescription[self::STATUS_HAS_ERROR];
+            foreach ($this->errors as $key => $errors) {
+                foreach ($errors as $errorCode){
+                    $error = new Error();
+                    $error->code=$errorCode;
+                    $summary.=': '.$key.' - '.$error->msg.'; ';
+                }
+            }
+        }
+        return $summary;
+    }
+
 
 
 
@@ -344,74 +378,44 @@ class Parser extends \yii\db\ActiveRecord
     // Блок вспомагательных методов
     //
     //=========================================================
-    /*
-    public static function CheckErrors($url)
+    
+
+    //Тестирование парсера
+    public function test()
     {
-        
-        $description="Неизвестная ошибка";
-        
-        
-        //Проверка работы регулярных выражений (на всех парсерах хоста)
-        $host=parse_url($url, PHP_URL_HOST);
-        $parsers=self::find()->where("example_url LIKE '%".$host."%'")->all();
-        
-        foreach ($parsers as $key => $parser) {
-            $has_error=true;
-            //В идеале должна быть одна запись и соответствоват значению $parser->example_url
-            $models= self::find()->where('SUBSTRING(\''.$parser->example_url.'\' ,reg_exp) IS NOT NULL')->all();
+        foreach ($this->actions as $action) {
+            $file_name='test_action'.$action->name.'.html';
 
-            if(count($models)==1 && $models[0]->example_url==$parser->example_url){
-                //Нет ошибок
-                if($models[0]->status==self::STATUS_HAS_ERROR){
-                    $sql="UPDATE parser SET status=".self::STATUS_READY.", err_description='Ошибок не обнаружено.' WHERE id=".$models[0]->id;
-                    Yii::$app->db->createCommand($sql)->execute();    
-
-                    //Сбрасываю статус ошибки со всех связанных запрсов
-                    $sql="UPDATE request SET status=".Request::STATUS_READY." WHERE status=".Request::STATUS_ERROR." AND request_url ~'".$models[0]->reg_exp."'";
-                    Yii::$app->db->createCommand($sql)->execute();    
-                }
-                $has_error=false;
-            }
-
-            if(count($models)>1){
-                $msg='';
-                foreach ($models as $key => $model) {
-                    $msg.=$model->example_url.PHP_EOL;
-                }
-                $description='Выражение возвращает более одного значения: '.$msg;
-            }
-            if(count($models)==0){
-                $description='Выражение возвращает пустое значение';
-            }
-            if(count($models)==1 && $models[0]->example_url!=$parser->example_url){
-                $description='Выражение возвращает неверный url ('.$models[0]->example_url.')';
-            }
-
-            if($has_error){
-                $sql="UPDATE parser SET status=".self::STATUS_HAS_ERROR.", err_description='".$description."' WHERE id=".$parser->id;
-                Yii::$app->db->createCommand($sql)->execute();    
+            if(preg_match( '/^(http|https):\\/\\/[a-z0-9_]+([\\-\\.]{1}[a-z_0-9]+)*\\.[_a-z]{2,5}'.'((:[0-9]{1,5})?\\/.*)?$/i' ,$action->example_url)){
+                if($this->testUrl($action->example_url,$file_name)){
+                    $action->status=self::STATUS_READY;      
+                }else{
+                    $action->status=self::STATUS_HAS_ERROR;
+                }    
+            }else{
+                $this->addError($action->name,Error::CODE_UNSET_URL);
+                $action->status=self::STATUS_HAS_ERROR;
             }
         }
 
-        return false;
-        
-    }
-    */
-
-    public function test(){
-        $parser= BaseParser::loadParser($this->className);
-
-        if($parser->test()){
-            $this->err_description=null;
-            $this->status=self::STATUS_READY;
-        }else{
+        if($this->hasErrors()){
             $this->status=self::STATUS_HAS_ERROR;
-            $this->err_description=$parser->getErrorSummary();
+        }else{
+            $this->status=self::STATUS_READY;
         }
 
-        $this->save();
-        return $this;
+        $this->err_description=$this->errorSummary;
+
     }
 
 
+    public function testUrl($url,$file_name)
+    {
+        $this->parsModel= BaseParser::loadParser($this->className);
+        $this->parsModel->parserAR=$this;
+        
+        $result=$this->parsModel->testUrl($url,$file_name);
+        $this->addErrors($this->parsModel->errors);
+        return $result;
+    }
 }

@@ -61,7 +61,8 @@ class ParserController extends Controller
     public function actionIndex()
     {
         
-
+        \yii\helpers\Url::remember();
+        
         $searchModel = new ParserSearch();
         $importForm= new importForm();
 
@@ -96,7 +97,28 @@ class ParserController extends Controller
         $model->type_id=1;
         $model->reg_exp="(^http[s]?://.*enter_here_host_and_path.*$)";
         $model->loader_type=0;
+
+
         if ($model->load(Yii::$app->request->post()) && $model->save()){
+
+            if(isset(Yii::$app->request->post()['ParserAction'])){
+                $actions=Yii::$app->request->post()['ParserAction'];
+                foreach ($actions as $key => $action) {
+
+                    $modelAction= new ParserAction();
+
+                    $modelAction->seq=$key;
+                    $modelAction->parser_id=$model->id;
+                    $modelAction->name=$action['name'];
+                    $modelAction->selector=$action['selector'];
+                    $modelAction->status=$action['status'];
+                    $modelAction->example_url=$action['example_url'];
+                    $modelAction->save();
+                    
+                }
+                
+            }
+
             return $this->redirect($model->viewUrl);
         } else {
             return $this->render('create', [
@@ -115,12 +137,40 @@ class ParserController extends Controller
     {
         $model = $this->findModel($id);
         
-        
+        if(isset($model->actions) ){
+            
+        }
         //echo(json_encode(Yii::$app->request->post()));
         //die;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()){
-            return $this->redirect($model->indexUrl);
+
+            if(isset(Yii::$app->request->post()['ParserAction'])){
+                
+                $actions=Yii::$app->request->post()['ParserAction'];
+
+                foreach ($actions as $key => $action) {
+
+                    $modelAction= ParserAction::findOne(['name'=>$action['name'],'parser_id'=>$model->id]);
+                    if($modelAction==null ){
+                        $modelAction= new ParserAction();
+                    }
+
+                    $modelAction->seq=$key;
+                    $modelAction->parser_id=$model->id;
+                    $modelAction->name=$action['name'];
+                    $modelAction->selector=$action['selector'];
+                    $modelAction->status=$action['status'];
+                    $modelAction->example_url=$action['example_url'];
+                    $modelAction->save();
+                    
+                }
+                
+            }
+
+            //return $this->redirect($model->indexUrl);
+            //return $this->goBack((!empty(Yii::$app->request->referrer) ? Yii::$app->request->referrer : null));
+            return $this->goBack();
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -149,6 +199,10 @@ class ParserController extends Controller
         $model=$this->findModel($id);
         $model->delete();
 
+        if (Yii::$app->request->isAjax){
+            return 'ok';
+        }
+
         return $this->redirect(['index']);
         
     } 
@@ -174,10 +228,15 @@ class ParserController extends Controller
         $model=$this->findModel($id);
         $model->test();
         
+        $model->save();
+        
+        //$model->addErrors($errors);
         return $this->renderPartial('_status', [
             'model' => $model,
         ]);
-    }  
+    }
+
+    
 
     protected function findModel($id)
     {
@@ -203,9 +262,10 @@ class ParserController extends Controller
         if ($zip->open($file, $zip_mode) === TRUE ) {
             foreach(Parser::find()->all() as $parserAR){
                 $zip->addFile($parserAR->classPath,$parserAR->className.'.php');
-                $pareserFile=BaseParser::loadParser($parserAR->className);
-                $pareserFile->parserAR=$parserAR;
-                $init_data[]=$pareserFile->getExportData();
+                //$pareserFile=BaseParser::loadParser($parserAR->className);
+                //$pareserFile->parserAR=$parserAR;
+                //$init_data[]=$pareserFile->getExportData();
+                $init_data[]=$parserAR->getExportData();
             }
 
             $init_file='InitParsData.json';

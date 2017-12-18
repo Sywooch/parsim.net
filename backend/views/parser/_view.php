@@ -14,7 +14,7 @@
 
         <ul class="dropdown-menu dropdown-menu-right">
           <li><a href="<?= $model->updateUrl; ?>"><i class="icon-pencil7"></i> Edit</a></li>
-          <li><a href="#"><i class="icon-bin"></i> Delete</a></li>
+          <li><a href="#" data-id="<?= $model->id; ?>" class="btn-delete"><i class="icon-bin"></i> Delete</a></li>
           <li><a href="#"><i class="icon-eye-blocked"></i> Disable</a></li>
           <li><a href="#" class="btn-test" data-id="<?= $model->id; ?>"><i class="icon-file-check" ></i> Test</a></li>
         </ul>

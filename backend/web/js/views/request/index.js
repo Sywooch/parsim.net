@@ -1,17 +1,9 @@
 
 $(function() {
 
-    $('#btn-import').click(function(){
-        $('#input-file').click();
-        return false;
-    });
-
-    $('#input-file').change(function(){
-        $('#parser-import-form').submit();
-    });
-
+    
     $('.btn-test').click(function(){
-      
+      //console.log($(this).closest('tr'));
       var $statusField=$(this).closest('tr').find('#col-status');
       $statusField.empty();
       $statusField.html('<i class="icon-spinner2 spinner"></i>');
@@ -32,8 +24,9 @@ $(function() {
         },
         dataType:'html'
       });
-      
     });
+
+    
 
     $('.btn-delete').on('click', function() {
         var id=$(this).data('id');
@@ -49,7 +42,7 @@ $(function() {
         },function() {
             $.ajax({
               type: 'POST',
-              url: 'delete?id='+id,
+              url: 'delete?alias='+id,
               success:function(data){
                 $row.remove();
               },

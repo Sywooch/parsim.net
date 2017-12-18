@@ -24,18 +24,35 @@ class Error extends \yii\db\ActiveRecord
     const CODE_UNKNOW_ERROR = 100;
     const CODE_UNSET_URL = 101;
     const CODE_UNSET_SELECTOR = 102;
-    const CODE_PARSER_NOT_FOUND = 200;
+    const CODE_REQUEST_CANNOT_CREATE_RESPONSE = 102; //+
+
+    const CODE_PARSER_NOT_FOUND = 200;              //+
     const CODE_PARSER_ACTION_NOT_FOUND = 201;
     const CODE_PARSER_FOUND_MANY_ACTIONS = 203;
     const CODE_PARSER_CONTENT_NOT_FOUND = 204;
+
     const CODE_PARSING_ERROR = 202;
-    const CODE_LOADER_NOT_FOUND = 300;
+    const CODE_LOADER_NOT_FOUND = 300;              //+
     const CODE_LOADING_ERROR = 301;
     
     const STATUS_NEW = 0;
     const STATUS_IN_PROGRESS = 1;
     const STATUS_TESTING = 2;
     const STATUS_FIXED = 3;
+
+    private $messages=[
+        self::CODE_UNKNOW_ERROR=>'Неизвестная ошибка',
+        self::CODE_UNSET_URL=>'Не задан URL',//???
+        self::CODE_UNSET_SELECTOR=>'Не задан селекторр',//???
+        self::CODE_REQUEST_CANNOT_CREATE_RESPONSE=>'Ошибка создания ответа',
+        self::CODE_PARSER_NOT_FOUND=>'Не найден парсер',
+        self::CODE_PARSER_ACTION_NOT_FOUND=>'Не удалось определить действие парсера',
+        self::CODE_PARSER_FOUND_MANY_ACTIONS=>'Неоднозначное определение действия парсера (нашел несколько вариантов)',
+        self::CODE_PARSER_CONTENT_NOT_FOUND=>'Не найден контент для парсинга',
+        self::CODE_PARSING_ERROR=>'Ошибка парсинга',
+        self::CODE_LOADER_NOT_FOUND=>'Не найден загрузчик контента',
+        self::CODE_LOADING_ERROR=>'Ошибка загрузки контента',
+    ];
 
     /**
      * @inheritdoc
@@ -94,9 +111,17 @@ class Error extends \yii\db\ActiveRecord
     // Блок relations
     //
     //=========================================================
+    public function getUser(){
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
     public function getParser(){
         return $this->hasOne(Parser::className(), ['id' => 'parser_id']);
     }
+    public function getAction(){
+        return $this->hasOne(ParserAction::className(), ['id' => 'action_id']);
+    }
+
     public function getRequest(){
         return $this->hasOne(Request::className(), ['id' => 'request_id']);
     }
@@ -105,6 +130,10 @@ class Error extends \yii\db\ActiveRecord
     }
     public function getLoader(){
         return $this->hasOne(Loader::className(), ['id' => 'loader_id']);
+    }
+
+    public function getTransaction(){
+        return $this->hasOne(Transaction::className(), ['id' => 'transaction_id']);
     }
 
     //=========================================================
@@ -143,17 +172,15 @@ class Error extends \yii\db\ActiveRecord
             }    
         }
 
+        /*
         if($this->status==self::STATUS_FIXED && isset($this->request)){
             $this->request->status=Request::STATUS_READY;
             $this->request->save();
         }
-
-        
-
-        
+        */
     }
 
-     //=========================================================
+    //=========================================================
     //
     // Блок атрибутов
     //
@@ -179,6 +206,15 @@ class Error extends \yii\db\ActiveRecord
         }
 
         return $info;
+    }
+
+    public function getMsg(){
+        if(array_key_exists ( $this->code , $this->messages )){
+            return $this->messages[$this->code];
+        }else{
+            return $this->code;
+        }
+        
     }
     
 

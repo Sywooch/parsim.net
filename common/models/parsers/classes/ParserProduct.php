@@ -17,6 +17,8 @@ class ParserProduct extends BaseParser
   private $_name;
   private $_currency;
 
+  public $priceCanZero=false;
+
   
 
   public $dict=[
@@ -98,7 +100,9 @@ class ParserProduct extends BaseParser
   {
       return [
           [['price','name','qty'], 'required'],
-          [['price','qty'], 'number'],
+          [['price','qty'], 'number','min' => 0.01, 'when' => function($model) {
+              return $model->priceCanZero == false;
+          }],
           [['id','name','currency','viewUrl'], 'string'],
       ];
   }

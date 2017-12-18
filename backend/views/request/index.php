@@ -4,9 +4,8 @@ use yii\helpers\Html;
 //use yii\widgets\ListView;
 use yii\widgets\LinkPager;
 
-/* @var $this yii\web\View */
-/* @var $searchModel common\models\searchForms\TemplateSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+use backend\assets\request\IndexAsset;
+IndexAsset::register($this);
 
 $this->title = Yii::t('app', 'Requests');
 $this->params['breadcrumbs'][] = $this->title;
@@ -21,12 +20,12 @@ $this->params['bodyClass']='has-detached-right';
   <div class="container-detached">
     <div class="content-detached">
       <div class="task-list">
-        <div class="panel panel-flat">
-          <div class="panel-body">
+        <div class="panel panel-flat" >
+          <div class="panel-body" >
             <?= $this->render('_loop',['dataProvired'=>$dataProvider]); ?>
           </div>
         </div>
-        <div class="text-center content-group-lg pt-20">
+        <div class="text-center content-group-lg pt-20" >
           <?= LinkPager::widget([
             'pagination' => $dataProvider->pagination,
             'options'=>['class'=>'pagination'],
