@@ -205,7 +205,7 @@ class BaseParser extends Model
             $content=file_get_contents($contentFullPath);
 
 
-            $this->document= phpQuery::newDocumentHTML($content);
+            $this->document= phpQuery::newDocumentHTML($content,$this->charset);
             //определяю тип действия
             foreach ($this->parserAR->actions as $action) {
                 $count_results=count($this->document->find($action->selector));
