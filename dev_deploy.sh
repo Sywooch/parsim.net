@@ -6,5 +6,6 @@ git commit -a -m "#"
 git push
 
 echo "connect to remote srv via ssh"
-ssh -p 9999 pavel@parsim.net -t "sh /srv/www/dev.parsim.net/deploy.sh; bash"
+PRJ_PATH="/srv/www/dev.parsim.net"
+ssh -p 9999 pavel@parsim.net -t "sh $PRJ_PATH/deploy.sh $PRJ_PATH ;bash"
 

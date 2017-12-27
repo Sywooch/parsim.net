@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd /srv/www/dev.parsim.net/
+cd "$1"
 #update project
 git pull --rebase
 composer install
