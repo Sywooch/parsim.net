@@ -1,6 +1,6 @@
 #!/bin/sh
 
 
-git pull
+git pull --rebase
 composer install
 yii migrate
