@@ -2,4 +2,4 @@
 
 git pull --rebase
 composer install
-yii migrate
+php yii migrate
