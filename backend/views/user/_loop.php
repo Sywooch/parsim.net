@@ -1,12 +1,17 @@
-<div class="table-responsive">
+<div class="">
   <table class="table">
     <thead>
       <tr>
-        <th>E-mail</th>
-        <th width="50%"><?= Yii::t('app', 'First name'); ?></th>
-        <th width="50%"><?= Yii::t('app', 'Last name'); ?></th>
-        <th><?= Yii::t('app', 'Role'); ?></th>
-        <th><?= Yii::t('app', 'Status'); ?></th>
+        <th width="250px">Имя</th>
+        <th width="100px"><?= Yii::t('app', 'Role'); ?></th>
+        <th width="200px"><?= Yii::t('app', 'Registred at'); ?></th>
+        <th><?= Yii::t('app', 'Requests'); ?></th>
+        <th><?= Yii::t('app', 'Tarif'); ?></th>
+        <th><?= Yii::t('app', 'Balanse'); ?></th>
+        <th><?= Yii::t('app', 'Total IN'); ?></th>
+        <th><?= Yii::t('app', 'Total Out'); ?></th>
+        <th width="100px"><?= Yii::t('app', 'Status'); ?></th>
+        <th width="100px"><?= Yii::t('app', 'Actions'); ?></th>
       </tr>
     </thead>
     <tbody>

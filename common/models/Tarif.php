@@ -3,21 +3,11 @@
 namespace common\models;
 
 use Yii;
-
-/**
- * This is the model class for table "tarif".
- *
- * @property integer $id
- * @property integer $type
- * @property string $name
- * @property integer $status
- * @property string $duration
- * @property double $price
- */
+use yii\behaviors\TimestampBehavior;
 class Tarif extends \yii\db\ActiveRecord
 {
-    const STATUS_BLOCK = 0;
-    const STATUS_ACTIVE = 1;
+    const STATUS_DISABLED = 0;
+    const STATUS_ENABLED = 1;
 
     const TYPE_FREE = 0;
     const TYPE_COST_PER_ACTION = 1;
@@ -26,6 +16,17 @@ class Tarif extends \yii\db\ActiveRecord
     const FREE_TARIF = 1;
     const DEFAULT_TARIF = 2;
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            'AutoAlias'=>[
+                'class' => 'common\behaviors\AliasGenerator',
+                'src'=>'name',
+                'dst'=>'alias',
+            ]
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -41,10 +42,10 @@ class Tarif extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'status'], 'integer'],
             [['name'], 'required'],
+            [['type', 'status','qty'], 'integer'],
             [['price'], 'number'],
-            [['name'], 'string', 'max' => 128],
+            [['name','description'], 'string', 'max' => 128],
             [['duration'], 'string', 'max' => 32],
         ];
     }
@@ -81,19 +82,80 @@ class Tarif extends \yii\db\ActiveRecord
     //=========================================================
     public static function findVisible()
     {
-        return self::find()->where(['status'=>self::STATUS_ACTIVE,'visible'=>1])->all();
+        return self::find()->where(['status'=>self::STATUS_ENABLED,'visible'=>1])->all();
     }
     public static function findDefault()
     {
         return self::findOne(self::DEFAULT_TARIF);
     }
 
+    
+    //=========================================================
+    //
+    // Блок генерации Url
+    //
+    //=========================================================
+    public static function getIndexUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['tarif/index']);
+    }
+    public static function getCreateUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['tarif/create']);
+    }
+    public function getUpdateUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['tarif/update','id'=>$this->id]);
+    }
+    public function getDeleteUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['tarif/delete','id'=>$this->id]);
+    }
+    public function getViewUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['tarif/view','id'=>$this->id]);
+    }
 
     //=========================================================
     //
     // Блок атрибутов
     //
     //=========================================================
+    
+    public function getStatusName(){
+        return $this->statuses[$this->status]['title'];
+    }
+    public function getStatusDesctiption(){
+        return $this->statuses[$this->status]['description'];
+    }
+    
+    public static function getStatuses(){
+        return [
+            self::STATUS_ENABLED=>['title'=>'Enabled','description'=>'Включен'],
+            self::STATUS_DISABLED=>['title'=>'Disabled','description'=>'Заблокирован'],
+        ];
+    }
+
+    public static function getDurationsList(){
+        return [
+            ''=>'Безлимитный',
+            'month'=>'Месяц',
+            'year'=>'Год',
+        ];
+    }
+    public function getDurationName(){
+        return $this->durationsList[$this->duration];
+    }
+
+
+    public static function getStatusList(){
+        $list=[];
+        foreach (self::getStatuses() as $key => $status) {
+            $list[$key]=$status['title'];
+        }
+        return $list;
+    }
+
     public function getVisible()
     {
         return $this->visible==1?true:false;
@@ -119,20 +181,5 @@ class Tarif extends \yii\db\ActiveRecord
         $model=self::findDefault();
 
         return $model->price;
-    }
-    
-
-    
-    //=========================================================
-    //
-    // Блок генерации Url
-    //
-    //=========================================================
-    public function getOrderUrl()
-    {
-        if($this->type==self::TYPE_FREE){
-            return Yii::$app->urlManager->createUrl(['order/gift','tarif'=>$this->alias]);
-        }
-        return Yii::$app->urlManager->createUrl(['order/pay','tarif'=>$this->alias]);
     }
 }

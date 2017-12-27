@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use common\models\Error;
+use yii\httpclient\Client;
 
 
 class Request extends \yii\db\ActiveRecord
@@ -27,6 +28,7 @@ class Request extends \yii\db\ActiveRecord
     const STATUS_SUCCESS = 2;       //обработка завершена успешно
     const STATUS_ERROR = 3;         //обработка завершена с ошибками
     const STATUS_NEED_PAY = 4;      //ожидает оплаты 
+    const STATUS_FIXING = 5;      //ожидает оплаты 
 
 
     // Сценарии создания запрос
@@ -45,6 +47,7 @@ class Request extends \yii\db\ActiveRecord
         self::STATUS_SUCCESS=>'Обработка завершена успешно',
         self::STATUS_ERROR=>'Обработка завершена с ошибками',
         self::STATUS_NEED_PAY=>'Для возобновления раь=боты требуется пополнеие счета',
+        self::STATUS_FIXING=>'Устраняются ошибки',
         
     ];
     
@@ -112,6 +115,7 @@ class Request extends \yii\db\ActiveRecord
             'sleep_time'=>Yii::t('app', 'Parsing frequency'),
             'response_url' => Yii::t('app', 'URL - resonse handler'),
             'response_email' => Yii::t('app', 'E-mail - resonse handler'),
+            'responseTo' => Yii::t('app', 'Response to'),
             
             'created_by' => Yii::t('app', 'Created By'),
             'updated_by' => Yii::t('app', 'Updated By'),
@@ -153,6 +157,18 @@ class Request extends \yii\db\ActiveRecord
         return $this->hasOne(Parser::className(), ['id' => 'parser_id']);
     }
 
+    //Связанные ответы
+    public function getTransactions()
+    {
+        return $this->hasMany(Transaction::className(), ['request_id' => 'id']);
+    }
+    
+    //Количество ответов
+    public function getTransactionsCount()
+    {
+        return count($this->transactions);
+    }
+
 
     //=========================================================
     //
@@ -176,10 +192,13 @@ class Request extends \yii\db\ActiveRecord
             return false;
         }
 
-        $parser=Parser::findByUrl($this->request_url);
-        if(isset($parser)){
-            $this->parser_id=$parser->id;    
+        if(!isset($this->parser_id)){
+            $parser=Parser::findByUrl($this->request_url);
+            if(isset($parser)){
+                $this->parser_id=$parser->id;    
+            }    
         }
+        
         
 
         //Если запрос создает/изменяет залогиненный пользователь обновляю поля автора/редактора
@@ -198,6 +217,7 @@ class Request extends \yii\db\ActiveRecord
             $this->sleep_time=null;
             $this->tarif_id=Tarif::FREE_TARIF;
         }
+        
 
         return true;
     }
@@ -208,6 +228,7 @@ class Request extends \yii\db\ActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
 
+        
         if($insert && !isset($this->parser_id)){
             //Если во время СОЗДАНИЯ запрса не было заполнено поле parser_id,
             //значит по данному URL не был найден парсер и нужно зарегит на эту тему 
@@ -215,6 +236,7 @@ class Request extends \yii\db\ActiveRecord
 
             $this->regError(Error::CODE_PARSER_NOT_FOUND);
         }
+
     }
 
 
@@ -227,7 +249,6 @@ class Request extends \yii\db\ActiveRecord
     //Формирование ответа
     public function addResponse()
     {
-
 
         if(isset($this->parser_id)){
             //Если парсер определен
@@ -335,29 +356,129 @@ class Request extends \yii\db\ActiveRecord
         }
     }
 
+
     //Тестирование запроса
     public function test()
     {
-
-        
-        if(isset($this->parser)){
+        if(preg_match( '/^(http|https):\\/\\/[a-z0-9_]+([\\-\\.]{1}[a-z_0-9]+)*\\.[_a-z]{2,5}'.'((:[0-9]{1,5})?\\/.*)?$/i' ,$this->request_url)){
             
-            $file_name='test_request_'.$this->alias.'.html';
-            
-            if($this->parser->testUrl($this->request_url,$file_name)){
-                $this->status=self::STATUS_READY;      
+            if(isset($this->parser)){
+                
+                $file_name='test_request_'.$this->alias.'.html';
+                $data=$this->parser->testUrl($this->request_url,$file_name);
+                if($data){
+                    return $data;
+                }else{
+                    $this->addErrors($this->parser->errors);
+                }
             }else{
-                $this->status=self::STATUS_ERROR;
-                $this->addErrors($this->parser->errors);
-                //$this->addError('request_url','value');
+                $this->addError('Request',Error::CODE_PARSER_NOT_FOUND); 
             }
+            
         }else{
-            $this->status=self::STATUS_ERROR;    
-            $this->addError('Request->Test()',Error::CODE_PARSER_NOT_FOUND); 
+            $this->addError($action->name,Error::CODE_UNSET_URL);
         }
 
-        //$this->save();
+        return false;
+
+    }
+
+    public function getErrorSummary()
+    {
+        $summary='';//$this->statusDescription[$this->status];
+        if($this->hasErrors()){
+            
+            foreach ($this->errors as $key => $errors) {
+                foreach ($errors as $errorCode){
+                    $error = new Error();
+                    $error->code=$errorCode;
+                    $summary.=$key.' - '.$error->msg.PHP_EOL;
+                }
+            }
+        }
+        return $summary;
+    }
+
+
+    public function sendToTestEmail($email)
+    {
+        $data=$this->test();
+
+        if($data){
+            $response=new Response();
+            $response->targetUrl=$this->request_url;
+            $response->json=$data;
+
+            Yii::$app->mailqueue->compose(['html' => 'response/responseSuccess'], ['model' => $response,'createUrl'=>Yii::$app->urlManager->createAbsoluteUrl(['/request/create'])])
+            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
+            ->setTo($email)
+            ->setSubject('Parsing result from ' . Yii::$app->name)
+            ->send(); 
+        }
+
+        if($this->hasErrors()){
+            return false;
+        }
+        return true;
+    }
+
+    public function sendToTestUrl($url)
+    {
+        $data=$this->test();
+
+        if($data){
+            $client = new Client();
+            $response = $client->createRequest()
+                ->setMethod('post')
+                ->setUrl($url)
+                ->setData(['data' => json_encode(['data'=>$data],JSON_UNESCAPED_UNICODE)])
+                ->send();
+            if ($response->isOk) {
+                $response_id = $response->data['id'];
+            }else{
+                 $this->addError('HttpClient','Ошибка отправки данных');
+            }
+        }
+
+        if($this->hasErrors()){
+            return false;
+        }
+        return true;
+
+    }
+
+    public function run()
+    {
+        $response=$this->addResponse();
+        if($response){
+            if($response->run()){
+                return $response;
+            }else{
+                $this->addErrors($response->errors);
+            }
+        }
+        return false;
+    }
+
+    public function getAmountIn()
+    {
         
+        $sum=Yii::$app->db->createCommand('SELECT sum(amount) FROM transaction WHERE type='.Transaction::TYPE_OUT.' AND request_id='.$this->id)->queryScalar();
+        if(!isset($sum)){
+            $sum=0;
+        }
+        return -1*$sum;
+
+    }
+
+    public function getAmountOut()
+    {
+        
+        $sum=Yii::$app->db->createCommand('SELECT sum(amount) FROM transaction WHERE type='.Transaction::TYPE_IN.' AND request_id='.$this->id)->queryScalar();
+        if(!isset($sum)){
+            $sum=0;
+        }
+        return -1*$sum;
 
     }
 
@@ -374,8 +495,15 @@ class Request extends \yii\db\ActiveRecord
         if(isset($this->tarif)){
             return $this->tarif->name;
         }
-        
         return '';
+    }
+
+    public function getTarifType()
+    {
+        if(isset($this->tarif)){
+            return $this->tarif->type;
+        }
+        return 0;
     }
 
     public function getStatusName()
@@ -387,6 +515,24 @@ class Request extends \yii\db\ActiveRecord
         return Lookup::items('REQUEST_STATUS');
     }
 
+    public function getParserName()
+    {
+        if(isset($this->parser)){
+            return $this->parser->name;
+        }
+        return 'N/A';
+    }
+
+    public function getActionName()
+    {
+        if(isset($this->action)){
+            return $this->action->name;
+        }
+        return 'N/A';
+    }
+    
+
+    
     public function getFreqName()
     {
         if(!array_key_exists ($this->sleep_time , $this->freqList )){
@@ -428,6 +574,7 @@ class Request extends \yii\db\ActiveRecord
 
         return $info;
     }
+    
     public function getParserClassName()
     {
         if(isset($this->parser)){
@@ -435,6 +582,19 @@ class Request extends \yii\db\ActiveRecord
         }
         
         return '';
+    }
+
+    public function getResponseTo()
+    {
+        $retval='';
+        if(isset($this->response_url) && $this->response_url!=''){
+            $retval.=$this->response_url.'; ';
+        }
+        if(isset($this->response_email) && $this->response_email!=''){
+            $retval.=$this->response_email.'; ';
+        }
+        
+        return $retval;
     }
 
     //=========================================================
@@ -451,19 +611,19 @@ class Request extends \yii\db\ActiveRecord
         return Yii::$app->urlManager->createUrl(['request/create']);
     }
     public function getUpdateUrl(){
-        return Yii::$app->urlManager->createUrl(['request/update','alias'=>$this->alias]);
+        return Yii::$app->urlManager->createUrl(['request/update','id'=>$this->id]);
     }
     public function getDeleteUrl()
     {
-        return Yii::$app->urlManager->createUrl(['request/delete','alias'=>$this->alias]);
+        return Yii::$app->urlManager->createUrl(['request/delete','id'=>$this->id]);
     }
     public function getViewUrl()
     {
-        return Yii::$app->urlManager->createUrl(['request/view','alias'=>$this->alias]);
+        return Yii::$app->urlManager->createUrl(['request/view','id'=>$this->id]);
     }
 
     public function getResponsesUrl(){
-        return Yii::$app->urlManager->createUrl(['response/index','request'=>$this->alias]);
+        return Yii::$app->urlManager->createUrl(['response/index','request_id'=>$this->id]);
     }
     public function getParserUrl(){
         $url='#';
@@ -471,5 +631,8 @@ class Request extends \yii\db\ActiveRecord
             $url=$this->parser->updateUrl;
         }
         return $url;
+    }
+    public function getTransactionsUrl(){
+        return Yii::$app->urlManager->createUrl(['transaction/index','request_id'=>$this->id]);
     }
 }

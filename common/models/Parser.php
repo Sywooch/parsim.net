@@ -7,7 +7,8 @@ use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
 
 use common\models\parsers\classes\BaseParser;
-use GuzzleHttp\Client; // подключаем Guzzle
+//use GuzzleHttp\Client; // подключаем Guzzle
+use yii\httpclient\Client;
 
 /**
  * This is the model class for table "parser".
@@ -32,7 +33,7 @@ class Parser extends \yii\db\ActiveRecord
     //public $testUrls;
     //public $parsActions;
     
-    public $parsModel;
+    //public $parsModel;
 
 
     public function behaviors()
@@ -63,15 +64,47 @@ class Parser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name','status','loader_type','example_url','reg_exp'], 'required'],
+            [['name','status','loader_type','reg_exp'], 'required'],
+            [['ActionsArray'],'validateAction', 'skipOnEmpty' => false, 'skipOnError' => false],
             [['status', 'created_by', 'updated_by', 'created_at', 'updated_at','type_id'], 'integer'],
             [['alias'], 'string', 'max' => 16],
             [['name'], 'string', 'max' => 128],
-            [['description','classCode'], 'safe'],
+            [['description','classCode','ActionsArray'], 'safe'],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
             
         ];
+    }
+    public function validateAction($attribute, $params, $validator)
+    {
+        if (is_array($this->$attribute) && count($this->$attribute)==0 ) {
+            $this->addError($attribute, 'Небходимо добавить хотя бы одно действие');
+        }else{
+            $models=[];
+            foreach ($this->$attribute as $key => $action) {
+                $model=new ParserAction();
+                if(isset($action['id']) && $action['id']!=''){
+                    $model=ParserAction::findOne($action['id']);
+                }
+                
+                //$model->load($action);
+                //$model->parser_id=$this->id;
+                $model->name=$action['name'];
+                $model->selector=$action['selector'];
+                $model->status=$action['status'];
+                $model->example_url=$action['example_url'];
+
+                $models[]=$model;
+                
+                if(!$model->validate()){
+
+                    //$this->addError($attribute, 'Ошибка заполнения полей в действии '.$model->name);      
+                    $this->addError($attribute, 'Ошибка заполнения полей в действии '.$model->name);      
+                }
+            }
+            $this->actionsArray=$models;
+        }
+        
     }
 
     //=========================================================
@@ -112,33 +145,12 @@ class Parser extends \yii\db\ActiveRecord
         return $this->hasOne(ParserType::className(), ['id' => 'type_id']);
     }
 
-    private $_actions;
+    
     public function getActions()
     {
-        if(!isset($this->_actions)){
-            $this->_actions=$this->hasMany(ParserAction::className(), ['parser_id' => 'id'])->orderBy(['seq'=>SORT_ASC]);
-
-            if(count($this->_actions->all())==0){
-                $this->_actions=[];
-
-                $actionList=new ParserAction();
-                $actionList->seq=0;
-                $actionList->parser_id=$this->id;
-                $actionList->name='ParsList';
-                $actionList->status=0;
-                $actionList->example_url='111';
-                $this->_actions[]=$actionList;   
-
-                $actionItem=new ParserAction();
-                $actionItem->seq=1;
-                $actionItem->parser_id=$this->id;
-                $actionItem->name='ParsItem';
-                $actionItem->status=0;
-                $actionItem->example_url='222';
-                $this->_actions[]=$actionItem;
-            }
-        }
-        return $this->_actions;
+        return $this->hasMany(ParserAction::className(), ['parser_id' => 'id'])->orderBy(['seq'=>SORT_ASC]);
+        
+        
     }
 
     public function getResponses()
@@ -182,6 +194,33 @@ class Parser extends \yii\db\ActiveRecord
         
         parent::afterSave($insert, $changedAttributes);
 
+        
+        foreach ($this->actionsArray as $key => $newAction) {
+            $newAction->parser_id=$this->id;
+            $newAction->save();
+        }
+
+        $toRemove=[];
+        $addToRemove=true;
+        foreach ($this->actions as $oldAction){
+            foreach ($this->actionsArray as $key => $newAction) {
+                if($oldAction->id==$newAction->id){
+                    $addToRemove=false;
+                    continue;
+                }
+            }
+            if($addToRemove){
+                $toRemove[]=$oldAction;
+            }
+            $addToRemove=true;
+        }
+        foreach ($toRemove as $oldAction) {
+            $oldAction->delete();
+        }
+
+
+
+        //Создаю из шаблона класс парсера
         if(!file_exists($this->classPath)){
             $this->classCode=file_get_contents($this->templateClassPath); 
             $this->classCode=str_replace('{CLASS_NAME}',$this->className,$this->classCode);
@@ -194,7 +233,7 @@ class Parser extends \yii\db\ActiveRecord
 
             file_put_contents($this->classPath,$this->classCode);    
         }
-        
+
         
     }
      public function beforeDelete()
@@ -229,6 +268,19 @@ class Parser extends \yii\db\ActiveRecord
     // Блок атрибутов
     //
     //=========================================================
+    private $_actions;
+    public function getActionsArray(){
+        if(!isset($this->_actions)){
+            $this->_actions=$this->actions;
+        }
+        return $this->_actions;
+    }
+    public function setActionsArray($value){
+        $this->_actions=$value;
+    }
+
+
+
     public function getStatusName(){
         return Lookup::item('PARSER_STATUS',$this->status);
     }
@@ -244,9 +296,13 @@ class Parser extends \yii\db\ActiveRecord
     }
 
     public function getHostName(){
-        $host=parse_url($this->example_url, PHP_URL_HOST);
+        $host=parse_url($this->exampleUrl, PHP_URL_HOST);
         $host=str_replace('www.', '', $host);
         return $host;
+    }
+
+    public function getExampleUrl(){
+        return $this->actions[0]->example_url;
     }
 
 
@@ -293,6 +349,10 @@ class Parser extends \yii\db\ActiveRecord
     {   
         return  $this->classDir.'/templates/'.$this->typeName.'.php';
     }
+    public function getContentDir()
+    {   
+        return  $this->classDir.'/content/'.$this->className.'/';
+    }
 
     public function getTypeName()
     {
@@ -301,7 +361,7 @@ class Parser extends \yii\db\ActiveRecord
 
     public function getTypeList()
     {
-        return ArrayHelper::map(ParserType::find()->all(),'id','name');
+        return ArrayHelper::map(ParserType::find()->where(['status'=>ParserType::STATUS_ENABLED])->all(),'id','name');
     }
 
     private $_code;
@@ -327,21 +387,23 @@ class Parser extends \yii\db\ActiveRecord
         return $data;
     }
 
+    
     public function getErrorSummary()
     {
-        $summary=$this->statusDescription[$this->status];
+        $summary='';//$this->statusDescription[$this->status];
         if($this->hasErrors()){
-            //$summary=$this->statusDescription[self::STATUS_HAS_ERROR];
+            
             foreach ($this->errors as $key => $errors) {
                 foreach ($errors as $errorCode){
                     $error = new Error();
                     $error->code=$errorCode;
-                    $summary.=': '.$key.' - '.$error->msg.'; ';
+                    $summary.=$key.' - '.$error->msg.PHP_EOL;
                 }
             }
         }
         return $summary;
     }
+    
 
 
 
@@ -355,9 +417,9 @@ class Parser extends \yii\db\ActiveRecord
     {
         return Yii::$app->urlManager->createUrl(['parser/index']);
     }
-    public static function getCreateUrl()
+    public static function getCreateUrl($url=null)
     {
-        return Yii::$app->urlManager->createUrl(['parser/create']);
+        return Yii::$app->urlManager->createUrl(['parser/create','url'=>$url]);
     }
     public function getUpdateUrl()
     {
@@ -383,18 +445,18 @@ class Parser extends \yii\db\ActiveRecord
     //Тестирование парсера
     public function test()
     {
+        $results=[];
         foreach ($this->actions as $action) {
             $file_name='test_action'.$action->name.'.html';
 
             if(preg_match( '/^(http|https):\\/\\/[a-z0-9_]+([\\-\\.]{1}[a-z_0-9]+)*\\.[_a-z]{2,5}'.'((:[0-9]{1,5})?\\/.*)?$/i' ,$action->example_url)){
-                if($this->testUrl($action->example_url,$file_name)){
-                    $action->status=self::STATUS_READY;      
-                }else{
-                    $action->status=self::STATUS_HAS_ERROR;
-                }    
+                
+                $this->testUrl($action->example_url,$file_name);
+                
             }else{
+
                 $this->addError($action->name,Error::CODE_UNSET_URL);
-                $action->status=self::STATUS_HAS_ERROR;
+                //$action->status=self::STATUS_HAS_ERROR;
             }
         }
 
@@ -404,18 +466,82 @@ class Parser extends \yii\db\ActiveRecord
             $this->status=self::STATUS_READY;
         }
 
-        $this->err_description=$this->errorSummary;
+        //$this->err_description=$this->errorSummary;
 
     }
 
 
     public function testUrl($url,$file_name)
     {
-        $this->parsModel= BaseParser::loadParser($this->className);
-        $this->parsModel->parserAR=$this;
-        
-        $result=$this->parsModel->testUrl($url,$file_name);
-        $this->addErrors($this->parsModel->errors);
-        return $result;
+        $parsModel= BaseParser::loadParser($this->className);
+        $parsModel->parserAR=$this;
+
+        $data=$parsModel->testUrl($url,$file_name);
+        if($data==false){
+            $this->addErrors( $parsModel->errors );
+        }
+
+        return $data;
     }
+
+    public function sendToTestEmail($email)
+    {
+        foreach ($this->actions as $key => $action) {
+
+            $file_name='test_action'.$action->name.'.html';
+            $data=$this->testUrl($action->example_url,$file_name);
+
+            if($data){
+                $response=new Response();
+                $response->targetUrl=$action->example_url;
+                $response->json=$data;
+
+                Yii::$app->mailqueue->compose(['html' => 'response/responseSuccess'], ['model' => $response,'createUrl'=>Yii::$app->urlManager->createAbsoluteUrl(['/request/create'])])
+                ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
+                ->setTo($email)
+                ->setSubject('Parsing result from ' . Yii::$app->name)
+                ->send(); 
+            }else{
+                //$this->addErrors($this->errors);
+            }
+        }
+
+        if($this->hasErrors()){
+            return false;
+        }
+        return true;
+
+    }
+
+    public function sendToTestUrl($url)
+    {
+        foreach ($this->actions as $key => $action) {
+
+            $file_name='test_action'.$action->name.'.html';
+            $data=$this->testUrl($action->example_url,$file_name);
+
+            if($data){
+                $client = new Client();
+                $response = $client->createRequest()
+                    ->setMethod('post')
+                    ->setUrl($url)
+                    ->setData(['data' => json_encode(['data'=>$data],JSON_UNESCAPED_UNICODE)])
+                    ->send();
+                if ($response->isOk) {
+                    $response_id = $response->data['id'];
+                }else{
+                     $this->addError('HttpClient','Ошибка отправки данных');
+                }
+            }else{
+                //$this->addErrors($this->errors);
+            }
+        }
+
+        if($this->hasErrors()){
+            return false;
+        }
+        return true;
+
+    }
+
 }

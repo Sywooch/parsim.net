@@ -4,9 +4,8 @@ use yii\helpers\Html;
 //use yii\widgets\ListView;
 use yii\widgets\LinkPager;
 
-/* @var $this yii\web\View */
-/* @var $searchModel common\models\searchForms\TemplateSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+use backend\assets\response\IndexAsset;
+IndexAsset::register($this);
 
 $this->title = Yii::t('app', 'Responses');
 $this->params['breadcrumbs'][] = $this->title;

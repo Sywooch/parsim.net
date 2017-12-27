@@ -6,6 +6,8 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 
 use GuzzleHttp\Client; // подключаем Guzzle
+use common\models\parsers\classes\HttpLoader;
+use common\models\parsers\classes\BaseParser;
 
 /**
  * This is the model class for table "response".
@@ -191,22 +193,27 @@ class Response extends \yii\db\ActiveRecord
         return Lookup::items('RESPONSE_STATUS');
     }
     public function getResponseTo(){
-        $url=$this->request->response_url;
-        $email=$this->request->response_email;
+        
 
-        $retVal='';
-        if(isset($url) && $url!=''){
-            $retVal.=$url.'; ';
-        }
-        if(isset($email) && $email!=''){
-            $retVal.=$email;
-        }
-
-        return $retVal;
+        return $this->request->responseTo;
     }
 
     public function getContentPath(){
-        return Yii::getAlias('@console'.Yii::$app->params['contentFolder']).'/'.$this->request->alias.'.html';
+        return Yii::getAlias($this->request->parser->contentDir.'response_'.$this->alias.'.html');
+    }
+
+    private $_targetUrl;
+    public function getTargetUrl()
+    {
+        if(!isset($this->_targetUrl)){
+            $this->_targetUrl=$this->request->request_url;
+        }
+
+        return $this->_targetUrl;
+    }
+    public function setTargetUrl($value)
+    {
+        $this->_targetUrl=$value;
     }
 
     //=========================================================
@@ -220,7 +227,10 @@ class Response extends \yii\db\ActiveRecord
     }
     public function getViewUrl()
     {
-        return Yii::$app->urlManager->createUrl(['response/view','alias'=>$this->alias]);
+        return Yii::$app->urlManager->createUrl(['response/view','id'=>$this->id]);
+    }
+    public function getUpdateUrl(){
+        return Yii::$app->urlManager->createUrl(['response/update','id'=>$this->id]);
     }
 
     public function getRequestUrl(){
@@ -283,6 +293,34 @@ class Response extends \yii\db\ActiveRecord
         $this->request->save();
 
         $this->sendData();
+
+    }
+
+    public function run()
+    {
+        
+        //$request=$this->request;
+        //$content_path=$this->contentPath;
+
+        if($this->loader->type==HttpLoader::TYPE_HTTP){
+            
+            $parser = BaseParser::initParser($this);
+           // $loader=new HttpLoader();
+
+            if($data=$parser->run()){
+                $this->regData($data);
+                return $this;
+            }else{
+
+                //Блокирую последующую обработку ответа
+                //и сторнирую оплату (если была)
+                $this->rollBack(Response::STATUS_PARSING_ERROR);
+                $response->addError('Response',Error::CODE_PARSING_ERROR);
+            }
+        }
+
+        return false;
+        
 
     }
 

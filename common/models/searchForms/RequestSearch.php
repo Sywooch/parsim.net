@@ -42,7 +42,7 @@ class RequestSearch extends Request
      */
     public function search($params)
     {
-        $query = Request::find();
+        $query = Request::find()->orderBy(['created_at'=>SORT_DESC]);
         
 
         // add conditions that should always apply here

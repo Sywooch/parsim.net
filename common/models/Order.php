@@ -18,8 +18,11 @@ use yii\behaviors\TimestampBehavior;
  */
 class Order extends \yii\db\ActiveRecord
 {
-    const STATUS_NEW = 0;
-    const STATUS_PAID = 1;
+    //const STATUS_NEW = 0;
+    //const STATUS_PAID = 1;
+
+    const STATUS_DISABLED = 0;
+    const STATUS_ENABLED = 1;
 
     public $email;
     /**
@@ -127,5 +130,53 @@ class Order extends \yii\db\ActiveRecord
     public function getPayUrl()
     {
         return Yii::$app->urlManager->createUrl(['order/pay']);
+    }
+
+    public static function getIndexUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['order/index']);
+    }
+    public static function getCreateUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['order/create']);
+    }
+    public function getUpdateUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['order/update','id'=>$this->id]);
+    }
+    public function getDeleteUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['order/delete','id'=>$this->id]);
+    }
+    public function getViewUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['order/view','id'=>$this->id]);
+    }
+
+    //=========================================================
+    //
+    // Блок атрибутов
+    //
+    //=========================================================
+    
+    public function getStatusName(){
+        return $this->statuses[$this->status]['title'];
+    }
+    public function getStatusDesctiption(){
+        return $this->statuses[$this->status]['description'];
+    }
+    
+    public static function getStatuses(){
+        return [
+            self::STATUS_ENABLED=>['title'=>'Enabled','description'=>'Включен'],
+            self::STATUS_DISABLED=>['title'=>'Disabled','description'=>'Заблокирован'],
+        ];
+    }
+    public static function getStatusList(){
+        $list=[];
+        foreach (self::getStatuses() as $key => $status) {
+            $list[$key]=$status['title'];
+        }
+        return $list;
     }
 }

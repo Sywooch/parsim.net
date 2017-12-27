@@ -17,6 +17,49 @@ $(function() {
         minimumResultsForSearch: Infinity
     });
 
+    initTabEvents();
+
+    $('#btn-add-action').click(function(){
+        var $btn=$(this);
+        
+        $.ajax({
+          type: 'POST',
+          url: 'create-action?index='+$btn.data('index'),
+          success:function(data){
+            $btn.data('index',data.index);
+            //var html=data.actionTab+$('#action-tabs').html();
+            //$('#action-tabs').html(html);
+            //$('#action-tabs').tab();
+            $(data.actionTab).prependTo('#action-tabs');
+            $(data.actionContent).prependTo('#action-contents');
+            initTabEvents();
+            //$('#lnk-tab-'+data.index).click();
+            
+            
+          },
+          error: function(data) { // if error occured
+
+            console.log("Error occured.please try again");
+          },
+          dataType:'json'
+        });
+        
+    });
+
+    function initTabEvents(){
+        $('.btn-delete-action').click(function(){
+            var tab_index=$(this).data('index');
+            $('#tab-'+tab_index).remove();
+            $('#action-tab'+tab_index).remove();
+
+            //$(this).closest('ul').parent().remove();
+            if( $('#action-tabs li').length>1){
+                $('#action-tabs li:eq(0) a:eq(0)').click();
+            }
+            
+            
+        });
+    }
     /*
 
     $('.php_editor').each(function(){

@@ -22,7 +22,14 @@ class HttpLoader extends ContentLoader
             $html = iconv($charset,'utf-8',$html);    
         }
 
+        $dir=dirname($path);
+
+        if(!file_exists($dir)){
+            mkdir($dir, 0777, true);
+        }
+        
         $html=preg_replace('/script/', 'tag_script',$html);
+
 
         return file_put_contents($path,$html);
 

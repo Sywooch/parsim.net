@@ -228,15 +228,15 @@ class Error extends \yii\db\ActiveRecord
         return Yii::$app->urlManager->createUrl(['error/index']);
     }
     public function getUpdateUrl(){
-        return Yii::$app->urlManager->createUrl(['error/update','alias'=>$this->alias]);
+        return Yii::$app->urlManager->createUrl(['error/update','id'=>$this->id]);
     }
     public function getDeleteUrl()
     {
-        return Yii::$app->urlManager->createUrl(['error/delete','alias'=>$this->alias]);
+        return Yii::$app->urlManager->createUrl(['error/delete','id'=>$this->id]);
     }
     public function getViewUrl()
     {
-        return Yii::$app->urlManager->createUrl(['error/view','alias'=>$this->alias]);
+        return Yii::$app->urlManager->createUrl(['error/view','id'=>$this->id]);
     }
 
     public function getParserLink($options=[]){

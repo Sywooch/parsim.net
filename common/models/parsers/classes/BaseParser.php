@@ -100,7 +100,7 @@ class BaseParser extends Model
     //Запуск парсинга
     public function run()
     {
-        $content_path=Parser::getClassDir().'contetnt/'.$this->baseClassName.'/';
+        $content_path=Parser::getClassDir().'content/'.$this->baseClassName.'/';
         if (!file_exists($content_path)) {
             mkdir($content_path, 0777, true);
         }
@@ -111,7 +111,7 @@ class BaseParser extends Model
             //если файл еще не загружен или старше 24x часов
             //обновляю файл
             $loader=new HttpLoader();
-            $loader->loadContent($this->responseAR->request->request_url,$contentFullPath);
+            $loader->loadContent($this->responseAR->request->request_url,$contentFullPath,$this->charset);
         }
 
         if($actionName=$this->discoverAction($contentFullPath)){
@@ -121,59 +121,12 @@ class BaseParser extends Model
         return false;
     }
 
-    /*
-    public function test()
-    {
-        //$this->testMode=true;
-
-        $path=Parser::getClassDir().'testContetnt/'.$this->baseClassName.'/';
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
-        }
-
-        foreach ($this->parserAR->actions as $key => $action) {
-
-            $actionName='action'.$action->name;
-            $file=$path.$actionName.'.html';
-            //Загрузка контента для тестов
-            if( (!file_exists($file)) || (time()-filemtime($file) > 24*3600) ){
-                //если файл еще нк загружен или старше 24x часов
-                //обновляю файл
-                $loader=new HttpLoader();
-                $loader->loadContent($action->example_url,$file);
-            }
-
-            $content=file_get_contents($file);
-            $this->document= phpQuery::newDocument($content);
-            
-
-            //Проверка идентификатора действия
-            $count=count($this->document->find($action->selector));
-            if($count==0){
-                $this->addErrorAR(Error::CODE_PARSER_ACTION_NOT_FOUND,'Не найден селектор \''.$action->selector.'\' для действия '.$action->name);
-            }
-
-            //Проверка работы парсига (запускаю действие)
-            //Если во время выполнения произойдет ошибка, действие зарегистрирует ошубку, но не юудет егот сохранять в БД
-            
-            $this->$actionName();
-
-
-        }
-        
-        if($this->hasErrorsAR){
-            return false;
-        }else{
-            return true;    
-        }
-
-    }
-    */
+    
     public function testUrl($url,$file_name){
 
         //Проверяю корректность URL
         
-        $content_path=Parser::getClassDir().'contetnt/'.$this->baseClassName.'/';
+        $content_path=Parser::getClassDir().'content/'.$this->baseClassName.'/';
         if (!file_exists($content_path)) {
             mkdir($content_path, 0777, true);
         }
@@ -186,8 +139,8 @@ class BaseParser extends Model
             $loader->loadContent($url,$contentFullPath,$this->charset);
         }
 
+
         if($actionName=$this->discoverAction($contentFullPath)){
-            
             return $this->$actionName($this->actionAR);
         }
         
@@ -199,13 +152,13 @@ class BaseParser extends Model
     public function discoverAction($contentFullPath){
         $actions=[];
 
-
         //Если контент загружен
         if(file_exists($contentFullPath)){
             $content=file_get_contents($contentFullPath);
 
 
-            $this->document= phpQuery::newDocumentHTML($content,$this->charset);
+            //$this->document= phpQuery::newDocumentHTML($content,$charset=$this->charset);
+            $this->document= phpQuery::newDocumentHTML($content);
             //определяю тип действия
             foreach ($this->parserAR->actions as $action) {
                 $count_results=count($this->document->find($action->selector));

@@ -57,12 +57,12 @@ return [
 
                 //API rules
                 'api'=>'api/default/index',
-                'PUT,PATCH api/requests/<requestId:\w+>' => 'api/request/update',
-                'GET api/requests/<requestId:\w+>' => 'api/request/view',
-                'DELETE api/requests/<requestId:\w+>' => 'api/request/delete',
+                //'PUT,PATCH api/requests/<requestId:\w+>' => 'api/request/update',
+                //'GET api/requests/<requestId:\w+>' => 'api/request/view',
+                //'DELETE api/requests/<requestId:\w+>' => 'api/request/delete',
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => ['api/request','api/test-api'],
+                    'controller' => ['api/request','api/test-response'],
                 ],
 
                 '<controller:\w+>/view/<alias:\w+>/'=>'<controller>/view',

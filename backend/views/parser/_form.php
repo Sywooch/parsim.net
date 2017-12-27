@@ -35,36 +35,25 @@ FormAsset::register($this);
         <div class="col-md-12">
           
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
               <?= $form->field($model, 'name')->textInput(['maxlength' => true]); ?>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <?= $form->field($model, 'type_id')->dropDownList($model->typeList,['class'=>'select']); ?>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <?= $form->field($model, 'loader_type')->dropDownList($model->loaderList,['class'=>'select']); ?>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          
-          <div class="row">
-            <div class="col-md-8">
-              <?= $form->field($model, 'example_url')->textInput(['maxlength' => true]); ?>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <?= $form->field($model, 'reg_exp')->textInput(['maxlength' => true]); ?>
             </div>
-            
           </div>
         </div>
       </div>
      
       <?= $this->render('_actions',[
         'form'=>$form,
-        'actions'=>$model->actions
+        'actions'=>$model->actionsArray
       ]); ?>
       
       

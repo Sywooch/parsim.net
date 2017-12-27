@@ -3,7 +3,7 @@ namespace backend\controllers;
 
 use Yii;
 use ZipArchive;
-use yii\web\Controller;
+
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
@@ -13,6 +13,7 @@ use common\models\ParserAction;
 use common\models\searchForms\ParserSearch;
 use backend\models\importForm;
 use yii\web\UploadedFile;
+use yii\helpers\Url;
 
 use yii\data\ActiveDataProvider;
 
@@ -20,7 +21,7 @@ use yii\data\ActiveDataProvider;
 /**
  * Site controller
  */
-class ParserController extends Controller
+class ParserController extends BackendController
 {
     /**
      * @inheritdoc
@@ -36,7 +37,7 @@ class ParserController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index','create','update','delete','view','export','test'],
+                        'actions' => ['index','create','update','delete','view','export','test','create-action','disable','enable','test-email','test-url'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -61,7 +62,7 @@ class ParserController extends Controller
     public function actionIndex()
     {
         
-        \yii\helpers\Url::remember();
+        Url::remember();
         
         $searchModel = new ParserSearch();
         $importForm= new importForm();
@@ -91,40 +92,41 @@ class ParserController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($url=null)
     {
         $model = new Parser();
         $model->type_id=1;
-        $model->reg_exp="(^http[s]?://.*enter_here_host_and_path.*$)";
         $model->loader_type=0;
+        $model->reg_exp="(^http[s]?://.*enter_here_host_and_path.*$)";    
 
+        if ($model->load(Yii::$app->request->post()) ){
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()){
-
-            if(isset(Yii::$app->request->post()['ParserAction'])){
-                $actions=Yii::$app->request->post()['ParserAction'];
-                foreach ($actions as $key => $action) {
-
-                    $modelAction= new ParserAction();
-
-                    $modelAction->seq=$key;
-                    $modelAction->parser_id=$model->id;
-                    $modelAction->name=$action['name'];
-                    $modelAction->selector=$action['selector'];
-                    $modelAction->status=$action['status'];
-                    $modelAction->example_url=$action['example_url'];
-                    $modelAction->save();
-                    
-                }
-                
+            if(isset(Yii::$app->request->post()['ParserAction']) ){
+                $model->actionsArray=Yii::$app->request->post()['ParserAction'];
+            }else{
+                $model->actionsArray=[];
+            }
+            
+            if($model->save() ){
+                return $this->goBack();    
             }
 
-            return $this->redirect($model->viewUrl);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        }else {
+            if(isset($url)){
+                $model->reg_exp="(^http[s]?://.*".parse_url($url, PHP_URL_HOST).parse_url($url, PHP_URL_PATH).".*$)";    
+                $model->name=parse_url($url, PHP_URL_HOST);
+
+                $action=new ParserAction();
+                $action->parser_id=0;
+                $action->name='ParsList';
+                $action->example_url=$url;
+                $action->status=ParserAction::STATUS_READY;
+                $model->actionsArray=[$action];
+            }
         }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -137,45 +139,25 @@ class ParserController extends Controller
     {
         $model = $this->findModel($id);
         
-        if(isset($model->actions) ){
+        if ($model->load(Yii::$app->request->post()) ){
+
+            if(isset(Yii::$app->request->post()['ParserAction']) ){
+                $model->actionsArray=Yii::$app->request->post()['ParserAction'];
+            }else{
+                $model->actionsArray=[];
+            }
             
-        }
-        //echo(json_encode(Yii::$app->request->post()));
-        //die;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()){
-
-            if(isset(Yii::$app->request->post()['ParserAction'])){
-                
-                $actions=Yii::$app->request->post()['ParserAction'];
-
-                foreach ($actions as $key => $action) {
-
-                    $modelAction= ParserAction::findOne(['name'=>$action['name'],'parser_id'=>$model->id]);
-                    if($modelAction==null ){
-                        $modelAction= new ParserAction();
-                    }
-
-                    $modelAction->seq=$key;
-                    $modelAction->parser_id=$model->id;
-                    $modelAction->name=$action['name'];
-                    $modelAction->selector=$action['selector'];
-                    $modelAction->status=$action['status'];
-                    $modelAction->example_url=$action['example_url'];
-                    $modelAction->save();
-                    
-                }
-                
+            //echo(json_encode($model->actionsArray) );
+            //die;
+            
+            if($model->save() ){
+                return $this->goBack();    
             }
 
-            //return $this->redirect($model->indexUrl);
-            //return $this->goBack((!empty(Yii::$app->request->referrer) ? Yii::$app->request->referrer : null));
-            return $this->goBack();
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     public function actionView($id)
@@ -223,17 +205,96 @@ class ParserController extends Controller
         }
         
     }
+
+    public function actionDisable($id)
+    {
+        $model=$this->findModel($id);
+        $model->status=Parser::STATUS_FIXING;
+        $model->save();
+        
+        return $this->renderPartial('_status', [
+            'model' => $model,
+        ]);
+        
+    }
+    public function actionEnable($id)
+    {
+        $model=$this->findModel($id);
+        $model->status=Parser::STATUS_READY;
+        $model->save();
+        
+        return $this->renderPartial('_status', [
+            'model' => $model,
+        ]);
+        
+    }
+
     public function actionTest($id)
     {
         $model=$this->findModel($id);
         $model->test();
+
+        $msg=$this->getMsgData('success','Ok','Ошибок не обнаружено');    
+        if($model->hasErrors()){
+            $msg=$this->getMsgData('error','Обнаружены ошибки',$model->getErrorSummary() );    
+        }
         
-        $model->save();
         
-        //$model->addErrors($errors);
-        return $this->renderPartial('_status', [
-            'model' => $model,
-        ]);
+        return json_encode($msg,JSON_UNESCAPED_UNICODE);
+    }
+
+    public function actionTestEmail($id)
+    {
+        $model=$this->findModel($id);
+
+        if($model->status==Parser::STATUS_READY){
+            $email=Yii::$app->params['adminEmail'];
+            if($model->sendToTestEmail($email)){
+                $msg=$this->getMsgData('info','Сообщение успешно отправлено','получатель: '.$email);            
+            }else{
+                $msg=$this->getMsgData('error','Ошибка отправки тестового сообщения',$model->getErrorSummary() );           
+            }
+            
+        }else{
+            $msg=$this->getMsgData('warning','Сообщение не отправлено','Сообщение возможно отправить только для парсеров в статусе READY');        
+        }
+        
+        return json_encode($msg,JSON_UNESCAPED_UNICODE);
+    }
+
+    public function actionTestUrl($id)
+    {
+        $model=$this->findModel($id);
+
+        if($model->status==Parser::STATUS_READY){
+            $url=Yii::$app->params['testUrl'];
+            if($model->sendToTestUrl($url)){
+                $msg=$this->getMsgData('info','Данные успешно отправлено','URL: '.$url);            
+            }else{
+                $msg=$this->getMsgData('error','Ошибка отправки данных',$model->getErrorSummary() );           
+            }
+            
+        }else{
+            $msg=$this->getMsgData('warning','Данные не отправлено','Можно отправлять только для парсеров в статусе READY');        
+        }
+        
+        return json_encode($msg,JSON_UNESCAPED_UNICODE);
+    }
+
+
+    public function actionCreateAction($index)
+    {
+        $index++;
+        $model= new ParserAction();
+        $model->name='NewAction';
+        $data=[
+            'index'=>$index,
+            'actionTab'=>$this->renderPartial('_actionTab',['model'=>$model,'key'=>$index]),
+            'actionContent'=>$this->renderPartial('_actionContent',['model'=>$model,'key'=>$index]),
+        ];
+
+        return json_encode($data);
+
     }
 
     

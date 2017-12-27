@@ -117,33 +117,93 @@ $errCount=Error::getCountNew();
                                         [
                                             'label' => '<span>'.Yii::t('app','Settings').'</span> <i class="icon-menu" title="'.Yii::t('app','Settings').'"></i>',
                                             'encode'=>false,
-                                            'options'=>['class'=>'navigation-header'],
-                                            'visible'=>Yii::$app->user->identity->isAdmin,
+                                            'options'=>['class'=>'navigation-header']
                                         ],
                                         [
-                                            'label' => '<i class="icon-puzzle2 position-left"></i> <span>'.Yii::t('app','Parsers').'</span>',
-                                            'url' => ['parser/index'],
+                                            'label' => '<i class="icon-stack2 position-left"></i> <span>'.Yii::t('app','Parsing'). ($errCount==0?'':' <span class="badge badge-danger">'.$errCount.'</span>').'</span>',
+                                            'url' => '#',
                                             'encode'=>false,
-                                            'visible'=>Yii::$app->user->identity->isAdmin,
+                                            'items'=>[
+                                                [
+                                                    'label' => '<span>'.Yii::t('app','Parser types').'</span>',
+                                                    'url' => ['parser-type/index'],
+                                                    'encode'=>false,
+                                                ],
+                                                [
+                                                    'label' => '<span>'.Yii::t('app','Parsers').'</span>',
+                                                    'url' => ['parser/index'],
+                                                    'encode'=>false,
+                                                ],
+                                                [
+                                                    'label' => '<span>'.Yii::t('app','Requests').'</span>',
+                                                    'url' => ['request/index'],
+                                                    'encode'=>false,
+                                                ],
+                                                [
+                                                    'label' => '<span>'.Yii::t('app','Responses').'</span>',
+                                                    'url' => ['response/index'],
+                                                    'encode'=>false,
+                                                ],
+                                                [
+                                                    'label' => '<span>'.Yii::t('app','Errors'). ($errCount==0?'':' <span class="badge badge-danger">'.$errCount.'</span>').'</span>',
+                                                    'url' => ['error/index'],
+                                                    'encode'=>false,
+                                                ],
+
+                                            ]
                                         ],
                                         [
-                                            'label' => '<i class="icon-download4 position-left"></i> <span>'.Yii::t('app','Requests').'</span>',
-                                            'url' => ['request/index'],
+                                            'label' => '<i class="icon-cash3 position-left"></i> <span>'.Yii::t('app','Money').'</span>',
+                                            'url' => '#',
                                             'encode'=>false,
-                                            'visible'=>Yii::$app->user->identity->isAdmin,
+                                            'items'=>[
+                                                [
+                                                    'label' => '<span>'.Yii::t('app','Transactions').'</span>',
+                                                    'url' => ['transaction/index'],
+                                                    'encode'=>false
+                                                ],
+                                                [
+                                                    'label' => '<span>'.Yii::t('app','Tarifs').'</span>',
+                                                    'url' => ['tarif/index'],
+                                                    'encode'=>false
+                                                ],
+                                                [
+                                                    'label' => '<span>'.Yii::t('app','Orders').'</span>',
+                                                    'url' => ['order/index'],
+                                                    'encode'=>false
+                                                ],
+
+                                            ],
                                         ],
                                         [
-                                            'label' => '<i class="icon-upload4 position-left"></i> <span>'.Yii::t('app','Responses').'</span>',
-                                            'url' => ['response/index'],
+                                            'label' => '<i class="icon-bubbles4 position-left"></i> <span>'.Yii::t('app','Communication').'</span>',
+                                            'url' => '#',
                                             'encode'=>false,
-                                            'visible'=>Yii::$app->user->identity->isAdmin,
+                                            'items'=>[
+                                                [
+                                                    'label' => '<span>'.Yii::t('app','Email queue').'</span>',
+                                                    'url' => ['queue-mail/index'],
+                                                    'encode'=>false
+                                                ],
+                                                [
+                                                    'label' => '<span>'.Yii::t('app','API responses').'</span>',
+                                                    'url' => ['test-response/index'],
+                                                    'encode'=>false
+                                                ],
+                                                [
+                                                    'label' => '<span>'.Yii::t('app','Notifications').'</span>',
+                                                    'url' => ['notification/index'],
+                                                    'encode'=>false
+                                                ],
+
+                                            ],
                                         ],
                                         [
-                                            'label' => '<i class="icon-bug2 position-left"></i> <span>'.Yii::t('app','Errors'). ($errCount==0?'':' <span class="badge badge-danger">'.$errCount.'</span>').'</span>',
-                                            'url' => ['error/index'],
-                                            'encode'=>false,
-                                            'visible'=>Yii::$app->user->identity->isAdmin,
+                                            'label' => '<i class="icon-users position-left"></i> <span>'.Yii::t('app','Users').'</span>',
+                                            'url' => ['user/index'],
+                                            'encode'=>false
                                         ],
+                                        
                                     ],
                                     'options'=>['class'=>'navigation navigation-main navigation-accordion']
                                 ]);

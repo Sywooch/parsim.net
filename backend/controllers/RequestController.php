@@ -2,9 +2,9 @@
 namespace backend\controllers;
 
 use Yii;
-use yii\web\Controller;
-use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+
 use yii\web\NotFoundHttpException;
 
 use common\models\Response;
@@ -13,11 +13,12 @@ use common\models\Request;
 use common\models\searchForms\RequestSearch;
 
 use yii\data\ActiveDataProvider;
+use yii\helpers\Url;
 
 /**
  * Site controller
  */
-class RequestController extends Controller
+class RequestController extends BackendController
 {
     /**
      * @inheritdoc
@@ -28,12 +29,12 @@ class RequestController extends Controller
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
+                    //[
+                    //    'actions' => ['error'],
+                    //    'allow' => true,
+                    //],
                     [
-                        'actions' => ['error'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => ['index','create','update','delete','view','response-delete','test'],
+                        'actions' => ['index','create','update','delete','view','response-delete','test','disable','enable','test-email','test-url','run-request'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -55,9 +56,14 @@ class RequestController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($user_id=null)
     {
+        Url::remember();
+        
         $searchModel = new RequestSearch();
+        if(isset($user_id)){
+            $searchModel->created_by=$user_id;
+        }
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -90,9 +96,9 @@ class RequestController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($alias)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($alias);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect($model->indexUrl);
@@ -103,29 +109,110 @@ class RequestController extends Controller
         ]);
     }
 
-    public function actionView($alias)
+    public function actionView($id)
     {
-        $model = $this->findModel($alias);
+        $model = $this->findModel($id);
         
         return $this->render('view', [
             'model' => $model,
         ]);
     }
+    
 
-    public function actionTest($id)
+    public function actionDisable($id)
     {
-        $model=Request::findOne($id);
-        
-        $model->test();
-        $errors=$model->errors;
-        
+        $model=$this->findModel($id);
+        $model->status=Request::STATUS_FIXING;
         $model->save();
-        $model->addErrors($errors);
         
         return $this->renderPartial('_status', [
             'model' => $model,
         ]);
-    }  
+        
+    }
+    public function actionEnable($id)
+    {
+        $model=$this->findModel($id);
+        $model->status=Request::STATUS_SUCCESS;
+        $model->save();
+        
+        return $this->renderPartial('_status', [
+            'model' => $model,
+        ]);
+        
+    }
+
+    public function actionTest($id)
+    {
+        $model=$this->findModel($id);
+        $model->test();
+
+        $msg=$this->getMsgData('success','Ok','Ошибок не обнаружено');    
+        if($model->hasErrors()){
+            $msg=$this->getMsgData('error','Обнаружены ошибки',$model->getErrorSummary() );    
+        }
+        
+        
+        return json_encode($msg,JSON_UNESCAPED_UNICODE);
+    }
+
+    public function actionTestEmail($id)
+    {
+        $model=$this->findModel($id);
+
+        if($model->status==Request::STATUS_READY || $model->status==Request::STATUS_SUCCESS){
+            $email=Yii::$app->params['adminEmail'];
+            if($model->sendToTestEmail($email)){
+                $msg=$this->getMsgData('info','Сообщение успешно отправлено','получатель: '.$email);            
+            }else{
+                $msg=$this->getMsgData('error','Ошибка отправки тестового сообщения',$model->getErrorSummary() );           
+            }
+            
+        }else{
+            $msg=$this->getMsgData('warning','Сообщение не отправлено','Сообщение возможно отправить только для запросов в статусе READY или SUCCESS');        
+        }
+        
+        return json_encode($msg,JSON_UNESCAPED_UNICODE);
+    }
+
+    public function actionTestUrl($id)
+    {
+        $model=$this->findModel($id);
+
+        if($model->status==Request::STATUS_READY || $model->status==Request::STATUS_SUCCESS){
+            $url=Yii::$app->params['testUrl'];
+            if($model->sendToTestUrl($url)){
+                $msg=$this->getMsgData('info','Данные успешно отправлено','URL: '.$url);            
+            }else{
+                $msg=$this->getMsgData('error','Ошибка отправки данных',$model->getErrorSummary() );           
+            }
+            
+        }else{
+            $msg=$this->getMsgData('warning','Данные не отправлено','Можно отправлять только для запросов в статусе READY или SUCCESS');        
+        }
+        
+        return json_encode($msg,JSON_UNESCAPED_UNICODE);
+    }
+
+    public function actionRunRequest($id)
+    {
+        $model=$this->findModel($id);
+
+        //$msg=[];
+        if($model->status==Request::STATUS_READY || $model->status==Request::STATUS_SUCCESS){
+            
+            if($respons=$model->Run()){
+                $msg=$this->getMsgData('success','Запрос успено выполнен','ID ответа: '.$respons->alias);    
+            }else{
+                $msg=$this->getMsgData('error','Ошибка обработки запроса /Request->run()/ ',$model->getErrorSummary() );
+            }
+        }else{
+            $msg=$this->getMsgData('warning','Отказ в обработке','Обработать можно только запросы в статусе READY или SUCCESS');        
+        }
+        //$msg['html']=$this->render->partial('_view',['model'=>$model]);
+        
+        return json_encode($msg,JSON_UNESCAPED_UNICODE);
+    }
 
     /**
      * Deletes an existing Logo model.
@@ -133,9 +220,9 @@ class RequestController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($alias)
+    public function actionDelete($id)
     {
-        $model=$this->findModel($alias);
+        $model=$this->findModel($id);
         $model->delete();
 
         if (Yii::$app->request->isAjax){
@@ -153,14 +240,14 @@ class RequestController extends Controller
 
         $model->delete();
 
-        return $this->redirect(['/request/view','alias'=>$request->alias]);
+        return $this->redirect(['/request/view','alias'=>$request->id]);
         
     }
 
 
-    protected function findModel($alias)
+    protected function findModel($id)
     {
-        if (($model = Request::findByAlias($alias)) !== null) {
+        if (($model = Request::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -37,7 +37,7 @@ class ParserAction extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parser_id', 'name', 'selector', 'example_url'], 'required'],
+            [['name', 'selector', 'example_url'], 'required'],
             [['parser_id', 'status','seq'], 'integer'],
             [['code'], 'string'],
             [['name', 'selector', 'example_url'], 'string', 'max' => 512],
@@ -61,9 +61,12 @@ class ParserAction extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+    //=========================================================
+    //
+    // Блок relations
+    //
+    //=========================================================
+
     public function getParser()
     {
         return $this->hasOne(Parser::className(), ['id' => 'parser_id']);
@@ -83,6 +86,19 @@ class ParserAction extends \yii\db\ActiveRecord
         return Lookup::items('PARSER_STATUS');
     }
 
+
+    //=========================================================
+    //
+    // Блок вспомагательных методов
+    //
+    //=========================================================
+    public function run($url=null){
+        if(isset($url)){
+            $url=$this->example_url;
+        }
+
+        return json_encode([$this->name=>'111']);
+    }
 
     
 }

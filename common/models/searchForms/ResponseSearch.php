@@ -20,7 +20,7 @@ class ResponseSearch extends Response
     public function rules()
     {
         return [
-            [['status'], 'safe'],
+            [['status','url','request_id','alias'], 'safe'],
         ];
     }
 
@@ -43,6 +43,7 @@ class ResponseSearch extends Response
     public function search($params)
     {
         $query = Response::find();
+        $query->joinWith('request');
         
 
         // add conditions that should always apply here
@@ -63,14 +64,17 @@ class ResponseSearch extends Response
         }
 
         // grid filtering conditions
+        
+
         $query->andFilterWhere([
-            'status' => $this->status,
+            'response.status' => $this->status,
+            'response.request_id' => $this->request_id,
+            'response.alias'=>$this->alias,
         ]);
 
-        /*
-        $query
-            ->andFilterWhere(['like', 'orgunit.name', $this->name]);
-        */  
+        
+        $query->andFilterWhere(['like', 'request.request_url', $this->url]);
+      
             
         return $dataProvider;
     }

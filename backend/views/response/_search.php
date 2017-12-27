@@ -17,9 +17,11 @@ use common\models\Lookup;
     ]); ?>
     
     <?= $form->field($model, 'url') ?>
+    <?= $form->field($model, 'alias') ?>
+    <?= $form->field($model, 'request_id') ?>
 
     <?= 
-        $form->field($model, 'status',['template'=>'{label}{input}{error}'])->checkboxList(Lookup::items('REQUEST_STATUS'),['item'=>function ($index, $label, $name, $checked, $value){
+        $form->field($model, 'status',['template'=>'{label}{input}{error}'])->checkboxList(Lookup::items('RESPONSE_STATUS'),['item'=>function ($index, $label, $name, $checked, $value){
           return '
             <div class="checkbox mb-20">
               <label>

@@ -1,22 +1,19 @@
-.h-250{
-  max-height: 250px;
-}
-.ctg-img{
-  border: 1px solid #CCC;
-}
 
-
-.post-cover-img {
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 350px;
-  border-top-right-radius: 3px;
-  border-top-left-radius: 3px;
-  overflow: hidden;
+.nav li a.tab-title,
+.nav li a.tab-menu{
+  display: inline-block;
 }
-@media (max-width: 768px) {
-  .post-cover-img {
-    height: 320px;
-  }
+.nav li a.tab-title,
+.nav li a.tab-title:hover,
+.nav li.active a.tab-title,
+.nav li.active a.tab-title:hover,
+.nav li.active a.tab-title:focus{
+  border-right:none;
+  margin-right: -2px; 
+}
+.nav li a.tab-menu,
+.nav li a.tab-menu:hover,
+.nav li a.tab-menu:focus {
+  border-left:none; 
+  margin-left: -2px; 
 }

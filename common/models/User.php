@@ -174,6 +174,11 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(Notification::className(), ['user_id' => 'id'])->where(['status'=>Notification::STATUS_NEW])->count();
     }
 
+    public function getRequests()
+    {
+        return $this->hasMany(Request::className(), ['created_by' => 'id']);
+    }
+
     
     public function getStatusName()
     {
@@ -375,6 +380,14 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    public function getTarifName()
+    {
+        if(isset($this->tarif)){
+            return $this->tarif->name;
+        }
+        return '';
+    }
+
    
 
     public function getIsAdmin(){
@@ -426,7 +439,10 @@ class User extends ActiveRecord implements IdentityInterface
         return Yii::$app->urlManager->createUrl(['user/balanse']);
     }
 
-    
+
+    public function getRequestsUrl(){
+        return Yii::$app->urlManager->createUrl(['request/index','user_id'=>$this->id]);
+    }
 
 
     public function getAvatarImg($options=[]){
@@ -452,6 +468,23 @@ class User extends ActiveRecord implements IdentityInterface
     public function getBalanse()
     {
         $sum=Yii::$app->db->createCommand('SELECT sum(amount) FROM transaction WHERE user_id='.$this->id)->queryScalar();
+        if(!isset($sum)){
+            $sum=0;
+        }
+        return $sum;
+    }
+
+    public function getTotalOut()
+    {
+        $sum=Yii::$app->db->createCommand('SELECT sum(amount) FROM transaction WHERE type='.Transaction::TYPE_OUT.'  AND user_id='.$this->id )->queryScalar();
+        if(!isset($sum)){
+            $sum=0;
+        }
+        return $sum;
+    }
+    public function getTotalIn()
+    {
+        $sum=Yii::$app->db->createCommand('SELECT sum(amount) FROM transaction WHERE type='.Transaction::TYPE_IN.'  AND user_id='.$this->id )->queryScalar();
         if(!isset($sum)){
             $sum=0;
         }

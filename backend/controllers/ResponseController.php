@@ -2,60 +2,34 @@
 namespace backend\controllers;
 
 use Yii;
-use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use yii\web\NotFoundHttpException;
 
+use yii\web\NotFoundHttpException;
 use common\models\Response;
 use common\models\searchForms\ResponseSearch;
 
 use yii\data\ActiveDataProvider;
+use yii\helpers\Url;
 
 /**
  * Site controller
  */
-class ResponseController extends Controller
+class ResponseController extends BackendController
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['error'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => ['index','view','delete'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
-
-
+    
 
     /**
      * Displays homepage.
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($request_id=null)
     {
+        Url::remember();
+
         $searchModel = new ResponseSearch();
+        if(isset($request_id)){
+            $searchModel->request_id=$request_id;
+        }
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -65,35 +39,48 @@ class ResponseController extends Controller
     }
     
 
-    public function actionView($alias)
+    public function actionView($id)
     {
-        $model = $this->findModel($alias);
+        $model = $this->findModel($id);
         
         return $this->render('view', [
             'model' => $model,
         ]);
     }
 
-    public function actionDelete($alias)
+    public function actionDelete($id)
     {
-        $model=$this->findModel($alias);
+        $model=$this->findModel($id);
         $model->delete();
 
-        return $this->redirect(['/response/index']);
+        if (Yii::$app->request->isAjax){
+            return 'ok';
+        }
+        return $this->redirect(['/request/index']);
+        
+    }
+
+    public function actionTest($id)
+    {
+        
+        $msg=$this->getMsgData('success','Ok','Ошибок не обнаружено');
+        
+        return json_encode($msg,JSON_UNESCAPED_UNICODE);
         
     }
 
     
 
 
-    protected function findModel($alias)
+    protected function findModel($id)
     {
-        if (($model = Response::findByAlias($alias)) !== null) {
+        if (($model = Response::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The Responseed page does not exist.');
         }
     }
+
     
 
 }

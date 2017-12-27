@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div class="">
   <table class="table">
     <thead>
       <tr>
@@ -7,6 +7,7 @@
         <th><?= Yii::t('app','Info'); ?></th>
         <th><?= Yii::t('app','Description'); ?></th>
         <th><?= Yii::t('app','Status'); ?></th>
+        <th><?= Yii::t('app','Actions'); ?></th>
       </tr>
     </thead>
     <tbody>

@@ -24,7 +24,8 @@
         "kroshilin/yii2-yandex-kassa": "^0.1.4",
         "comodojo/zip": "^2.1",
         "nterms/yii2-mailqueue": "^0.0.14",
-        "himiklab/yii2-recaptcha-widget": "*"
+        "himiklab/yii2-recaptcha-widget": "*",
+        "yiisoft/yii2-httpclient": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

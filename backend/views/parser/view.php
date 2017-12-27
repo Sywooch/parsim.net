@@ -27,7 +27,7 @@ ViewAsset::register($this);
         </div> 
         
         <div class="col-sm-6">
-          <label class="text-semibold pr-20">Example url:</label><?= $model->example_url; ?>
+          <label class="text-semibold pr-20">Example url:</label><?= $model->exampleUrl; ?>
         </div> 
         <div class="col-sm-6">
           <label class="text-semibold pr-20">Reg exp:</label><?= $model->reg_exp; ?>

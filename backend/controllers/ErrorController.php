@@ -2,7 +2,7 @@
 namespace backend\controllers;
 
 use Yii;
-use yii\web\Controller;
+
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
@@ -15,7 +15,7 @@ use yii\data\ActiveDataProvider;
 /**
  * Site controller
  */
-class ErrorController extends Controller
+class ErrorController extends BackendController
 {
     /**
      * @inheritdoc
@@ -85,9 +85,9 @@ class ErrorController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($alias)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($alias);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect($model->indexUrl);
@@ -98,9 +98,9 @@ class ErrorController extends Controller
         ]);
     }
 
-    public function actionView($alias)
+    public function actionView($id)
     {
-        $model = $this->findModel($alias);
+        $model = $this->findModel($id);
         
         return $this->render('view', [
             'model' => $model,
@@ -113,7 +113,7 @@ class ErrorController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($alias)
+    public function actionDelete($id)
     {
         $model=$this->findModel($alias);
         $model->delete();
@@ -123,9 +123,9 @@ class ErrorController extends Controller
     }
 
 
-    protected function findModel($alias)
+    protected function findModel($id)
     {
-        if (($model = Error::findByAlias($alias)) !== null) {
+        if (($model = Error::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The Errored page does not exist.');

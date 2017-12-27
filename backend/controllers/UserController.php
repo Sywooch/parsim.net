@@ -2,7 +2,7 @@
 namespace backend\controllers;
 
 use Yii;
-use yii\web\Controller;
+
 
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -17,13 +17,13 @@ use common\models\PasswordResetForm;
 use common\models\User;
 use common\models\searchForms\UserSearch;
 
-//use common\models\Orgunit;
+use yii\helpers\Url;
 
 
 /**
  * User controller
  */
-class UserController extends Controller
+class UserController extends BackendController
 {
 
     public function behaviors()
@@ -48,7 +48,7 @@ class UserController extends Controller
                         'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['update','create','delete'],
+                        'actions' => ['update','create','delete','enable','disable'],
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
@@ -70,6 +70,8 @@ class UserController extends Controller
     
     public function actionIndex()
     {
+        Url::remember();
+
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -266,12 +268,39 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model=$this->findModel($id);
+        $model->delete();
 
-        return $this->redirect(['index']);
+        if (Yii::$app->request->isAjax){
+            return 'ok';
+        }
+        return $this->redirect(['/request/index']);
+        
     }
 
 
+    public function actionDisable($id)
+    {
+        $model=$this->findModel($id);
+        $model->status=User::STATUS_BLOCKED;
+        $model->save();
+        
+        return $this->renderPartial('_status', [
+            'model' => $model,
+        ]);
+        
+    }
+    public function actionEnable($id)
+    {
+        $model=$this->findModel($id);
+        $model->status=User::STATUS_ACTIVE;
+        $model->save();
+        
+        return $this->renderPartial('_status', [
+            'model' => $model,
+        ]);
+        
+    }
 
 
     protected function findModel($id)
@@ -282,5 +311,7 @@ class UserController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
     
 }

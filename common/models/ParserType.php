@@ -12,9 +12,10 @@ use Yii;
  */
 class ParserType extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+  
+    const STATUS_ENABLED = 0;
+    const STATUS_DISABLED = 1;
+
     public static function tableName()
     {
         return 'parser_type';
@@ -26,7 +27,7 @@ class ParserType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name','status'], 'required'],
             [['name'], 'string', 'max' => 128],
         ];
     }
@@ -41,4 +42,58 @@ class ParserType extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'Name'),
         ];
     }
+
+
+    //=========================================================
+    //
+    // Блок генерации Url
+    //
+    //=========================================================
+    public static function getIndexUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['parser-type/index']);
+    }
+    public static function getCreateUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['parser-type/create']);
+    }
+    public function getUpdateUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['parser-type/update','id'=>$this->id]);
+    }
+    public function getDeleteUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['parser-type/delete','id'=>$this->id]);
+    }
+    public function getViewUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['parser-type/view','id'=>$this->id]);
+    }
+
+    //=========================================================
+    //
+    // Блок атрибутов
+    //
+    //=========================================================
+    
+    public function getStatusName(){
+        return $this->statuses[$this->status]['title'];
+    }
+    public function getStatusDesctiption(){
+        return $this->statuses[$this->status]['description'];
+    }
+    public static function getStatuses(){
+        return $statusDescription=[
+            self::STATUS_ENABLED=>['title'=>'Enabled','description'=>'Включен'],
+            self::STATUS_DISABLED=>['title'=>'Disabled','description'=>'Заблокирован'],
+        ];
+    }
+    public static function getStatusList(){
+        $list=[];
+        foreach (ParserType::getStatuses() as $key => $status) {
+            $list[$key]=$status['title'];
+        }
+        return $list;
+    }
+
 }
