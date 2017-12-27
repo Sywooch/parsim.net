@@ -1,4 +1,6 @@
 #!/bin/sh
 
 
-echo "123"
+git pull
+composer install
+yii migrate
