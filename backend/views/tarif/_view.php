@@ -10,8 +10,8 @@
   
   <td ><?= $model->description; ?></td>
   <td id="col-status"><?= $this->render('_status',['model'=>$model]); ?></td>
-  <td id="col-status">
-    <span class="label success"><?= $model->visibleName; ?></span>
+  <td id="col-visible">
+    <span class="label <?= $model->visible?'label-success':'label-default'; ?>"><?= $model->visibleName; ?></span>
   </td>
 
   <td class="text-center">
