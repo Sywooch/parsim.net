@@ -43,7 +43,7 @@ class Tarif extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['type', 'status','time_limit','pars_limit','host_limit','page_limit','pars_freq','can_export','api_access'], 'integer'],
+            [['type', 'status','visible','time_limit','pars_limit','host_limit','page_limit','pars_freq','can_export','api_access'], 'integer'],
             [['price','extra_host_price','extra_pars_price'], 'number'],
             [['name','description'], 'string', 'max' => 128],
             [['time_unit'], 'string', 'max' => 64],
