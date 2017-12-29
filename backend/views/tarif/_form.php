@@ -75,9 +75,9 @@ FormAsset::register($this);
           </div>
 
         </div>
-      </div>
-      <div class="col-md-6">
-        <?= $form->field($model, 'description')->textArea(['maxlength' => true]); ?>
+        <div class="col-md-6">
+          <?= $form->field($model, 'description')->textArea(['maxlength' => true]); ?>
+        </div>
       </div>
     </div>
       
