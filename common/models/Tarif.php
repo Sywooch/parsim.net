@@ -155,8 +155,8 @@ class Tarif extends \yii\db\ActiveRecord
     }
 
     public function getTimeName(){
-        if(isset($this->timeLimit)){
-            return $this->timeLimit.' '.$this->timeUnitName;
+        if(isset($this->time_limit)){
+            return $this->time_limit.' '.$this->timeUnitName;
         }else{
             return $this->timeUnitName;
         }
