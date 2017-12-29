@@ -1,8 +1,13 @@
 <tr>
   <td ><a href="<?= $model->updateUrl; ?>" class="src-link"><?= $model->name; ?></a></td>
-  <td ><?= $model->price; ?></td>
-  <td ><?= $model->pars_limit; ?></td>
   <td ><?= $model->timeName; ?></td>
+  <td ><?= $model->price; ?></td>
+  <td ><?= $model->host_limit; ?></td>
+  <td ><?= $model->extra_host_price; ?></td>
+  <td ><?= $model->pars_limit; ?></td>
+  <td ><?= $model->extra_pars_price; ?></td>
+  <td ><?= $model->pars_limit; ?></td>
+  
   <td ><?= $model->description; ?></td>
   <td id="col-status"><?= $this->render('_status',['model'=>$model]); ?></td>
   <td class="text-center">

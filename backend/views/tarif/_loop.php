@@ -3,9 +3,14 @@
     <thead>
       <tr>
         <th width="300px"><?= Yii::t('app','Name'); ?></th>
-        <th width="300px"><?= Yii::t('app','Price'); ?></th>
-        <th width="300px"><?= Yii::t('app','Qty'); ?></th>
         <th width="300px"><?= Yii::t('app','Period'); ?></th>
+        <th width="300px"><?= Yii::t('app','Price per period'); ?></th>
+        <th width="300px"><?= Yii::t('app','Host limit'); ?></th>
+        <th width="300px"><?= Yii::t('app','Price per extra host'); ?></th>
+        <th width="300px"><?= Yii::t('app','Pars limit'); ?></th>
+        <th width="300px"><?= Yii::t('app','Price per extra pars'); ?></th>
+        <th width="300px"><?= Yii::t('app','Qty'); ?></th>
+        
         <th><?= Yii::t('app','Description'); ?></th>
         <th width="100px"><?= Yii::t('app','Status'); ?></th>
         <th width="100px"><?= Yii::t('app','Actions'); ?></th>
