@@ -30,8 +30,14 @@ FormAsset::register($this);
         <div class="col-md-6">
           
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-8">
               <?= $form->field($model, 'name')->textInput(['maxlength' => true]); ?>
+            </div>
+            <div class="col-md-2">
+              <?= $form->field($model, 'status')->dropDownList($model->statusList,['class'=>'select']); ?>
+            </div>
+            <div class="col-md-2">
+              <?= $form->field($model, 'visible')->dropDownList($model->visibleList,['class'=>'select']); ?>
             </div>
           </div>
 
@@ -76,14 +82,6 @@ FormAsset::register($this);
 
         </div>
         <div class="col-md-6">
-          <div class="row">
-            <div class="col-md-6">
-              <?= $form->field($model, 'status')->dropDownList($model->statusList,['class'=>'select']); ?>
-            </div>
-            <div class="col-md-6">
-              <?= $form->field($model, 'visible')->dropDownList($model->visibleList,['class'=>'select']); ?>
-            </div>
-          </div>
           <div class="row">
             <div class="col-md-12">
               <?= $form->field($model, 'description')->textArea(['maxlength' => true,'rows'=>10]); ?>
