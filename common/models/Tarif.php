@@ -136,7 +136,7 @@ class Tarif extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function getDurationsList(){
+    public static function gettimeUnitList(){
         return [
             ''=>'Безлимитный',
             'month'=>'Месяц',

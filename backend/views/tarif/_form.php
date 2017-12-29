@@ -30,17 +30,17 @@ FormAsset::register($this);
         <div class="col-md-12">
           
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-6">
               <?= $form->field($model, 'name')->textInput(['maxlength' => true]); ?>
             </div>
-             <div class="col-md-3">
+             <div class="col-md-2">
               <?= $form->field($model, 'price')->textInput(['maxlength' => true]); ?>
             </div>
-            <div class="col-md-3">
-              <?= $form->field($model, 'pars_limit')->textInput(['maxlength' => true]); ?>
+            <div class="col-md-2">
+              <?= $form->field($model, 'time_limit')->textInput(['maxlength' => true]); ?>
             </div>
-            <div class="col-md-3">
-              <?= $form->field($model, 'time_limit')->dropDownList($model->durationsList,['class'=>'select']); ?>
+            <div class="col-md-2">
+              <?= $form->field($model, 'time_unit')->dropDownList($model->timeUnitList,['class'=>'select']); ?>
             </div>
           </div>
           <div class="row">
