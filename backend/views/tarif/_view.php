@@ -6,7 +6,6 @@
   <td ><?= $model->extra_host_price; ?></td>
   <td ><?= $model->pars_limit; ?></td>
   <td ><?= $model->extra_pars_price; ?></td>
-  <td ><?= $model->pars_limit; ?></td>
   
   <td ><?= $model->description; ?></td>
   <td id="col-status"><?= $this->render('_status',['model'=>$model]); ?></td>
