@@ -78,10 +78,10 @@ FormAsset::register($this);
         <div class="col-md-6">
           <div class="row">
             <div class="col-md-6">
-              <?= $form->field($model, 'status')->dropDownList($model->statusList,['class'=>'multiselect'])->label(false) ?>
+              <?= $form->field($model, 'status')->dropDownList($model->statusList,['class'=>'multiselect']); ?>
             </div>
             <div class="col-md-6">
-              <?= $form->field($model, 'visible')->dropDownList($model->visibleList,['class'=>'multiselect'])->label(false) ?>
+              <?= $form->field($model, 'visible')->dropDownList($model->visibleList,['class'=>'multiselect']); ?>
             </div>
           </div>
           <div class="row">
