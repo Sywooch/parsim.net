@@ -122,32 +122,19 @@ class Tarif extends \yii\db\ActiveRecord
     //
     //=========================================================
     
+
     public function getStatusName(){
         return $this->statuses[$this->status]['title'];
     }
     public function getStatusDesctiption(){
         return $this->statuses[$this->status]['description'];
     }
-    
     public static function getStatuses(){
         return [
             self::STATUS_ENABLED=>['title'=>'Enabled','description'=>'Включен'],
             self::STATUS_DISABLED=>['title'=>'Disabled','description'=>'Заблокирован'],
         ];
     }
-
-    public static function gettimeUnitList(){
-        return [
-            ''=>'Безлимитный',
-            'month'=>'Месяц',
-            'year'=>'Год',
-        ];
-    }
-    public function getDurationName(){
-        return $this->durationsList[$this->duration];
-    }
-
-
     public static function getStatusList(){
         $list=[];
         foreach (self::getStatuses() as $key => $status) {
@@ -156,9 +143,29 @@ class Tarif extends \yii\db\ActiveRecord
         return $list;
     }
 
+    public static function getTimeUnitList(){
+        return [
+            ''=>'Безлимитный',
+            'month'=>'Месяц',
+            'year'=>'Год',
+        ];
+    }
+    public function getTimeUnitName(){
+        return $this->timeUnitList[$this->time_unit];
+    }
+
+
+    
+
     public function getVisible()
     {
         return $this->visible==1?true:false;
+    }
+    public static function getVisibleList(){
+        return [
+            0=>'Не показывать',
+            1=>'Показывать'
+        ];
     }
 
     public function getAvailableQty()

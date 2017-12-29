@@ -22,7 +22,7 @@ FormAsset::register($this);
     <div class="panel-heading">
       <h6 class="panel-title">Parser settings</h6>
       <div class="heading-elements">
-          <?= $form->field($model, 'status')->dropDownList($model->statusList,['class'=>'multiselect'])->label(false) ?>
+          
       </div>  
     </div>
     <div class="panel-body">
@@ -76,7 +76,20 @@ FormAsset::register($this);
 
         </div>
         <div class="col-md-6">
-          <?= $form->field($model, 'description')->textArea(['maxlength' => true]); ?>
+          <div class="row">
+            <div class="col-md-6">
+              <?= $form->field($model, 'status')->dropDownList($model->statusList,['class'=>'multiselect'])->label(false) ?>
+            </div>
+            <div class="col-md-6">
+              <?= $form->field($model, 'visible')->dropDownList($model->visibleList,['class'=>'multiselect'])->label(false) ?>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <?= $form->field($model, 'description')->textArea(['maxlength' => true]); ?>
+            </div>
+          </div>
+          
         </div>
       </div>
     </div>
