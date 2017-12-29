@@ -40,7 +40,7 @@ FormAsset::register($this);
               <?= $form->field($model, 'pars_limit')->textInput(['maxlength' => true]); ?>
             </div>
             <div class="col-md-3">
-              <?= $form->field($model, 'duration')->dropDownList($model->durationsList,['class'=>'select']); ?>
+              <?= $form->field($model, 'time_limit')->dropDownList($model->durationsList,['class'=>'select']); ?>
             </div>
           </div>
           <div class="row">
