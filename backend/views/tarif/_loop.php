@@ -13,6 +13,7 @@
         
         <th><?= Yii::t('app','Description'); ?></th>
         <th width="100px"><?= Yii::t('app','Status'); ?></th>
+        <th width="100px"><?= Yii::t('app','View'); ?></th>
         <th width="100px"><?= Yii::t('app','Actions'); ?></th>
       </tr>
     </thead>

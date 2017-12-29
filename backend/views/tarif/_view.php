@@ -10,6 +10,10 @@
   
   <td ><?= $model->description; ?></td>
   <td id="col-status"><?= $this->render('_status',['model'=>$model]); ?></td>
+  <td id="col-status">
+    <span class="label success"><?= $model->visibleName; ?></span>
+  </td>
+
   <td class="text-center">
     <ul class="icons-list">
       <li class="dropdown">

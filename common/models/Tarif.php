@@ -175,6 +175,10 @@ class Tarif extends \yii\db\ActiveRecord
             1=>'Показывать'
         ];
     }
+    public function getVisibleName(){
+        return $this->visibleList[$this->visible];
+    }
+
 
     public function getAvailableQty()
     {
