@@ -4,4 +4,4 @@ cd "$1"
 #update project
 git pull --rebase
 composer install
-php yii migrate --interactive=0
+php yii migrate
