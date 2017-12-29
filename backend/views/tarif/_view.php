@@ -2,7 +2,7 @@
   <td ><a href="<?= $model->updateUrl; ?>" class="src-link"><?= $model->name; ?></a></td>
   <td ><?= $model->price; ?></td>
   <td ><?= $model->pars_limit; ?></td>
-  <td ><?= $model->time_limit; ?></td>
+  <td ><?= $model->timeName; ?></td>
   <td ><?= $model->description; ?></td>
   <td id="col-status"><?= $this->render('_status',['model'=>$model]); ?></td>
   <td class="text-center">
