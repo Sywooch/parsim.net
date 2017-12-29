@@ -27,42 +27,58 @@ FormAsset::register($this);
     </div>
     <div class="panel-body">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
           
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
               <?= $form->field($model, 'name')->textInput(['maxlength' => true]); ?>
             </div>
           </div>
 
           <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-4">
               <?= $form->field($model, 'price')->textInput(['maxlength' => true]); ?>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-4">
               <?= $form->field($model, 'time_limit')->textInput(['maxlength' => true]); ?>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-4">
               <?= $form->field($model, 'time_unit')->dropDownList($model->timeUnitList,['class'=>'select']); ?>
             </div>
           </div>
 
           <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-3">
               <?= $form->field($model, 'host_limit')->textInput(['maxlength' => true]); ?>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
               <?= $form->field($model, 'pars_limit')->textInput(['maxlength' => true]); ?>
+            </div>
+            <div class="col-md-3">
+              <?= $form->field($model, 'extra_host_price')->textInput(['maxlength' => true]); ?>
+            </div>
+            <div class="col-md-3">
+              <?= $form->field($model, 'extra_pars_price')->textInput(['maxlength' => true]); ?>
             </div>
           </div>
 
           <div class="row">
-            <div class="col-md-12">
-              <?= $form->field($model, 'description')->textArea(['maxlength' => true]); ?>
+            <div class="col-md-4">
+              <?= $form->field($model, 'pars_freq')->textInput(['maxlength' => true]); ?>
+            </div>
+            <div class="col-md-4">
+              <?= $form->field($model, 'can_export')->textInput(['maxlength' => true]); ?>
+            </div>
+            <div class="col-md-4">
+              <?= $form->field($model, 'api_access')->textInput(['maxlength' => true]); ?>
             </div>
           </div>
+
         </div>
-      </div>      
+      </div>
+      <div class="col-md-6">
+        <?= $form->field($model, 'description')->textArea(['maxlength' => true]); ?>
+      </div>
     </div>
       
       
