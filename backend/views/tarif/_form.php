@@ -37,7 +37,7 @@ FormAsset::register($this);
               <?= $form->field($model, 'price')->textInput(['maxlength' => true]); ?>
             </div>
             <div class="col-md-3">
-              <?= $form->field($model, 'qty')->textInput(['maxlength' => true]); ?>
+              <?= $form->field($model, 'pars_limit')->textInput(['maxlength' => true]); ?>
             </div>
             <div class="col-md-3">
               <?= $form->field($model, 'duration')->dropDownList($model->durationsList,['class'=>'select']); ?>

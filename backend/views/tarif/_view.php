@@ -1,7 +1,7 @@
 <tr>
   <td ><a href="<?= $model->updateUrl; ?>" class="src-link"><?= $model->name; ?></a></td>
   <td ><?= $model->price; ?></td>
-  <td ><?= $model->qty; ?></td>
+  <td ><?= $model->pars_limit; ?></td>
   <td ><?= $model->durationName; ?></td>
   <td ><?= $model->description; ?></td>
   <td id="col-status"><?= $this->render('_status',['model'=>$model]); ?></td>
