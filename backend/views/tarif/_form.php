@@ -33,7 +33,10 @@ FormAsset::register($this);
             <div class="col-md-6">
               <?= $form->field($model, 'name')->textInput(['maxlength' => true]); ?>
             </div>
-             <div class="col-md-2">
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
               <?= $form->field($model, 'price')->textInput(['maxlength' => true]); ?>
             </div>
             <div class="col-md-2">
@@ -43,6 +46,16 @@ FormAsset::register($this);
               <?= $form->field($model, 'time_unit')->dropDownList($model->timeUnitList,['class'=>'select']); ?>
             </div>
           </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <?= $form->field($model, 'host_limit')->textInput(['maxlength' => true]); ?>
+            </div>
+            <div class="col-md-2">
+              <?= $form->field($model, 'pars_limit')->textInput(['maxlength' => true]); ?>
+            </div>
+          </div>
+
           <div class="row">
             <div class="col-md-12">
               <?= $form->field($model, 'description')->textArea(['maxlength' => true]); ?>
