@@ -6,9 +6,9 @@
 <table class="table text-nowrap">
   <thead>
     <tr>
-      <th>Application</th>
+      <th>User</th>
       <th>Date</th>
-      <th>Price</th>
+      <th>Amount</th>
     </tr>
   </thead>
   <tbody>

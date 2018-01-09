@@ -11,7 +11,7 @@
         <a href="#" class="letter-icon-title">Sigma application</a>
       </div>
 
-      <div class="text-muted text-size-small"><i class="icon-checkmark3 text-size-mini position-left"></i> New order</div>
+      <div class="text-muted text-size-small"><i class="icon-checkmark3 text-size-mini position-left"></i> $model->owner->fullName</div>
     </div>
   </td>
   <td>
