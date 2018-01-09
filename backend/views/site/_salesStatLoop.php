@@ -7,7 +7,7 @@
   <thead>
     <tr>
       <th>Application</th>
-      <th>Time</th>
+      <th>Date</th>
       <th>Price</th>
     </tr>
   </thead>

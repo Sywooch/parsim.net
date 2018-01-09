@@ -15,7 +15,7 @@
     </div>
   </td>
   <td>
-    <span class="text-muted text-size-small">06:28 pm</span>
+    <span class="text-muted text-size-small"><?= Yii::$app->formatter->asDatetime($model->created_at); ?></span>
   </td>
   <td>
     <h6 class="text-semibold no-margin"><?= Yii::$app->formatter->asCurrency($model->amount); ?></h6>
