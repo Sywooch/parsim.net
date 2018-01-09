@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 
+use frontend\assets\site\IndexAsset;
+IndexAsset::register($this);
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\searchForms\TemplateSearch */
@@ -23,8 +26,8 @@ $this->title = Yii::t('app', 'Dashboard');
           <div class="heading-elements">
             <span class="label bg-success heading-text">28 active</span>
             <ul class="icons-list">
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i> <span class="caret"></span></a>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i> <span class="caret"></span></a>
                 <ul class="dropdown-menu dropdown-menu-right">
                   <li><a href="#"><i class="icon-sync"></i> Update data</a></li>
                   <li><a href="#"><i class="icon-list-unordered"></i> Detailed log</a></li>
@@ -32,9 +35,9 @@ $this->title = Yii::t('app', 'Dashboard');
                   <li class="divider"></li>
                   <li><a href="#"><i class="icon-cross3"></i> Clear list</a></li>
                 </ul>
-                      </li>
-                    </ul>
-                  </div>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div class="table-responsive">
