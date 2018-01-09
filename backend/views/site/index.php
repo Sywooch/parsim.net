@@ -110,7 +110,7 @@ $this->title = Yii::t('app', 'Dashboard');
               <tr>
                 <td>
                   <div class="media-left media-middle">
-                    <a href="#"><img src="assets/images/brands/facebook.png" class="img-circle img-xs" alt=""></a>
+                    <a href="#"><img src="/images/brands/facebook.png" class="img-circle img-xs" alt=""></a>
                   </div>
                   <div class="media-left">
                     <div class=""><a href="#" class="text-default text-semibold">Facebook</a></div>
@@ -142,7 +142,7 @@ $this->title = Yii::t('app', 'Dashboard');
               <tr>
                 <td>
                   <div class="media-left media-middle">
-                    <a href="#"><img src="assets/images/brands/youtube.png" class="img-circle img-xs" alt=""></a>
+                    <a href="#"><img src="/images/brands/youtube.png" class="img-circle img-xs" alt=""></a>
                   </div>
                   <div class="media-left">
                     <div class=""><a href="#" class="text-default text-semibold">Youtube videos</a></div>
@@ -174,7 +174,7 @@ $this->title = Yii::t('app', 'Dashboard');
               <tr>
                 <td>
                   <div class="media-left media-middle">
-                    <a href="#"><img src="assets/images/brands/spotify.png" class="img-circle img-xs" alt=""></a>
+                    <a href="#"><img src="/images/brands/spotify.png" class="img-circle img-xs" alt=""></a>
                   </div>
                   <div class="media-left">
                     <div class=""><a href="#" class="text-default text-semibold">Spotify ads</a></div>
@@ -206,7 +206,7 @@ $this->title = Yii::t('app', 'Dashboard');
               <tr>
                 <td>
                   <div class="media-left media-middle">
-                    <a href="#"><img src="assets/images/brands/twitter.png" class="img-circle img-xs" alt=""></a>
+                    <a href="#"><img src="/images/brands/twitter.png" class="img-circle img-xs" alt=""></a>
                   </div>
                   <div class="media-left">
                     <div class=""><a href="#" class="text-default text-semibold">Twitter ads</a></div>
@@ -245,7 +245,7 @@ $this->title = Yii::t('app', 'Dashboard');
               <tr>
                 <td>
                   <div class="media-left media-middle">
-                    <a href="#"><img src="assets/images/brands/bing.png" class="img-circle img-xs" alt=""></a>
+                    <a href="#"><img src="/images/brands/bing.png" class="img-circle img-xs" alt=""></a>
                   </div>
                   <div class="media-left">
                     <div class=""><a href="#" class="text-default text-semibold">Bing campaign</a></div>
@@ -277,7 +277,7 @@ $this->title = Yii::t('app', 'Dashboard');
               <tr>
                 <td>
                   <div class="media-left media-middle">
-                    <a href="#"><img src="assets/images/brands/amazon.png" class="img-circle img-xs" alt=""></a>
+                    <a href="#"><img src="/images/brands/amazon.png" class="img-circle img-xs" alt=""></a>
                   </div>
                   <div class="media-left">
                     <div class=""><a href="#" class="text-default text-semibold">Amazon ads</a></div>
@@ -309,7 +309,7 @@ $this->title = Yii::t('app', 'Dashboard');
               <tr>
                 <td>
                   <div class="media-left media-middle">
-                    <a href="#"><img src="assets/images/brands/dribbble.png" class="img-circle img-xs" alt=""></a>
+                    <a href="#"><img src="/images/brands/dribbble.png" class="img-circle img-xs" alt=""></a>
                   </div>
                   <div class="media-left">
                     <div class=""><a href="#" class="text-default text-semibold">Dribbble ads</a></div>
@@ -544,7 +544,7 @@ $this->title = Yii::t('app', 'Dashboard');
                 </td>
                 <td>
                   <div class="media-left media-middle">
-                    <a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt=""></a>
+                    <a href="#"><img src="/images/placeholder.jpg" class="img-circle img-xs" alt=""></a>
                   </div>
 
                   <div class="media-body">
@@ -739,7 +739,7 @@ $this->title = Yii::t('app', 'Dashboard');
                 </td>
                 <td>
                   <div class="media-left media-middle">
-                    <a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt=""></a>
+                    <a href="#"><img src="/images/placeholder.jpg" class="img-circle img-xs" alt=""></a>
                   </div>
 
                   <div class="media-body">
@@ -782,7 +782,7 @@ $this->title = Yii::t('app', 'Dashboard');
                 </td>
                 <td>
                   <div class="media-left media-middle">
-                    <a href="#"><img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt=""></a>
+                    <a href="#"><img src="/images/placeholder.jpg" class="img-circle img-xs" alt=""></a>
                   </div>
 
                   <div class="media-body">
@@ -877,7 +877,7 @@ $this->title = Yii::t('app', 'Dashboard');
                           <div class="media-left">
                     <div class="thumb">
                       <a href="#">
-                        <img src="assets/images/placeholder.jpg" class="img-responsive img-rounded media-preview" alt="">
+                        <img src="/images/placeholder.jpg" class="img-responsive img-rounded media-preview" alt="">
                         <span class="zoom-image"><i class="icon-play3"></i></span>
                       </a>
                     </div>
@@ -897,7 +897,7 @@ $this->title = Yii::t('app', 'Dashboard');
                           <div class="media-left">
                     <div class="thumb">
                       <a href="#">
-                        <img src="assets/images/placeholder.jpg" class="img-responsive img-rounded media-preview" alt="">
+                        <img src="/images/placeholder.jpg" class="img-responsive img-rounded media-preview" alt="">
                         <span class="zoom-image"><i class="icon-play3"></i></span>
                       </a>
                     </div>
@@ -921,7 +921,7 @@ $this->title = Yii::t('app', 'Dashboard');
                           <div class="media-left">
                     <div class="thumb">
                       <a href="#">
-                        <img src="assets/images/placeholder.jpg" class="img-responsive img-rounded media-preview" alt="">
+                        <img src="/images/placeholder.jpg" class="img-responsive img-rounded media-preview" alt="">
                         <span class="zoom-image"><i class="icon-play3"></i></span>
                       </a>
                     </div>
@@ -941,7 +941,7 @@ $this->title = Yii::t('app', 'Dashboard');
                           <div class="media-left">
                     <div class="thumb">
                       <a href="#">
-                        <img src="assets/images/placeholder.jpg" class="img-responsive img-rounded media-preview" alt="">
+                        <img src="/images/placeholder.jpg" class="img-responsive img-rounded media-preview" alt="">
                         <span class="zoom-image"><i class="icon-play3"></i></span>
                       </a>
                     </div>
@@ -1272,7 +1272,7 @@ $this->title = Yii::t('app', 'Dashboard');
             <ul class="media-list">
               <li class="media">
                 <div class="media-left">
-                  <img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt="">
+                  <img src="/images/placeholder.jpg" class="img-circle img-xs" alt="">
                   <span class="badge bg-danger-400 media-badge">8</span>
                 </div>
 
@@ -1288,7 +1288,7 @@ $this->title = Yii::t('app', 'Dashboard');
 
               <li class="media">
                 <div class="media-left">
-                  <img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt="">
+                  <img src="/images/placeholder.jpg" class="img-circle img-xs" alt="">
                   <span class="badge bg-danger-400 media-badge">6</span>
                 </div>
 
@@ -1304,7 +1304,7 @@ $this->title = Yii::t('app', 'Dashboard');
 
               <li class="media">
                 <div class="media-left">
-                  <img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt="">
+                  <img src="/images/placeholder.jpg" class="img-circle img-xs" alt="">
                 </div>
 
                 <div class="media-body">
@@ -1319,7 +1319,7 @@ $this->title = Yii::t('app', 'Dashboard');
 
               <li class="media">
                 <div class="media-left">
-                  <img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt="">
+                  <img src="/images/placeholder.jpg" class="img-circle img-xs" alt="">
                 </div>
 
                 <div class="media-body">
@@ -1334,7 +1334,7 @@ $this->title = Yii::t('app', 'Dashboard');
 
               <li class="media">
                 <div class="media-left">
-                  <img src="assets/images/placeholder.jpg" class="img-circle img-xs" alt="">
+                  <img src="/images/placeholder.jpg" class="img-circle img-xs" alt="">
                 </div>
 
                 <div class="media-body">
@@ -1353,7 +1353,7 @@ $this->title = Yii::t('app', 'Dashboard');
             <ul class="media-list">
               <li class="media">
                 <div class="media-left">
-                  <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+                  <img src="/images/placeholder.jpg" class="img-circle img-sm" alt="">
                 </div>
 
                 <div class="media-body">
@@ -1368,7 +1368,7 @@ $this->title = Yii::t('app', 'Dashboard');
 
               <li class="media">
                 <div class="media-left">
-                  <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+                  <img src="/images/placeholder.jpg" class="img-circle img-sm" alt="">
                 </div>
 
                 <div class="media-body">
@@ -1383,7 +1383,7 @@ $this->title = Yii::t('app', 'Dashboard');
 
               <li class="media">
                 <div class="media-left">
-                  <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+                  <img src="/images/placeholder.jpg" class="img-circle img-sm" alt="">
                 </div>
 
                 <div class="media-body">
@@ -1398,7 +1398,7 @@ $this->title = Yii::t('app', 'Dashboard');
 
               <li class="media">
                 <div class="media-left">
-                  <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+                  <img src="/images/placeholder.jpg" class="img-circle img-sm" alt="">
                 </div>
 
                 <div class="media-body">
@@ -1413,7 +1413,7 @@ $this->title = Yii::t('app', 'Dashboard');
 
               <li class="media">
                 <div class="media-left">
-                  <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+                  <img src="/images/placeholder.jpg" class="img-circle img-sm" alt="">
                 </div>
 
                 <div class="media-body">
@@ -1432,7 +1432,7 @@ $this->title = Yii::t('app', 'Dashboard');
             <ul class="media-list">
               <li class="media">
                 <div class="media-left">
-                  <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+                  <img src="/images/placeholder.jpg" class="img-circle img-sm" alt="">
                 </div>
 
                 <div class="media-body">
@@ -1447,7 +1447,7 @@ $this->title = Yii::t('app', 'Dashboard');
 
               <li class="media">
                 <div class="media-left">
-                  <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+                  <img src="/images/placeholder.jpg" class="img-circle img-sm" alt="">
                 </div>
 
                 <div class="media-body">
@@ -1462,7 +1462,7 @@ $this->title = Yii::t('app', 'Dashboard');
 
               <li class="media">
                 <div class="media-left">
-                  <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+                  <img src="/images/placeholder.jpg" class="img-circle img-sm" alt="">
                 </div>
 
                 <div class="media-body">
@@ -1477,7 +1477,7 @@ $this->title = Yii::t('app', 'Dashboard');
 
               <li class="media">
                 <div class="media-left">
-                  <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+                  <img src="/images/placeholder.jpg" class="img-circle img-sm" alt="">
                 </div>
 
                 <div class="media-body">
@@ -1492,7 +1492,7 @@ $this->title = Yii::t('app', 'Dashboard');
 
               <li class="media">
                 <div class="media-left">
-                  <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+                  <img src="/images/placeholder.jpg" class="img-circle img-sm" alt="">
                 </div>
 
                 <div class="media-body">
