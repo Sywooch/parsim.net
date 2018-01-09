@@ -18,6 +18,6 @@
     <span class="text-muted text-size-small">06:28 pm</span>
   </td>
   <td>
-    <h6 class="text-semibold no-margin"><?= $model->amount; ?></h6>
+    <h6 class="text-semibold no-margin"><?= Yii::$app->formatter->asCurrency($model->amount); ?></h6>
   </td>
 </tr>
