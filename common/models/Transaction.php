@@ -80,7 +80,7 @@ class Transaction extends \yii\db\ActiveRecord
 
     //Владелец транзакции
     public function getOwner(){
-        return $this->hasOne(User::className(), ['id' => 'created_by']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
 
