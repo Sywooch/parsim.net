@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 
-use models\Dashboard;
+use backend\models\Dashboard;
 
 use backend\assets\site\IndexAsset;
 IndexAsset::register($this);
