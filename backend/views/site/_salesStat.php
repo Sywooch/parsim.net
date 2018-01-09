@@ -3,18 +3,9 @@
     <h6 class="panel-title">Sales stats</h6>
     <div class="heading-elements">
       <span class="heading-text">Ammount: <span class="text-bold text-danger-600 position-right">$4,378</span></span>
-      <ul class="icons-list">
-        <li class="dropdown text-muted">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog3"></i> <span class="caret"></span></a>
-          <ul class="dropdown-menu dropdown-menu-right">
-            <li><a href="#"><i class="icon-sync"></i> Update data</a></li>
-            <li><a href="#"><i class="icon-list-unordered"></i> Detailed log</a></li>
-            <li><a href="#"><i class="icon-pie5"></i> Statistics</a></li>
-            <li class="divider"></li>
-            <li><a href="#"><i class="icon-cross3"></i> Clear list</a></li>
-          </ul>
-        </li>
-      </ul>
+      <button type="button" class="btn btn-link daterange-ranges heading-btn text-semibold">
+        <i class="icon-calendar3 position-left"></i> <span></span> <b class="caret"></b>
+      </button>
     </div>
   </div>
 
