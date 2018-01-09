@@ -2,7 +2,7 @@
   <td>
     <div class="media-left media-middle">
       <a href="#" class="btn bg-primary-400 btn-rounded btn-icon btn-xs">
-        <span class="letter-icon"></span>
+        <span class="letter-icon">S</span>
       </a>
     </div>
 
