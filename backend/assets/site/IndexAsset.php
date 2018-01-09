@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\assets\tarif;
+namespace backend\assets\site;
 
 use yii\web\AssetBundle;
 

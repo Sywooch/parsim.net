@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 
-use frontend\assets\site\IndexAsset;
+use backend\assets\site\IndexAsset;
 IndexAsset::register($this);
 
 
