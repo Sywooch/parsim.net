@@ -8,10 +8,10 @@
 
     <div class="media-body">
       <div class="media-heading">
-        <a href="#" class="letter-icon-title">Sigma application</a>
+        <a href="#" class="letter-icon-title"><?= $model->owner->fullName; ?></a>
       </div>
 
-      <div class="text-muted text-size-small"><i class="icon-checkmark3 text-size-mini position-left"></i> $model->owner->fullName</div>
+      <div class="text-muted text-size-small"><i class="icon-checkmark3 text-size-mini position-left"></i> 1111</div>
     </div>
   </td>
   <td>
