@@ -11,7 +11,7 @@
         <a href="#" class="letter-icon-title"><?= $model->owner->fullName; ?></a>
       </div>
 
-      <div class="text-muted text-size-small"><i class="icon-checkmark3 text-size-mini position-left"></i> 1111</div>
+      <div class="text-muted text-size-small"><?= $model->owner->tarifName.': '.Yii::$app->formatter->asCurrency($model->owner->balanse); ?></div>
     </div>
   </td>
   <td>
