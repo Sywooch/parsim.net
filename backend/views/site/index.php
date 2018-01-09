@@ -2,8 +2,11 @@
 
 use yii\helpers\Html;
 
+use models\Dashboard;
+
 use backend\assets\site\IndexAsset;
 IndexAsset::register($this);
+
 
 
 /* @var $this yii\web\View */
@@ -1040,7 +1043,7 @@ $this->title = Yii::t('app', 'Dashboard');
 
 
       <!-- Sales stat-->
-      <?= $this->render('_salesStat'); ?>
+      <?= $this->render('_salesStat',['dataProvider'=>Dashboard::getSalesStats()]); ?>
       <!-- /Sales stat-->
 
 
