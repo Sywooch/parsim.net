@@ -26,7 +26,7 @@ class Dashboard extends Model
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['name'=>SORT_ASC]],
+            //'sort'=> ['defaultOrder' => ['name'=>SORT_ASC]],
             'pagination' => false
         ]);
 
