@@ -23,6 +23,6 @@
   </div>
 
   <div class="table-responsive">
-    <?= $this->render('_salesStatLoop',['model'=>$model]); ?>
+    <?= $this->render('_salesStatLoop',['dataProvider'=>$dataProvider]); ?>
   </div>
 </div>
