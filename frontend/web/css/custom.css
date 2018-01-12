@@ -195,3 +195,7 @@ div.field-value{
   font-size: 17px;
   text-align: center;
 }
+
+.pricing-column-two .price-header .price sub{
+  left: -40px;
+}
