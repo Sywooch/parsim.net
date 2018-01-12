@@ -3,7 +3,7 @@
     <div class="inner-box">
         <div class="price-header">
             <div class="content">
-                <div class="plan-title">basic</div>
+                <div class="plan-title"><?= $model->name; ?></div>
                 <span class="price"><span class="dollar-sign">$</span><span class="total-amount"> 9 </span> <sup>.99</sup> <sub>/ month</sub></span>
             </div>
         </div>
