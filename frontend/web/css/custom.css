@@ -199,3 +199,6 @@ div.field-value{
 .pricing-column-two .price-header .price sub{
   left: -40px;
 }
+.pricing-column-two .lower-content .spec-list{
+  text-align: left;
+}
