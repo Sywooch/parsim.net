@@ -12,7 +12,7 @@
                 <li>кол-во источников - <?= $model->host_limit; ?> шт.</li>
                 <li>добавление источника - <?= Yii::$app->formatter->asCurrency($model->extra_host_price); ?></li>
                 <li>включено сканнирований - <?= $model->pars_limit; ?> шт.</li>
-                <li>цена за доп. сканнирование - <?= Yii::$app->formatter->asCurrency($model->price/$model->pars_limi); ?></li>
+                <li>цена за доп. сканнирование - <?= Yii::$app->formatter->asCurrency($model->price/$model->pars_limiе); ?></li>
                 <li>макс. частота сканнирований - <?= $model->pars_freq; ?> / сутки</li>
                 <li>экспорт в XLS - <?= ($model->can_export?'ДА':'НЕТ'); ?></li>
                 <li>доступ по API - <?= ($model->api_access?'ДА':'НЕТ'); ?></li>
