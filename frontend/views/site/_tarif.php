@@ -9,7 +9,8 @@
         </div>
         <div class="lower-content">
             <ul class="spec-list">
-                <li>Источников: <?= $model->host_limit; ?></li>
+                <li>Включено источников - <?= $model->host_limit; ?> шт.</li>
+                <li>Стоимость доп. источника - <?= Yii::$app->formatter->asCurrency($model->extra_host_price); ?></li>
                 <li class="mark-list">No Time Tracking</li>
                 <li>800 - Man Hour</li>
                 <li>News Letter Available</li>
