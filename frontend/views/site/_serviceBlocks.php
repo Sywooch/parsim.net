@@ -2,7 +2,7 @@
 <div class="services-title">
   <div class="row clearfix">
       <div class="column col-md-6 col-sm-12 col-xs-12">
-          <h2>Parsim <span class="theme_color">NET</span> <br> быстро & удобно</h2>
+          <h2>Parsim <span class="theme_color">NET</span> <br> просто, удобно, надежно</h2>
         </div>
         <div class="column col-md-6 col-sm-12 col-xs-12">
             <div class="text">
@@ -24,7 +24,9 @@
               <span class="icon"><img src="/images/resource/icon-2.png" alt="" /></span>
             </div>
             <h3>Просто</h3>
-            <p class="text">добавьте URL и получите результат</p>
+            <p class="text">
+              Добавьте в личном кабинете URL интересующих товаров и получайте результаты на Ваш E-mail или API-интерфейс с заданной переиодичностью.
+            </p>
         </div>
     </div>
     
@@ -34,8 +36,10 @@
           <div class="icon-box">
               <span class="icon"><img src="/images/resource/icon-1.png" alt="" /></span>
             </div>
-            <h3>Быстро</h3>
-            <p></p>
+            <h3>Удобно</h3>
+            <p class="text">
+              Добавлять новые URL, настраивать частоту сканировани Вы можете в WEB интерфейсе личноого кабинета или через API Parsim.NET
+            </p>
         </div>
     </div>
 
@@ -45,8 +49,10 @@
             <div class="icon-box">
                 <span class="icon"><img src="/images/resource/icon-3.png" alt="" /></span>
             </div>
-            <h3>Гарантированно</h3>
-            <p>Исли мы не сможем обработать Ваш URL, мы вернем Вам деньги</p>
+            <h3>Надежно</h3>
+            <p class="text">
+              Наши парсеры работают как часы. Но если по какой-то причине мы не сможем обработать Ващ запрос, мы вернем Вам деньги.
+            </p>
         </div>
     </div>
     
