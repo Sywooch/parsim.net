@@ -10,9 +10,9 @@
         <div class="lower-content">
             <ul class="spec-list">
                 <li>Включено источников - <?= $model->host_limit; ?> шт.</li>
-                <li>Цена доп. источника - <?= Yii::$app->formatter->asCurrency($model->extra_host_price); ?></li>
+                <li>Цена за доп. источник - <?= Yii::$app->formatter->asCurrency($model->extra_host_price); ?></li>
                 <li>Включено сканнирований - <?= $model->page_limit; ?> шт.</li>
-                <li>Цена доп. сканнирования - <?= Yii::$app->formatter->asCurrency($model->price); ?></li>
+                <li>Цена за доп. сканнирование - <?= Yii::$app->formatter->asCurrency($model->price); ?></li>
                 <li>Макс. частота сканнирований - <?= $model->pars_freq; ?> /сутки</li>
                 <li>Экспорт в XLS - <?= ($model->can_export?'ДА':'НЕТ'); ?></li>
                 <li>Доступ по API - <?= ($model->api_access?'ДА':'НЕТ'); ?></li>
