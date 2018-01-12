@@ -82,7 +82,7 @@ class Tarif extends \yii\db\ActiveRecord
     //=========================================================
     public static function findVisible()
     {
-        return self::find()->where(['status'=>self::STATUS_ENABLED,'visible'=>1])->all();
+        return self::find()->where(['status'=>self::STATUS_ENABLED,'visible'=>1])->orderBy(['price'=>SORT_ASC])->all();
     }
     public static function findDefault()
     {
