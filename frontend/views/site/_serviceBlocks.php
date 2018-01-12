@@ -1,19 +1,3 @@
-<!--Services Title-->
-<div class="services-title">
-  <div class="row clearfix">
-      <div class="column col-md-6 col-sm-12 col-xs-12">
-          <h2>Parsim <span class="theme_color">NET</span> <br> быстро & удобно</h2>
-        </div>
-        <div class="column col-md-6 col-sm-12 col-xs-12">
-            <div class="text">
-                Наш принципы работы<br/>
-                Как можно проще, удобнее, быстрее, надежней и дешевле.
-                Никакой абонентской платы, оплата только за результат.
-            </div>
-        </div>
-    </div>
-</div>
-<!--Services Title-->
 
 <div class="row clearfix" >
     
