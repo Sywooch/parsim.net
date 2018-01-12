@@ -1,6 +1,7 @@
 <?php
 
 use common\models\SignupForm;
+use common\models\Tarif;
 
 
 
@@ -217,7 +218,9 @@ $this->params['keywords']='Парсер, парсер сайтов, парсин
 ?>
 
 <?php
-    echo $this->render('_tarif');
+    foreach (Tarif::findVisible() as $key => $model) {
+        echo $this->render('_tarif',['model'=>$model]);
+    }
 ?>
 
 
