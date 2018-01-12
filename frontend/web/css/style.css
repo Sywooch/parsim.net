@@ -1460,6 +1460,9 @@ img{
 .services-block:nth-child(3) .inner-box{
 	background-color:#a337ff;
 }
+.services-block .text{
+	color: #fff;
+}
 
 /*Audit Form*/
 
