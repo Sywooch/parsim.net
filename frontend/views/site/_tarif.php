@@ -9,13 +9,13 @@
         </div>
         <div class="lower-content">
             <ul class="spec-list">
-                <li>90 Keyword</li>
+                <li>Источников: <?= $model->host_limit; ?></li>
                 <li class="mark-list">No Time Tracking</li>
                 <li>800 - Man Hour</li>
                 <li>News Letter Available</li>
                 <li>User Dasboard</li>
             </ul>
-            <a href="#" class="theme-btn purchase-btn">Purchase Now</a>
+            <a href="#" class="theme-btn purchase-btn">Подключить тариф</a>
         </div>
     </div>
 </div>
