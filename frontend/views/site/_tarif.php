@@ -4,7 +4,7 @@
         <div class="price-header">
             <div class="content">
                 <div class="plan-title"><?= $model->name; ?></div>
-                <span class="price"><span class="total-amount"> <?= round($model->price/1000); ?> </span> <sup>тыс. руб.</sup> <sub>/ month</sub></span>
+                <span class="price"><span class="dollar-sign">₽</span><span class="total-amount"> <?= round($model->price/1000); ?> </span> <sup>тыс. руб.</sup> <sub>/ month</sub></span>
             </div>
         </div>
         <div class="lower-content">
