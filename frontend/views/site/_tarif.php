@@ -10,7 +10,7 @@
         <div class="lower-content">
             <ul class="spec-list">
                 <li>кол-во источников - <?= $model->host_limit; ?> шт.</li>
-                <li>добавление источника - <?= Yii::$app->formatter->asCurrency($model->extra_host_price); ?></li>
+                <li>добавление источника - <?= Yii::$app->formatter->asCurrency($model->extra_host_price); ?> (разово)</li>
                 <li>включено сканнирований - <?= $model->pars_limit; ?> шт.</li>
                 <li>цена за доп. сканнирование - <?= Yii::$app->formatter->asCurrency($model->price/$model->pars_limit); ?></li>
                 <li>макс. частота сканнирований - <?= $model->pars_freq; ?> / сутки</li>
