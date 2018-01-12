@@ -63,7 +63,7 @@ $this->params['keywords']='Парсер, парсер сайтов, парсин
                 data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
                     <div class="text">
-                        Оперативно предоставим информацию о товаре или вернем деньги.
+                        Сообщите нам URL интересующих Вас товаров с различных источников и мы оперативно предоставим Вам подробную информацию о них в единообразном виде. Результвты можем отправить на ваш E-mail в виде таблицы или на Ваш API интерфейс в формате JSON.  
                     </div>
                 </div>
                 
