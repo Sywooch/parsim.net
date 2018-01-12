@@ -23,7 +23,8 @@
           <div class="icon-box">
               <span class="icon"><img src="/images/resource/icon-2.png" alt="" /></span>
             </div>
-            <h3>Просто <br>добавьте URL и получите результат</h3>
+            <h3>Просто</h3>
+            <p class="text">добавьте URL и получите результат</p>
         </div>
     </div>
     
@@ -34,7 +35,7 @@
               <span class="icon"><img src="/images/resource/icon-1.png" alt="" /></span>
             </div>
             <h3>Быстро</h3>
-            <p>парсер на заказ бесплатно в течении 30 мин.</p>
+            <p></p>
         </div>
     </div>
 
@@ -44,7 +45,8 @@
             <div class="icon-box">
                 <span class="icon"><img src="/images/resource/icon-3.png" alt="" /></span>
             </div>
-            <h3>Качествено <br> непрерывный контроль работы парсеров</h3>
+            <h3>Гарантированно</h3>
+            <p>Исли мы не сможем обработать Ваш URL, мы вернем Вам деньги</p>
         </div>
     </div>
     
