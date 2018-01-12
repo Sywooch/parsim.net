@@ -10,11 +10,12 @@
         <div class="lower-content">
             <ul class="spec-list">
                 <li>Включено источников - <?= $model->host_limit; ?> шт.</li>
-                <li>Стоимость доп. источника - <?= Yii::$app->formatter->asCurrency($model->extra_host_price); ?></li>
-                <li class="mark-list">No Time Tracking</li>
-                <li>800 - Man Hour</li>
-                <li>News Letter Available</li>
-                <li>User Dasboard</li>
+                <li>Цена доп. источника - <?= Yii::$app->formatter->asCurrency($model->extra_host_price); ?></li>
+                <li>Включено сканнирований - <?= $model->page_limit; ?> шт.</li>
+                <li>Цена доп. сканнирования - <?= Yii::$app->formatter->asCurrency($model->price); ?></li>
+                <li>Макс. частота сканнирований - <?= Yii::$app->formatter->asCurrency($model->pars_freq); ?> /сутки</li>
+                <li>Экспорт в XLS - <?= ($model->can_export?'ДА':'НЕТ'); ?></li>
+                <li>Доступ по API - <?= ($model->api_access?'ДА':'НЕТ'); ?></li>
             </ul>
             <a href="#" class="theme-btn purchase-btn">Подключить тариф</a>
         </div>
