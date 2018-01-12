@@ -63,29 +63,10 @@ $this->params['keywords']='Парсер, парсер сайтов, парсин
                 data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
                 style="z-index: 7; white-space: nowrap;text-transform:left;">
                     <div class="text">
-                        Сообщите нам URL интересующих Вас товаров с различных источников и мы оперативно предоставим Вам подробную информацию о них в единообразном виде. Результвты можем отправить на ваш E-mail в виде таблицы или на Ваш API интерфейс в формате JSON.  
+                        Сообщите нам URL интересующих Вас товаров с различных источников и мы оперативно предоставим Вам подробную информацию о них в единообразном виде. Результаты можем отправить на Ваш E-mail в виде таблицы или на Ваш API интерфейс в формате JSON.  
                     </div>
                 </div>
                 
-                <div class="tp-caption tp-resizeme" 
-                data-paddingbottom="[0,0,0,0]"
-                data-paddingleft="[0,0,0,0]"
-                data-paddingright="[0,0,0,0]"
-                data-paddingtop="[0,0,0,0]"
-                data-responsive_offset="on"
-                data-type="text"
-                data-height="none"
-                data-whitespace="nowrap"
-                data-width="none"
-                data-hoffset="['0','15','15','15']"
-                data-voffset="['510','460','390','350']"
-                data-x="['left','left','left','left']"
-                data-y="['top','top','top','top']"
-                data-textalign="['top','top','top','top']"
-                data-frames='[{"from":"x:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
-                style="z-index: 7; white-space: nowrap;text-transform:left;">
-                  <a href="/site/page?view=about" class="theme-btn btn-style-one"><?= Yii::t('app','Learn More'); ?> <span class="icon fa fa-long-arrow-right"></span></a>
-                </div>
                 
                 <div class="tp-caption tp-resizeme ipad-hidden" 
                 data-paddingbottom="[0,0,0,0]"
