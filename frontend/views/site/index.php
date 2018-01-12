@@ -217,11 +217,83 @@ $this->params['keywords']='Парсер, парсер сайтов, парсин
     //echo $this->render('_howItWork');
 ?>
 
-<?php
-    foreach (Tarif::findVisible() as $key => $model) {
-        echo $this->render('_tarif',['model'=>$model]);
-    }
-?>
+<!--Price Section Two-->
+<section class="price-section-two">
+    <div class="auto-container">
+        <div class="clearfix">
+            
+            <!--Pricing Column Two-->
+            <div class="pricing-column-two col-md-4 col-sm-6 col-xs-12">
+                <div class="inner-box">
+                    <div class="price-header">
+                        <div class="content">
+                            <div class="plan-title">basic</div>
+                            <span class="price"><span class="dollar-sign">$</span><span class="total-amount"> 9 </span> <sup>.99</sup> <sub>/ month</sub></span>
+                        </div>
+                    </div>
+                    <div class="lower-content">
+                        <ul class="spec-list">
+                            <li>90 Keyword</li>
+                            <li class="mark-list">No Time Tracking</li>
+                            <li>800 - Man Hour</li>
+                            <li>News Letter Available</li>
+                            <li>User Dasboard</li>
+                        </ul>
+                        <a href="#" class="theme-btn purchase-btn">Purchase Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!--Pricing Column-->
+            <div class="pricing-column-two col-md-4 col-sm-6 col-xs-12">
+                <div class="inner-box">
+                    <div class="price-header">
+                        <div class="content">
+                            <div class="plan-title">Enterprise</div>
+                            <span class="price"><span class="dollar-sign">$</span><span class="total-amount"> 36 </span> <sup>.99</sup> <sub>/ month</sub></span>
+                        </div>
+                    </div>
+                    <div class="lower-content">
+                        <ul class="spec-list">
+                            <li>90 Keyword</li>
+                            <li class="mark-list">No Time Tracking</li>
+                            <li>800 - Man Hour</li>
+                            <li>News Letter Available</li>
+                            <li>User Dasboard</li>
+                        </ul>
+                        <a href="#" class="theme-btn purchase-btn">Purchase Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!--Pricing Column-->
+            <div class="pricing-column-two col-md-4 col-sm-6 col-xs-12">
+                <div class="inner-box">
+                    <div class="price-header">
+                        <div class="content">
+                            <div class="plan-title">Premium</div>
+                            <span class="price"><span class="dollar-sign">$</span><span class="total-amount"> 89 </span> <sup>.99</sup> <sub>/ month</sub></span>
+                        </div>
+                    </div>
+                    <div class="lower-content">
+                        <ul class="spec-list">
+                            <li>90 Keyword</li>
+                            <li class="mark-list">No Time Tracking</li>
+                            <li>800 - Man Hour</li>
+                            <li>News Letter Available</li>
+                            <li>User Dasboard</li>
+                        </ul>
+                        <a href="#" class="theme-btn purchase-btn">Purchase Now</a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+<!--End Price Section Two-->
+
+
 
 
 
