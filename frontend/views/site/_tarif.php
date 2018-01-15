@@ -20,7 +20,7 @@
                 <li>экспорт в XLS - <?= ($model->can_export?'ДА':'НЕТ'); ?></li>
                 <li>доступ по API - <?= ($model->api_access?'ДА':'НЕТ'); ?></li>
             </ul>
-            <a href="<?= Tarif::getActivateUrl(); ?>" class="theme-btn purchase-btn">Подключить тариф</a>
+            <a href="<?= $model->activateUrl; ?>" class="theme-btn purchase-btn">Подключить тариф</a>
         </div>
     </div>
 </div>
