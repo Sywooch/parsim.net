@@ -20,7 +20,19 @@
                 <li>экспорт в XLS - <?= ($model->can_export?'ДА':'НЕТ'); ?></li>
                 <li>доступ по API - <?= ($model->api_access?'ДА':'НЕТ'); ?></li>
             </ul>
-            <a href="<?= $model->activateUrl; ?>" class="theme-btn purchase-btn">Подключить тариф</a>
+            <?php 
+            if(Yii::$app->user->isGuest){
+                echo Html::a('Подключить тариф',$model->activateUrl,['class'=>'theme-btn purchase-btn']);
+            }else{
+                if(Yii::$app->user->identity->tarif_id==$model->id){
+                    echo Html::a('Текущий тариф',$model->activateUrl,['class'=>'theme-btn purchase-btn']);  
+                }else{
+                    echo Html::a('Подключить тариф',$model->activateUrl,['class'=>'theme-btn purchase-btn']);  
+                }
+
+            }
+            ?>
+            
         </div>
     </div>
 </div>
