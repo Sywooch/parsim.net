@@ -1,5 +1,12 @@
 <!--Pricing Column Two-->
 <div class="pricing-column-two col-md-4 col-sm-6 col-xs-12">
+    <div class="content-column col-md-7 col-sm-12 col-xs-12">
+        <div class="inner-content">
+            <h2>Создайте бесплатный аккаунт и попробуй работу парсера</h2>
+            <div class="dark-text">Для регистрации достаточно указать Ваш E-mail и придумать пароль.</div>
+            
+        </div>
+    </div>
     <div class="inner-box">
         <div class="price-header">
             <div class="content">
