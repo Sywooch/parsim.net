@@ -106,4 +106,29 @@ class Transaction extends \yii\db\ActiveRecord
 
         
     }
+
+    //=========================================================
+    //
+    // Блок генерации Url
+    //
+    //=========================================================
+    public static function getIndexUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['transaction/index']);
+    }
+    public static function getCreateUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['transaction/create']);
+    }
+    public function getUpdateUrl(){
+        return Yii::$app->urlManager->createUrl(['transaction/update','alias'=>$this->alias]);
+    }
+    public function getDeleteUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['transaction/delete','alias'=>$this->alias]);
+    }
+    public function getViewUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['transaction/view','alias'=>$this->alias]);
+    }
 }
