@@ -50,10 +50,10 @@ class TarifController extends Controller
             $user->tarif_id=$id;    
             $user->save();
         }else{
-            
+
         }
         
-        return $this->redirect('site/index');
+        return $this->redirect('/site/index');
     }
 
     
