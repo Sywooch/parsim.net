@@ -185,7 +185,7 @@ $this->params['keywords']='Парсер, парсер сайтов, парсин
 ?>
 
 <!--Price Section Two-->
-<section class="price-section-two">
+<section class="price-section-two" id="tarif">
     <div class="auto-container">
         <div class="clearfix">
             <?php
