@@ -187,11 +187,13 @@ $this->params['keywords']='Парсер, парсер сайтов, парсин
 <!--Price Section Two-->
 <section class="price-section-two">
     <div class="auto-container">
-        <div class="content-column col-md-7 col-sm-12 col-xs-12">
-            <div class="inner-content">
-                <h2>Создайте бесплатный аккаунт и попробуй работу парсера</h2>
-                <div class="dark-text">Для регистрации достаточно указать Ваш E-mail и придумать пароль.</div>
-                
+        <div class="row">
+            <div class="content-column col-xs-12">
+                <div class="inner-content">
+                    <h2>Создайте бесплатный аккаунт и попробуй работу парсера</h2>
+                    <div class="dark-text">Для регистрации достаточно указать Ваш E-mail и придумать пароль.</div>
+                    
+                </div>    
             </div>
         </div>
         <div class="clearfix">
