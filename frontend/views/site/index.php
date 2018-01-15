@@ -179,39 +179,6 @@ $this->params['keywords']='Парсер, парсер сайтов, парсин
     </div>
 </section>
 <!--End Services Section-->
-<!--Business Section-->
-<section class="business-section alternate light-bg">
-    <div class="auto-container">
-        <div class="row clearfix">
-            
-            <!--Image Column-->
-            <div class="image-column col-md-5 col-sm-12 col-xs-12">
-                <div class="image">
-                    <img src="/images/resource/business-2.png" alt="" />
-                </div>
-            </div>
-            
-            <!--Content Column-->
-            <div class="content-column col-md-7 col-sm-12 col-xs-12">
-                <div class="inner-content">
-                    <h2>Почему выбирают нас?</h2>
-                    <div class="dark-text">
-                        <p>
-                            Мы создали конвейер по производству и централизованному мониторингу парсеров. 
-                        </p>
-                        <p>
-                            Это означает, что все что мы делаем, мы делаем быстро, качественно и ...
-                        </p>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-        </div>
-    </div>
-</section>
-<!--End Business Section-->
 
 <?php
     //echo $this->render('_howItWork');
