@@ -1,5 +1,5 @@
 <?php
-    use common\models\Transaction;
+    use common\models\Tarif;
 ?>
 <!--Pricing Column Two-->
 <div class="pricing-column-two col-md-4 col-sm-6 col-xs-12">
@@ -20,7 +20,7 @@
                 <li>экспорт в XLS - <?= ($model->can_export?'ДА':'НЕТ'); ?></li>
                 <li>доступ по API - <?= ($model->api_access?'ДА':'НЕТ'); ?></li>
             </ul>
-            <a href="<?= Transaction::getCreateUrl(); ?>" class="theme-btn purchase-btn">Подключить тариф</a>
+            <a href="<?= Tarif::getActivateUrl(); ?>" class="theme-btn purchase-btn">Подключить тариф</a>
         </div>
     </div>
 </div>

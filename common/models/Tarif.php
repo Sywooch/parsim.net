@@ -115,6 +115,10 @@ class Tarif extends \yii\db\ActiveRecord
     {
         return Yii::$app->urlManager->createUrl(['tarif/view','id'=>$this->id]);
     }
+    public function getActivateUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['tarif/activate','id'=>$this->id]);
+    }
 
     //=========================================================
     //
