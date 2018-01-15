@@ -30,8 +30,8 @@ FormDynamicAsset::register($this);
         echo Html::hiddenInput('sum', number_format($model->amount, 2, '.', ''),['id'=>'sum']);
         echo Html::hiddenInput('customerNumber', $model->user_id,['id'=>'customerNumber']);
         echo Html::hiddenInput('paymentType', 'AC');
-        echo Html::hiddenInput('cps_phone', $model->user->phone,['id'=>'cps_phone']);
-        echo Html::hiddenInput('cps_email', $model->user->email,['id'=>'cps_email']);
+        echo Html::hiddenInput('cps_phone', Yii::$app->user->identity->phone,['id'=>'cps_phone']);
+        echo Html::hiddenInput('cps_email', Yii::$app->user->identity->phone,['id'=>'cps_email']);
         echo Html::hiddenInput('orderNumber', $model->id,['id'=>'orderNumber']);
         ?>
         
