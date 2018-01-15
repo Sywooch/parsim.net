@@ -1,5 +1,6 @@
 <?php
     use common\models\Tarif;
+    use yii\helpers\Html;
 ?>
 <!--Pricing Column Two-->
 <div class="pricing-column-two col-md-4 col-sm-6 col-xs-12">
