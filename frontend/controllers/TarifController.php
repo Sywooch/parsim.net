@@ -53,7 +53,7 @@ class TarifController extends Controller
 
         }
         
-        return $this->redirect(['/site/index','#'=>'tarif']);
+        return $this->redirect(['/site/index','#'=>'pricing']);
     }
 
     
