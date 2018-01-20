@@ -230,6 +230,7 @@ ul,li{
 	font-weight:500;
 	border:2px solid #ffffff;
 	font-family: 'Poppins', sans-serif;
+	pointer-events: none;
 }
 
 .btn-style-three .icon{
