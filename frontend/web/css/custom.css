@@ -214,7 +214,6 @@ div.field-value{
   font-weight:500;
   font-family: 'Poppins', sans-serif;
   pointer-events: none;
-  cursor: not-allowed!important;
 }
 
 .btn-current-tarif .icon{
