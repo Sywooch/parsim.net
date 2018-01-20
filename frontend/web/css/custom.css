@@ -223,4 +223,5 @@ div.field-value{
   background:none;
   color:#ff5926;
   border-color:#ff5926;
+  cursor: not-allowed;
 }
