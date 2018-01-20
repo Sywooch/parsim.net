@@ -209,6 +209,7 @@ div.field-value{
   background:none;
   color:#ff5926;
   border-color:#ff5926;
+  border:2px solid;
   font-size:15px;
   font-weight:500;
   font-family: 'Poppins', sans-serif;
