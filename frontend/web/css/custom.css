@@ -215,7 +215,12 @@ div.field-value{
   font-family: 'Poppins', sans-serif;
 }
 
-.btn-style-one .icon{
+.btn-current-tarif .icon{
   position:relative;
   margin-left:8px;
+}
+.btn-current-tarif:hover{
+  background:none;
+  color:#ff5926;
+  border-color:#ff5926;
 }
