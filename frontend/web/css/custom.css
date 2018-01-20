@@ -201,26 +201,20 @@ div.field-value{
 }
 
 /*Btn current tarif*/
-.btn-style-two1{
+.btn-current-tarif{
   position:relative;
   padding:11px 40px;
   line-height:24px;
   text-transform:capitalize;
-  background:#2b3d5e;
-  color:#ffffff;
-  font-size:14px;
+  background:none;
+  color:#ff5926;
+  border-color:#ff5926;
+  font-size:15px;
   font-weight:500;
-  border:2px solid #2b3d5e;
   font-family: 'Poppins', sans-serif;
 }
 
-.btn-style-two1 .icon{
+.btn-style-one .icon{
   position:relative;
   margin-left:8px;
-}
-
-.btn-style-two1:hover{
-  background:none;
-  color:#2b3d5e;
-  border-color:#2b3d5e;
 }
