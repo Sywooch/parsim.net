@@ -184,7 +184,7 @@ class Order extends \yii\db\ActiveRecord
     public function changeTarif($tarif)
     {
         $this->tarif_id=$tarif->id;
-        $this->end=strtotime($this->begin' +'.$this->tarif->time_limit.' '.$this->tarif->time_unit);
+        $this->end=strtotime('+'.$this->tarif->time_limit.' '.$this->tarif->time_unit, $this->begin);
     }
 
     public function getIsPaid()
