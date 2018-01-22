@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-use frontend\assets\order\FormDynamicAsset;
+use frontend\assets\transaction\FormAsset;
 FormDynamicAsset::register($this);
 
 /* @var $this yii\web\View */
