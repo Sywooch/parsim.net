@@ -10,6 +10,7 @@ use yii\filters\AccessControl;
 
 use common\models\Order;
 use common\models\Tarif;
+use common\models\Transaction;
 
 /**
  * Site controller
@@ -83,7 +84,7 @@ class TarifController extends Controller
 
                 //Если у пользователя недостаточно средст для оплаты заказа, редирект на форму пополнения счета
                 //Иначе создаю транзакцию оплаты текущего периода
-                $userBalanse=$user->balanse;
+                $userBalanse=0;//$user->balanse;
                 $orderAmount=$currentOrder->amount;
                 if($userBalanse<$orderAmount){
                     return $this->redirect(['/transaction/create','amount'=>$orderAmount-$userBalanse]);
