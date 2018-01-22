@@ -18,11 +18,12 @@ use yii\behaviors\TimestampBehavior;
  */
 class Order extends \yii\db\ActiveRecord
 {
-    //const STATUS_NEW = 0;
-    //const STATUS_PAID = 1;
+    const STATUS_NEW = 0;
+    const STATUS_PAID = 1;
 
-    const STATUS_DISABLED = 0;
-    const STATUS_ENABLED = 1;
+    //const STATUS_DISABLED = 0;
+    //const STATUS_ENABLED = 1;
+
 
     public $email;
     /**
@@ -179,4 +180,20 @@ class Order extends \yii\db\ActiveRecord
         }
         return $list;
     }
+
+    public function changeTarif($tarif)
+    {
+        $this->tarif_id=$tarif->id;
+        $this->end=strtotime($this->begin' +'.$tarif->time_limit.' '.$tarif->time_unit);
+    }
+
+    public function getIsPaid()
+    {
+        if($this->status==self::STATUS_PAID){
+            return true;
+        }
+        return false;
+    }
+
+
 }

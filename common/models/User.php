@@ -467,7 +467,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getBalanse()
     {
-        $sum=Yii::$app->db->createCommand('SELECT sum(amount) FROM transaction WHERE user_id='.$this->id)->queryScalar();
+        $sum=Yii::$app->db->createCommand('SELECT sum(amount) FROM transaction WHERE user_id='.$this->id.' AND status='.Transaction::STATUS_SUCCESS)->queryScalar();
         if(!isset($sum)){
             $sum=0;
         }
@@ -494,6 +494,34 @@ class User extends ActiveRecord implements IdentityInterface
     public function getHasMoney()
     {
         return $this->balanse>=$this->tarif->price;
+    }
+
+    
+    
+    public function getCurrentOrderIsPaid()
+    {
+        if($currentOrder=$this->currentOrder){
+            return $currentOrder->isPaid;    
+        }
+        return false;
+    }
+
+    //Возвращает Oredr за текущий период или false если Order еще не создан
+    public function getCurrentOrder()
+    {
+        $query=Order::find();
+        $query->where(['user_id'=>$this->id,['between',date('Y-m-d H:i:s'),'begin','end']]);
+        return $query->one();
+    }
+
+    public function getNextOrder()
+    {
+        if($currentOrder=$this->currentOrder){
+            $query=Order::find();
+            $query->where(['user_id'=>$this->id,['between',strtotime($currentOrder->end .' +1 day'),'begin','end']]);
+            return $query->one();
+        }
+        return false;
     }
     
 
