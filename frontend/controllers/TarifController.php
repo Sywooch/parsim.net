@@ -85,7 +85,7 @@ class TarifController extends Controller
                 //Иначе создаю транзакцию оплаты текущего периода
                 $userBalanse=$user->balanse;
                 $orderAmount=$currentOrder->amount;
-                if($balanse<$orderAmount){
+                if($userBalanse<$orderAmount){
                     return $this->redirect(['/transaction/create','amount'=>$orderAmount-$userBalanse]);
                 }else{
                     //Создаю новую транзакции превода средст со счета пользователя на счет Parsin.NET
