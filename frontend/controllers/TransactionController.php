@@ -169,7 +169,7 @@ class TransactionController extends Controller
 
     public function actionCreate($amount=1000)
     {
-        $model = new transaction();
+        $model = new Transaction();
         $model->amount=$amount;
 
         if(Yii::$app->request->isAjax)
@@ -181,8 +181,8 @@ class TransactionController extends Controller
             //и вручную обрабатываются в контроллере
             $request = Yii::$app->request;
             $model->amount=$request->post('amount');
-            $model->tarif_id=$request->post('tarif_id');
-            $model->price=$request->post('price');
+            //$model->tarif_id=$request->post('tarif_id');
+            //$model->price=$request->post('price');
             //$model->qty=$request->post('qty');
             
             
