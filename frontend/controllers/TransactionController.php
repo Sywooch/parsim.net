@@ -167,10 +167,10 @@ class TransactionController extends Controller
 
     
 
-    public function actionCreate()
+    public function actionCreate($amount=1000)
     {
         $model = new transaction();
-
+        $model->amount=$amount;
 
         if(Yii::$app->request->isAjax)
         {
