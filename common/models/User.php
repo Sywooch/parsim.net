@@ -510,7 +510,8 @@ class User extends ActiveRecord implements IdentityInterface
     public function getCurrentOrder()
     {
         $query=Order::find();
-        $query->where(['user_id'=>$this->id,['between',date('Y-m-d H:i:s'),'begin','end']]);
+        $query->where(['user_id'=>$this->id]);
+        $query->andWhere(['between',date('Y-m-d H:i:s'),'begin','end']);
         return $query->one();
     }
 
