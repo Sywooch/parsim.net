@@ -521,7 +521,7 @@ class User extends ActiveRecord implements IdentityInterface
         if($currentOrder=$this->currentOrder){
             $query=Order::find();
             $query->where(['user_id'=>$this->id]);
-            $query->andWhere(strtotime($currentOrder->end .' +1 day').' BETWEEN "begin" AND "end"');
+            $query->andWhere(strtotime('+1 day',$currentOrder->end).' BETWEEN "begin" AND "end"');
             return $query->one();
         }
         return false;
