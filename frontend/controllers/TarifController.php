@@ -69,7 +69,9 @@ class TarifController extends Controller
                 $nextOrder->save();
 
                 //Отправляю сообщение о успешно смене тарифа и что новый тариф вступит в силу с даты $order->begin
-                //... создаю PoPap сообжение
+                $message='<p>Тариф успешно изменен!</p>';
+                $message.='<p>Новый тариф вступит в силу с '.Yii::$app->formatter->asDate($nextOrder->begin).'</p>';
+                Yii::$app->getSession()->setFlash('success', $message);
                 
             }else{
                 //Если у пользователя есть неоплаченный заказ на текущий период, меняю тариф в существующем заказе

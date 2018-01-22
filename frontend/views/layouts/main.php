@@ -11,7 +11,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 
 
-use common\widgets\Alert;
+use frontend\widgets\ModalAlert;
 
 ?>
 <?php $this->beginPage() ?>
@@ -59,6 +59,7 @@ use common\widgets\Alert;
   <?php $this->beginBody() ?>
 
   <?= $content; ?>
+  <?= ModalAlert::widget(); ?>
 
   <?php $this->endBody() ?>
 
