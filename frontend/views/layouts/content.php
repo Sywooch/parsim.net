@@ -60,7 +60,7 @@
                   <!--Top Left-->
                   <div class="top-left">
                     <ul class="link-nav clearfix">
-                        <li><a href="#"><span class="icon fa fa-phone"></span>(880) 172 380 956</a></li>
+                        <li><a href="#"><span class="icon fa fa-phone"></span>Внимание! На Вашем счете недостаточно средств для работы парсера.</a></li>
                           <li><a href="#"><span class="icon fa fa-envelope"></span>seoboostinc@gmail.com</a></li>
                       </ul>
                   </div>
