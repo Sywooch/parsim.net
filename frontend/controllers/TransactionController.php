@@ -64,7 +64,7 @@ class TransactionController extends Controller
                     $alias = $request->post('orderNumber');
                     $user_id=(int) $request->post('customerNumber');
                     
-                    return true;//$this->findTransaction($alias,$user_id);
+                    return $this->findTransaction($alias,$user_id);
 
                 }
             ],
@@ -152,7 +152,7 @@ class TransactionController extends Controller
 
     protected function findTransaction($alias,$user_id)
     {
-        if(($model = Transaction::find()->where(['alias'=>$alias,'type'=>Transaction::TYPE_IN,'status'=>Transaction::STATUS_NEW,'user_id'=>$user_id])->one()) == null){
+        if(($model = Transaction::find()->where(['alias'=>$alias,'type'=>Transaction::TYPE_IN,'status'=>Transaction::STATUS_NEW,'user_id'=>$user_id])->one())){
             return $model;
         } else {
             Yii::warning("Кто-то хотел оплатить несуществующий заказ! Order Id: {$alias}", Yii::$app->yakassa->logCategory);    
