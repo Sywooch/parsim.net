@@ -87,9 +87,10 @@ class TransactionController extends Controller
 
                             //Если требуется, оплачиваю текущий период
                             $currentOrder=$transaction->owner->currentOrder;
-                            if(!$currentOrder->isPaid){
-                                $currentOrder->pay();
-                            }
+                            $currentOrder->pay();
+                            //if(!$currentOrder->isPaid){
+                            //    $currentOrder->pay();
+                            //}
 
                             return true;
                         }
