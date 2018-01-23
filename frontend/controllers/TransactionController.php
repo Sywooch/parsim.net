@@ -93,11 +93,16 @@ class TransactionController extends Controller
                             if($currentOrder==null){
                                 $currentOrder=$user->createCurrentOrder();
                             }
+
+                            $currentOrder->status=1;
+                            $currentOrder->save();
                             
                             if($currentOrder && !$currentOrder->isPaid){
-                                $currentOrder->pay();
-                            }
+                                //$currentOrder->pay();
+                                $currentOrder->status=1;
+                                $currentOrder->save();
 
+                            }
                             return true;
                         }
                     }

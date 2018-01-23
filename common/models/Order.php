@@ -24,8 +24,6 @@ class Order extends \yii\db\ActiveRecord
     //const STATUS_DISABLED = 0;
     //const STATUS_ENABLED = 1;
 
-
-    public $email;
     /**
      * @inheritdoc
      */
@@ -199,7 +197,7 @@ class Order extends \yii\db\ActiveRecord
             $transaction->status=Transaction::STATUS_SUCCESS;
             $transaction->user_id=$this->user_id;
             $transaction->order_id=$this->id;
-            $transaction->amount=-1*$orderAmount;
+            $transaction->amount=-1*$this->amount;
             $transaction->description='Списание средств в счет оплаты периода с '.Yii::$app->formatter->asDate($this->begin).' по '.Yii::$app->formatter->asDate($this->end).' по тарифу '.$this->tarif->name;
 
             if($transaction->save()){
