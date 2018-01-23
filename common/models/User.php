@@ -514,6 +514,18 @@ class User extends ActiveRecord implements IdentityInterface
         $query->andWhere(strtotime(date('Y-m-d H:i:s')).' BETWEEN "begin" AND "end"');
         return $query->one();
     }
+    public function createCurrentOrder()
+    {
+        $order=new Order();
+        $order->user_id=$this->id;
+        $order->tarif_id=$this->tarif_id;
+        $order->status=Order::STATUS_NEW;
+        $order->amount=$this->tarif->price;
+        $order->begin=strtotime(Date('Y-m-d 00:00:00'));
+        $order->end=strtotime('+'.$this->tarif->time_limit.' '.$this->tarif->time_unit,$order->begin);
+
+        return $order; 
+    }
 
     public function getNextOrder()
     {

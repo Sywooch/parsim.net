@@ -77,8 +77,7 @@ class TarifController extends Controller
                 //Если у пользователя есть неоплаченный заказ на текущий период, меняю тариф в существующем заказе
                 //Иначе создаю новый заказ с текущей датой начала 
                 if(!$currentOrder=$user->currentOrder){
-                    $currentOrder=new Order();
-                    $currentOrder->begin=strtotime(Date('Y-m-d 00:00:00'));
+                    $currentOrder=$user->createCurrentOrder();
                 }
 
                 $currentOrder->changeTarif($tarif);
