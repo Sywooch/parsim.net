@@ -65,6 +65,12 @@ return [
                     'controller' => ['api/request','api/test-response'],
                 ],
 
+                //
+                'order/check/'=>'transaction/check',
+                'order/payment-aviso/'=>'transaction/payment-aviso',
+                'order/success/'=>'transaction/success',
+                'order/fail/'=>'transaction/fail',
+
                 '<controller:\w+>/view/<alias:\w+>/'=>'<controller>/view',
                 '<controller:\w+>/'=>'<controller>/index',
                 '<controller:\w+>/<action:\w+>/'=>'<controller>/<action>',
