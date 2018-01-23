@@ -152,7 +152,9 @@ class TransactionController extends Controller
 
     protected function findTransaction($alias,$user_id)
     {
-        if(($model = Transaction::find()->where(['alias'=>$alias,'type'=>Transaction::TYPE_IN,'status'=>Transaction::STATUS_NEW,'user_id'=>$user_id])->one())){
+        //$model = Transaction::find()->where(['alias'=>$alias,'type'=>Transaction::TYPE_IN,'status'=>Transaction::STATUS_NEW,'user_id'=>$user_id])->one())
+        $model = Transaction::find()->where(['alias'=>$alias])->one();
+        if($model){
             return $model;
         } else {
             Yii::warning("Кто-то хотел оплатить несуществующий заказ! Order Id: {$alias}", Yii::$app->yakassa->logCategory);    
