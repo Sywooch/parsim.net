@@ -90,10 +90,11 @@ class TransactionController extends Controller
                             $user=$transaction->owner;
                             $currentOrder=$user->currentOrder;
 
-                            if(!$currentOrder){
+                            if($currentOrder==null){
                                 $currentOrder=$user->createCurrentOrder();
                             }
-                            if(!$currentOrder->isPaid){
+                            
+                            if($currentOrder && !$currentOrder->isPaid){
                                 $currentOrder->pay();
                             }
 
