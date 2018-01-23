@@ -59,9 +59,9 @@
             <div class="clearfix">
                   
                   <!--Top Left-->
-                  <div class="top-left text-warning">
+                  <div class="top-left">
                     <ul class="link-nav clearfix">
-                        <li><a href="#"><span class="icon fa fa-warning"></span>Внимание! На Вашем счете недостаточно средств.</a></li>
+                        <li class="text-warning"><a href="<?= Transaction::getCreateUrl(); ?>" class="text-warning"><span class="icon fa fa-warning"></span>Внимание! На Вашем счете недостаточно средств.</a></li>
                       </ul>
                   </div>
                   
