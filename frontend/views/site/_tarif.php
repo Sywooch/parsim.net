@@ -13,8 +13,8 @@
         </div>
         <div class="lower-content">
             <ul class="spec-list">
-                <li>кол-во источников - <?= Yii::$app->formatter->asDecimal($model->host_limit); ?> шт.</li>
-                <li>доп. источник - <?= Yii::$app->formatter->asCurrency($model->extra_host_price); ?> (разово)</li>
+                <li>кол-во сайтов - <?= Yii::$app->formatter->asDecimal($model->host_limit); ?> шт.</li>
+                <li>добавление доп. сайта - <?= Yii::$app->formatter->asCurrency($model->extra_host_price); ?> (разово)</li>
                 <li>включено сканнирований - <?= Yii::$app->formatter->asDecimal($model->pars_limit); ?> шт.</li>
                 <li>цена за доп. сканнирование - <?= Yii::$app->formatter->asCurrency($model->extra_pars_price); ?></li>
                 <li>частота сканнирований <?= ($model->pars_freq>1?'1':''); ?> - <?= $model->pars_freq; ?> раз в сутки</li>
