@@ -60,7 +60,7 @@
                   
                   <!--Top Left-->
                   <div class="top-left">
-                    <ul class="link-nav clearfix">
+                    <ul class="link-nav1 clearfix">
                         <li><a href="<?= Transaction::getCreateUrl(); ?>" class="text-warning"><span class="icon fa fa-warning"></span>Внимание! На Вашем счете недостаточно средств.</a></li>
                       </ul>
                   </div>
