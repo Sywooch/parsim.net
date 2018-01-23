@@ -130,7 +130,7 @@ class Order extends \yii\db\ActiveRecord
     //=========================================================
     public function getPayUrl()
     {
-        return Yii::$app->urlManager->createUrl(['order/pay']);
+        return Yii::$app->urlManager->createUrl(['transaction/create']);
     }
 
     public static function getIndexUrl()
