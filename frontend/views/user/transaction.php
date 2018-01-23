@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use common\models\Transaction;
 
 
 $this->title='Баланс';
@@ -29,6 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="row">
   <div class="col-xs-12 text-center">
-    <a href="<?= $searchModel->createUrl; ?>" class="theme-btn btn-style-one margin-top-40">Пополнить счет</a>
+    <a href="<?= Transaction::getCreateUrl(); ?>" class="theme-btn btn-style-one margin-top-40">Пополнить счет</a>
   </div>
 </div>
