@@ -511,7 +511,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $query=Order::find();
         $query->where(['user_id'=>$this->id]);
-        //$query->andWhere(['between',strtotime(date('Y-m-d H:i:s')),'begin','end']);
         $query->andWhere(strtotime(date('Y-m-d H:i:s')).' BETWEEN "begin" AND "end"');
         return $query->one();
     }
