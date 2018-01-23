@@ -155,7 +155,7 @@ class TransactionController extends Controller
         //$model = Transaction::find()->where(['alias'=>$alias,'type'=>Transaction::TYPE_IN,'status'=>Transaction::STATUS_NEW,'user_id'=>$user_id])->one())
         $model = Transaction::find()->where(['alias'=>$alias])->one();
         if($model){
-            return $model;
+            return true;//$model;
         } else {
             Yii::warning("Кто-то хотел оплатить несуществующий заказ! Order Id: {$alias}", Yii::$app->yakassa->logCategory);    
             return false;
