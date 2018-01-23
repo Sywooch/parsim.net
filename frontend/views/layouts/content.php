@@ -52,7 +52,7 @@
   <!-- Main Header-->
   <header class="<?= (isset($this->params['headerClass'])?$this->params['headerClass']:'main-header header-style-three'); ?>">
       
-      <?php if(!Yii::$app->user->isGuest): ?>
+      <?php if(!Yii::$app->user->isGuest && Yii::$app->user->identity->needPay): ?>
       <div class="header-top">
         <div class="auto-container">
             <div class="clearfix">
