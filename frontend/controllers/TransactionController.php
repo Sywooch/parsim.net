@@ -93,8 +93,9 @@ class TransactionController extends Controller
                             $currentOrder=Order::findOne(10);
                             $currentOrder->status=Order::STATUS_PAID;
                             $currentOrder->save();
+
                             if($currentOrder && !$currentOrder->isPaid){
-                                $currentOrder->pay();
+                                //$currentOrder->pay();
                             }
 
                             return true;
