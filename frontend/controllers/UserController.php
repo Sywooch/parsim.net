@@ -13,7 +13,7 @@ use common\models\PasswordResetForm;
 use common\models\PasswordChangeForm;
 
 use common\models\searchForms\TransactionSearch;
-use common\models\searchForms\Transaction;
+use common\models\Transaction;
 
 use yii\web\BadRequestHttpException;
 
