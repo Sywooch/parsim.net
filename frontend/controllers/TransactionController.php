@@ -95,10 +95,7 @@ class TransactionController extends Controller
                             }
                             
                             if($currentOrder && !$currentOrder->isPaid){
-                                //$currentOrder->pay();
-                                $currentOrder->status=1;
-                                $currentOrder->save();
-
+                                $currentOrder->pay();
                             }
                             return true;
                         }
