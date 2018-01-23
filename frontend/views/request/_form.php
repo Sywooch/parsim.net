@@ -26,7 +26,7 @@ $freqList=$model->getFreqList(4);
 
     <?= $form->errorSummary($model,['class'=>'alert alert-danger alert-bordered']); ?>  
     <?= $form->field($model, 'request_url')->textInput(['maxlength' => true, 'placeholder'=>'Укажите URL, который хотите парсить','class'=>'','disabled' => !$model->isNewRecord]); ?>
-    <?= $form->field($model, 'sleep_time')->dropDownList($model->freqList,['class'=>'select']); ?>
+    <?= $form->field($model, 'sleep_time')->dropDownList($freqList,['class'=>'select']); ?>
     
     <div class="row">
       <div class="col-md-8">
