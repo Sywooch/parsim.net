@@ -67,7 +67,7 @@
                   
                   <!--Top Right-->
                   <div class="top-right">
-                    <a href="<?= Transaction::getCreateUrl(); ?>" class="login-btn"><span class="icon fa fa-lock"></span>Пополнить счет</a>
+                    <a href="<?= Transaction::getCreateUrl(); ?>" class="login-btn"><span class="icon fa fa-rub"></span>Пополнить счет</a>
                   </div>
                   
               </div>
