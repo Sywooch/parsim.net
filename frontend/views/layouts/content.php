@@ -51,6 +51,8 @@
 
   <!-- Main Header-->
   <header class="<?= (isset($this->params['headerClass'])?$this->params['headerClass']:'main-header header-style-three'); ?>">
+      
+      <?php if(!Yii::$app->user->isGuest): ?>
       <div class="header-top">
         <div class="auto-container">
             <div class="clearfix">
@@ -79,6 +81,7 @@
               
           </div>
       </div>
+      <?php endif; ?>
       <!-- Main Box -->
       <div class="main-box">
         <div class="auto-container">
