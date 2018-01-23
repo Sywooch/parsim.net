@@ -190,7 +190,7 @@ class Order extends \yii\db\ActiveRecord
     public function pay()
     {
         
-        //if($this->user->balanse>=$this->amount){
+        if($this->user->balanse>=$this->amount){
 
             $transaction=new Transaction();
             $transaction->type=Transaction::TYPE_OUT;
@@ -205,7 +205,7 @@ class Order extends \yii\db\ActiveRecord
                 return $this->save();
             }
 
-        //}
+        }
         return false;
     }
 
