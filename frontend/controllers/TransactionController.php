@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 
 use common\models\Transaction;
+use common\models\Order;
 
 
 use yii\web\Controller;
@@ -86,14 +87,13 @@ class TransactionController extends Controller
                         if($transaction->save()){
 
                             //Если требуется, оплачиваю текущий период
-                            $currentOrder=$transaction->owner->currentOrder;
+                            //$currentOrder=$transaction->owner->currentOrder;
                             //$currentOrder->status=123;
                             //$currentOrder->save();
+                            $currentOrder=Order::findOne(10);
 
                             if($currentOrder && !$currentOrder->isPaid){
-                                $currentOrder->status=123;
-                                $currentOrder->save();
-                                //$currentOrder->pay();
+                                $currentOrder->pay();
                             }
 
                             return true;
