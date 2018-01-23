@@ -78,9 +78,11 @@ class TransactionController extends Controller
                     
                     $alias = $request->post('orderNumber');
                     $user_id=(int) $request->post('customerNumber');
+                    $invoice_id=$request->post('invoiceId');
                     
                     if($transaction=$this->findTransaction($alias,$user_id)){
                         $transaction->status=Transaction::STATUS_SUCCESS;
+                        $transaction->invoice_id=$invoice_id;
                         return $transaction->save();
                     }else{
                         return false;
