@@ -61,7 +61,7 @@
                   <!--Top Left-->
                   <div class="top-left">
                     <ul class="link-nav clearfix">
-                        <li><a href="#"><span class="icon fa fa-phone"></span>Внимание! На Вашем счете недостаточно средств.</a></li>
+                        <li><a href="#"><span class="icon fa fa-warning"></span>Внимание! На Вашем счете недостаточно средств.</a></li>
                       </ul>
                   </div>
                   
