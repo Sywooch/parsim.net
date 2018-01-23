@@ -13,7 +13,7 @@ use common\models\Lookup;
 
 //use backend\assets\request\FormAsset;
 //FormAsset::register($this);
-$tarif=Yii::$app->user->identity->tarif;
+$tarif=Yii::$app->user->identity->currentTarif;
 $freqList=$model->getFreqList($tarif->id);
 ?>
 

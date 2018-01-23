@@ -516,6 +516,15 @@ class User extends ActiveRecord implements IdentityInterface
         return false;
     }
 
+    public function getCurrentTarif()
+    {
+
+        if($this->currentOrder){
+            return $this->currentOrder->tarif;
+        }
+        return $this->tarif;
+    }
+
     //Возвращает Oredr за текущий период или false если Order еще не создан
     public function getCurrentOrder()
     {
