@@ -230,9 +230,12 @@ div.field-value{
 }
 
 
-.header-style-three .header-top{
+.header-style-three .header-top,
+.main-header .header-top{
   background-color: #9e0404!important;
 }
-.header-style-three .header-top, .header-style-three .header-top .link-nav li a {
+.main-header .header-top,
+.header-style-three .header-top,
+.header-style-three .header-top .link-nav li a {
     color: rgb(255, 255, 255)!important;
 }
