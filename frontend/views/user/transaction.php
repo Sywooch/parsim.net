@@ -30,6 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="row">
   <div class="col-xs-12 text-center">
-    <a href="<?= Order::getPayUrl(); ?>" class="theme-btn btn-style-one margin-top-40">Пополнить счет</a>
+    <a href="<?= Transaction::getCreateUrl(); ?>" class="theme-btn btn-style-one margin-top-40">Пополнить счет</a>
   </div>
 </div>

@@ -157,6 +157,7 @@ class UserController extends Controller
         $this->layout = 'column2';
         $searchModel = new TransactionSearch();
         $searchModel->user_id=Yii::$app->user->id;
+        $searchModel->status=Transaction::STATUS_SUCCESS;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('transaction', [
