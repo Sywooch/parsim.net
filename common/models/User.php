@@ -433,7 +433,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     public function getPayUrl(){
-        return Order::getPayUrl();
+        return Transaction::getPayUrl();
     }
     public function getBalanseUrl(){
         return Yii::$app->urlManager->createUrl(['user/balanse']);
