@@ -60,6 +60,10 @@ class TransactionSearch extends Transaction
             'user_id' => $this->user_id,
         ]);
 
+        $query->andFilterWhere([
+            'status' => $this->status,
+        ]);
+
 
         /*
         $query
