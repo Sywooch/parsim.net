@@ -22,8 +22,10 @@ class Transaction extends \yii\db\ActiveRecord
     const TYPE_IN = 0;
     const TYPE_OUT = 1;
 
-    const STATUS_FAIL = 0;
+    const STATUS_NEW = 0;
     const STATUS_SUCCESS = 1;
+    const STATUS_FAIL = 2;
+    
 
 
     /**
@@ -38,6 +40,11 @@ class Transaction extends \yii\db\ActiveRecord
     {
         return [
             TimestampBehavior::className(),
+            'AutoAlias'=>[
+                'class' => 'common\behaviors\AliasGenerator',
+                //'src'=>'title',
+                'dst'=>'alias',
+            ]
         ];
     }
 
@@ -49,7 +56,7 @@ class Transaction extends \yii\db\ActiveRecord
         return [
             [['type', 'user_id','order_id','request_id','response_id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['user_id'], 'required'],
-            [['description'], 'string'],
+            [['description','alias'], 'string'],
             [['amount'], 'number'],
             [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => Order::className(), 'targetAttribute' => ['order_id' => 'id']],
         ];

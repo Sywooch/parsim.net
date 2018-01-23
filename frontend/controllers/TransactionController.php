@@ -62,14 +62,10 @@ class TransactionController extends Controller
                      */
                     
                     $alias = $request->post('orderNumber');
+                    $user_id=(int) $request->post('customerNumber');
                     
-                    if(($order = Order::find()->where(['alias'=>$alias])->one()) == null){
-                        Yii::warning("Кто-то хотел оплатить несуществующий заказ! Order Id: {$alias}", Yii::$app->yakassa->logCategory);    
-                        return false;
-                    }
+                    return $this->findTransaction($alias,$user_id);
 
-
-                    return true;
                 }
             ],
             'payment-aviso' => [
@@ -79,40 +75,12 @@ class TransactionController extends Controller
                     $alias = $request->post('orderNumber');
                     $user_id=(int) $request->post('customerNumber');
                     
-                    if(($order = Order::find()->where(['alias'=>$alias])->one()) == null){
-                        Yii::warning("Кто-то хотел оплатить несуществующий заказ! Order Id: {$alias}", Yii::$app->yakassa->logCategory);    
-                        return false;
+                    if($transaction=$this->findTransaction($alias,$user_id)){
+                        $transaction->status=Transaction::STATUS_SUCCESS;
+                        return $transaction->save();
                     }else{
-                        //Создаю транзакцию
-                        $transaction=Transaction::findOne(['order_id'=>$order->id,'status'=>Transaction::STATUS_SUCCESS]);
-
-                        if($transaction == null){
-                            $transaction=new Transaction();
-                            $transaction->type=Transaction::TYPE_IN;
-                            $transaction->user_id=$user_id;
-                            $transaction->order_id=$order->id;
-                            $transaction->status=Transaction::STATUS_SUCCESS;
-                            $transaction->amount=$order->amount;
-                            $transaction->created_at=$user_id;
-                            $transaction->updated_at=$user_id;
-                            $transaction->description='Пополнение счета';
-
-                            if($transaction->save()){
-                                $order->status=Order::STATUS_PAID;
-                                return $order->save();
-                            }else{
-                                Yii::warning("Ошибка оплаты заказа! Order Id: {$alias}", Yii::$app->yakassa->logCategory);    
-                                return false;
-                            }
-                        }else{
-                            //Отправка данных для чека???
-                            //Yii::warning("Попытка повторно оплатить транзакцию! Transaction Id: {$transaction->id}", Yii::$app->yakassa->logCategory);    
-                            return true;
-                        }
-                        
+                        return false;
                     }
-                    
-                    return true;
                 }
             ],
         ];
@@ -133,21 +101,37 @@ class TransactionController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
-    public function actionPay()
+    
+    //Создание транзакции пополнения счета пользователя
+    public function actionCreate($amount=1000)
     {
-        $model = new order();
-        $tarif=Yii::$app->user->identity->tarif;
-
-        $model->tarif_id=$tarif->id;
-        $model->price=$tarif->price;
-        $model->user_id=Yii::$app->user->identity->id;
-
-        if($tarif->type==Tarif::TYPE_COST_PER_ACTION){
-            $model->amount=1000;
-            $model->qty=$model->amount/$tarif->price;
-        }
+        $model = new Transaction();
         
+        $model->type=Transaction::TYPE_IN;
+        $model->status=Transaction::STATUS_NEW;
+        $model->user_id=Yii::$app->user->id;
+        $model->description='Пополнение счета пользователя';
+        
+        $model->amount=$amount;
+
+
+
+        if(Yii::$app->request->isAjax)
+        {
+            //Обход ограничения  Yandex, он не может обрабатывать значения []
+            //в наименовании поля (Order[amount])
+            //поэтому этим значениям задаются вручную хначения аттр. nane
+            //и вручную обрабатываются в контроллере
+            $request = Yii::$app->request;
+            $model->amount=$request->post('amount');   
+            
+            if ($model->save()) {
+                return json_encode($model->toArray());
+            }else{
+                throw new HttpException(400 ,json_encode($model->toArray()));
+            }
+        }
+
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -165,97 +149,16 @@ class TransactionController extends Controller
         return $this->render('payFail');
     }
 
-    
 
-    public function actionCreate($amount=1000)
+    protected function findTransaction($alias,$user_id)
     {
-        $model = new Transaction();
-        $model->amount=$amount;
-
-        if(Yii::$app->request->isAjax)
-        {
-
-            //Обход ограничения  Yandex, он не может обрабатывать значения []
-            //в наименовании поля (Order[amount])
-            //поэтому этим значениям задаются вручную хначения аттр. nane
-            //и вручную обрабатываются в контроллере
-            $request = Yii::$app->request;
-            $model->amount=$request->post('amount');
-            //$model->tarif_id=$request->post('tarif_id');
-            //$model->price=$request->post('price');
-            //$model->qty=$request->post('qty');
-            
-            
-            if ($model->save()) {
-                return json_encode($model->toArray());
-            }else{
-                throw new HttpException(400 ,json_encode($model->toArray()));
-            }
-        }
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-
-
-    /**
-     * Updates an existing order model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if(Yii::$app->request->isAjax)
-        {
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return json_encode(['status'=>'Ok']);
-            }else{
-                throw new NotFoundHttpException(json_encode($model->errors));
-            }
-        }
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Deletes an existing order model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the order model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return order the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = order::findOne($id)) !== null) {
+        if(($model = Transaction::find()->where(['alias'=>$alias,'type'=>Transaction::TYPE_IN,'status'=>Transaction::STATUS_NEW,'user_id'=>$user_id])->one()) == null){
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            Yii::warning("Кто-то хотел оплатить несуществующий заказ! Order Id: {$alias}", Yii::$app->yakassa->logCategory);    
+            return false;
         }
     }
+
+    
 }

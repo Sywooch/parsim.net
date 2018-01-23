@@ -100,8 +100,10 @@ class m170605_122428_create_lookup_table extends Migration
             ['OUT', 1, 'TRANSACTION_TYPE',1],
 
             //Transactin status
-            ['FAIL', 0, 'TRANSACTION_STATUS',0],
+            ['NEW', 0, 'TRANSACTION_STATUS',0],
             ['SUCCESS', 1, 'TRANSACTION_STATUS',1],
+            ['FAIL', 2, 'TRANSACTION_STATUS',2],
+            
 
             //Notification type
             ['Need pay', 0, 'NOTIFICATION_TYPE',0],
