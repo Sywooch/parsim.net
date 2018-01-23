@@ -13,6 +13,7 @@ use common\models\Lookup;
 
 //use backend\assets\request\FormAsset;
 //FormAsset::register($this);
+$freqList=$model->getFreqList(4);
 ?>
 
 <div class="request-form form">
