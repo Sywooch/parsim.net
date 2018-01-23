@@ -526,6 +526,22 @@ class User extends ActiveRecord implements IdentityInterface
         $order->begin=strtotime(Date('Y-m-d 00:00:00'));
         $order->end=strtotime('+'.$this->tarif->time_limit.' '.$this->tarif->time_unit,$order->begin);
         $order->save();
+
+        return $order;
+    }
+
+    public function createNextOrder()
+    {
+        $order=new Order();
+        $order->user_id=$this->id;
+        $order->tarif_id=$this->tarif_id;
+        $order->status=Order::STATUS_NEW;
+        $order->qty=1;
+        $order->price=$this->tarif->price;
+        $order->amount=$order->qty*$order->price;
+        $order->begin=strtotime('+1 day',$this->currentOrder->end)
+        $order->end=strtotime('+'.$this->tarif->time_limit.' '.$this->tarif->time_unit,$order->begin);
+        $order->save();
         
         return $order;
     }

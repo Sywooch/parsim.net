@@ -62,8 +62,9 @@ class TarifController extends Controller
                 //Если создан заказ на следующий период, меняю в нем тарифный план
                 //Иначе создаю заказ на следующий период с выбранным тарифным планом
                 if(!$nextOrder=$user->nextOrder){
-                    $nextOrder=new Order();
-                    $nextOrder->begin=strtotime('+1 day',$user->currentOrder->end);
+                    $nextOrder=$user->createNextOrder();
+                    //new Order();
+                    //$nextOrder->begin=strtotime('+1 day',$user->currentOrder->end);
                 }
                 $nextOrder->changeTarif($tarif);
                 $nextOrder->save();
