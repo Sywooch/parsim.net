@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="column col-sm-6 col-xs-12">
                 <div class="form-group">
                     <label class="control-label" for="user-email">Тариф</label>
-                    <div class="field-value"><?= $model->tarif->fullName; ?></div>
+                    <div class="field-value"><?= $model->tarif->name; ?></div>
                 </div>
             </div>
         </div>
