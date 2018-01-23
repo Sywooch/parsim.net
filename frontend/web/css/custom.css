@@ -239,3 +239,8 @@ div.field-value{
 .header-style-three .header-top .link-nav li a {
     color: rgb(255, 255, 255)!important;
 }
+
+.main-header .header-top .top-right .login-btn,
+.header-style-three .header-top .top-right .login-btn {
+    background-color: #ff5926;
+}
