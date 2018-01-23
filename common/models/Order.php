@@ -198,7 +198,7 @@ class Order extends \yii\db\ActiveRecord
             $transaction->user_id=$this->user_id;
             $transaction->order_id=$this->id;
             $transaction->amount=-1*$this->amount;
-            $transaction->description='Списание средств в счет оплаты периода с '.Yii::$app->formatter->asDate($this->begin).' по '.Yii::$app->formatter->asDate($this->end).' по тарифу '.$this->tarif->name;
+            $transaction->description='Оплата услуг с '.Yii::$app->formatter->asDate($this->begin).' по '.Yii::$app->formatter->asDate($this->end).' по тарифу '.$this->tarif->name;
 
             if($transaction->save()){
                 $this->status=self::STATUS_PAID;
