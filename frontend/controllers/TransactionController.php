@@ -156,7 +156,7 @@ class TransactionController extends Controller
 
     protected function findTransaction($alias,$user_id)
     {
-        $model = Transaction::find()->where(['alias'=>$alias,'type'=>Transaction::TYPE_IN,'status'=>Transaction::STATUS_NEW,'user_id'=>$user_id])->one())
+        $model = Transaction::find()->where(['alias'=>$alias,'type'=>Transaction::TYPE_IN,'status'=>Transaction::STATUS_NEW,'user_id'=>$user_id])->one();
         //$model = Transaction::find()->where(['alias'=>$alias])->one();
         if($model){
             return $model;
