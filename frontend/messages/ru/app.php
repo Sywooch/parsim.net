@@ -41,6 +41,9 @@ return [
   'Enter your E-mail'=>'E-mail',
   'Enter your password'=>'Пароль',
 
+  //Common
+  'Create'=>'Создать',
+
   //User
   'First name'=>'Имя',
   'Last name'=>'Фамилия',
@@ -57,6 +60,11 @@ return [
   'Subject'=>'Тема',
   'Message'=>'Сообщение',
 
+  //Request
+  'Target Url'=>'Целевой URL',
+  'Parsing frequency'=>'Частота сканирования',
+  'URL - resonse handler'=>'URL, куда отправить результат',
+  'E-mail - resonse handler'=>'E-mail, куда отправить результат',
   
 ];
 
