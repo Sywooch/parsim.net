@@ -4,6 +4,7 @@
 
   use common\models\User;
   use common\models\Notification;
+  use common\models\Transaction;
 
   use frontend\assets\AppAsset;
   AppAsset::register($this);
@@ -60,21 +61,13 @@
                   <!--Top Left-->
                   <div class="top-left">
                     <ul class="link-nav clearfix">
-                        <li><a href="#"><span class="icon fa fa-phone"></span>Внимание! На Вашем счете недостаточно средств для работы парсера.</a></li>
-                          <li><a href="#"><span class="icon fa fa-envelope"></span>seoboostinc@gmail.com</a></li>
+                        <li><a href="#"><span class="icon fa fa-phone"></span>Внимание! На Вашем счете недостаточно средств.</a></li>
                       </ul>
                   </div>
                   
                   <!--Top Right-->
                   <div class="top-right">
-                    <ul class="social-icon-one">
-                        <li>Stay Connected</li>
-                          <li><a href="#"><span class="fa fa-facebook"></span></a></li>
-                          <li><a href="#"><span class="fa fa-twitter"></span></a></li>
-                          <li><a href="#"><span class="fa fa-google-plus"></span></a></li>
-                          <li><a href="#"><span class="fa fa-pinterest-p"></span></a></li>
-                      </ul>
-                      <a href="#" class="login-btn"><span class="icon fa fa-lock"></span>Login</a>
+                    <a href="<?= Transaction::getCreateUrl(); ?>" class="login-btn"><span class="icon fa fa-lock"></span>Пополнить счет</a>
                   </div>
                   
               </div>
