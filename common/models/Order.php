@@ -53,10 +53,6 @@ class Order extends \yii\db\ActiveRecord
     {
         return [
             [['tarif_id','amount'], 'required'],
-            [['email'], 'required','when' => function($model) {
-                return Yii::$app->user->isGuest;
-            }],
-            [['email'], 'email'],
             [['user_id', 'tarif_id', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at','qty'], 'integer'],
             [['tarif_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tarif::className(), 'targetAttribute' => ['tarif_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -104,24 +100,18 @@ class Order extends \yii\db\ActiveRecord
     // Блок событий ActiveRecord
     //
     //=========================================================
+    /*
     public function beforeSave($insert)
     {
-        if (parent::beforeSave($insert)){
-            $this->price=$this->tarif->price;
-            $this->user_id=Yii::$app->user->identity->id;
-            
-            if($this->tarif->type==Tarif::TYPE_COST_PER_ACTION){
-                $this->qty=$this->amount/$this->price;
-            }
-            if($this->tarif->type==Tarif::STATUS_COST_PER_PERIOD){
-                $this->amount=$this->qty*$this->price;
-            }
-            
-
-            return true;
+        if (!parent::beforeSave($insert)){
+            return false;
         }
-        return false;
+
+        //some code ..
+
+        return true;
     }
+    */
 
     //=========================================================
     //
