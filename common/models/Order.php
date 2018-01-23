@@ -175,7 +175,9 @@ class Order extends \yii\db\ActiveRecord
     {
 
         $this->tarif_id=$tarif->id;
-        $this->amount=$tarif->price;
+        $this->qty=1;
+        $this->price=$tarif->price;
+        $this->amount=$this->qty*$this->price;
         $this->end=strtotime('+'.$this->tarif->time_limit.' '.$this->tarif->time_unit, $this->begin);
     }
 
