@@ -64,7 +64,7 @@ class TransactionController extends Controller
                     $alias = $request->post('orderNumber');
                     $user_id=(int) $request->post('customerNumber');
                     
-                    return $this->findTransaction($alias,$user_id);
+                    return true;//$this->findTransaction($alias,$user_id);
 
                 }
             ],
@@ -111,7 +111,7 @@ class TransactionController extends Controller
         $model->status=Transaction::STATUS_NEW;
         $model->user_id=Yii::$app->user->id;
         $model->description='Пополнение счета пользователя';
-        
+
         $model->amount=$amount;
 
 
