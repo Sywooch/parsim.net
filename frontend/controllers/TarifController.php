@@ -93,13 +93,8 @@ class TarifController extends Controller
                 }else{
                     //Создаю новую транзакции превода средст со счета пользователя на счет Parsin.NET
                     //в счет оплаты подписки на текущий период
-                    $transaction=new Transaction();
-                    $transaction->type=Transaction::TYPE_OUT;
-                    $transaction->amount=-1*$orderAmount;
-                    $transaction->user_id=$user->id;
-                    $transaction->order_id=$currentOrder->id;
-                    $transaction->description='Списание средств в счет оплаты периода с '.Yii::$app->formatter->asDate($currentOrder->begin).' по '.Yii::$app->formatter->asDate($currentOrder->end).' по тарифу '.$currentOrder->tarif->name;
-                    $transaction->save();
+                    $currentOrder->pay();
+                    
                 }
 
             }

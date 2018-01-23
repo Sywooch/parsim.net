@@ -197,5 +197,27 @@ class Order extends \yii\db\ActiveRecord
         return false;
     }
 
+    public function pay()
+    {
+        
+        if($this->user->balanse>=$this->amount){
+
+            $transaction=new Transaction();
+            $transaction->type=Transaction::TYPE_OUT;
+            $transaction->status=Transaction::STATUS_SUCCESS;
+            $transaction->user_id=$this->user_id;
+            $transaction->order_id_id=$this->id;
+            $transaction->amount=-1*$orderAmount;
+            $transaction->description='Списание средств в счет оплаты периода с '.Yii::$app->formatter->asDate($this->begin).' по '.Yii::$app->formatter->asDate($this->end).' по тарифу '.$this->tarif->name;
+
+            if($transaction->save()){
+                $this->status=self::STATUS_PAID;
+                return $this->save();
+            }
+
+        }
+        return false;
+    }
+
 
 }

@@ -83,10 +83,19 @@ class TransactionController extends Controller
                     if($transaction=$this->findTransaction($alias,$user_id)){
                         $transaction->status=Transaction::STATUS_SUCCESS;
                         $transaction->invoice_id=$invoice_id;
-                        return $transaction->save();
-                    }else{
-                        return false;
+                        if($transaction->save()){
+
+                            //Если требуется, оплачиваю текущий период
+                            $currentOrder=$transaction->owner->currentOrder;
+                            if(!$currentOrder->isPaid){
+                                $currentOrder->pay();
+                            }
+
+                            return true;
+                        }
                     }
+
+                    return false;
                 }
             ],
         ];
@@ -167,6 +176,7 @@ class TransactionController extends Controller
             return false;
         }
     }
+
 
     
 }
