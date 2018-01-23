@@ -85,7 +85,7 @@ class TarifController extends Controller
 
                 //Если у пользователя недостаточно средст для оплаты заказа, редирект на форму пополнения счета
                 //Иначе создаю транзакцию оплаты текущего периода
-                $userBalanse=0;//$user->balanse;
+                $userBalanse=$user->balanse;
                 $orderAmount=$currentOrder->amount;
                 if($userBalanse<$orderAmount){
                     return $this->redirect(['/transaction/create','amount'=>$orderAmount-$userBalanse]);
