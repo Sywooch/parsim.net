@@ -539,7 +539,7 @@ class User extends ActiveRecord implements IdentityInterface
         $order->qty=1;
         $order->price=$this->tarif->price;
         $order->amount=$order->qty*$order->price;
-        $order->begin=strtotime('+1 day',$this->currentOrder->end)
+        $order->begin=strtotime('+1 day',$this->currentOrder->end);
         $order->end=strtotime('+'.$this->tarif->time_limit.' '.$this->tarif->time_unit,$order->begin);
         $order->save();
         
