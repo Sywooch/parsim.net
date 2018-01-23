@@ -88,8 +88,16 @@ class TarifController extends Controller
                 $userBalanse=$user->balanse;
                 $orderAmount=$currentOrder->amount;
                 if($userBalanse<$orderAmount){
+
+                    $message='<p>Тариф успешно изменен!</p>';
+                    $message.='<p>Для начала работы требуется пополнить счет</p>';
+                    Yii::$app->getSession()->setFlash('success', $message);
+
                     return $this->redirect(['/transaction/create','amount'=>$orderAmount-$userBalanse]);
                 }else{
+                    $message='<p>Тариф успешно изменен!</p>';
+                    Yii::$app->getSession()->setFlash('success', $message);
+
                     //Создаю новую транзакции превода средст со счета пользователя на счет Parsin.NET
                     //в счет оплаты подписки на текущий период
                     $currentOrder->pay();
