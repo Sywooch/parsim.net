@@ -13,7 +13,7 @@ use common\models\PasswordResetForm;
 use common\models\PasswordChangeForm;
 
 use common\models\searchForms\TransactionSearch;
-use common\models\Transaction;
+//use common\models\Transaction;
 
 use yii\web\BadRequestHttpException;
 
@@ -158,7 +158,7 @@ class UserController extends Controller
         $this->layout = 'column2';
         $searchModel = new TransactionSearch();
         $searchModel->user_id=Yii::$app->user->id;
-        $searchModel->status=Transaction::STATUS_SUCCESS;
+        $searchModel->status=TransactionSearch::STATUS_SUCCESS;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('transaction', [
