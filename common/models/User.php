@@ -501,7 +501,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $currentOrder=$this->getCurrentOrder();
 
-        if($currentOrder && !$currentOrder->isPaid && $this->balance<$currentOrder->amount){
+        if($currentOrder && !$currentOrder->isPaid && $this->balanse<$currentOrder->amount){
             return true;
         }
         return false;
