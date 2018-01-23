@@ -204,7 +204,6 @@ class Order extends \yii\db\ActiveRecord
                 $this->status=self::STATUS_PAID;
                 return $this->save();
             }
-
         }
         return false;
     }

@@ -26,6 +26,8 @@
   <!-- Preloader -->
   <div class="preloader"></div>
 
+  
+
   <ul id="noty_topRight_layout_container" class="i-am-new" style="top: 20px; right: 20px; position: fixed; width: 310px; height: auto; margin: 0px; padding: 0px; list-style-type: none; z-index: 10000000;">
     <?php if(Yii::$app->getSession()->hasFlash('error')): ?>
     <li style="overflow: hidden; border-radius: 3px; margin-bottom: 1px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px; background-color: rgb(239, 83, 80); color: rgb(255, 255, 255); width: 310px; cursor: pointer;">
@@ -47,10 +49,36 @@
     <?php endif; ?>
   </ul>
 
-
   <!-- Main Header-->
   <header class="<?= (isset($this->params['headerClass'])?$this->params['headerClass']:'main-header header-style-three'); ?>">
-    
+      <div class="header-top">
+        <div class="auto-container">
+            <div class="clearfix">
+                  
+                  <!--Top Left-->
+                  <div class="top-left">
+                    <ul class="link-nav clearfix">
+                        <li><a href="#"><span class="icon fa fa-phone"></span>(880) 172 380 956</a></li>
+                          <li><a href="#"><span class="icon fa fa-envelope"></span>seoboostinc@gmail.com</a></li>
+                      </ul>
+                  </div>
+                  
+                  <!--Top Right-->
+                  <div class="top-right">
+                    <ul class="social-icon-one">
+                        <li>Stay Connected</li>
+                          <li><a href="#"><span class="fa fa-facebook"></span></a></li>
+                          <li><a href="#"><span class="fa fa-twitter"></span></a></li>
+                          <li><a href="#"><span class="fa fa-google-plus"></span></a></li>
+                          <li><a href="#"><span class="fa fa-pinterest-p"></span></a></li>
+                      </ul>
+                      <a href="#" class="login-btn"><span class="icon fa fa-lock"></span>Login</a>
+                  </div>
+                  
+              </div>
+              
+          </div>
+      </div>
       <!-- Main Box -->
       <div class="main-box">
         <div class="auto-container">
