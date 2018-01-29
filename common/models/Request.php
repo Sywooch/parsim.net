@@ -191,7 +191,7 @@ class Request extends \yii\db\ActiveRecord
         if (!parent::beforeSave($insert)) {
             return false;
         }
-
+        /*
         if(!isset($this->parser_id)){
             $parser=Parser::findByUrl($this->request_url);
             if(isset($parser)){
@@ -217,6 +217,7 @@ class Request extends \yii\db\ActiveRecord
             $this->sleep_time=null;
             $this->tarif_id=Tarif::FREE_TARIF;
         }
+        */
         
 
         return true;
@@ -228,7 +229,7 @@ class Request extends \yii\db\ActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
 
-        
+        /*
         if($insert && !isset($this->parser_id)){
             //Если во время СОЗДАНИЯ запрса не было заполнено поле parser_id,
             //значит по данному URL не был найден парсер и нужно зарегит на эту тему 
@@ -236,6 +237,7 @@ class Request extends \yii\db\ActiveRecord
 
             $this->regError(Error::CODE_PARSER_NOT_FOUND);
         }
+        */
 
     }
 

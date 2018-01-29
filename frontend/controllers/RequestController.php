@@ -15,6 +15,7 @@ use common\models\User;
 use common\models\SignupForm;
 
 use common\models\Request;
+use common\models\Parser;
 
 
 
@@ -66,12 +67,32 @@ class RequestController extends Controller
     {
         $model=new Request();
         
-        $model->tarif_id=Tarif::DEFAULT_TARIF;
+        $model->tarif_id=Yii::$app->user->identity->tarif_id;
 
-        $model->sleep_time=1440;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()){
-            return $this->redirect($model->getUrl('frontend','view'));
+        if ($model->load(Yii::$app->request->post()) ){
+
+            //Определяю парсер
+            $parser=Parser::findByUrl($model->request_url);
+            if(isset($parser)){
+                $model->parser_id=$parser->id;    
+            }else{
+                $parser=new Parser();
+                $parser->type_id=Parser::TYPE_PRODUCT;
+                $parser->name=parse_url($model->request_url, PHP_URL_HOST);
+                $parser->reg_exp='(^http[s]?://.*'.parse_url($model->request_url, PHP_URL_HOST).'/.*$)';
+                $parser->status=Parser::STATUS_FIXING;
+                $parser->save();
+
+                $model->parser_id=$parser->id;
+                $model->status=Request::STATUS_READY;
+            }
+
+            
+            if($model->save() ){
+                return $this->redirect($model->getUrl('frontend','view'));    
+            }
+            
         }
 
         return $this->render('create',[

@@ -30,6 +30,8 @@ class Parser extends \yii\db\ActiveRecord
     const STATUS_HAS_ERROR = 1;
     const STATUS_FIXING = 2;
 
+    const TYPE_PRODUCT = 1;
+
     //public $testUrls;
     //public $parsActions;
     
