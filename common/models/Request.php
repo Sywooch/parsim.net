@@ -191,6 +191,12 @@ class Request extends \yii\db\ActiveRecord
         if (!parent::beforeSave($insert)) {
             return false;
         }
+        if($insert){
+            $this->created_by=Yii::$app->user->id;
+        }
+        $this->updated_by=Yii::$app->user->id;
+        
+
         /*
         if(!isset($this->parser_id)){
             $parser=Parser::findByUrl($this->request_url);
