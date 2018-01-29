@@ -216,7 +216,7 @@ $this->params['keywords']='Парсер, парсер сайтов, парсин
             <!--Content Column-->
             <div class="content-column col-md-7 col-sm-12 col-xs-12">
                 <div class="inner-content">
-                    <h2>Создайте бесплатный аккаунт и попробуй работу парсера</h2>
+                    <h2>Создайте бесплатный аккаунт и попробуйте работу парсера</h2>
                     <div class="dark-text">Для регистрации достаточно указать Ваш E-mail и придумать пароль.</div>
                     
                 </div>
