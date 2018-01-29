@@ -31,6 +31,13 @@ class Request extends \yii\db\ActiveRecord
     const STATUS_FIXING = 5;      //ожидает оплаты 
 
 
+    const ERROR_NEED_PAY = 1;
+
+    public $errorDescription=[
+        self::ERROR_NEED_PAY=>'Требуется пополнить счет',    
+    ];
+
+
     // Сценарии создания запрос
     const SCENARIO_DEMO='demo';     //запрос создан в демо режиме (оплата не требуется)
 
@@ -488,6 +495,27 @@ class Request extends \yii\db\ActiveRecord
         }
         return -1*$sum;
 
+    }
+
+
+    public function reg($order)
+    {
+        if($this->canAddRequest()){
+
+        }
+
+        return false;
+    }
+
+    public function canAddRequest()
+    {
+        $this->addError('custom_error',self::ERROR_NEED_PAY);
+        return false;
+    }
+
+    public function getErrorMsg()
+    {
+        return $this->errorDescription[$this->getFirstError('custom_error')];
     }
 
     

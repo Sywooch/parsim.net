@@ -73,7 +73,7 @@ class RequestController extends Controller
         
         if($model->load(Yii::$app->request->post()) ){
             if($currentOrder=Yii::$app->user->identity->currentOrder){
-                if($model=$currentOrder->addRequest($model)){
+                if($model->reg($currentOrder)){
                     return $this->redirect($model->getUrl('frontend','view'));    
                 }else{
                     echo $model->errorMsg;
