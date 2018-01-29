@@ -714,7 +714,7 @@ class Request extends \yii\db\ActiveRecord
     //
     //=========================================================
 
-    public static function getUrl($app='frontend',$url='index')
+    public static function getUrl($app='frontend',$action='index')
     {
         $data=[
             'frontend'=>[
