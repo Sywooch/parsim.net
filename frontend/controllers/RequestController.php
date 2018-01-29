@@ -90,7 +90,7 @@ class RequestController extends Controller
                 $parserAction->selector='enter selector here';
                 $parserAction->example_url=$model->request_url;
 
-                $parser->actionsArray[]=$parserAction;
+                $parser->actionsArray=[$parserAction];
                 $parser->save();
 
                 $model->parser_id=$parser->id;
