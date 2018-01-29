@@ -93,7 +93,6 @@ class m180124_185939_create_order_response_table extends Migration
             'id',
             'CASCADE'
         );
-
     }
 
     /**
