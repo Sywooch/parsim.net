@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="row">
       <div class="col-sm-12">
-        <a href="<?= $model->updateUrl; ?>" class=" theme-btn btn-style-one pull-right">Изменить запрос</a>
+        <a href="<?= $model->getUrl('frontend','update'); ?>" class=" theme-btn btn-style-one pull-right">Изменить запрос</a>
       </div>
     </div>
 </div>
