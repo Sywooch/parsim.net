@@ -21,6 +21,14 @@ class Order extends \yii\db\ActiveRecord
     const STATUS_NEW = 0;
     const STATUS_PAID = 1;
 
+    const ERROR_NEED_PAY = 1;
+
+    public $errorDescription=[
+        Order::ERROR_NEED_PAY=>'Требуется пополнить счет',    
+    ];
+
+
+
     //const STATUS_DISABLED = 0;
     //const STATUS_ENABLED = 1;
 
@@ -206,6 +214,26 @@ class Order extends \yii\db\ActiveRecord
             }
         }
         return false;
+    }
+
+    public function addRequest($request)
+    {
+        if($this->canAddRequest()){
+
+        }else{
+            return false;
+        }
+
+    }
+
+    public function canAddRequest()
+    {
+        $this->addError('custom_error',self::ERROR_NEED_PAY);
+    }
+
+    public function getErrorMsg()
+    {
+        return $this->$this->errorDescription[getFirstError('custom_error')];
     }
 
 

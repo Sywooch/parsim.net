@@ -68,10 +68,25 @@ class RequestController extends Controller
     {
         $model=new Request();
         
-        $model->tarif_id=Yii::$app->user->identity->tarif_id;
+        //$model->tarif_id=Yii::$app->user->identity->tarif_id;
 
+        
+        if($model->load(Yii::$app->request->post()) ){
+            if($currentOrder=Yii::$app->user->identity->currentOrder){
+                if($model=$currentOrder->addRequest($model)){
+                    return $this->redirect($model->getUrl('frontend','view'));    
+                }else{
+                    echo $model->errorMsg;
+                    die;
+                }
+            }else{
+                //Ошибка услуга не подключена
+                //Если тариф выбран, переход на форму оплаты
 
-        if ($model->load(Yii::$app->request->post()) ){
+                //Если тариф не установлен, переход на форму выбора тарифа
+            }
+
+            $model->status=Request::STATUS_READY;
 
             //Определяю парсер
             $parser=Parser::findByUrl($model->request_url);
@@ -93,11 +108,11 @@ class RequestController extends Controller
                 $parserAction->description='Действие создано автоматически во время создания нового запроса для несуществующего парсера. Данное действие нобходимо донастроить и отладить';
 
                 $parser->actionsArray=[$parserAction];
-                $parser->save();
 
-                $model->parser_id=$parser->id;
-                $model->action_id=$parser->actions[0]->id;
-                $model->status=Request::STATUS_READY;
+                if($parser->save()){
+                    $model->parser_id=$parser->id;
+                    $model->action_id=$parser->actions[0]->id;    
+                }
             }
 
             
@@ -107,6 +122,7 @@ class RequestController extends Controller
             }
             
         }
+        
 
         return $this->render('create',[
             'model'=>$model,

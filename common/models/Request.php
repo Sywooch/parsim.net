@@ -148,9 +148,9 @@ class Request extends \yii\db\ActiveRecord
     }
 
     //Тариф запроса
-    public function getTarif(){
-        return $this->hasOne(Tarif::className(), ['id' => 'tarif_id']);
-    }
+    //public function getTarif(){
+    //    return $this->hasOne(Tarif::className(), ['id' => 'tarif_id']);
+    //}
 
     //Парсер запросов
     public function getParser(){
