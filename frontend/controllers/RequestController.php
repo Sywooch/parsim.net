@@ -87,7 +87,7 @@ class RequestController extends Controller
 
                 //Если тариф не установлен, переход на форму выбора тарифа
             }
-
+            /*
             $model->status=Request::STATUS_READY;
 
             //Определяю парсер
@@ -122,6 +122,7 @@ class RequestController extends Controller
 
                 return $this->redirect($model->getUrl('frontend','view'));    
             }
+            */
             
         }
         
