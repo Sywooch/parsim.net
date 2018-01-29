@@ -14,7 +14,7 @@ use common\models\Error;
 use common\models\User;
 use common\models\SignupForm;
 
-use frontend\models\Request;
+use common\models\Request;
 
 
 
@@ -71,7 +71,7 @@ class RequestController extends Controller
         $model->sleep_time=1440;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()){
-            return $this->redirect($model->viewUrl);
+            return $this->redirect($model->getUrl('frontend','view'));
         }
 
         return $this->render('create',[

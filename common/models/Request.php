@@ -713,6 +713,27 @@ class Request extends \yii\db\ActiveRecord
     // Блок генерации Url
     //
     //=========================================================
+
+    public static function getUrl($app='frontend',$url='index')
+    {
+        $data=[
+            'frontend'=>[
+                'index'=>Yii::$app->urlManager->createUrl(['request/index']),
+                'create'=>Yii::$app->urlManager->createUrl(['request/create']),
+                'update'=>Yii::$app->urlManager->createUrl(['request/update','alias'=>$this->alias]),
+                'view'=>Yii::$app->urlManager->createUrl(['request/view','alias'=>$this->alias]),
+                'delete'=>Yii::$app->urlManager->createUrl(['request/delete','alias'=>$this->alias]),
+            ],
+            'backend'=>[
+                'index'=>Yii::$app->urlManager->createUrl(['request/index']),
+                'create'=>Yii::$app->urlManager->createUrl(['request/create']),
+                'update'=>Yii::$app->urlManager->createUrl(['request/update','id'=>$this->id]),
+                'view'=>Yii::$app->urlManager->createUrl(['request/view','id'=>$this->id]),
+                'delete'=>Yii::$app->urlManager->createUrl(['request/delete','id'=>$this->id]),
+            ],
+        ];
+
+    }
     public static function getIndexUrl()
     {
         return Yii::$app->urlManager->createUrl(['request/index']);
