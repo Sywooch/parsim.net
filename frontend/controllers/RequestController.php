@@ -79,6 +79,7 @@ class RequestController extends Controller
             }else{
                 $parser=new Parser();
                 $parser->type_id=Parser::TYPE_PRODUCT;
+                $parser->loader_type=0;
                 $parser->name=parse_url($model->request_url, PHP_URL_HOST);
                 $parser->reg_exp='(^http[s]?://.*'.parse_url($model->request_url, PHP_URL_HOST).'/.*$)';
                 $parser->status=Parser::STATUS_FIXING;
