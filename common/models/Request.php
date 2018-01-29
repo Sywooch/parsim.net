@@ -733,6 +733,8 @@ class Request extends \yii\db\ActiveRecord
             ],
         ];
 
+        return $data[$app][$action];
+
     }
     public static function getIndexUrl()
     {
