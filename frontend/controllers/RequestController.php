@@ -83,9 +83,9 @@ class RequestController extends Controller
                 $parser->name=parse_url($model->request_url, PHP_URL_HOST);
                 $parser->reg_exp='(^http[s]?://.*'.parse_url($model->request_url, PHP_URL_HOST).'/.*$)';
                 $parser->status=Parser::STATUS_FIXING;
-                if(!$parser->save() ){
-                    $model->addErrors($parser->errors);
-                }
+                
+                echo json_encode($parser->validate() );
+                die;
 
                 $model->parser_id=$parser->id;
                 $model->status=Request::STATUS_READY;
@@ -93,7 +93,7 @@ class RequestController extends Controller
 
             
             if($model->save() ){
-                $model->addErrors($parser->errors);
+
                 return $this->redirect($model->getUrl('frontend','view'));    
             }
             
