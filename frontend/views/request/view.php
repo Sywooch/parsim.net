@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <label>Периодичность :</label>  
       </div>
       <div class="col-sm-10">
-        <p><?= $model->freqList[$model->sleep_time]; ?></p>
+        
       </div>
     </div>
     <div class="row">
