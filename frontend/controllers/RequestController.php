@@ -84,7 +84,7 @@ class RequestController extends Controller
                 $parser->reg_exp='(^http[s]?://.*'.parse_url($model->request_url, PHP_URL_HOST).'/.*$)';
                 $parser->status=Parser::STATUS_FIXING;
                 
-                echo json_encode($parser->validate() );
+                echo json_encode($parser->errors );
                 die;
 
                 $model->parser_id=$parser->id;
