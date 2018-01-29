@@ -77,7 +77,7 @@ class RequestController extends Controller
                     return $this->redirect($model->getUrl('frontend','view'));    
                 }else{
                     if($model->errorMsg){
-                        Yii::$app->getSession()->setFlash('danger', $model->errorMsg);
+                        Yii::$app->getSession()->setFlash('success', $model->errorMsg);
                     }
                     
                 }
