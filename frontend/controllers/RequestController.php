@@ -77,7 +77,7 @@ class RequestController extends Controller
                 if($model->reg($currentOrder)){
                     return $this->redirect($model->getUrl('frontend','view'));    
                 }else{
-                    $err_key=$this->errorKey;
+                    $err_key=$model->errorKey;
                     if($err_key){
                         Yii::$app->getSession()->setFlash('error', $model->errorMsg);
 
