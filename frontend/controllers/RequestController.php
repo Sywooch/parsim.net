@@ -93,6 +93,7 @@ class RequestController extends Controller
 
             
             if($model->save() ){
+                $model->addErrors($parser->errors);
                 return $this->redirect($model->getUrl('frontend','view'));    
             }
             
