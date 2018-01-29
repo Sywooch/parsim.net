@@ -79,7 +79,7 @@ class RequestController extends Controller
                 }else{
                     $err_key=$model->errorKey;
                     if($err_key){
-                        Yii::$app->getSession()->setFlash('error', $model->errorMsg);
+                        Yii::$app->getSession()->setFlash('error', '111');
 
                         if($err_key==Request::ERROR_NEED_PAY){
                             return $this->redirect(Transaction::getCreateUrl());
