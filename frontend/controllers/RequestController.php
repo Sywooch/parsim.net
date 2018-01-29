@@ -90,11 +90,13 @@ class RequestController extends Controller
                 $parserAction->name='default action';
                 $parserAction->selector='enter selector here';
                 $parserAction->example_url=$model->request_url;
+                $parserAction->description='Действие создано автоматически во время создания нового запроса для несуществующего парсера. Данное действие нобходимо донастроить и отладить';
 
                 $parser->actionsArray=[$parserAction];
                 $parser->save();
 
                 $model->parser_id=$parser->id;
+                $model->action_id=$parser->actions[0]->id;
                 $model->status=Request::STATUS_READY;
             }
 
