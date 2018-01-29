@@ -84,8 +84,13 @@ class RequestController extends Controller
                 $parser->reg_exp='(^http[s]?://.*'.parse_url($model->request_url, PHP_URL_HOST).'/.*$)';
                 $parser->status=Parser::STATUS_FIXING;
                 
-                echo json_encode($parser->errors );
-                die;
+                $parserAction=new ParserAction();
+                $parserAction->name='default action';
+                $parserAction->selector='enter selector here';
+                $parserAction->example_url=$model->request_url;
+
+                $parser->actionsArray[]=$parserAction;
+                $parser->save();
 
                 $model->parser_id=$parser->id;
                 $model->status=Request::STATUS_READY;
