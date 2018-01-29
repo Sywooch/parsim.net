@@ -76,8 +76,10 @@ class RequestController extends Controller
                 if($model->reg($currentOrder)){
                     return $this->redirect($model->getUrl('frontend','view'));    
                 }else{
-                    echo $model->errorMsg;
-                    die;
+                    if($model->errorMsg){
+                        Yii::$app->getSession()->setFlash('danger', $model->errorMsg);
+                    }
+                    
                 }
             }else{
                 //Ошибка услуга не подключена

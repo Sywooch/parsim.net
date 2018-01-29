@@ -515,7 +515,11 @@ class Request extends \yii\db\ActiveRecord
 
     public function getErrorMsg()
     {
-        return $this->errorDescription[$this->getFirstError('custom_error')];
+        $err_key=$this->getFirstError('custom_error');
+        if($err_key){
+            return $this->errorDescription[$err_key];    
+        }
+        return null;
     }
 
     
