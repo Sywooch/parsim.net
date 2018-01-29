@@ -14,7 +14,7 @@ use common\models\Error;
 use common\models\User;
 use common\models\SignupForm;
 
-use fontend\models\Request;
+use frontend\models\Request;
 
 
 
