@@ -86,6 +86,7 @@ class RequestController extends Controller
                 $parser->status=Parser::STATUS_FIXING;
                 
                 $parserAction=new ParserAction();
+                $parserAction->status=ParserAction::STATUS_FIXING;
                 $parserAction->name='default action';
                 $parserAction->selector='enter selector here';
                 $parserAction->example_url=$model->request_url;
