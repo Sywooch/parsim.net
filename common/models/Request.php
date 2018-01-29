@@ -517,7 +517,7 @@ class Request extends \yii\db\ActiveRecord
     {
         $err_key=$this->errorKey;
         if($err_key){
-            $this->errorDescription[$err_key];
+            return $this->errorDescription[$err_key];
         }
         return null;
     }
