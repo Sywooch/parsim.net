@@ -17,6 +17,7 @@ use common\models\SignupForm;
 use common\models\Request;
 use common\models\Parser;
 use common\models\ParserAction;
+use common\models\Transaction;
 
 
 
@@ -76,9 +77,17 @@ class RequestController extends Controller
                 if($model->reg($currentOrder)){
                     return $this->redirect($model->getUrl('frontend','view'));    
                 }else{
-                    if($model->errorMsg){
+                    $err_key=$this->errorKey;
+                    if($err_key){
                         Yii::$app->getSession()->setFlash('error', $model->errorMsg);
+
+                        if($err_key==Request::ERROR_NEED_PAY){
+                            return $this->redirect(Transaction::getCreateUrl());
+                        }
+
                     }
+
+                    
                 }
             }else{
                 //Ошибка услуга не подключена

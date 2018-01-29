@@ -34,7 +34,7 @@ class Request extends \yii\db\ActiveRecord
     const ERROR_NEED_PAY = 1;
 
     public $errorDescription=[
-        self::ERROR_NEED_PAY=>'Требуется пополнить счет',    
+        self::ERROR_NEED_PAY=>'Для создания запроса недостаточно средств на счете. Необходимо пополнить счет.',    
     ];
 
 
@@ -515,11 +515,15 @@ class Request extends \yii\db\ActiveRecord
 
     public function getErrorMsg()
     {
-        $err_key=$this->getFirstError('custom_error');
+        $err_key=$this->errorKey;
         if($err_key){
-            return $this->errorDescription[$err_key];    
+            $this->errorDescription[$err_key];
         }
         return null;
+    }
+    public function getErrorKey()
+    {
+        return $this->getFirstError('custom_error');
     }
 
     
