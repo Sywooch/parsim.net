@@ -41,7 +41,7 @@ class ResponseController extends Controller
         }
 
         //Загружаю контент
-        foreach (Response::find()->wher(['status'=>Response::STATUS_READY])->all() as $key => $response){
+        foreach (Response::find()->where(['status'=>Response::STATUS_READY])->all() as $key => $response){
             $request=$response->request;
             $content_path=$response->contentPath;
 
