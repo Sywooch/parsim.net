@@ -11,7 +11,7 @@
         <tr>
           <th width="100px">ID запроса</th>
           <th>Целевой Url</th>
-          <th width="20px">Ответов</th>
+          <th width="20px">Ответы</th>
           <th width="50px">Статус</th>
           <th width="120px">Создан</th>
         </tr>
