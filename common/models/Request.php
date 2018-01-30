@@ -28,7 +28,7 @@ class Request extends \yii\db\ActiveRecord
     const STATUS_SUCCESS = 2;       //обработка завершена успешно
     const STATUS_ERROR = 3;         //обработка завершена с ошибками
     const STATUS_NEED_PAY = 4;      //ожидает оплаты 
-    const STATUS_FIXING = 5;      //ожидает оплаты 
+    const STATUS_FIXING = 5;      //ожидает  ремонта парсера 
 
 
     //Возможные сценарии
@@ -241,10 +241,15 @@ class Request extends \yii\db\ActiveRecord
     {
 
         //Обновляю статус ранее обработанных запросов
-        Request::updateAll(
-             ['status' => Request::STATUS_READY],
-             'status='.Request::STATUS_SUCCESS.' AND '.'EXTRACT(EPOCH FROM current_timestamp-to_timestamp(updated_at))/60 >= sleep_time'
-        );
+        $requests= Request::find()->where('status='.Request::STATUS_READY.' OR status='.Request::STATUS_FIXING.' OR (status='.Request::STATUS_SUCCESS.' AND '.'EXTRACT(EPOCH FROM current_timestamp-to_timestamp(updated_at))/60 >= sleep_time)')->all();
+        foreach ($requests as $key => $request) {
+            if($request->parser->status==Parser::STATUS_READY){
+                $request->status=Request::STATUS_READY;
+            }else{
+                $request->status=Request::STATUS_FIXING;
+            }
+            $request->save();
+        }
 
         return Request::find()->where(['status'=>Request::STATUS_READY])->all();
 
