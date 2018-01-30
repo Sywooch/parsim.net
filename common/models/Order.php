@@ -247,15 +247,29 @@ class Order extends \yii\db\ActiveRecord
         return parse_url($url,PHP_URL_HOST);
     }
 
+
     public function addParser($url)
     {
         $parser=Parser::findByUrl($url);
 
-        $order_parser=new OrderParser();
+        //Добавляю и оплачиваю парсер, если такого парсера еще нет
+        if(OrderParser::findOne(['order_id'=>$this->id,'parser_id'=>$parser->id])==null){
+            $order_parser=new OrderParser();
 
-        $order_parser->order_id=$this->id;
-        $order_parser->parser_id=$parser->id;
-        $order_parser->save();
+            $order_parser->order_id=$this->id;
+            $order_parser->parser_id=$parser->id;
+            $order_parser->qty=1;
+
+            if($this->getHostCount($url)<=$this->tarif->host_limit){
+                $order_parser->price=0; //стоимость была включена в тариф
+            }else{
+                $order_parser->price=$this->tarif->extra_host_price; //оплата сверх тарифа
+            }
+            
+            if($order_parser->save()){
+                $order_parser->pay();
+            }    
+        }
         
     }
 

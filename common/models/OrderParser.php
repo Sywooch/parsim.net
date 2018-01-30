@@ -29,6 +29,22 @@ class OrderParser extends \yii\db\ActiveRecord
         return 'order_parser';
     }
 
+    //=========================================================
+    //
+    // Блок relations
+    //
+    //=========================================================
+    public function getOrder()
+    {
+        return $this->hasOne(Order::className(), ['id' => 'order_id']);
+    }
+    public function getParser()
+    {
+        return $this->hasOne(Parser::className(), ['id' => 'parser_id']);
+    }
+
+
+
     public function behaviors()
     {
         return [
@@ -57,6 +73,23 @@ class OrderParser extends \yii\db\ActiveRecord
             'parser_id' => Yii::t('app', 'Parser ID'),
             'status' => Yii::t('app', 'Status'),
         ];
+    }
+
+    public function pay()
+    {
+        //Если цена нулевая (стоимость включена в тариф), то оплата не требуется
+        if($this->price==0){
+            return true;
+        }
+
+        $t= new Transaction();
+        $t->type=Transaction::TYPE_OUT;
+        $t->status=Transaction::STATUS_SUCCESS;
+        $t->user_id=$this->order->user_id;
+        $t->order_id=$this->order_id;
+        $t->amount=-1*$this->price*$this->qty;
+        $t->description='Оплата по тарифу '.$this->order->tarif->name.' за дополнительный хост '.$this->parser->name;
+        return $t->save();
     }
 
     

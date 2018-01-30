@@ -139,7 +139,7 @@ class Request extends \yii\db\ActiveRecord
             }
 
             $tarif=$currentOrder->tarif;
-            $balanse=0;//$owner->balanse;
+            $balanse=$owner->balanse;
             
             //Если превышен лимит по хостам и у пользователя недостаточно средств
             if($tarif->host_limit<$currentOrder->getHostCount($this->request_url) && $balanse<$tarif->extra_host_price){
