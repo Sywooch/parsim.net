@@ -17,7 +17,7 @@ class ResponseController extends Controller
 
     public function actionUpdate(){
 
-        $requests->getReadyToProcess();
+        $requests=Request::getReadyToProcess();
         
         foreach ($requests as $key => $request) {
             //Создаю новый ответ
