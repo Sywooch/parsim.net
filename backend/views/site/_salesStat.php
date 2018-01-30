@@ -1,6 +1,6 @@
 <div class="panel panel-flat">
   <div class="panel-heading">
-    <h6 class="panel-title">Sales stats</h6>
+    <h6 class="panel-title">Оплата услуг</h6>
     <div class="heading-elements">
       <span class="heading-text">Ammount: <span class="text-bold text-danger-600 position-right">$4,378</span></span>
       <button type="button" class="btn btn-link daterange-ranges heading-btn text-semibold">

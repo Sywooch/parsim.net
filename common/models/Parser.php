@@ -26,6 +26,7 @@ use yii\httpclient\Client;
  */
 class Parser extends \yii\db\ActiveRecord
 {
+    const STATUS_NEW = 3;
     const STATUS_READY = 0;
     const STATUS_HAS_ERROR = 1;
     const STATUS_FIXING = 2;
