@@ -17,17 +17,14 @@ class ResponseController extends Controller
 
     public function actionUpdate(){
 
-        //Обновляю статус запросов для которых настало время обновить инфо
-        $requests=Request::find()->where([
-            'status'=>Request::STATUS_SUCCESS,
-        ]);
-        $requests->andWhere('EXTRACT(EPOCH FROM current_timestamp-to_timestamp(updated_at))/60 >= sleep_time');
+        $requests->getReadyToProcess();
         
-        foreach ($requests->all() as $key => $request) {
-            //$request->addResponse();
-            $request->status=Request::STATUS_READY;
-            $request->save();
+        foreach ($requests as $key => $request) {
+            //Создаю новый ответ
+            $this->stdout('URL: '.$requests->request_url.PHP_EOL);
         }
+
+        /*
 
         //Создаю новые ответы для запросов в статусе READY
         //Это запросы для которых настало время обновить информацию
@@ -86,6 +83,7 @@ class ResponseController extends Controller
 
             }
         }
+        */
         
     }
 

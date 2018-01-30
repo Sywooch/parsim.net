@@ -235,6 +235,21 @@ class Request extends \yii\db\ActiveRecord
     {
         return Request::findOne(['alias'=>$alias]);
     }
+
+    //Возвращает список запросов готовых к парсингу
+    public static function getReadyToProcess()
+    {
+
+        //Обновляю статус ранее обработанных запросов
+        Request::updateAll(
+             ['status' => Request::STATUS_READY],
+             'status='.Request::STATUS_SUCCESS.' AND '.'EXTRACT(EPOCH FROM current_timestamp-to_timestamp(updated_at))/60 >= sleep_time'
+        );
+
+        return Request::find()->where(['status'=>Request::STATUS_READY])->all();
+
+
+    }
     
     
     //=========================================================
@@ -251,35 +266,6 @@ class Request extends \yii\db\ActiveRecord
             $this->created_by=Yii::$app->user->id;
         }
         $this->updated_by=Yii::$app->user->id;
-        
-
-        /*
-        if(!isset($this->parser_id)){
-            $parser=Parser::findByUrl($this->request_url);
-            if(isset($parser)){
-                $this->parser_id=$parser->id;    
-            }    
-        }
-        
-        
-
-        //Если запрос создает/изменяет залогиненный пользователь обновляю поля автора/редактора
-        //В противном случае эти поля заполняются на уровне контроллера в процессе автоматической регистрации/определения пользователя
-        
-        if(isset(Yii::$app->user) && isset(Yii::$app->user->id)){
-            if($insert){
-                $this->created_by=Yii::$app->user->id;
-            }
-            $this->updated_by=Yii::$app->user->id;
-        }
-        
-        
-        //Если это демо режим sleep_time=null, это означает выполнить один раз
-        if($this->scenario==self::SCENARIO_DEMO){
-            $this->sleep_time=null;
-            $this->tarif_id=Tarif::FREE_TARIF;
-        }
-        */
         
 
         return true;
