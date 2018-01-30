@@ -114,7 +114,7 @@ class Request extends \yii\db\ActiveRecord
             [['alias'], 'string', 'max' => 16],
             [['request_url', 'response_url'], 'string', 'max' => 512],
             [['statusName'],'safe'],
-            ['canCreate', 'validateOnCreate','on'=>self::SCENARIO_INSERT,'errorCodes'=>$this->errorsOnCreate], //проверка возможности создания запроса в соответствии с бизнес логики. Наличие средств и т.п.
+            ['canCreate', 'validateOnCreate','on'=>self::SCENARIO_INSERT], //проверка возможности создания запроса в соответствии с бизнес логики. Наличие средств и т.п.
         ];
         
     }
@@ -124,7 +124,7 @@ class Request extends \yii\db\ActiveRecord
         $this->$attribute=false;
 
         $errCode=self::ERROR_NEED_PAY;
-        $params['errorCodes'][]=$errCode;
+        //$params['errorCodes'][]=$errCode;
         $this->addError($attribute, $this->errorDescription[$errCode]);
 
         /*
