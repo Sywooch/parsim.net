@@ -94,6 +94,11 @@ class Order extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
+    public function getParsers()
+    {
+        return $this->hasMany(Parser::className(), ['id' => 'parser_id'])->viaTable('order_parser', ['order_id' => 'id']);
+    }
+
     //=========================================================
     //
     // Блок событий ActiveRecord
@@ -216,9 +221,30 @@ class Order extends \yii\db\ActiveRecord
         }
         return true;
     }
-    public function getHostCount($url)
+    public function getHostCount($url=null)
     {
-        return 10;
+        $parserCount=count($this->parsers);
+
+        if(!isset($url)){
+            return $parserCount;
+        }
+        
+        $parserTotalCount=1;
+
+        if($parserCount>0){
+            $parserTotalCount=$parserCount+1;
+            foreach ($this->parsers as $key => $parser) {
+                if($this->getHostName($parser->action[0]->example_url) == $this->getHostName($url)){
+                    $parserTotalCount=$parserCount-1;
+                    break;
+                }
+            }
+        }
+        return $parserTotalCount;
+    }
+
+    private function getHostName($url){
+        return parse_url($url,PHP_URL_HOST);
     }
 
 
