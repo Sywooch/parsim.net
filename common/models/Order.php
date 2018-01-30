@@ -253,7 +253,7 @@ class Order extends \yii\db\ActiveRecord
 
         $order_parser=new OrderParser();
 
-        $order_parser->order_id=$this->order->id;
+        $order_parser->order_id=$this->id;
         $order_parser->parser_id=$parser->id;
         $order_parser->save();
         
