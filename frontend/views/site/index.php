@@ -177,8 +177,13 @@ $this->params['keywords']='Парсер, парсер сайтов, парсин
     <div class="auto-container">
         <div class="clearfix">
             <?php
+                $currentTarif=null;
+                if(!Yii::$app->user->isGuest){
+                    $currentTarif=Yii::$app->user->identity->currentTarif;
+                }
+                
                 foreach (Tarif::findVisible() as $key => $model) {
-                    echo $this->render('_tarif',['model'=>$model]);
+                    echo $this->render('_tarif',['model'=>$model,'currentTarif'=>$currentTarif]);
                 }
             ?>
         </div>

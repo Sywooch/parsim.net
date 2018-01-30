@@ -25,7 +25,7 @@
             if(Yii::$app->user->isGuest){
                 echo Html::a('Подключить тариф',$model->activateUrl,['class'=>'theme-btn purchase-btn']);
             }else{
-                if(Yii::$app->user->identity->tarif_id==$model->id){
+                if($currentTarif && $currentTarif->id==$model->id){
                     echo Html::a('Текущий тариф',$model->activateUrl,['class'=>'theme-btn btn-current-tarif disabled']); 
 
                 }else{
