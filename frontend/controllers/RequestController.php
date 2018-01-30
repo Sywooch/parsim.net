@@ -206,7 +206,7 @@ class RequestController extends Controller
         
 
         if ($model->load(Yii::$app->request->post()) && $model->save()){
-            return $this->redirect($model->viewUrl);
+            return $this->redirect($model->getUrl('frontend','view'));
         }
 
         return $this->render('update',[
