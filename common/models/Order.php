@@ -279,7 +279,7 @@ class Order extends \yii\db\ActiveRecord
 
     public function getResonseCount()
     {
-        $parserCount=count($this->responses);
+        return count($this->responses);
     }
 
     public function addResponse($response)
