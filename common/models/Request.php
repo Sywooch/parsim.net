@@ -114,7 +114,7 @@ class Request extends \yii\db\ActiveRecord
             [['alias'], 'string', 'max' => 16],
             [['request_url', 'response_url'], 'string', 'max' => 512],
             [['statusName'],'safe'],
-            [['canCreate'], 'validateOnCreate',, 'skipOnEmpty' => false, 'skipOnError' => false, 'on'=>self::SCENARIO_INSERT], //проверка возможности создания запроса в соответствии с бизнес логики. Наличие средств и т.п.
+            [['canCreate'], 'validateOnCreate', 'skipOnEmpty' => false, 'skipOnError' => false, 'on'=>self::SCENARIO_INSERT], //проверка возможности создания запроса в соответствии с бизнес логики. Наличие средств и т.п.
         ];
         
     }
