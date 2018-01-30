@@ -29,6 +29,10 @@ class ResponseController extends Controller
             $response->request_id=$request->id;
             $response->status=Response::STATUS_READY;
             if($response->save()){
+                
+                $request->status=Request::STATUS_PROCESSING;
+                $request->save();
+                
                 $this->stdout('Создан запрос: '.$response->alias.PHP_EOL);
             }else{
                 $this->stdout('Создан запрос: '.json_encode($response->errors,JSON_UNESCAPED_UNICODE).PHP_EOL);
