@@ -301,6 +301,12 @@ class Parser extends \yii\db\ActiveRecord
     public function getHostName(){
         $host=parse_url($this->exampleUrl, PHP_URL_HOST);
         $host=str_replace('www.', '', $host);
+        
+        $hostArray=explode('.', $host);
+        $count=count($hostArray);
+        
+        $host=$hostArray[$count-2].'.'.$hostArray[$count-1];
+        
         return $host;
     }
 
