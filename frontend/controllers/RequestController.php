@@ -68,33 +68,13 @@ class RequestController extends Controller
     public function actionCreate()
     {
         $model=new Request();
+        $model->scenario=Request::SCENARIO_INSERT;
+        $model->created_by=Yii::$app->user->id;
         
-        //$model->tarif_id=Yii::$app->user->identity->tarif_id;
 
         
-        if($model->load(Yii::$app->request->post()) ){
-            if($currentOrder=Yii::$app->user->identity->currentOrder){
-                if($model->reg($currentOrder)){
-                    return $this->redirect($model->getUrl('frontend','view'));    
-                }else{
-                    $err_key=$model->errorKey;
-                    if($err_key){
-                        Yii::$app->getSession()->setFlash('error', $model->errorMsg);
-
-                        if($err_key==Request::ERROR_NEED_PAY){
-                            return $this->redirect(Transaction::getCreateUrl());
-                        }
-
-                    }
-
-                    
-                }
-            }else{
-                //Ошибка услуга не подключена
-                //Если тариф выбран, переход на форму оплаты
-
-                //Если тариф не установлен, переход на форму выбора тарифа
-            }
+        if($model->load(Yii::$app->request->post()) && $model->validate() ){
+            
             /*
             $model->status=Request::STATUS_READY;
 

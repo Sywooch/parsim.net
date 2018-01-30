@@ -31,16 +31,17 @@ class Request extends \yii\db\ActiveRecord
     const STATUS_FIXING = 5;      //ожидает оплаты 
 
 
+    //Возможные сценарии
+    const SCENARIO_INSERT=1;
+    const SCENARIO_UPDATE=2;
+
+    //Возможные ошибки
     const ERROR_NEED_PAY = 1;
 
-    public $errorDescription=[
-        self::ERROR_NEED_PAY=>'Для создания запроса недостаточно средств на счете. Необходимо пополнить счет.',    
-    ];
+    
 
 
-    // Сценарии создания запрос
-    const SCENARIO_DEMO='demo';     //запрос создан в демо режиме (оплата не требуется)
-
+    
 
     //=========================================================
     //
@@ -48,6 +49,10 @@ class Request extends \yii\db\ActiveRecord
     //
     //=========================================================
     public $reCaptcha; //переменная для хранения значения рекапча
+
+    public $canCreate; //здесь хронится результат для проверок при создания нового запроса. Проверка баланса пользователя и т.п.
+    public $errorsOnCreate;
+    
     public $statusDescription=[
         self::STATUS_READY=>'Готов и ожидает следующую обработку',
         self::STATUS_PROCESSING=>'Идет обработка запроса',
@@ -56,6 +61,10 @@ class Request extends \yii\db\ActiveRecord
         self::STATUS_NEED_PAY=>'Для возобновления раь=боты требуется пополнеие счета',
         self::STATUS_FIXING=>'Устраняются ошибки',
         
+    ];
+
+    public $errorDescription=[
+        self::ERROR_NEED_PAY=>'Для создания запроса недостаточно средств на счете. Необходимо пополнить счет.',    
     ];
     
     
@@ -76,6 +85,7 @@ class Request extends \yii\db\ActiveRecord
                 'dst'=>'alias',
             ],
             //Поведение регистрации ошибки в БД
+            /*
             'RegError'=>[
                 'class' => 'common\behaviors\RegErrorBehavior',
                 'fields'=>[
@@ -86,6 +96,7 @@ class Request extends \yii\db\ActiveRecord
                     'value'=>self::STATUS_ERROR,
                 ]
             ]
+            */
         ];
     }
 
@@ -99,13 +110,47 @@ class Request extends \yii\db\ActiveRecord
             [['request_url'], 'required'],
             [['request_url','response_url'],'url', 'defaultScheme' => ''],
             [['response_email'], 'email'],
-            ['response_email', 'required', 'on' => self::SCENARIO_DEMO],
-            [['reCaptcha'], \himiklab\yii2\recaptcha\ReCaptchaValidator::className(), 'secret' => Yii::$app->reCaptcha->secret, 'uncheckedMessage' => 'Please confirm that you are not a bot.', 'on' => self::SCENARIO_DEMO],
             [['response_id', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at','sleep_time','parser_id','action_id'], 'integer'],
             [['alias'], 'string', 'max' => 16],
             [['request_url', 'response_url'], 'string', 'max' => 512],
-            [['statusName'],'safe']
+            [['statusName'],'safe'],
+            ['canCreate', 'validateOnCreate','on'=>self::SCENARIO_INSERT,'errorCodes'=>$this->errorsOnCreate], //проверка возможности создания запроса в соответствии с бизнес логики. Наличие средств и т.п.
         ];
+        
+    }
+
+    public function validateOnCreate($attribute, $params, $validator)
+    {
+        $this->$attribute=false;
+
+        $errCode=self::ERROR_NEED_PAY;
+        $params['errorCodes'][]=$errCode;
+        $this->addError($attribute, $this->errorDescription[$errCode]);
+
+        /*
+        if($currentOrder=Yii::$app->user->identity->currentOrder){
+            if($model->reg($currentOrder)){
+                return $this->redirect($model->getUrl('frontend','view'));    
+            }else{
+                $err_key=$model->errorKey;
+                if($err_key){
+                    Yii::$app->getSession()->setFlash('error', $model->errorMsg);
+
+                    if($err_key==Request::ERROR_NEED_PAY){
+                        return $this->redirect(Transaction::getCreateUrl());
+                    }
+
+                }
+
+                
+            }
+        }else{
+            //Ошибка услуга не подключена
+            //Если тариф выбран, переход на форму оплаты
+
+            //Если тариф не установлен, переход на форму выбора тарифа
+        }
+        */
         
     }
 
@@ -500,17 +545,29 @@ class Request extends \yii\db\ActiveRecord
 
     public function reg($order)
     {
-        if($this->canAddRequest()){
+        if($this->canAddRequest($order)){
 
         }
 
         return false;
     }
 
-    public function canAddRequest()
+    public function canAddRequest($order)
     {
-        $this->addError('custom_error',self::ERROR_NEED_PAY);
-        return false;
+        //Прверяю лимит запросов, 
+        //если лимит не исчерпан добавляю запрос
+        //Если лимит исчерпан проверяю наличие средств на счет
+        //Если средств достаточно, создаю запрос и транзакцию
+        //Если средств не достаточно создаю ошибку о недостатке средств
+        $tarif=$order->tarif;
+        $user=$order->user;
+        if($order->isExtraHost($order->request_url)){
+            if($user->balanse<$tarif->extra_host_price){
+                $this->addError('custom_error',self::ERROR_NEED_PAY);        
+                return false;
+            }
+        }
+        return true;
     }
 
     public function getErrorMsg()

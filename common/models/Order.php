@@ -209,5 +209,17 @@ class Order extends \yii\db\ActiveRecord
         return false;
     }
 
+    public function isExtraHost($url)
+    {
+        if($this->tarif->host_limit>=$this->getHostCount($url)){
+            return false;
+        }
+        return true;
+    }
+    public function getHostCount($url)
+    {
+        return 1;
+    }
+
 
 }
