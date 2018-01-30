@@ -15,7 +15,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $status
  * @property string $msg
  */
-class OrderRequest extends \yii\db\ActiveRecord
+class OrderParser extends \yii\db\ActiveRecord
 {
     const STATUS_NEW = 0;
     const STATUS_PAID = 1;
