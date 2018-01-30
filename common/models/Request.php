@@ -130,8 +130,9 @@ class Request extends \yii\db\ActiveRecord
             if(!$currentOrder->isPaid){
 
             }else{
-                if($owner->balanse==$currentOrder->amount){
+                if($owner->balanse>=$currentOrder->amount){
                     $currentOrder->pay();
+                    $this->addError($attribute, 'Заказ оплачен');        
                 }else{
                     $errCode=self::ERROR_NEED_PAY;
                     $this->addError($attribute, $this->errorDescription[$errCode]);        
