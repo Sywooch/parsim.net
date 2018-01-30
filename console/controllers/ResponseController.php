@@ -19,6 +19,10 @@ class ResponseController extends Controller
 
         $requests=Request::getReadyToProcess();
         
+        if(count($requests)==0){
+            $this->stdout('Нечего обрабатывать');
+            return true;
+        }
         foreach ($requests as $key => $request) {
             //Создаю новый ответ
             $this->stdout('URL: '.$request->request_url.PHP_EOL);
