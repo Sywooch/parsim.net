@@ -13,7 +13,7 @@
           <th>Целевой Url</th>
           <th width="20px">Ответов</th>
           <th width="50px">Статус</th>
-          <th width="100px">Создан</th>
+          <th width="110px">Создан</th>
         </tr>
       </thead>
       <tbody>
