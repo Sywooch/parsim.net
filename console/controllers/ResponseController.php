@@ -28,7 +28,7 @@ class ResponseController extends Controller
 
             $response->request_id=$request->id;
             $response->status=Response::STATUS_READY;
-            if($response->save()){
+            if($response->save() && $request->owner->currentOrder->addResponse($response)){
                 
                 $request->status=Request::STATUS_PROCESSING;
                 $request->save();
