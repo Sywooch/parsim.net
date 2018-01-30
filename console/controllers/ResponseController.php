@@ -19,10 +19,7 @@ class ResponseController extends Controller
 
         $requests=Request::getReadyToProcess();
         
-        if(count($requests)==0){
-            $this->stdout('Нечего обрабатывать');
-            return true;
-        }
+        //Создаю новые ответы
         foreach ($requests as $key => $request) {
             //Создаю новый ответ
             $this->stdout('URL: '.$request->request_url.PHP_EOL);
@@ -42,6 +39,26 @@ class ResponseController extends Controller
                 $this->stdout('Ошибка: '.json_encode($response->errors,JSON_UNESCAPED_UNICODE).PHP_EOL);
             }
         }
+
+        //Загружаю контент
+        foreach (Response::find()->wher(['status'=>Response::STATUS_READY])->all() as $key => $response){
+            $request=$response->request;
+            $content_path=$response->contentPath;
+
+            if($response->loader->type==HttpLoader::TYPE_HTTP){
+                $loader=new HttpLoader();
+                if($loader->loadContent($request->request_url,$content_path)){
+                    $response->regEventContentLoad();
+                    $this->stdout('Контент загружен в: '.$content_path.PHP_EOL);
+                }else{
+                    //Регистрирую ошибку загрузки контента
+                    //$response->regError(Response::STATUS_LOADING_ERROR,'Ошибка загрузки контента');
+                }
+            }
+
+        }
+
+
 
         /*
 
