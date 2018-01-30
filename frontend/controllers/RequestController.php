@@ -76,8 +76,31 @@ class RequestController extends Controller
         if($model->load(Yii::$app->request->post()) && $model->validate() ){
             
             if($model->save()){
+
+                //Если для URL еще нет парсера, создаю его
+                if(!$parser=Parser::findByUrl($model->request_url)){
+                    $parser=new Parser();
+                    $parser->type_id=1; //продукт парсер
+                    $parser->loader_type=0; // HTTP лоадер
+                    $parser->name=parse_url($model->request_url,PHP_URL_HOST);
+                    $parser->reg_exp='(^http[s]?://.*'.str_replace('www.', '', parse_url($model->request_url,PHP_URL_HOST)).'/.*$)';
+                    $parser->status=Parser::STATUS_FIXING;
+                    $parser->description='Парсер создан автоматически, требуется отладка';
+                    $parser->request_id=$model->id;
+
+                    $action=new ParserAction();
+                    $action->name='Default';
+                    $action->selector='Enter selector here';
+                    $action->example_url='Enter selector here';
+
+                    $parser->actionsArray=[$action];
+                    $parser->save();
+
+                }
+
+
                 if($currentOrder=Yii::$app->user->identity->currentOrder){
-                    $currentOrder->addParser($model->request_url);
+                    $currentOrder->addParser($parser);
                 }
                 return $this->redirect($model->getUrl('frontend','view'));    
             }

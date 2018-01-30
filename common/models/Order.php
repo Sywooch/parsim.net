@@ -248,9 +248,9 @@ class Order extends \yii\db\ActiveRecord
     }
 
 
-    public function addParser($url)
+    public function addParser($parser)
     {
-        $parser=Parser::findByUrl($url);
+        //$parser=Parser::findByUrl($url);
 
         //Добавляю и оплачиваю парсер, если такого парсера еще нет
         if(OrderParser::findOne(['order_id'=>$this->id,'parser_id'=>$parser->id])==null){
