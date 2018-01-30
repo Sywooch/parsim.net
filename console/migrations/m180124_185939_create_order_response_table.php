@@ -57,7 +57,7 @@ class m180124_185939_create_order_response_table extends Migration
             'fk-order-response-response-id',
             '{{%order_response}}',
             'response_id',
-            '{{%parser}}',
+            '{{%response}}',
             'id',
             'CASCADE'
         );
