@@ -179,7 +179,7 @@ $this->params['keywords']='Парсер, парсер сайтов, парсин
             <?php
                 $currentTarif=null;
                 if(!Yii::$app->user->isGuest){
-                    $currentTarif=Yii::$app->user->identity->currentTarif;
+                    $currentTarif=Yii::$app->user->identity->currentOrder->tarif;
                 }
                 
                 foreach (Tarif::findVisible() as $key => $model) {
