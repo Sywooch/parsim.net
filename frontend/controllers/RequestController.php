@@ -97,16 +97,11 @@ class RequestController extends Controller
 
                     $parser->actionsArray=[$action];
                     
-                    if($parser->save())
-                    {
-                        $model->parser_id=$parser->id;
-                        $model->save();
-                    }
-
+                    $parser->save();
                 }
-
-
-
+                
+                $model->parser_id=$parser->id;
+                $model->save();
 
                 if($currentOrder=Yii::$app->user->identity->currentOrder){
                     $currentOrder->addParser($parser);
