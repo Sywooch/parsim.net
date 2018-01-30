@@ -64,7 +64,7 @@ class Request extends \yii\db\ActiveRecord
     ];
 
     public $errorDescription=[
-        self::ERROR_NEED_PAY=>'Для создания запроса недостаточно средств на счете. Необходимо <a href="'.Transaction::getCreateUrl().'">пополнить счет</a>.',    
+        self::ERROR_NEED_PAY=>"Для создания запроса недостаточно средств на счете. Необходимо <a href=\"Transaction::getCreateUrl()\">пополнить счет</a>.",   
     ];
     
     
