@@ -79,8 +79,8 @@ $this->title = Yii::t('app', 'Dashboard');
             <thead>
               <tr>
                 <th>Парсер</th>
-                <th class="col-md-2">Клиенты</th>
-                <th class="col-md-2">Ошибки</th>
+                <th class="col-md-2">Кол-во пользователей</th>
+                <th class="col-md-2"Кол-во ошибок</th>
                 <th class="col-md-2">Бюджет</th>
                 <th class="col-md-2">Статус</th>
                 <th class="text-center" style="width: 20px;"><i class="icon-arrow-down12"></i></th>
