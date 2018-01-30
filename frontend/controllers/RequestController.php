@@ -200,7 +200,7 @@ class RequestController extends Controller
 
         return json_encode($data);
     }
-    *//
+    */
 
     public function actionUpdate($alias)
     {
