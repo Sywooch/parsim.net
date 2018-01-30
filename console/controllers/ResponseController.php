@@ -21,7 +21,7 @@ class ResponseController extends Controller
         
         foreach ($requests as $key => $request) {
             //Создаю новый ответ
-            $this->stdout('URL: '.$requests->request_url.PHP_EOL);
+            $this->stdout('URL: '.$request->request_url.PHP_EOL);
         }
 
         /*
