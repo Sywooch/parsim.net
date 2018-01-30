@@ -25,21 +25,8 @@ $this->title = Yii::t('app', 'Dashboard');
       <!-- Marketing campaigns -->
       <div class="panel panel-flat">
         <div class="panel-heading">
-          <h6 class="panel-title">Marketing campaigns</h6>
+          <h6 class="panel-title">Парсеры</h6>
           <div class="heading-elements">
-            <span class="label bg-success heading-text">28 active</span>
-            <ul class="icons-list">
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i> <span class="caret"></span></a>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li><a href="#"><i class="icon-sync"></i> Update data</a></li>
-                  <li><a href="#"><i class="icon-list-unordered"></i> Detailed log</a></li>
-                  <li><a href="#"><i class="icon-pie5"></i> Statistics</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#"><i class="icon-cross3"></i> Clear list</a></li>
-                </ul>
-              </li>
-            </ul>
           </div>
         </div>
 
@@ -59,7 +46,7 @@ $this->title = Yii::t('app', 'Dashboard');
                         <span class="status-mark border-success"></span>
                       </li>
                       <li>
-                        <span class="text-muted">May 12, 12:30 am</span>
+                        <span class="text-muted">Новых парсеров по отношению к May 12, 12:30 am</span>
                       </li>
                     </ul>
                   </div>
