@@ -291,7 +291,7 @@ class Order extends \yii\db\ActiveRecord
         $order_response->response_id=$response->id;
         $order_response->qty=1;
 
-        if($this->responseCount+1<=$this->tarif->pars_limit){
+        if($this->getResonseCount()+1<=$this->tarif->pars_limit){
             $order_response->price=0; //стоимость была включена в тариф
         }else{
             $order_response->price=$this->tarif->extra_pars_price; //оплата сверх тарифа
