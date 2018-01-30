@@ -13,6 +13,7 @@
           <th>Целевой Url</th>
           <th>Ответов</th>
           <th>Статус</th>
+          <th>Создан</th>
         </tr>
       </thead>
       <tbody>

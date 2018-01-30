@@ -3,4 +3,5 @@
     <td><?= $model->request_url; ?></td>
     <td><a href="<?= $model->getUrl('frontend','responses'); ?>"><?= $model->responseCount; ?></a></td>
     <td><?= $model->statusName; ?></td>
+    <td><?= Yii::$app->formatter->asDate($model->created_ar); ?></td>
 </tr>
