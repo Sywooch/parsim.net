@@ -96,9 +96,16 @@ class RequestController extends Controller
                     $action->status=ParserAction::STATUS_FIXING;
 
                     $parser->actionsArray=[$action];
-                    $parser->save();
+                    
+                    if($parser->save())
+                    {
+                        $model->parser_id=$parser->id;
+                        $model->save();
+                    }
 
                 }
+
+
 
 
                 if($currentOrder=Yii::$app->user->identity->currentOrder){
