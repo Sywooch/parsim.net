@@ -51,7 +51,7 @@ class TarifController extends Controller
         $user=Yii::$app->user->identity;
         $tarif=Tarif::findOne($id);
 
-        if($user->tarif_id!=$tarif->id){
+        //if($user->tarif_id!=$tarif->id){
             $user->tarif_id=$tarif->id;    
             $user->save();
 
@@ -106,7 +106,7 @@ class TarifController extends Controller
                 }
 
             }
-        }
+        //}
         
         return $this->redirect(['/site/index','#'=>'pricing']);
     }
