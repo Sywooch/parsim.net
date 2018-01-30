@@ -46,7 +46,7 @@ $this->title = Yii::t('app', 'Dashboard');
                         <span class="status-mark border-success"></span>
                       </li>
                       <li>
-                        <span class="text-muted">Новых парсеров по отношению к <?= Yii::$app->formatter->asDate(strtotime('-1 month',Date('Y-m-d')));?></span>
+                        <span class="text-muted">Новых парсеров по отношению к <?= Yii::$app->formatter->asDate( Date('Y-m-d') );?></span>
                       </li>
                     </ul>
                   </div>
