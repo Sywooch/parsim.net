@@ -28,6 +28,7 @@ class ResponseController extends Controller
             $response->scenario=Response::SCENARIO_INSERT;
 
             $response->request_id=$request->id;
+            $response->loader_id=1; //HTTP TYPE
             $response->status=Response::STATUS_READY;
             if($response->save() && $request->owner->currentOrder->addResponse($response)){
 
