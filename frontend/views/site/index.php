@@ -160,22 +160,10 @@ $this->params['keywords']='Парсер, парсер сайтов, парсин
 
 <!--Services Section-->
 <section class="services-section" >
-  <div class="auto-container">
-      
-        
+    <div class="auto-container">
         <?php
             echo $this->render('_serviceBlocks');
         ?>
-        
-        
-        <div id="demo-request-area">
-        <!--Request Form-->
-        <?php //echo $this->render('/request/_formTest',['model'=>$request]); ?>
-        <!--End Request Form-->    
-        </div>
-        
-        
-        
     </div>
 </section>
 <!--End Services Section-->
