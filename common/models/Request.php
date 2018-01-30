@@ -787,6 +787,7 @@ class Request extends \yii\db\ActiveRecord
                 'update'=>Yii::$app->urlManager->createUrl(['request/update','alias'=>$this->alias]),
                 'view'=>Yii::$app->urlManager->createUrl(['request/view','alias'=>$this->alias]),
                 'delete'=>Yii::$app->urlManager->createUrl(['request/delete','alias'=>$this->alias]),
+                'responses'=>Yii::$app->urlManager->createUrl(['response/index','request'=>$this->alias]),
             ],
             'backend'=>[
                 'index'=>Yii::$app->urlManager->createUrl(['request/index']),
@@ -794,6 +795,7 @@ class Request extends \yii\db\ActiveRecord
                 'update'=>Yii::$app->urlManager->createUrl(['request/update','id'=>$this->id]),
                 'view'=>Yii::$app->urlManager->createUrl(['request/view','id'=>$this->id]),
                 'delete'=>Yii::$app->urlManager->createUrl(['request/delete','id'=>$this->id]),
+                'responses'=>Yii::$app->urlManager->createUrl(['response/index','request_id'=>$this->id]),
             ],
         ];
 
@@ -823,6 +825,7 @@ class Request extends \yii\db\ActiveRecord
     public function getResponsesUrl(){
         return Yii::$app->urlManager->createUrl(['response/index','request_id'=>$this->id]);
     }
+
     public function getParserUrl(){
         $url='#';
         if(isset($this->parser)){
