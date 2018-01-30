@@ -234,7 +234,7 @@ class Order extends \yii\db\ActiveRecord
         if($parserCount>0){
             $parserTotalCount=$parserCount+1;
             foreach ($this->parsers as $key => $parser) {
-                if($this->getHostName($parser->action[0]->example_url) == $this->getHostName($url)){
+                if($this->getHostName($parser->actions[0]->example_url) == $this->getHostName($url)){
                     $parserTotalCount=$parserCount-1;
                     break;
                 }
