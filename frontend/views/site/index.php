@@ -178,8 +178,8 @@ $this->params['keywords']='Парсер, парсер сайтов, парсин
         <div class="clearfix">
             <?php
                 $currentTarif=null;
-                if(!Yii::$app->user->isGuest){
-                    $currentTarif=Yii::$app->user->identity->currentOrder->tarif;
+                if(!Yii::$app->user->isGuest && $currentOrder=Yii::$app->user->identity->currentOrder){
+                    $currentTarif=$currentOrder->tarif;
                 }
                 
                 foreach (Tarif::findVisible() as $key => $model) {
