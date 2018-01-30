@@ -46,7 +46,7 @@ $this->title = Yii::t('app', 'Dashboard');
                         <span class="status-mark border-success"></span>
                       </li>
                       <li>
-                        <span class="text-muted">Новых парсеров по отношению к May 12, 12:30 am</span>
+                        <span class="text-muted">Новых парсеров по отношению к <?= Yii::$app->formatter->asDate(strtotime('-1 month',Date('Y-m-d')));?></span>
                       </li>
                     </ul>
                   </div>
@@ -64,7 +64,7 @@ $this->title = Yii::t('app', 'Dashboard');
                         <span class="status-mark border-danger"></span>
                       </li>
                       <li>
-                        <span class="text-muted">Jun 4, 4:00 am</span>
+                        <span class="text-muted">Коефф. повторной эксплуатации по отношению к May 12, 12:30 am</span>
                       </li>
                     </ul>
                   </div>
