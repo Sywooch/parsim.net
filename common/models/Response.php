@@ -86,7 +86,7 @@ class Response extends \yii\db\ActiveRecord
             [['request_id'], 'exist', 'skipOnError' => true, 'targetClass' => Request::className(), 'targetAttribute' => ['request_id' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
-            ['canCreate'], 'validateOnCreate', 'skipOnEmpty' => false, 'skipOnError' => false, 'on'=>self::SCENARIO_INSERT], //проверка возможности создания запроса в соответствии с бизнес логики. Наличие средств и т.п.
+            [['canCreate'], 'validateOnCreate', 'skipOnEmpty' => false, 'skipOnError' => false, 'on'=>self::SCENARIO_INSERT], //проверка возможности создания запроса в соответствии с бизнес логики. Наличие средств и т.п.
         ];
     }
 
