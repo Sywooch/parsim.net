@@ -69,10 +69,6 @@ $this->title = Yii::t('app', 'Dashboard');
                     </ul>
                   </div>
                 </td>
-
-                <td class="text-right col-md-2">
-                  <a href="#" class="btn bg-indigo-300"><i class="icon-statistics position-left"></i> View report</a>
-                </td>
               </tr>
             </tbody>
           </table>  
@@ -82,17 +78,17 @@ $this->title = Yii::t('app', 'Dashboard');
           <table class="table text-nowrap">
             <thead>
               <tr>
-                <th>Campaign</th>
-                <th class="col-md-2">Client</th>
-                <th class="col-md-2">Changes</th>
-                <th class="col-md-2">Budget</th>
-                <th class="col-md-2">Status</th>
+                <th>Парсер</th>
+                <th class="col-md-2">Клиенты</th>
+                <th class="col-md-2">Ошибки</th>
+                <th class="col-md-2">Бюджет</th>
+                <th class="col-md-2">Статус</th>
                 <th class="text-center" style="width: 20px;"><i class="icon-arrow-down12"></i></th>
               </tr>
             </thead>
             <tbody>
               <tr class="active border-double">
-                <td colspan="5">Today</td>
+                <td colspan="5">Новые</td>
                 <td class="text-right">
                   <span class="progress-meter" id="today-progress" data-progress="30"></span>
                 </td>
@@ -227,7 +223,7 @@ $this->title = Yii::t('app', 'Dashboard');
               </tr>
 
               <tr class="active border-double">
-                <td colspan="5">Yesterday</td>
+                <td colspan="5">На ремонте</td>
                 <td class="text-right">
                   <span class="progress-meter" id="yesterday-progress" data-progress="65"></span>
                 </td>
