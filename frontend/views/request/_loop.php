@@ -9,11 +9,11 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th>ID запроса</th>
+          <th width="200px">ID запроса</th>
           <th>Целевой Url</th>
-          <th>Ответов</th>
-          <th>Статус</th>
-          <th>Создан</th>
+          <th width="20px">Ответов</th>
+          <th width="50px">Статус</th>
+          <th width="200px">Создан</th>
         </tr>
       </thead>
       <tbody>
