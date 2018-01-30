@@ -99,6 +99,11 @@ class Order extends \yii\db\ActiveRecord
         return $this->hasMany(Parser::className(), ['id' => 'parser_id'])->viaTable('order_parser', ['order_id' => 'id']);
     }
 
+    public function getResponses()
+    {
+        return $this->hasMany(Response::className(), ['id' => 'response_id'])->viaTable('order_response', ['order_id' => 'id']);
+    }
+
     //=========================================================
     //
     // Блок событий ActiveRecord
@@ -250,8 +255,7 @@ class Order extends \yii\db\ActiveRecord
 
     public function addParser($parser)
     {
-        //$parser=Parser::findByUrl($url);
-
+        
         //Добавляю и оплачиваю парсер, если такого парсера еще нет
         if(OrderParser::findOne(['order_id'=>$this->id,'parser_id'=>$parser->id])==null){
             $order_parser=new OrderParser();
@@ -272,6 +276,35 @@ class Order extends \yii\db\ActiveRecord
         }
         
     }
+
+    public function getResonseCount()
+    {
+        $parserCount=count($this->responses);
+    }
+
+    public function addResponse($response)
+    {
+
+        $order_response=new OrderResponse();
+
+        $order_response->order_id=$this->id;
+        $order_response->response_id=$response->id;
+        $order_response->qty=1;
+
+        if($this->responseCount+1<=$this->tarif->pars_limit){
+            $order_response->price=0; //стоимость была включена в тариф
+        }else{
+            $order_response->price=$this->tarif->extra_pars_price; //оплата сверх тарифа
+        }
+        
+        if($order_response->save()){
+            $order_response->pay();
+        }    
+        
+
+    }
+
+
 
 
 }

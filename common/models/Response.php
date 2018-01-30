@@ -30,7 +30,28 @@ class Response extends \yii\db\ActiveRecord
     const STATUS_PARSING = 4;
     const STATUS_PARSING_SUCCESS = 5;
     const STATUS_PARSING_ERROR = 6;
+
+    //Возможные сценарии
+    const SCENARIO_INSERT=1;
+    const SCENARIO_UPDATE=2;
+
+    //Возможные ошибки
+    const ERROR_NEED_CHOOSE_TARIF = 1;
+    const ERROR_NEED_PAY = 2;
+
+
+    //=========================================================
+    //
+    // Блок описание переменных
+    //
+    //=========================================================
+
+    public $canCreate; //здесь хронится результат для проверок при создания нового запроса. Проверка баланса пользователя и т.п.
     
+    public $errorDescription=[
+        self::ERROR_NEED_CHOOSE_TARIF=>"Не выбран тариф. Выберите тариф и создайте запрос повторно.",
+        self::ERROR_NEED_PAY=>"Для создания запроса недостаточно средств на счете. Необходимо пополнить счет.",   
+    ];
 
     /**
      * @inheritdoc
@@ -65,7 +86,45 @@ class Response extends \yii\db\ActiveRecord
             [['request_id'], 'exist', 'skipOnError' => true, 'targetClass' => Request::className(), 'targetAttribute' => ['request_id' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
+            ['canCreate'], 'validateOnCreate', 'skipOnEmpty' => false, 'skipOnError' => false, 'on'=>self::SCENARIO_INSERT], //проверка возможности создания запроса в соответствии с бизнес логики. Наличие средств и т.п.
         ];
+    }
+
+    public function validateOnCreate($attribute, $params, $validator)
+    {
+        
+        $owner=$this->request->owner;
+
+        if($currentOrder=$owner->currentOrder){
+            //Если текущий заказ не оплачен пытаюсь его сразу оплатить
+            if(!$currentOrder->isPaid){
+                if($owner->balanse>=$currentOrder->amount){
+                    $currentOrder->pay();
+                }else{
+                    $errCode=self::ERROR_NEED_PAY;
+                    $this->addError($attribute, $this->errorDescription[$errCode]);
+                    return false;
+                }
+            }
+
+            $tarif=$currentOrder->tarif;
+            $balanse=$owner->balanse;
+            
+            //Если будет превышен лимит по сканнированиям и у пользователя недостаточно средств оплатить превышение
+            if($tarif->pars_limit<$currentOrder->resonseCount+1 && $balanse<$tarif->extra_pars_price){
+                $errCode=self::ERROR_NEED_PAY;
+                $this->addError($attribute, $this->errorDescription[$errCode]);
+                return false;
+            }
+
+
+        }else{
+            $errCode=self::ERROR_NEED_CHOOSE_TARIF;
+            $this->addError($attribute, $this->errorDescription[$errCode]);
+            return false;
+        }
+
+        
     }
 
     /**

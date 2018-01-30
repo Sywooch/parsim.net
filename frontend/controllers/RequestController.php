@@ -118,11 +118,12 @@ class RequestController extends Controller
     }
 
     //Создание запроса на парсинг в тестовом режибе (бесплатно на гл. странице)
+    /*
     public function actionCreateTest()
     {
     
         $model=new Request();
-        $model->scenario=Request::SCENARIO_DEMO;
+        //$model->scenario=Request::SCENARIO_DEMO;
         
         $data=[];
         $password=null;
@@ -199,6 +200,7 @@ class RequestController extends Controller
 
         return json_encode($data);
     }
+    *//
 
     public function actionUpdate($alias)
     {

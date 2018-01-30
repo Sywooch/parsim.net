@@ -52,7 +52,7 @@ class Request extends \yii\db\ActiveRecord
     public $reCaptcha; //переменная для хранения значения рекапча
 
     public $canCreate; //здесь хронится результат для проверок при создания нового запроса. Проверка баланса пользователя и т.п.
-    public $errorsOnCreate;
+    
     
     public $statusDescription=[
         self::STATUS_READY=>'Готов и ожидает следующую обработку',
@@ -204,9 +204,9 @@ class Request extends \yii\db\ActiveRecord
     }
 
     //Тариф запроса
-    //public function getTarif(){
-    //    return $this->hasOne(Tarif::className(), ['id' => 'tarif_id']);
-    //}
+    public function getTarif(){
+        return $this->owner->currentOrder->tarif;
+    }
 
     //Парсер запросов
     public function getParser(){
@@ -307,6 +307,7 @@ class Request extends \yii\db\ActiveRecord
     //=========================================================
 
     //Формирование ответа
+    /*
     public function addResponse()
     {
 
@@ -415,6 +416,7 @@ class Request extends \yii\db\ActiveRecord
             return false;
         }
     }
+    */
 
 
     //Тестирование запроса
@@ -543,45 +545,6 @@ class Request extends \yii\db\ActiveRecord
     }
 
 
-    public function reg($order)
-    {
-        if($this->canAddRequest($order)){
-
-        }
-
-        return false;
-    }
-
-    public function canAddRequest($order)
-    {
-        //Прверяю лимит запросов, 
-        //если лимит не исчерпан добавляю запрос
-        //Если лимит исчерпан проверяю наличие средств на счет
-        //Если средств достаточно, создаю запрос и транзакцию
-        //Если средств не достаточно создаю ошибку о недостатке средств
-        $tarif=$order->tarif;
-        $user=$order->user;
-        if($order->isExtraHost($order->request_url)){
-            if($user->balanse<$tarif->extra_host_price){
-                $this->addError('custom_error',self::ERROR_NEED_PAY);        
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public function getErrorMsg()
-    {
-        $err_key=$this->errorKey;
-        if($err_key){
-            return $this->errorDescription[$err_key];
-        }
-        return null;
-    }
-    public function getErrorKey()
-    {
-        return $this->getFirstError('custom_error');
-    }
 
     
 
