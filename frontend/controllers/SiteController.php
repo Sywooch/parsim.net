@@ -84,9 +84,6 @@ class SiteController extends Controller
     public function actionIndex()
     {
         
-        //Модель запроса для создания в тестовом режиме
-        $request=new Request();
-        $request->scenario=Request::SCENARIO_DEMO;
         
         //Модель пользователя для регистрации с главной страницы
         $user = new SignupForm('user');
@@ -97,9 +94,7 @@ class SiteController extends Controller
                 return $this->goHome();
             }    
         }
-
         return $this->render('index',[
-            'request'=>$request,
             'newUser'=>$user,
         ]);
     }
