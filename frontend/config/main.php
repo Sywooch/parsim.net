@@ -85,6 +85,10 @@ return [
             'basePath' => '@app/modules/api',
             'class' => 'app\modules\api\Module',
         ],
+        'gii' => [
+            'class' => \yii\gii\Module::className(),
+            'allowedIPs' => ['*']
+        ],
     ],
     
     'params' => $params,
