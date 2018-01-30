@@ -124,8 +124,19 @@ class Request extends \yii\db\ActiveRecord
     public function validateOnCreate($attribute, $params, $validator)
     {
         
+        $owner=$this->owner;
 
-        if($currentOrder=$this->owner->currentOrder){
+        if($currentOrder=$owner->currentOrder){
+            if(!$currentOrder->isPaid){
+
+            }else{
+                if($owner->balanse=$currentOrder->amount){
+                    $currentOrder->pay();
+                }else{
+                    $errCode=self::ERROR_NEED_PAY;
+                    $this->addError($attribute, $this->errorDescription[$errCode]);        
+                }
+            }
 
         }else{
             $errCode=self::ERROR_NEED_CHOOSE_TARIF;
