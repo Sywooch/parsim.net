@@ -91,7 +91,7 @@ class BaseParser extends Model
     public static function loadParser($parserName)
     {
         $parser=\yii\di\Instance::ensure(
-            'common\models\parsers\\' . $parserName
+            'common\\models\\parsers\\' . $parserName
         );
 
         return $parser;
