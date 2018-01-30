@@ -298,9 +298,10 @@ class Order extends \yii\db\ActiveRecord
         }
         
         if($order_response->save()){
-            $order_response->pay();
-        }    
-        
+            return $order_response->pay();
+        }
+
+        return false;
 
     }
 
