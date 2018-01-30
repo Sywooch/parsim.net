@@ -128,7 +128,7 @@ class Request extends \yii\db\ActiveRecord
         if($currentOrder=$this->owner->currentOrder){
 
         }else{
-            $errCode=self::ERROR_NEED_PAY;
+            $errCode=self::ERROR_NEED_CHOOSE_TARIF;
             $this->addError($attribute, $this->errorDescription[$errCode]);
         }
 
