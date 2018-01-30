@@ -36,7 +36,8 @@ class Request extends \yii\db\ActiveRecord
     const SCENARIO_UPDATE=2;
 
     //Возможные ошибки
-    const ERROR_NEED_PAY = 1;
+    const ERROR_NEED_CHOOSE_TARIF = 1;
+    const ERROR_NEED_PAY = 2;
 
     
 
@@ -64,6 +65,7 @@ class Request extends \yii\db\ActiveRecord
     ];
 
     public $errorDescription=[
+        self::ERROR_NEED_CHOOSE_TARIF=>"Не выбран тариф. Выберите тариф и создайте запрос повторно.",
         self::ERROR_NEED_PAY=>"Для создания запроса недостаточно средств на счете. Необходимо пополнить счет.",   
     ];
     
@@ -121,11 +123,14 @@ class Request extends \yii\db\ActiveRecord
 
     public function validateOnCreate($attribute, $params, $validator)
     {
-        $this->$attribute=false;
+        
 
-        $errCode=self::ERROR_NEED_PAY;
-        //$params['errorCodes'][]=$errCode;
-        $this->addError($attribute, $this->errorDescription[$errCode]);
+        if($currentOrder=$this->owner->currentOrder){
+
+        }else{
+            $errCode=self::ERROR_NEED_PAY;
+            $this->addError($attribute, $this->errorDescription[$errCode]);
+        }
 
         /*
         if($currentOrder=Yii::$app->user->identity->currentOrder){
