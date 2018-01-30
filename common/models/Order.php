@@ -260,7 +260,7 @@ class Order extends \yii\db\ActiveRecord
             $order_parser->parser_id=$parser->id;
             $order_parser->qty=1;
 
-            if($this->hostCount()+1<=$this->tarif->host_limit){
+            if($this->hostCount+1<=$this->tarif->host_limit){
                 $order_parser->price=0; //стоимость была включена в тариф
             }else{
                 $order_parser->price=$this->tarif->extra_host_price; //оплата сверх тарифа
