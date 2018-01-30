@@ -127,47 +127,34 @@ class Request extends \yii\db\ActiveRecord
         $owner=$this->owner;
 
         if($currentOrder=$owner->currentOrder){
+            //Если текущий заказ не оплачен пытаюсь его сразу оплатить
             if(!$currentOrder->isPaid){
-
-            }else{
                 if($owner->balanse>=$currentOrder->amount){
                     $currentOrder->pay();
-                    $this->addError($attribute, 'Заказ оплачен');        
                 }else{
                     $errCode=self::ERROR_NEED_PAY;
-                    $this->addError($attribute, $this->errorDescription[$errCode]);        
+                    $this->addError($attribute, $this->errorDescription[$errCode]);
+                    return false;
                 }
             }
+
+            $tarif=$currentOrder->tarif;
+            $balanse=0;//$owner->balanse;
+            
+            //Если превышен лимит по хостам и у пользователя недостаточно средств
+            if($tarif->host_limit<$currentOrder->getHostCount($this->request_url) && $balanse<$tarif->extra_host_price){
+                $errCode=self::ERROR_NEED_PAY;
+                $this->addError($attribute, $this->errorDescription[$errCode]);
+                return false;
+            }
+
 
         }else{
             $errCode=self::ERROR_NEED_CHOOSE_TARIF;
             $this->addError($attribute, $this->errorDescription[$errCode]);
+            return false;
         }
 
-        /*
-        if($currentOrder=Yii::$app->user->identity->currentOrder){
-            if($model->reg($currentOrder)){
-                return $this->redirect($model->getUrl('frontend','view'));    
-            }else{
-                $err_key=$model->errorKey;
-                if($err_key){
-                    Yii::$app->getSession()->setFlash('error', $model->errorMsg);
-
-                    if($err_key==Request::ERROR_NEED_PAY){
-                        return $this->redirect(Transaction::getCreateUrl());
-                    }
-
-                }
-
-                
-            }
-        }else{
-            //Ошибка услуга не подключена
-            //Если тариф выбран, переход на форму оплаты
-
-            //Если тариф не установлен, переход на форму выбора тарифа
-        }
-        */
         
     }
 

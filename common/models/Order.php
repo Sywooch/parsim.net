@@ -218,7 +218,7 @@ class Order extends \yii\db\ActiveRecord
     }
     public function getHostCount($url)
     {
-        return 1;
+        return 10;
     }
 
 
