@@ -90,8 +90,9 @@ class RequestController extends Controller
 
                     $action=new ParserAction();
                     $action->name='Default';
+                    
                     $action->selector='Enter selector here';
-                    $action->example_url='Enter selector here';
+                    $action->example_url=$model->request_url;
                     $action->status=ParserAction::STATUS_FIXING;
 
                     $parser->actionsArray=[$action];
