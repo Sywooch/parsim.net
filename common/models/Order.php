@@ -228,7 +228,7 @@ class Order extends \yii\db\ActiveRecord
         if(!isset($url)){
             return $parserCount;
         }
-        
+
         $parserTotalCount=1;
 
         if($parserCount>0){
@@ -245,6 +245,11 @@ class Order extends \yii\db\ActiveRecord
 
     private function getHostName($url){
         return parse_url($url,PHP_URL_HOST);
+    }
+
+    public function addRequest($request)
+    {
+        
     }
 
 

@@ -55,6 +55,7 @@ return [
                 '<_a:(about|contact)>' => 'site/<_a>',
                 '<_a:(login|logout|signup|email-confirm|password-reset-request|password-reset)>' => 'user/<_a>',
 
+                'gii'=>'gii/default/index',
                 //API rules
                 'api'=>'api/default/index',
                 //'PUT,PATCH api/requests/<requestId:\w+>' => 'api/request/update',

@@ -75,6 +75,13 @@ class RequestController extends Controller
         
         if($model->load(Yii::$app->request->post()) && $model->validate() ){
             
+            if($model->save()){
+                if($currentOrder=Yii::$app->user->identity->currentOrder){
+                    $currentOrder->addRequest($model);
+                }
+                return $this->redirect($model->getUrl('frontend','view'));    
+            }
+
             /*
             $model->status=Request::STATUS_READY;
 
