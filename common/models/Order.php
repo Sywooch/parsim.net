@@ -247,8 +247,15 @@ class Order extends \yii\db\ActiveRecord
         return parse_url($url,PHP_URL_HOST);
     }
 
-    public function addRequest($request)
+    public function addParser($url)
     {
+        $parser=Parser::findByUrl($url);
+
+        $order_parser=new OrderParser();
+
+        $order_parser->order_id=$this->order->id;
+        $order_parser->parser_id=$parser->id;
+        $order_parser->save();
         
     }
 

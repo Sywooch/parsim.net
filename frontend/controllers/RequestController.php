@@ -77,47 +77,10 @@ class RequestController extends Controller
             
             if($model->save()){
                 if($currentOrder=Yii::$app->user->identity->currentOrder){
-                    $currentOrder->addRequest($model);
+                    $currentOrder->addParser($model->request_url);
                 }
                 return $this->redirect($model->getUrl('frontend','view'));    
             }
-
-            /*
-            $model->status=Request::STATUS_READY;
-
-            //Определяю парсер
-            $parser=Parser::findByUrl($model->request_url);
-            if(isset($parser)){
-                $model->parser_id=$parser->id;    
-            }else{
-                $parser=new Parser();
-                $parser->type_id=Parser::TYPE_PRODUCT;
-                $parser->loader_type=0;
-                $parser->name=parse_url($model->request_url, PHP_URL_HOST);
-                $parser->reg_exp='(^http[s]?://.*'.parse_url($model->request_url, PHP_URL_HOST).'/.*$)';
-                $parser->status=Parser::STATUS_FIXING;
-                
-                $parserAction=new ParserAction();
-                $parserAction->status=ParserAction::STATUS_FIXING;
-                $parserAction->name='default action';
-                $parserAction->selector='enter selector here';
-                $parserAction->example_url=$model->request_url;
-                $parserAction->description='Действие создано автоматически во время создания нового запроса для несуществующего парсера. Данное действие нобходимо донастроить и отладить';
-
-                $parser->actionsArray=[$parserAction];
-
-                if($parser->save()){
-                    $model->parser_id=$parser->id;
-                    $model->action_id=$parser->actions[0]->id;    
-                }
-            }
-
-            
-            if($model->save() ){
-
-                return $this->redirect($model->getUrl('frontend','view'));    
-            }
-            */
             
         }
         
