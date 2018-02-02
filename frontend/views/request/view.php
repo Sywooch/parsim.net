@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <thead>
               <tr>
                 <th width="100px">ID ответа</th>
-                <th width="100px">Дата ответа</th>
+                <th width="150px">Дата ответа</th>
                 <th>Ответ</th>
               </tr>
             </thead>
