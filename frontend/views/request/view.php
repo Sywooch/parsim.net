@@ -56,9 +56,9 @@ $this->params['breadcrumbs'][] = $this->title;
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th width="100px">ID ответа</th>
-                <th width="150px">Дата ответа</th>
-                <th>Ответ</th>
+                <th width="100px" align="center">ID ответа</th>
+                <th width="120px" align="center">Дата ответа</th>
+                <th align="center">Ответ</th>
               </tr>
             </thead>
             <tbody>
