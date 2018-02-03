@@ -191,10 +191,6 @@ $this->params['keywords']='Парсер, парсер сайтов, парсин
 </section>
 <!--End Price Section Two-->
 
-
-
-
-
 <?php if(Yii::$app->user->isGuest): ?>
 <!--Create  account-->
 <section class="login-section  alternate light-bg">
