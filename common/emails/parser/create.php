@@ -4,7 +4,6 @@ use app\modules\main\Module;
 
 /* @var $this yii\web\View */
 /* @var $user app\modules\user\models\User */
-$data=json_decode($model->json,true);
 
 
 ?>
