@@ -104,16 +104,16 @@ $time_unit=[
                 <table width="100%" border="1px">
                   <thead>
                     <tr>
-                      <th width="20%" align="center" style="padding:10px 0px;">Имя</th>
-                      <th width="50%" align="center" style="padding:10px 0px;">Оплата</th>
-                      <th width="10%" align="center" style="padding:10px 0px;">Ко-во запросов</th>
-                      <th width="20%" align="center" style="padding:10px 0px;">Баланс (остаток на счету)</th>
+                      <th width="20%" align="center" style="padding:10px;">Имя</th>
+                      <th width="50%" align="center" style="padding:10px;">Информация о оплате</th>
+                      <th width="10%" align="center" style="padding:10px;">Ко-во запросов</th>
+                      <th width="20%" align="center" style="padding:10px;">Остаток на счету</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td><?= $owner->fullName; ?></td>
-                      <td>Оплачен период с <?= Yii::$app->formatter->asDate($order->begin); ?> по <?= Yii::$app->formatter->asDate($order->end); ?> по тарифу "<?= $tarif->name; ?> (<?= $tarif->price; ?>/<?= $time_unit[$tarif->time_unit]; ?>)" </td>
+                      <td>Оплачен период с <?= Yii::$app->formatter->asDate($order->begin); ?> по <?= Yii::$app->formatter->asDate($order->end); ?> по тарифу "<?= $tarif->name; ?> - <?= Yii::$app->formatter->asCurrency($tarif->price); ?>/<?= $time_unit[$tarif->time_unit]; ?>" </td>
                       <td><?= count($owner->requests); ?></td>
                       <td><?= Yii::$app->formatter->asCurrency($owner->balanse); ?></td>
                     </tr>
