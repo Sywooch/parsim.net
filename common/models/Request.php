@@ -607,6 +607,10 @@ class Request extends \yii\db\ActiveRecord
     public static function getFreqList($tarif_id)
     {
         $freq=[
+            1=>[
+                ''=>'Выполнить один раз',
+                24*60=>'Один раз в сутки',
+            ],
             3=>[
                 ''=>'Выполнить один раз',
                 24*60=>'Один раз в сутки',
