@@ -99,7 +99,7 @@ class RequestController extends Controller
                     $parser->actionsArray=[$action];
                     
                     if($parser->save()){
-                        Yii::$app->mailqueue->compose(['html' => 'parser/create'], ['model' => $parser, 'owner'=>Yii::$app->user->identity,'updateUrl'=>Url::to('@backend/parser/update?id='.$parser->id, true)])
+                        Yii::$app->mailqueue->compose(['html' => 'parser/create'], ['model' => $parser, 'owner'=>Yii::$app->user->identity,'updateUrl'=>Url::to(Yii::$app->params['backendUrl'].'/parser/update?id='.$parser->id, true)])
                         ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
                         ->setTo(Yii::$app->params['supportEmail'])
                         ->setSubject('Создан новый парсер')

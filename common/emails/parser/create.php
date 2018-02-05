@@ -4,7 +4,14 @@ use app\modules\main\Module;
 
 /* @var $this yii\web\View */
 /* @var $user app\modules\user\models\User */
+$order=$owner->currentOrder;
+$tarif=$order->tarif;
 
+$time_unit=[
+  'day'=>'день',
+  'month'=>'месяц',
+  'year'=>'год',
+];
 
 ?>
 
@@ -97,16 +104,16 @@ use app\modules\main\Module;
                 <table width="100%" border="1px">
                   <thead>
                     <tr>
-                      <th width="50%" align="center" style="padding:10px 0px;">Имя</th>
-                      <th width="20%" align="center" style="padding:10px 0px;">Тариф</th>
+                      <th width="20%" align="center" style="padding:10px 0px;">Имя</th>
+                      <th width="50%" align="center" style="padding:10px 0px;">Оплата</th>
                       <th width="10%" align="center" style="padding:10px 0px;">Ко-во запросов</th>
-                      <th width="20%" align="center" style="padding:10px 0px;">Баланс</th>
+                      <th width="20%" align="center" style="padding:10px 0px;">Баланс (остаток на счету)</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td><?= $owner->fullName; ?></td>
-                      <td><?= $owner->tarifName; ?></td>
+                      <td>Оплачен период с <?= Yii::$app->formatter->asDate($order->begin); ?> по <?= Yii::$app->formatter->asDate($order->end); ?> по тарифу "<?= $tarif->name; ?> (<?= $tarif->price; ?>/<?= $time_unit[$tarif->time_unit]; ?>)" </td>
                       <td><?= count($owner->requests); ?></td>
                       <td><?= Yii::$app->formatter->asCurrency($owner->balanse); ?></td>
                     </tr>
