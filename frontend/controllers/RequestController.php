@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -97,7 +98,13 @@ class RequestController extends Controller
 
                     $parser->actionsArray=[$action];
                     
-                    $parser->save();
+                    if($parser->save()){
+                        Yii::$app->mailqueue->compose(['html' => 'pareser/create'], ['model' => $parser, 'owner'=>Yii::$app->user->identity,'updateUrl'=>Url::to('@backend/parser/update?id='.$parser->id, true)])
+                        ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
+                        ->setTo(Yii::$app->params['adminEmail'])
+                        ->setSubject('Создан новый парсер')
+                        ->queue();
+                    }
                 }
                 
                 $model->parser_id=$parser->id;
@@ -116,91 +123,6 @@ class RequestController extends Controller
             'model'=>$model,
         ]);
     }
-
-    //Создание запроса на парсинг в тестовом режибе (бесплатно на гл. странице)
-    /*
-    public function actionCreateTest()
-    {
-    
-        $model=new Request();
-        //$model->scenario=Request::SCENARIO_DEMO;
-        
-        $data=[];
-        $password=null;
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
-            //Проверяю есть ли пользователь с таким E-mail в базе
-            $user=User::findOne(['email'=>$model->response_email]);
-            
-            //Если пользователь не найден, создаю нового пользователя
-            if(!isset($user)){
-                $userForm = new SignupForm('user');
-                $userForm->scenario=SignupForm::SCENARIO_AUTO_MODE;
-                
-                $userForm->subject='Запрос сканирования страницы';
-                $userForm->request_url=$model->request_url;
-                
-                $userForm->email=$model->response_email;
-                $password=uniqid();
-                $userForm->password=$password;
-
-                if($userForm->validate() && $user=$userForm->signup()){
-
-                    //Добавляю id пользователя к запросу как автора запроса
-                    $model->created_by=$user->id;
-                    $model->updated_by=$user->id;
-                }else{
-
-                    //регистрирую ошибку авто регистрации пользователя
-                    $error=new Error();
-                    $error->code=Error::CODE_UNKNOW_ERROR;
-                    $error->msg='Ошибка регистрации пользователя через форму запрса на главной странице сайта';
-                    $error->status=Error::STATUS_NEW;
-                    $error->save();
-                    
-                    
-                    //возвращаю сообщение об ошибке
-                    $data['view']=$this->renderPartial('_viewErrRegUser',[
-                        'user'=>$user,
-                        'form'=>$userForm,
-                    ]);
-                    return json_encode($data);
-                }
-                
-            }else{
-                $model->created_by=$user->id;
-                $model->updated_by=$user->id;
-            }
-            
-            if($model->save()){
-                //возвращаю сообщение о удачной регистрации запроса
-                $data['view']=$this->renderPartial('_viewSuccessRegRequest',[
-                    'model'=>$model,
-                    'password'=>$password,
-                    
-                ]);
-                return json_encode($data);
-            }else{
-                $error=new Error();
-                $error->code=Error::CODE_UNKNOW_ERROR;
-                $error->msg='Ошибка создания запроса на главной странице сайта';
-                $error->status=Error::STATUS_NEW;
-                $error->save();
-
-                //возвращаю сообщение об ошибке
-                $data['view']=$this->renderPartial('_viewErrRegRequest',[
-                    'model'=>$model,
-                ]);
-                return json_encode($data);
-            }
-        }
-
-        $data['form']=$this->renderPartial('_formTest',['model'=>$model]);
-
-        return json_encode($data);
-    }
-    */
 
     public function actionUpdate($alias)
     {
