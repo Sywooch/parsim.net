@@ -604,7 +604,7 @@ class Request extends \yii\db\ActiveRecord
         }
         return $this->freqList[$this->sleep_time];
     }
-    public static function getFreqList($tarif_id)
+    public static function getFreqList($tarif_id=6)
     {
         $freq=[
             1=>[
