@@ -48,7 +48,7 @@ class importForm extends Model
 
                     $parsers=json_decode(file_get_contents($extract_path.'InitParsData.json'),true);
 
-                    if(count($parsers)==0){
+                    if(count($parsers)>0){
                         $error=new Error();
                         $error->parser_id=$model->id;
                         $error->status=Error::STATUS_NEW;
