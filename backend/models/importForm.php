@@ -93,7 +93,7 @@ class importForm extends Model
                             $error->parser_id=$model->id;
                             $error->status=Error::STATUS_NEW;
                             $error->code=Error::CODE_IMPORT_ERROR;
-                            $error->description='Ошибка импорта парсера '.$model->name.' ('.json_encode($model->errors).')';
+                            $error->description='Ошибка импорта парсера '.$model->name.' ('.json_encode($model->errors, JSON_UNESCAPED_UNICODE).')';
                             $error->save();
                         }
                         
@@ -127,7 +127,7 @@ class importForm extends Model
             $error=new Error();
             $error->status=Error::STATUS_NEW;
             $error->code=Error::CODE_IMPORT_ERROR;
-            $error->description='Ошибка валидации формы ('.json_encode($this->errors).')';
+            $error->description='Ошибка валидации формы ('.json_encode($this->errors, JSON_UNESCAPED_UNICODE).')';
             $error->save();
             
             return false;
