@@ -88,6 +88,9 @@ class Parser extends \yii\db\ActiveRecord
                 $model=new ParserAction();
                 if(isset($action['id']) && $action['id']!=''){
                     $model=ParserAction::findOne($action['id']);
+                    if(!is_array($model)){
+                        $model=new ParserAction();
+                    }
                 }
                 $model->name=$action['name'];
                 $model->selector=$action['selector'];
