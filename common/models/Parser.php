@@ -68,7 +68,7 @@ class Parser extends \yii\db\ActiveRecord
     {
         return [
             [['name','status','loader_type','reg_exp'], 'required'],
-            [['ActionsArray'],'validateAction', 'skipOnEmpty' => false, 'skipOnError' => false],
+            //[['ActionsArray'],'validateAction', 'skipOnEmpty' => false, 'skipOnError' => false],
             [['status', 'created_by', 'updated_by', 'created_at', 'updated_at','type_id'], 'integer'],
             [['alias'], 'string', 'max' => 16],
             [['name'], 'string', 'max' => 128],
