@@ -65,6 +65,7 @@ class importForm extends Model
                         $model->actionsArray=$parser['actions'];
                         
                         if($model->save()){
+                            /*
                             if(is_array($parser['actions'])){
                                 foreach ($parser['actions'] as $action) {
                                     $modelAction=ParserAction::findOne(['parser_id'=>$model->id,'name'=>$action['name']]);
@@ -88,6 +89,7 @@ class importForm extends Model
                                     
                                 }
                             }
+                            */
 
                         }else{
                             $error=new Error();
