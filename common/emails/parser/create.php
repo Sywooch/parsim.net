@@ -5,7 +5,15 @@ use app\modules\main\Module;
 /* @var $this yii\web\View */
 /* @var $user app\modules\user\models\User */
 $order=$owner->currentOrder;
-$tarif=$order->tarif;
+
+//По умолчанию берем тариф из карточки пользователя
+//на тот случая, если это админ и работает без тарификации
+$tarif=$owner->tarif;
+//Если есть оплаченная подписка, берем тариф подписки
+if(isset($order)){
+  $tarif=$order->tarif;  
+}
+
 
 $time_unit=[
   'day'=>'день',
