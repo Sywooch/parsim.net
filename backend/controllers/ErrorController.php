@@ -121,6 +121,14 @@ class ErrorController extends BackendController
         return $this->redirect($model->indexUrl);
         
     }
+    public function actionClear()
+    {
+        
+        self::deleteAll();
+
+        return $this->redirect($model->indexUrl);
+        
+    }
 
 
     protected function findModel($id)

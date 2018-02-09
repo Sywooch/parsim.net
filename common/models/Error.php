@@ -241,6 +241,11 @@ class Error extends \yii\db\ActiveRecord
         return Yii::$app->urlManager->createUrl(['error/view','id'=>$this->id]);
     }
 
+    public function getClearUrl()
+    {
+        return Yii::$app->urlManager->createUrl(['error/clear']);
+    }
+
     public function getParserLink($options=[]){
         $model=$this->parser;
         if(isset($model)){
