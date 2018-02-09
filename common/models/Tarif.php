@@ -205,4 +205,12 @@ class Tarif extends \yii\db\ActiveRecord
 
         return $model->price;
     }
+
+    public function getIsFree()
+    {
+        if($this->id==self::FREE_TARIF){
+            return true;
+        }
+        return false;
+    }
 }

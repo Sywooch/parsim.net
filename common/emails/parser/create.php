@@ -1,6 +1,6 @@
 <?php
 
-use app\modules\main\Module;
+//use app\modules\main\Module;
 
 /* @var $this yii\web\View */
 /* @var $user app\modules\user\models\User */
@@ -11,7 +11,7 @@ $order=$owner->currentOrder;
 $tarif=$owner->tarif;
 //Если есть оплаченная подписка, берем тариф подписки
 if(isset($order)){
-  $tarif=$order->tarif;  
+  $tarif=$order->tarif;
 }
 
 
@@ -121,7 +121,7 @@ $time_unit=[
                   <tbody>
                     <tr>
                       <td><?= $owner->fullName; ?></td>
-                      <td>Оплачен период с <?= Yii::$app->formatter->asDate($order->begin); ?> по <?= Yii::$app->formatter->asDate($order->end); ?> по тарифу "<?= $tarif->name; ?> - <?= Yii::$app->formatter->asCurrency($tarif->price); ?>/<?= $time_unit[$tarif->time_unit]; ?>" </td>
+                      <td>Оплачен период с <?= $tarif->isFree?'Unlimit':Yii::$app->formatter->asDate($order->begin); ?> по <?= $tarif->isFree?'Unlimit':Yii::$app->formatter->asDate($order->end); ?> по тарифу "<?= $tarif->name; ?> - <?= Yii::$app->formatter->asCurrency($tarif->price); ?>/<?= $time_unit[$tarif->time_unit]; ?>" </td>
                       <td><?= count($owner->requests); ?></td>
                       <td><?= Yii::$app->formatter->asCurrency($owner->balanse); ?></td>
                     </tr>
