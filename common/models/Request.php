@@ -132,8 +132,7 @@ class Request extends \yii\db\ActiveRecord
                 if($owner->balanse>=$currentOrder->amount){
                     $currentOrder->pay();
                 }else{
-                    $errCode=self::ERROR_NEED_PAY;
-                    $this->addError($attribute, $this->errorDescription[$errCode]);
+                    $this->addError($attribute, $this->errorDescription[self::ERROR_NEED_PAY]);
                     return false;
                 }
             }
@@ -143,18 +142,19 @@ class Request extends \yii\db\ActiveRecord
             
             //Если превышен лимит по хостам и у пользователя недостаточно средств
             if($tarif->host_limit<$currentOrder->getHostCount($this->request_url) && $balanse<$tarif->extra_host_price){
-                $errCode=self::ERROR_NEED_PAY;
-                $this->addError($attribute, $this->errorDescription[$errCode]);
+                $this->addError($attribute, $this->errorDescription[self::ERROR_NEED_PAY]);
                 return false;
             }
 
 
         }else{
-            $errCode=self::ERROR_NEED_CHOOSE_TARIF;
-            $this->addError($attribute, $this->errorDescription[$errCode]);
-            return false;
+            if($owner->tarif_id==Tarif::FREE_TARIF){
+                return true;       
+            }else{
+                $this->addError($attribute, $this->errorDescription[self::ERROR_NEED_CHOOSE_TARIF]);
+                return false;    
+            }
         }
-
         
     }
 
