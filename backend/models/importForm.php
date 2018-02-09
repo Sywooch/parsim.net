@@ -59,32 +59,38 @@ class importForm extends Model
                     $model->type_id=$parser['type_id'];
                     $model->reg_exp=$parser['reg_exp'];
                     $model->loader_type=$parser['loader_type'];
-                    $model->example_url=$parser['example_url'];
+                    //$model->example_url=$parser['example_url'];
                     $model->status=$parser['status'];
                     $model->description=$parser['description'];
                     
-                    $model->save();
+                    if($model->save()){
+                        if(is_array($parser['actions'])){
+                            foreach ($parser['actions'] as $action) {
+                                $modelAction=ParserAction::findOne(['parser_id'=>$model->id,'name'=>$action['name']]);
 
-                    if(is_array($parser['actions'])){
-                        foreach ($parser['actions'] as $action) {
-                            $modelAction=ParserAction::findOne(['parser_id'=>$model->id,'name'=>$action['name']]);
+                                if(!isset($modelAction)){
+                                    $modelAction=new ParserAction();
+                                }
 
-                            if(!isset($modelAction)){
-                                $modelAction=new ParserAction();
-                            }
-
-                            $modelAction->parser_id=$model->id;
-                            $modelAction->name=$action['name'];
-                            $modelAction->seq=$action['seq'];
-                            $modelAction->status=$action['status'];
-                            $modelAction->selector=(isset($action['selector'])?$action['selector']:null);
-                            $modelAction->example_url=$action['example_url'];
-                            $modelAction->code=(isset($action['code'])?$action['code']:null);
-                            $modelAction->description=(isset($action['description'])?$action['description']:null);
                             
-                            $modelAction->save();
+                                $modelAction->parser_id=$model->id;
+                                $modelAction->name=$action['name'];
+                                $modelAction->seq=$action['seq'];
+                                $modelAction->status=$action['status'];
+                                $modelAction->selector=(isset($action['selector'])?$action['selector']:null);
+                                $modelAction->example_url=$action['example_url'];
+                                $modelAction->code=(isset($action['code'])?$action['code']:null);
+                                $modelAction->description=(isset($action['description'])?$action['description']:null);
+                                
+                                $modelAction->save();    
+                        
+                                
+                            }
                         }
+
                     }
+
+                    
                 }
 
 
