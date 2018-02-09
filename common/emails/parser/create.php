@@ -121,7 +121,13 @@ $time_unit=[
                   <tbody>
                     <tr>
                       <td><?= $owner->fullName; ?></td>
-                      <td>Оплачен период с <?= $tarif->isFree?'Unlimit':Yii::$app->formatter->asDate($order->begin); ?> по <?= $tarif->isFree?'Unlimit':Yii::$app->formatter->asDate($order->end); ?> по тарифу "<?= $tarif->name; ?> - <?= Yii::$app->formatter->asCurrency($tarif->price); ?>/<?= $time_unit[$tarif->time_unit]; ?>" </td>
+                      <td>
+                        <?php if($tarif->isFree): ?>
+                          <?= $tarif->name; ?>
+                        <?php else: ?>
+                          Оплачен период с <?= Yii::$app->formatter->asDate($order->begin); ?> по <?= Yii::$app->formatter->asDate($order->end); ?> по тарифу "<?= $tarif->name; ?> - <?= Yii::$app->formatter->asCurrency($tarif->price); ?>/<?= $time_unit[$tarif->time_unit]; ?>" </td>
+                        <?php endif; ?>  
+                        
                       <td><?= count($owner->requests); ?></td>
                       <td><?= Yii::$app->formatter->asCurrency($owner->balanse); ?></td>
                     </tr>
