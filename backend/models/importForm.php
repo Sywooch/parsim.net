@@ -50,7 +50,6 @@ class importForm extends Model
 
                     if(count($parsers)>0){
                         $error=new Error();
-                        $error->parser_id=$model->id;
                         $error->status=Error::STATUS_NEW;
                         $error->code=Error::CODE_IMPORT_ERROR;
                         $error->description='Список пуст';
