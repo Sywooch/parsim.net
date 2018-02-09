@@ -81,7 +81,7 @@ class Parser extends \yii\db\ActiveRecord
     public function validateAction($attribute, $params, $validator)
     {
         if (is_array($this->$attribute) && count($this->$attribute)==0 ) {
-            //$this->addError($attribute, 'Небходимо добавить хотя бы одно действие');
+            $this->addError($attribute, 'Небходимо добавить хотя бы одно действие');
         }else{
             $models=[];
             foreach ($this->$attribute as $key => $action) {
