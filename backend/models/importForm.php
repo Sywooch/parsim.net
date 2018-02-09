@@ -9,6 +9,7 @@ use yii\base\Model;
 use yii\web\UploadedFile;
 use common\models\Parser;
 use common\models\ParserAction;
+use common\models\Error;
 
 class importForm extends Model
 {
@@ -87,6 +88,14 @@ class importForm extends Model
                                 
                             }
                         }
+
+                    }else{
+                        $error=new Error();
+                        $error->parser_id=$model->id;
+                        $error->status=Error::STATUS_NEW;
+                        $error->code=Error::CODE_IMPORT_ERROR;
+                        $error->description='Ошибка импорта парсера '.$model->name.' ('.json_encode($model->errors).')';
+                        $error->save();
 
                     }
 

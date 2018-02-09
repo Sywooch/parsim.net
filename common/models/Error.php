@@ -34,6 +34,8 @@ class Error extends \yii\db\ActiveRecord
     const CODE_PARSING_ERROR = 202;
     const CODE_LOADER_NOT_FOUND = 300;              //+
     const CODE_LOADING_ERROR = 301;
+
+    const CODE_IMPORT_ERROR = 401;
     
     const STATUS_NEW = 0;
     const STATUS_IN_PROGRESS = 1;
