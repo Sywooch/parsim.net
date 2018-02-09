@@ -96,9 +96,7 @@ class importForm extends Model
                         $error->code=Error::CODE_IMPORT_ERROR;
                         $error->description='Ошибка импорта парсера '.$model->name.' ('.json_encode($model->errors).')';
                         $error->save();
-
                     }
-
                     
                 }
 
@@ -106,7 +104,12 @@ class importForm extends Model
                 return true;
 
             } else {
-
+                $error=new Error();
+                $error->parser_id=$model->id;
+                $error->status=Error::STATUS_NEW;
+                $error->code=Error::CODE_IMPORT_ERROR;
+                $error->description='Ошибка чтения zip-файла';
+                $error->save();
                 return false;
             }
 
