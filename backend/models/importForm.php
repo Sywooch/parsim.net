@@ -62,7 +62,8 @@ class importForm extends Model
                         //$model->example_url=$parser['example_url'];
                         $model->status=$parser['status'];
                         $model->description=$parser['description'];
-                        if(is_array($parser['description'])){
+                        
+                        if(is_array($parser['actions'])){
                             $model->actionsArray=$parser['actions'];    
                         }
                         
