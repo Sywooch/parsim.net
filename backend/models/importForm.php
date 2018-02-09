@@ -112,9 +112,15 @@ class importForm extends Model
                 $error->save();
                 return false;
             }
-
             return true;
         } else {
+            $error=new Error();
+            $error->parser_id=$model->id;
+            $error->status=Error::STATUS_NEW;
+            $error->code=Error::CODE_IMPORT_ERROR;
+            $error->description='Ошибка валидации формы ('.json_encode($this->errors).')';
+            $error->save();
+            
             return false;
         }
     }
