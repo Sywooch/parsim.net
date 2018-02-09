@@ -31,7 +31,7 @@ class ErrorController extends BackendController
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index','create','update','delete','view'],
+                        'actions' => ['index','create','update','delete','view','clear'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -124,9 +124,9 @@ class ErrorController extends BackendController
     public function actionClear()
     {
         
-        self::deleteAll();
+        Error::deleteAll();
 
-        return $this->redirect($model->indexUrl);
+        return $this->redirect(Error::getIndexUrl());
         
     }
 

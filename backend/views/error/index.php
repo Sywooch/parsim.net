@@ -15,7 +15,7 @@ $this->params['bodyClass']='has-detached-right';
 ?>
 <div class="request-index">
   <p>
-    <?= Html::a(Yii::t('app', 'Clear'), $model->clearUrl, ['class' => 'btn btn-danger']) ?>
+    <?= Html::a(Yii::t('app', 'Clear all'), $model->clearUrl, ['class' => 'btn btn-danger']) ?>
     
 
   </p>
