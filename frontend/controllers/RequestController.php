@@ -85,8 +85,8 @@ class RequestController extends Controller
                     $parser->loader_type=0; // HTTP лоадер
                     $parser->name=parse_url($model->request_url,PHP_URL_HOST);
                     $parser->reg_exp='(^http[s]?://.*'.str_replace('www.', '', parse_url($model->request_url,PHP_URL_HOST)).'/.*$)';
-                    $parser->status=Parser::STATUS_FIXING;
-                    $parser->description='Парсер создан автоматически, требуется отладка';
+                    $parser->status=Parser::STATUS_NEW;
+                    $parser->description='Парсер создан автоматически, требуется настройка';
                     $parser->request_id=$model->id;
 
                     $action=new ParserAction();

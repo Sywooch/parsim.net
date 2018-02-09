@@ -299,19 +299,28 @@ class Parser extends \yii\db\ActiveRecord
     }
 
     public function getHostName(){
-        $host=parse_url($this->exampleUrl, PHP_URL_HOST);
+        $url=$this->name;
+        if($this->exampleUrl){
+            $url=$this->exampleUrl;
+        }
+        $host=parse_url($url, PHP_URL_HOST);
         $host=str_replace('www.', '', $host);
         
         $hostArray=explode('.', $host);
         $count=count($hostArray);
         
-        $host=$hostArray[$count-2].'.'.$hostArray[$count-1];
+        if($count>=2){
+            $host=$hostArray[$count-2].'.'.$hostArray[$count-1];    
+        }
         
         return $host;
     }
 
     public function getExampleUrl(){
-        return $this->actions[0]->example_url;
+        if(isset($this->actions[0])){
+            return $this->actions[0]->example_url;
+        }
+        return null;
     }
 
 
