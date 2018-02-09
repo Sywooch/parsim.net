@@ -5,5 +5,5 @@ cd "$1"
 #git pull --rebase
 git fetch origin
 git reset --hard origin/master
-composer update
+composer install
 php yii migrate
