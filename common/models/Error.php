@@ -82,7 +82,7 @@ class Error extends \yii\db\ActiveRecord
     {
         return [
             [['request_id', 'response_id', 'loader_id', 'parser_id', 'status'], 'integer'],
-            [['msg','description'], 'string'],
+            [['description'], 'string'],
             [['alias'], 'string', 'max' => 16],
             [['loader_id'], 'exist', 'skipOnError' => true, 'targetClass' => Loader::className(), 'targetAttribute' => ['loader_id' => 'id']],
             [['parser_id'], 'exist', 'skipOnError' => true, 'targetClass' => Parser::className(), 'targetAttribute' => ['parser_id' => 'id']],
