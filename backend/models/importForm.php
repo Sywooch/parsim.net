@@ -47,6 +47,16 @@ class importForm extends Model
                     $zip->close();
 
                     $parsers=json_decode(file_get_contents($extract_path.'InitParsData.json'),true);
+
+                    if(count($parsers)==0){
+                        $error=new Error();
+                        $error->parser_id=$model->id;
+                        $error->status=Error::STATUS_NEW;
+                        $error->code=Error::CODE_IMPORT_ERROR;
+                        $error->description='Список пуст';
+                        $error->save();
+
+                    }
                     foreach ($parsers as $key => $parser) {
                         $model=Parser::findOne(['name'=>$parser['name']]);
                         
