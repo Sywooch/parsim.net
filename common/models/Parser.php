@@ -26,10 +26,11 @@ use yii\httpclient\Client;
  */
 class Parser extends \yii\db\ActiveRecord
 {
-    const STATUS_NEW = 3;
+    
     const STATUS_READY = 0;
     const STATUS_HAS_ERROR = 1;
     const STATUS_FIXING = 2;
+    const STATUS_NEW = 3;
 
     const TYPE_PRODUCT = 1;
 
@@ -133,6 +134,7 @@ class Parser extends \yii\db\ActiveRecord
         self::STATUS_READY=>'Все в проядке',
         self::STATUS_HAS_ERROR=>'Обнаружены ошибки в работе',
         self::STATUS_FIXING=>'Поиск и устранение ошибок',
+        self::STATUS_FIXING=>'Новый парсер',
         
     ];
 
@@ -324,10 +326,17 @@ class Parser extends \yii\db\ActiveRecord
 
 
     public function getStatusName(){
-        return Lookup::item('PARSER_STATUS',$this->status);
+        return $this->statusList[$this->status];
     }
     public function getStatusList(){
-        return Lookup::items('PARSER_STATUS');
+        //return Lookup::items('PARSER_STATUS');
+        return [
+            self::STATUS_READY=>'В работе',
+            self::STATUS_HAS_ERROR=>'Есть ошибки',
+            self::STATUS_FIXING=>'В ремонте',
+            self::STATUS_NEW=>'Новый',
+            
+        ];
     }
 
     public function getLoaderName(){
