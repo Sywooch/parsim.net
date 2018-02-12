@@ -147,6 +147,11 @@ class Parser extends \yii\db\ActiveRecord
         return $this->hasOne(ParserType::className(), ['id' => 'type_id']);
     }
 
+    public function getAuthor()
+    {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
+    }
+
     
     public function getActions()
     {
