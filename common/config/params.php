@@ -1,5 +1,7 @@
 <?php
 return [
+    'user_need_confirm_email'=>false,
+    
     'srcUrl'=>'http://parsim.net',
     'frontendUrl'=>'http://admin.parsim.net',
     'backendUrl'=>'http://admin.parsim.net',
@@ -16,7 +18,7 @@ return [
     'contentLoadingTime'=>1, //лимит времени загрузки контента в минутах
 
 
-    'CompanyName'=>'ИП Тимофеев'
+    'CompanyName'=>'ИП Тимофеев',
 
     
 

@@ -359,7 +359,7 @@ class User extends ActiveRecord implements IdentityInterface
         
         $full_name=$this->first_name." ".$this->last_name;
         if($full_name==" "){
-            $full_name=explode('@',Yii::$app->user->identity->email)[0];
+            $full_name=explode('@',$this->email)[0];
         }
         return $full_name;
     }

@@ -70,7 +70,7 @@ class SignupForm extends Model
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => User::className(), 'message' => Yii::t('app', 'ERROR_EMAIL_EXISTS')],
+            ['email', 'unique', 'targetClass' => User::className(), 'message' => 'Указанный E-mail уже используется'],
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
@@ -104,15 +104,16 @@ class SignupForm extends Model
             //$user->username = $this->username;
             $user->email = $this->email;
             $user->setPassword($this->password);    
-            
-            if($this->scenario==self::SCENARIO_AUTO_MODE){
-                //В авто режиме сразу активирю пользователя, без подтверждения E-mail
-                //т.к. пасс для него будет сформирован автоматически и отправлен на почту
-                //если пользователь знает пасс, значет у него есть доступ к указанной почте
+
+
+            if (YII_ENV_TEST){
                 $user->status = User::STATUS_ACTIVE;
             }else{
-                $user->status = User::STATUS_WAIT;
-                $user->generateEmailConfirmToken();
+                if(Yii::$app->params['user_need_confirm_email']){
+                    $user->status = User::STATUS_WAIT;
+                    $user->generateEmailConfirmToken();        
+                }
+                
             }
             
             $user->scenario=$this->scenario;
@@ -121,31 +122,14 @@ class SignupForm extends Model
             $user->generateAuthKey();
             
 
-            if ($user->save()) {
-                //если это авто режим отправляю информацию о параметрах запрса на парсинг и учетные данные для входа в ЛК
-                if($this->scenario==self::SCENARIO_AUTO_MODE){
-
-                    Yii::$app->mailqueue->compose(['html' => 'user/signupAuto'], [
-                        'model' => $user,
-                        'password'=>$this->password,
-                        'request_url'=>$this->request_url,
-                        'manageUrl'=>Yii::$app->urlManager->createAbsoluteUrl(['/request/index'])
-                    ])
-                    ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
-                    ->setTo($this->email)
-                    ->setSubject($this->subject)
-                    ->queue();
-                }
-
-                //В обычном режиме отправляю письмо с просьбой подтвердить свой E-mail
-                if($this->scenario==self::SCENARIO_STANDART_MODE){
+            if ($user->save()){
+                if(Yii::$app->params['user_need_confirm_email']){
                     Yii::$app->mailqueue->compose(['html' => 'user/emailConfirm'], ['model' => $user])
                     ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
                     ->setTo($this->email)
                     ->setSubject($this->subject)
                     ->queue();
                 }
-
                 
                 return $user;
             }

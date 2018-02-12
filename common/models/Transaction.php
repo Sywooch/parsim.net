@@ -138,4 +138,16 @@ class Transaction extends \yii\db\ActiveRecord
     {
         return Yii::$app->urlManager->createUrl(['transaction/view','alias'=>$this->alias]);
     }
+
+
+    public static function getStatusList(){
+        return [
+            self::STATUS_NEW=>'Новая',
+            self::STATUS_SUCCESS=>'Успешная',
+            self::STATUS_FAIL=>'Неуспешная',
+        ];
+    }
+    public  function getStatusName(){
+        return $this->statusList[$this->status];
+    }
 }

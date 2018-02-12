@@ -52,7 +52,7 @@ class Order extends \yii\db\ActiveRecord
     {
         return [
             [['tarif_id','amount'], 'required'],
-            [['user_id', 'tarif_id', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at','qty'], 'integer'],
+            [['user_id', 'tarif_id', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at','qty','begin','end'], 'integer'],
             [['tarif_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tarif::className(), 'targetAttribute' => ['tarif_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
@@ -168,8 +168,8 @@ class Order extends \yii\db\ActiveRecord
     
     public static function getStatuses(){
         return [
-            self::STATUS_ENABLED=>['title'=>'Enabled','description'=>'Включен'],
-            self::STATUS_DISABLED=>['title'=>'Disabled','description'=>'Заблокирован'],
+            self::STATUS_NEW=>['title'=>'Новый','description'=>'Новый'],
+            self::STATUS_PAID=>['title'=>'Оплачен','description'=>'Оплачен'],
         ];
     }
     public static function getStatusList(){
