@@ -150,4 +150,14 @@ class Transaction extends \yii\db\ActiveRecord
     public  function getStatusName(){
         return $this->statusList[$this->status];
     }
+
+    public static function getTypeList(){
+        return [
+            self::TYPE_IN=>'Приход',
+            self::TYPE_OUT=>'Расход',
+        ];
+    }
+    public  function getTypeName(){
+        return $this->typeList[$this->type];
+    }
 }
