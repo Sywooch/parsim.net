@@ -165,6 +165,18 @@ class Parser extends \yii\db\ActiveRecord
         return $this->hasMany(Request::className(), ['id' => 'request_id'])->via('responses');
     }
 
+    public function getOrders()
+    {
+        return $this->hasMany(Order::className(), ['id' => 'order_id'])->viaTable('order_parser', ['parser_id' => 'id'])->where(
+            '"end" >= '.strtotime(Date('Y-m-d H:i:s')).' AND status='.Order::STATUS_PAID
+        );
+    }
+
+    public function getErrors()
+    {
+        return $this->hasMany(Error::className(), ['parser_id' => 'id']);
+    }
+
 
     public function getResponsesCount()
     {
@@ -174,6 +186,29 @@ class Parser extends \yii\db\ActiveRecord
     {
         return count($this->requests);
     }
+
+    public function getOrderCount()
+    {
+        return count($this->orders);
+    }
+
+    public function getOrdersAmount()
+    {
+        $amount=0;
+        foreach ($this->orders as $key => $order) {
+            $amount+=$order->amount;
+        }
+        return $amount;
+    }
+
+    public function getErrorsCount()
+    {
+        return count($this->errors);
+    }
+
+
+
+
     
 
     //=========================================================
