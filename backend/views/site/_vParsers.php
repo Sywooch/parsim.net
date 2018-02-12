@@ -38,7 +38,7 @@
       <tbody>
         <?php if($newParsersCount): ?>
           <tr class="active border-double">
-            <td colspan="5">Новые (<?= $newParsersCount; ?>)</td>
+            <td colspan="4">Новые (<?= $newParsersCount; ?>)</td>
             <td class="text-right">
               <span class="progress-meter" id="today-progress" data-progress="30"></span>
             </td>
@@ -64,7 +64,7 @@
 
         <?php if($fixParsersCount): ?>
           <tr class="active border-double">
-            <td colspan="5">На ремонте (<?= $fixParsersCount; ?>)</td>
+            <td colspan="4">На ремонте (<?= $fixParsersCount; ?>)</td>
             <td class="text-right">
               <span class="progress-meter" id="yesterday-progress" data-progress="65"></span>
             </td>
