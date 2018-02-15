@@ -116,7 +116,7 @@ class SignupForm extends Model
                 
             }
             
-            $user->scenario=$this->scenario;
+            //$user->scenario=$this->scenario;
             $user->role = $this->_defaultRole;
             $user->tarif_id=Tarif::DEFAULT_TARIF;
             $user->generateAuthKey();

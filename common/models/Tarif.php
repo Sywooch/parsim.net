@@ -14,7 +14,7 @@ class Tarif extends \yii\db\ActiveRecord
     const STATUS_COST_PER_PERIOD = 2;
     
     const FREE_TARIF = 1;
-    const DEFAULT_TARIF = 2;
+    const DEFAULT_TARIF = 3;
 
     public function behaviors()
     {
